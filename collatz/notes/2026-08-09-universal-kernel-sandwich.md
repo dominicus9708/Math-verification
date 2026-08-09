@@ -84,7 +84,7 @@ Since
 \le\lceil\alpha j\rceil,
 \]
 
-we have the exact inclusion
+we have
 
 \[
 \boxed{
@@ -92,9 +92,50 @@ B^+_{s,m}\subseteq B_{k,s,m}\subseteq B^-_{s,m}.
 }
 \]
 
-The two universal languages no longer depend on the absolute depth `k`.
+## 3. Adjacent-slack identity
 
-## 3. Min-plus first-hit bounds
+Because `alpha` is irrational, `alpha j` is nonintegral for every positive integer `j`, so
+
+\[
+\lfloor\alpha j\rfloor
+=\lceil\alpha j\rceil-1.
+\]
+
+Therefore
+
+\[
+s+Q_j(x)\ge\lfloor\alpha j\rfloor
+\]
+
+iff
+
+\[
+(s+1)+Q_j(x)\ge\lceil\alpha j\rceil.
+\]
+
+Hence the weak kernel is not an independent family:
+
+\[
+\boxed{
+B^-_{s,m}=B^+_{s+1,m}.
+}
+\]
+
+The universal sandwich consequently reduces to the adjacent-slack inclusion
+
+\[
+\boxed{
+B^+_{s,m}
+\subseteq
+B_{k,s,m}
+\subseteq
+B^+_{s+1,m}.
+}
+\]
+
+Thus only one universal strong-kernel family needs to be represented or computed.
+
+## 4. Min-plus first-hit bounds
 
 For the exact canonical state `(k,q;r,y)`, let
 
@@ -120,29 +161,20 @@ J_{k,K}(q,\eta)
 =\mathcal J_{q,\eta}(B_{k,s,m}).
 \]
 
-Set
-
-\[
-J^-_{s,m}(q,\eta)
-:=\mathcal J_{q,\eta}(B^-_{s,m}),
-\]
-
-\[
-J^+_{s,m}(q,\eta)
-:=\mathcal J_{q,\eta}(B^+_{s,m}).
-\]
-
-For sets `C1 subset C2`, the first hit of the smaller set cannot occur earlier:
-
-\[
-\mathcal J(C_2)\le\mathcal J(C_1).
-\]
-
-Therefore the actual min-plus value is certified by
+Define a single universal strong-kernel value
 
 \[
 \boxed{
-J^-_{s,m}(q,\eta)
+J^+_{s,m}(q,\eta)
+:=\mathcal J_{q,\eta}(B^+_{s,m}).
+}
+\]
+
+For sets `C1 subset C2`, the first hit of the smaller set cannot occur earlier. Therefore the adjacent-slack sandwich gives
+
+\[
+\boxed{
+J^+_{s+1,m}(q,\eta)
 \le
 J_{k,K}(q,\eta)
 \le
@@ -150,11 +182,11 @@ J^+_{s,m}(q,\eta).
 }
 \]
 
-Consequently every current canonical state has a certified descendant interval
+Consequently every current canonical state has the certified descendant interval
 
 \[
 \boxed{
-r+2^kJ^-_{s,m}(q,\eta)
+r+2^kJ^+_{s+1,m}(q,\eta)
 \le
 r_{\min,K}
 \le
@@ -162,7 +194,9 @@ r+2^kJ^+_{s,m}(q,\eta).
 }
 \]
 
-## 4. Certified dominance pruning
+The bound now requires only two adjacent slack levels of one universal transfer object.
+
+## 5. Certified dominance pruning
 
 Suppose a complete depth-`K` candidate of start value `R_best` has already been found.
 
@@ -170,37 +204,35 @@ For any current state, if
 
 \[
 \boxed{
-r+2^kJ^-_{s,m}(q,\eta)\ge R_{\rm best},}
+r+2^kJ^+_{s+1,m}(q,\eta)\ge R_{\rm best},}
 \]
 
-then even its optimistic universal-weak-kernel lower bound cannot beat the incumbent. The entire state can therefore be deleted with no effect on `mu(K)`.
+then even the optimistic adjacent-slack lower bound cannot beat the incumbent. The entire state can be deleted with no effect on `mu(K)`.
 
-This is a genuinely cross-signature dominance rule: it does not require two states to have the same endpoint residue or the same carry-response function.
-
-Conversely, `J^+` supplies a certified feasible completion and can lower the incumbent whenever
+Conversely, `J^+_{s,m}` supplies a certified feasible completion and can lower the incumbent whenever
 
 \[
-r+2^kJ^+<R_{\rm best}.
+r+2^kJ^+_{s,m}<R_{\rm best}.
 \]
 
-## 5. Relation to the Sturmian factor reduction
+## 6. Relation to the Sturmian factor reduction
 
-The exact kernel still belongs to one of at most `m+1` Sturmian factor types for fixed `(m,s)`. The universal sandwich removes even that phase dependence when only rigorous bounds are needed:
+The exact kernel belongs to one of at most `m+1` Sturmian factor types for fixed `(m,s)`. The universal adjacent-slack sandwich removes phase dependence when only rigorous bounds are needed:
 
 \[
 B^+_{s,m}
 \subseteq
 B_{\text{any phase},s,m}
 \subseteq
-B^-_{s,m}.
+B^+_{s+1,m}.
 \]
 
-Thus there are two levels of reusable transfer objects:
+Thus there are two reusable levels:
 
-1. exact: at most `m+1` Sturmian factor kernels;
-2. bounded: only the two universal kernels `B^+` and `B^-`.
+1. exact: at most `m+1` Sturmian phase kernels;
+2. bounded: one universal strong-kernel family evaluated at adjacent slack values `s` and `s+1`.
 
-## 6. Important limitation
+## 7. Important limitation
 
 The sandwich concerns the coefficient-survival language. The arithmetic placement of that language on the canonical-start cost axis still depends on
 
@@ -210,16 +242,25 @@ The sandwich concerns the coefficient-survival language. The arithmetic placemen
 3^q\bmod2^m.
 \]
 
-Therefore kernel-size or entropy bounds alone do not imply useful pointwise lower bounds on `J^-`. The remaining arithmetic problem is to control the earliest affine hit of the universal weak kernel.
+Therefore kernel-size or entropy bounds alone do not imply useful pointwise lower bounds on the first-hit value. The remaining arithmetic problem is to control the earliest affine hit of the larger adjacent-slack kernel.
 
 No equidistribution or randomness assumption is made here.
 
-## 7. Next target
+## 8. Relation to the exact interval certificate
 
-The next proof-oriented target is a lower bound on
+The universal bound can be combined with the exact interval-count certificate.
+If an analytic or reusable universal-kernel estimate suggests that all dangerous lifts lie in a short interval, the exact E/O interval recursion can decide whether the corresponding interval in the **actual phase kernel** is empty.
+
+Thus the universal adjacent-slack family is best used as a reusable bound or heuristic guide, while the exact phase-specific interval count remains the final pruning certificate.
+
+## 9. Next target
+
+The proof-oriented target becomes a lower bound on
 
 \[
-\mathcal J_{q,\eta}(B^-_{s,m})
+J^+_{s+1,m}(q,\eta)
 \]
 
-for the low-slack states that can compete for `mu(K)`. Such a bound would immediately become a certified pruning theorem through Section 4, while avoiding the false global dominance assumptions already removed from the repository.
+for the low-slack forward states capable of competing for `mu(K)`, or a theorem showing that states with simultaneously small forward cost and small adjacent-slack first-hit are sufficiently sparse.
+
+Such a result would immediately become a certified pruning theorem through Section 5 while retaining the exact interval recursion as a final audit layer.
