@@ -12,10 +12,7 @@ n/2,&n\text{ even},\\
 \]
 
 define the coefficient stopping time \(\tau_c(n)\) as the first \(k\ge1\) for which
-\(3^{q_k}<2^k\), where \(q_k\) is the number of odd entries among the first \(k\)
-iterates.
-
-The minimal survivor is
+\(3^{q_k}<2^k\).  The minimal survivor is
 
 \[
 \mu(K)=\min\{n\ge1:\tau_c(n)>K\}.
@@ -23,180 +20,126 @@ The minimal survivor is
 
 ## Exact min-plus formulation
 
-A parity prefix of length \(k\) has a unique canonical residue \(r_k\pmod{2^k}\).
-When one more parity bit is appended, the canonical lift is either
+A parity prefix of length \(k\) has a unique canonical residue \(r_k\pmod{2^k}\).  Appending one parity bit changes the canonical lift by either zero or \(2^k\):
 
 \[
-r_{k+1}=r_k
+r_{k+1}=r_k+c_k2^k,\qquad c_k\in\{0,1\}.
 \]
 
-or
+Hence every edge has nonnegative cost and every descendant residue is at least its ancestor residue.  Finding \(\mu(K)\) is therefore an exact shortest-path/min-plus problem on the coefficient-survivor parity tree.  No probabilistic or unproved dominance assumption is used.
+
+Current exact solvers:
+
+- `collatz/src/minimal_survivor_bestfirst.cpp` — Dijkstra-style best-first search;
+- `collatz/src/minimal_survivor_branch_bound.cpp` — depth-first branch-and-bound;
+- `collatz/src/minimal_survivor_interval_scan.cpp` — general interval certificate scanner;
+- `collatz/src/minimal_survivor_mod32_profile.cpp` — one-pass branch profile for the four depth-five survivor cylinders;
+- `collatz/src/minimal_survivor_interval_scan_mod32.cpp` — accelerated exact interval scan using the rigorous mod-32 prefilter.
+
+## Important correction
+
+A list of large coefficient-stopping record holders is not automatically the complete step-function \(\mu(K)\).  Exact branch profiling found intermediate plateaus that had been omitted from earlier status notes, notably
 
 \[
-r_{k+1}=r_k+2^k.
+\mu(164)=362343,
+\qquad
+\mu(176)=1027431.
 \]
 
-Hence every edge has nonnegative cost \(c_k2^k\), \(c_k\in\{0,1\}\), and every
-descendant residue is at least its ancestor residue.  Therefore finding \(\mu(K)\)
-is exactly a shortest-path/min-plus problem on the parity-prefix tree restricted by
+The complete corrected plateau table through \(K=546\) is maintained in
+`collatz/notes/2026-08-09-record-basin-profile.md`.
+
+## Latest exact values
+
+The late plateaus are
 
 \[
-3^{q_j}\ge2^j\qquad(1\le j\le K).
+\mu(k)=63728127\qquad(308\le k\le375),
 \]
-
-Three exact solvers were added:
-
-- `collatz/src/minimal_survivor_bestfirst.cpp`: Dijkstra-style best-first search.
-- `collatz/src/minimal_survivor_branch_bound.cpp`: depth-first branch-and-bound using
-  monotonicity of canonical residue.
-- `collatz/src/minimal_survivor_interval_scan.cpp`: exact interval verification of
-  record jumps; OpenMP is optional.
-
-No dominance conjecture, random model, or finite-lookahead quotient is used by these
-solvers.
-
-## Reproduced values
-
-The exact solvers reproduce, among others,
 
 \[
-\mu(58)=27,
+\mu(k)=217740015\qquad(376\le k\le394),
 \]
-\[
-\mu(59)=703,
-\]
-\[
-\mu(100)=10087,
-\]
-\[
-\mu(134)=35655,
-\]
-\[
-\mu(135)=270271,
-\]
-\[
-\mu(172)=381727,
-\]
-\[
-\mu(173)=626331,
-\]
-\[
-\mu(224)=8088063,
-\]
-\[
-\mu(246)=13421671,
-\]
-\[
-\mu(287)=20638335,
-\]
-\[
-\mu(297)=26716671,
-\]
-\[
-\mu(298)=56924955,
-\]
-\[
-\mu(375)=63728127.
-\]
-
-## New exact record jumps obtained in this run
-
-Direct interval certificates after the preceding exact record give
 
 \[
-\mu(376)=217740015,
-\qquad \tau_c(217740015)=395,
+\mu(k)=1200991791\qquad(395\le k\le397),
 \]
-so
-\[
-\mu(k)=217740015\quad(376\le k\le394).
-\]
-
-Next,
 
 \[
-\mu(395)=1200991791,
-\qquad \tau_c(1200991791)=398,
+\mu(k)=1827397567\qquad(398\le k\le432),
 \]
-so
-\[
-\mu(k)=1200991791\quad(395\le k\le397).
-\]
-
-Next,
 
 \[
-\mu(398)=1827397567,
-\qquad \tau_c(1827397567)=433,
-\]
-so
-\[
-\mu(k)=1827397567\quad(398\le k\le432).
+\mu(k)=2788008987\qquad(433\le k\le446),
 \]
 
-Next,
+and the new exact result from the current run is
 
 \[
-\mu(433)=2788008987,
-\qquad \tau_c(2788008987)=447,
-\]
-so
-\[
-\mu(k)=2788008987\quad(433\le k\le446).
+\boxed{\mu(447)=12235060455},
+\qquad
+\tau_c(12235060455)=547.
 \]
 
-The complete interval
+Therefore
 
 \[
-[2788008988,6788008988)
+\boxed{\mu(k)=12235060455\qquad(447\le k\le546)}.
 \]
 
-was checked for \(\tau_c(n)>447\) with no survivor.  Thus the current exact lower
-bound is
+Using the exact depth-five residue filter
 
 \[
-\boxed{\mu(447)\ge6788008988}.
+n\bmod32\in\{7,15,27,31\},
 \]
 
-## Growth diagnostics
-
-For selected points the exponential diagnostic \(\log_2\mu(k)/k\) is
-approximately
-
-- \(k=375\): 0.06913447,
-- \(k=376\): 0.07366498,
-- \(k=395\): 0.07635843,
-- \(k=398\): 0.07730438,
-- \(k=433\): 0.07246325.
-
-The proven survivor-language entropy is
+a continuous interval scan has currently eliminated every start below
 
 \[
-H_2(\log_3 2)=0.9499555271883306\ldots,
+96235060456
 \]
 
-so the uniform-residue heuristic predicts exponent
+for survival through depth 547.  Thus
 
 \[
-1-H_2(\log_3 2)=0.0500444728116694\ldots.
+\boxed{\mu(547)\ge96235060456}.
 \]
 
-The comparison is diagnostic only; no equidistribution theorem is assumed.
+## Four-channel decomposition
 
-## Computational observations
+For every \(K\ge5\),
 
-At \(K=298\), on the local test environment:
+\[
+\mu(K)=\min_{a\in\{7,15,27,31\}}\mu_a(K),
+\]
 
-- best-first: about 15.4 million popped nodes, large priority-queue memory;
-- branch-and-bound: about 56.4 million visited nodes but only about 4 MB working
-  memory and roughly 5 seconds wall time.
+where
 
-Thus the branch-and-bound formulation is currently preferable for medium-depth exact
-work, while interval scanning is preferable once a preceding record provides a small
-numerical search window.
+\[
+\mu_a(K)=\min\{n\equiv a\pmod{32}:\tau_c(n)>K\}.
+\]
 
-## Next target
+Writing \(n=a+32t\), the four exact five-step affine channels are
 
-Continue the record chain from \(K=447\).  In parallel, seek a theorem giving a lower
-bound on \(\mu(K)\), ideally polynomial of exponent greater than the effective
-Rhin-based threshold (8.616 asymptotically), or stronger exponential growth.
+\[
+\begin{aligned}
+T^5(7+32t)&=20+81t, &q_5&=4,\\
+T^5(15+32t)&=40+81t, &q_5&=4,\\
+T^5(27+32t)&=71+81t, &q_5&=4,\\
+T^5(31+32t)&=242+243t, &q_5&=5.
+\end{aligned}
+\]
+
+The global \(\mu\)-curve is the lower envelope of these four nondecreasing branch curves.
+
+## Growth target
+
+The asymptotic Rhin exponent used in the current proof program gives the sufficient target
+
+\[
+\mu(K) > C K^{8.616}
+\]
+
+eventually, or equivalently a sufficiently small exponential growth rate for the inverse record function.  Stronger exponential growth of \(\mu(K)\) would more than suffice, but is not assumed.
+
+The next exact computational target is \(\mu(547)\).  The next structural target is a branch-wise lower bound on \(\mu_a(K)\), preferably derived from the affine four-channel renormalization rather than from flat enumeration.
