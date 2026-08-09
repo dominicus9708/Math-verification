@@ -34,6 +34,13 @@ class Solver:
             assert xi == 0
             return 0
 
+        # Exact safe-tail termination.  If the already accumulated odd count
+        # satisfies the coefficient barrier at the final target depth k+m,
+        # every remaining parity suffix is allowed, hence the transformed
+        # admissible set is the whole residue group and the successor cost is 0.
+        if self.pow3[q] >= 1 << (k + m):
+            return 0
+
         M = 1 << m
         Mh = 1 << (m - 1)
         best: int | None = None
@@ -96,6 +103,19 @@ class Solver:
         lift_bits: list[int] = []
 
         while m > 0:
+            if self.pow3[q] >= 1 << (k + m):
+                # J=0, so all remaining high lift bits are zero.  The future
+                # parity channels are simply the actual parity vector of the
+                # current endpoint residue y = 3^q * xi (mod 2^m).
+                M = 1 << m
+                x = (self.pow3[q] * xi) % M
+                for _ in range(m):
+                    b = x & 1
+                    channels.append(b)
+                    lift_bits.append(0)
+                    x = accelerated_step(x)
+                break
+
             target = self.J(k, q, m, xi)
             cands = sorted(self.candidates(k, q, m, xi), key=lambda z: (z[0], z[1]))
             chosen = next(z for z in cands if z[0] == target)
@@ -111,6 +131,9 @@ def accelerated_step(n: int) -> int:
 
 
 def verify_trace(K: int, mu: int, channels: list[int], lift_bits: list[int]) -> None:
+    assert len(channels) == K
+    assert len(lift_bits) == K
+
     # Bellman lift bits are least-significant first and must reconstruct mu.
     reconstructed = sum(b << j for j, b in enumerate(lift_bits))
     assert reconstructed == mu, (reconstructed, mu)
@@ -167,7 +190,7 @@ def main() -> None:
     if args.trace:
         channels, bits = solver.trace()
         verify_trace(args.K, mu, channels, bits)
-        print("parity_channels_lsf_time=" + "".join(map(str, channels)))
+        print("parity_channels_time_order=" + "".join(map(str, channels)))
         print("binary_lift_bits_lsb_first=" + "".join(map(str, bits)))
 
 
