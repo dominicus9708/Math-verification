@@ -4,7 +4,7 @@ Date: 2026-08-09
 
 Status: **INTERFACE SPECIFICATION / SCOPE CORRECTION**
 
-This note updates the Collatz application after the realized-axis property axiom system was finalized. It does not change the standard Collatz arithmetic, the parity-vector affine formula, the exact min-plus solvers, or any finite verification result. Its purpose is to separate the roles of the Formation Axiom System, the realized-axis property system, downstream static aggregation, and Collatz-specific dynamics.
+This note updates the Collatz application after the realized-axis property axiom system was finalized and after direct comparison with the channel-indexed static aggregation manuscript. It does not change the standard Collatz arithmetic, the parity-vector affine formula, the exact min-plus solvers, or any finite verification result. Its purpose is to separate the roles of the Formation Axiom System, the realized-axis property system, downstream static aggregation, and Collatz-specific dynamics.
 
 ## 1. Four distinct layers
 
@@ -16,7 +16,7 @@ F_L^{\le 6}
 \longrightarrow
 \mathcal A_{EO}
 \longrightarrow
-\mathcal G_{EO}
+\mathfrak R_{EO}
 \longrightarrow
 \mathcal D_{\mathrm{Collatz}}
 }
@@ -24,105 +24,176 @@ F_L^{\le 6}
 
 where:
 
-1. `F_L^{<=6}` is a fixed Stage-VI formation record containing admitted operational channels;
-2. `A_EO` is an optional realized-axis extension that supplies bookkeeping axis carriers for selected inherited channels;
-3. `G_EO` is a downstream analytic/static aggregation layer that realizes E/O occurrence terms and their aggregate coefficient descriptor;
+1. `F_L^{<=6}` is a fixed Stage-VI channel-complete formation record containing admitted operational channels;
+2. `A_EO` is a realized-axis extension over that fixed Stage-VI record;
+3. `R_EO` is a downstream channel-indexed analytic realization of component terms and their static composition;
 4. `D_Collatz` is the Collatz-specific ordered affine/min-plus arithmetic layer.
 
-The realized-axis property system is non-dynamical and pre-aggregation. Therefore the ordered Collatz recurrence, affine matrices, correction cocycle, canonical residue, carry/lift variables, defect transfer, Bellman recurrence, and interval certificates belong to layer 4, not to the primitive axis-property layer.
+The finalized realized-axis property system is non-dynamical and pre-aggregation. It is also independent of the post-Stage-VI term space, component-term map, composition domain, and composition operator. Therefore the ordered Collatz recurrence, affine matrices, correction cocycle, canonical residue, carry/lift variables, defect transfer, Bellman recurrence, and interval certificates belong to layer 4, not to the primitive axis-property layer.
 
-## 2. Application interpretation is additional data
+## 2. A finite trace requires occurrence-specific admitted channels
 
-The realized-axis system starts from inherited Stage-VI operational channels. It does not derive the Collatz parity branches `E` and `O` from arithmetic by itself.
+The realized-axis system starts from inherited Stage-VI operational channels. It does not derive Collatz parity steps from arithmetic by itself.
 
-A Collatz application therefore requires an explicit application interpretation. One conservative form is to select two inherited channels
+Likewise, the static aggregation layer composes a family of admitted channels
 
 \[
-c_E,c_O\in C_L(p)
+F\subseteq\mathcal C_L
 \]
 
-for one chosen application configuration `p`, and provide a use map for a finite parity word
+by
+
+\[
+\Comp_L^{\mathfrak R}(F)
+=\sum_{c\in F}T_L^{\mathfrak R}(c).
+\]
+
+Because `F` is a channel family rather than a multiset of repeated uses of one channel, a literal DSD realization of a finite Collatz parity word should preserve each step occurrence as a distinct admitted channel.
+
+For a fixed finite word
+
+\[
+w=(w_0,\ldots,w_{h-1})\in\{0,1\}^h,
+\]
+
+the Collatz application therefore supplies an injective occurrence interpretation
 
 \[
 \boxed{
-u_w:\{0,\ldots,h-1\}\to\{c_E,c_O\}}
+\iota_w:\{0,\ldots,h-1\}\hookrightarrow C_L(p),
+\qquad
+j\mapsto c_j,
+}
 \]
 
-with
+for one chosen application configuration `p`, together with the parity label
 
 \[
-u_w(j)=c_E\iff w_j=0,
-\qquad
-u_w(j)=c_O\iff w_j=1.
+\boxed{
+\beta(c_j)=
+\begin{cases}
+E,&w_j=0,\\
+O,&w_j=1.
+\end{cases}
+}
 \]
 
-This use map is Collatz-application data. It is not derived by the Formation Axiom System or by the realized-axis property axioms.
+The channels `c_j` are distinct even when their parity labels coincide. This occurrence-channel construction is Collatz-application data. The Formation Axiom System does not automatically provide it from the integer recurrence, and the realized-axis axioms do not create new formation channels.
 
-The map is intentionally allowed to reuse the same inherited channel at many time indices. The temporal occurrence index `j` belongs to the downstream Collatz record; it is not identified with distinct realized-axis rank or with distinct formation-channel identity.
+The DSD encoding is therefore conditional on choosing a Stage-VI application model containing the required finite channel family. The Collatz arithmetic itself remains meaningful independently of this encoding.
 
 ## 3. Minimal realized-axis extension
 
 Use the finite representational carrier
 
 \[
-E^{EO}=\mathbb R^2
+E_{ax}^{EO}=\mathbb R^2
 \]
 
 with two lines
 
 \[
-\ell_E=\operatorname{span}(e_E),
+\ell_E=\operatorname{span}(e_E^{ax}),
 \qquad
-\ell_O=\operatorname{span}(e_O).
+\ell_O=\operatorname{span}(e_O^{ax}).
 \]
 
-Select
+Select the occurrence channels
 
 \[
-C^{ax}_{A,p}=\{c_E,c_O\}
+C^{ax}_{A,p}=\{c_0,\ldots,c_{h-1}\}
 \]
 
 and set
 
 \[
 \boxed{
-\operatorname{AxLine}(c_E)=\ell_E,
-\qquad
-\operatorname{AxLine}(c_O)=\ell_O.
+\operatorname{AxLine}(c_j)=
+\begin{cases}
+\ell_E,&\beta(c_j)=E,\\
+\ell_O,&\beta(c_j)=O.
+\end{cases}
 }
 \]
 
-This satisfies the intended bookkeeping realization when Primitive Axiom PI holds. No bilinear, normal, closure, quaternion, stiffness, or other property structure is required for the Collatz application. Property declarations may therefore remain empty unless a later application has a specific typed reason to add one.
+Thus many distinct tagged channels may realize the same line. The number of selected channels is `h`, while the realized-axis rank is at most two. This uses exactly the finalized distinction between channel multiplicity and realized-axis rank.
 
-Crucially, `E^{EO}` is a configuration-relative representational carrier, not a claim of an additional physical two-dimensional space.
+No bilinear, normal, closure, quaternion, stiffness, or other optional property structure is required for the Collatz application. Property declarations may remain empty unless a later application has a specific typed reason to add one.
 
-## 4. Static occurrence aggregation
+Crucially, `E_ax^{EO}` is a configuration-relative representational carrier, not a claim of an additional physical two-dimensional space.
 
-The static aggregation is performed on indexed occurrences, not by counting distinct axis channels.
+## 4. Static aggregation as a literal channel-indexed realization
 
-Define the downstream component-term map
+Introduce a separate Banach term space
 
 \[
-\tau_{EO}(u_w(j))=
-\begin{cases}
-(1,0)^T,&u_w(j)=c_E,\\
-(0,1)^T,&u_w(j)=c_O.
-\end{cases}
+W_{agg}^{EO}=\mathbb R^2
 \]
 
-Then
+with basis `e_E^{agg},e_O^{agg}`. It is not identified with `E_ax^{EO}` by the axis axioms.
+
+If one wants the aggregate realization to factor through the realized-axis bookkeeping, supply the downstream interpretation
+
+\[
+\psi:\{\ell_E,\ell_O\}\to W_{agg}^{EO},
+\qquad
+\psi(\ell_E)=e_E^{agg},
+\quad
+\psi(\ell_O)=e_O^{agg}.
+\]
+
+For every occurrence channel `c_j`, choose the singleton realization
+
+\[
+X_{c_j}=\{*\},
+\qquad
+\mu_{c_j}(\{*\})=1,
+\qquad
+w_{c_j}(*)=1,
+\]
+
+and the constant local field
+
+\[
+\zeta_{c_j}(*)
+=\psi(\operatorname{AxLine}(c_j)).
+\]
+
+Then the channel-indexed static term is literally
 
 \[
 \boxed{
-\mathbf c_h
-=\sum_{j=0}^{h-1}\tau_{EO}(u_w(j))
-=\binom{e_h}{q_h}.
+T_L^{\mathfrak R}(c_j)
+=\int_{X_{c_j}}\zeta_{c_j}w_{c_j}\,d\mu_{c_j}
+=
+\begin{cases}
+e_E^{agg},&w_j=0,\\e_O^{agg},&w_j=1.
+\end{cases}
 }
 \]
 
-This is a reduced aggregate descriptor. It intentionally forgets the ordering of the occurrences.
+For
 
-Introduce the downstream analytic log-weight covector
+\[
+F_h=\{c_0,\ldots,c_{h-1}\}
+\]
+
+the static composition is therefore
+
+\[
+\boxed{
+\Comp_L^{\mathfrak R}(F_h)
+=e_h e_E^{agg}+q_h e_O^{agg}
+\cong
+\binom{e_h}{q_h}.
+}
+\]
+
+This is a reduced aggregate descriptor. It intentionally forgets the temporal ordering of the distinct occurrence channels.
+
+## 5. Analytic scalarization of the static count vector
+
+Define the downstream log-weight covector
 
 \[
 \lambda_{EO}
@@ -133,12 +204,13 @@ Introduce the downstream analytic log-weight covector
 \end{pmatrix}.
 \]
 
-The aggregate multiplicative drift is
+Applied to the static aggregate,
 
 \[
 \boxed{
 \Lambda_h
-=\lambda_{EO}^{T}\mathbf c_h
+=\lambda_{EO}^{T}
+\begin{pmatrix}e_h\\q_h\end{pmatrix}
 =-e_h\log2+q_h\log(3/2).
 }
 \]
@@ -157,19 +229,29 @@ The previously used diagonal matrix
 G=\operatorname{diag}(-\log2,\log(3/2))
 \]
 
-may still be used as an analytic representation, but it is not to be identified with a primitive realized-axis property block. The covector form is the default because it introduces no artificial off-diagonal defined-zero relation.
+may still be used as an analytic operator on `W_agg^{EO}`, but it is not to be identified with a primitive realized-axis property block. The covector form is the default because it introduces no artificial off-diagonal defined-zero relation.
 
-## 5. Distinguish the two two-dimensional spaces
+## 6. Three different two-dimensional spaces
 
-The E/O bookkeeping carrier and the affine homogeneous state space are different typed objects:
+Three spaces may all be represented by `R^2`, but they have different types and must not be silently identified:
 
 \[
-\boxed{E^{EO}\neq H^{aff}.}
+\boxed{
+E_{ax}^{EO}
+\neq
+W_{agg}^{EO}
+\neq
+H^{aff}.
+}
 \]
 
-`E^{EO}` realizes the bookkeeping axes `ell_E, ell_O`.
+1. `E_ax^{EO}` is the realized-axis bookkeeping carrier containing `ell_E,ell_O`.
+2. `W_agg^{EO}` is the Banach term space containing the static aggregate `(e_h,q_h)`.
+3. `H^aff` is the affine homogeneous state space containing `(n,1)^T`.
 
-The affine state space `H^aff` carries homogeneous coordinates `(n,1)^T` and the arithmetic generators
+The first bridge, when used, is the explicitly supplied downstream map `psi`. The second bridge is not a carrier identification at all; Collatz arithmetic uses the scalar aggregate `Lambda_h` together with an independent order-sensitive cocycle.
+
+The affine generators on `H^aff` are
 
 \[
 M_E=
@@ -183,9 +265,9 @@ M_O=
 \end{pmatrix}.
 \]
 
-These matrices are Collatz affine-dynamics operators. They are not the optional property blocks of the realized-axis axiom system.
+These are Collatz affine-dynamics operators. They are not the optional property blocks of the realized-axis axiom system and are not the static aggregation operator `G`.
 
-## 6. Ordered correction remains downstream
+## 7. Ordered correction remains downstream
 
 For a parity word `w` with odd positions
 
@@ -221,22 +303,34 @@ T^h(n)
 
 This is the canonical two-term decomposition for the current program:
 
-- `exp(Lambda_h)n`: commutative E/O occurrence aggregate;
+- `exp(Lambda_h)n`: commutative E/O channel aggregate after scalarization;
 - `R(w)/2^h`: order-sensitive affine cocycle.
 
-The first term factors through the static count descriptor. The second does not.
+The first term factors through the static aggregate. The second does not.
 
-## 7. Compression discipline inherited from the finalized axis system
+## 8. Compression discipline inherited from both DSD layers
 
-Equal realized-axis rank, equal matrix size, or equal reduced scalar aggregate does not recover a complete typed axis-property descriptor. The Collatz application has an analogous but purely arithmetic instance:
+The finalized realized-axis paper proves that equal realized-axis rank, equal matrix size, or a selected finite-coordinate scalar summary need not recover the full typed axis-property descriptor.
+
+The static aggregation manuscript likewise treats an aggregate as a reduced representative unless an injectivity condition is proved; channel-resolved support records retain distinctions that an aggregate can lose.
+
+The Collatz application has an exact arithmetic instance of the same warning:
 
 words with the same `(e_h,q_h)` have the same `Lambda_h` but can have different `R(w)`.
 
-For example, at length two the words `EO` and `OE` have the same count vector `(1,1)` and the same multiplicative coefficient `3/4`, but distinct affine corrections.
+For example, at length two the chronological words `EO` and `OE` have the same count vector `(1,1)` and the same multiplicative coefficient `3/4`, but
+
+\[
+R(EO)=2,
+\qquad
+R(OE)=1,
+\]
+
+so their affine offsets are `1/2` and `1/4` respectively.
 
 Therefore the E/O static aggregate must never be treated as a complete classifier of a Collatz parity word. Order-sensitive calculations must retain `w`, `R`, or an exact equivalent such as `(r,y)` / defect state.
 
-## 8. Consequence for existing exact solvers
+## 9. Consequence for existing exact solvers
 
 No numerical recurrence changes are required.
 
@@ -248,32 +342,38 @@ The authoritative exact state remains
 
 or the already proved finite-horizon quotients derived from it. Likewise, defect/carry, high-resolution cylinders, min-plus Bellman, endpoint arithmetic-progression certificates, and late-lift targets remain downstream arithmetic structures.
 
-The only required refactor is semantic and typological:
+The required refactor is semantic and typological:
 
-1. add the Collatz application interpretation `u_w` (or an equivalent explicitly typed interface);
-2. reserve realized-axis terminology for the `E^{EO}` bookkeeping carrier;
-3. move numeric E/O weights to the downstream aggregation/analytic layer;
-4. reserve `M_E,M_O` and all ordered transfer states for the Collatz dynamics layer;
-5. state explicitly whenever a reduced aggregate discards parity order.
+1. represent a fixed finite parity trace by distinct Stage-VI occurrence channels `c_j` if the channel-indexed static aggregation layer is used literally;
+2. map those distinct tags to the two realized bookkeeping lines `ell_E,ell_O`;
+3. keep `E_ax^{EO}`, `W_agg^{EO}`, and `H^aff` type-distinct;
+4. realize the static terms only after the axis layer, through explicit analytic realization data;
+5. reserve `M_E,M_O` and all ordered transfer states for the Collatz dynamics layer;
+6. state explicitly whenever a reduced aggregate discards parity order.
 
-## 9. Dependency diagram
+## 10. Dependency diagram
+
+For a fixed finite parity word:
 
 \[
 \boxed{
 \begin{array}{c}
-\text{Collatz parity occurrence }(j,w_j)\\
-\downarrow\;u_w\\
-\text{selected inherited tag }c_E\text{ or }c_O\\
+\text{occurrence }j\text{ with parity }w_j\\
+\downarrow\;\iota_w\\
+\text{distinct admitted channel }c_j\\
 \downarrow\;\operatorname{AxLine}\\
-\ell_E\text{ or }\ell_O\subset E^{EO}\\
-\downarrow\;\tau_{EO}\;\text{(downstream)}\\
-\mathbf c_h=(e_h,q_h)^T\\
+\ell_E\text{ or }\ell_O\subset E_{ax}^{EO}\\
+\downarrow\;\psi\;\text{and channel realization}\\
+T_L^{\mathfrak R}(c_j)\in W_{agg}^{EO}\\
+\downarrow\;\Comp_L^{\mathfrak R}\\
+(e_h,q_h)^T\\
 \downarrow\;\lambda_{EO}^{T}\\
-\Lambda_h\\
+\Lambda_h
 \end{array}
-}\]
+}
+\]
 
-in parallel with
+in parallel with the order-sensitive arithmetic path
 
 \[
 \boxed{
@@ -284,9 +384,11 @@ in parallel with
 The two paths meet only in the exact identity
 
 \[
+\boxed{
 T^h(n)=e^{\Lambda_h}n+R(w)/2^h.
+}
 \]
 
-## 10. Claim status
+## 11. Claim status
 
-This note is an interface correction prompted by the finalized realized-axis axiom system. It is not a new Collatz theorem. The arithmetic identities used here are the existing exact parity-vector/affine identities already audited elsewhere in the repository.
+This note is an interface correction prompted by the finalized realized-axis axiom system and the channel-indexed static aggregation manuscript. It is not a new Collatz theorem. The arithmetic identities used here are the existing exact parity-vector/affine identities already audited elsewhere in the repository.
