@@ -40,6 +40,11 @@ def ceil_fraction(x: Fraction) -> int:
     return (x.numerator + x.denominator - 1) // x.denominator
 
 
+def strict_integer_lower(x: Fraction) -> int:
+    """Smallest integer L certified by L > x."""
+    return x.numerator // x.denominator + 1
+
+
 def main():
     l2, u2 = log_ratio_bounds(Fraction(1, 3), NLOG)
     l3, u3 = log_ratio_bounds(Fraction(1, 2), NLOG)
@@ -68,16 +73,17 @@ def main():
     dmin = min(good_d)
     assert dmin == 20_971_503
 
-    # For each exact modular hit produced by terminal_single_defect_scan.cpp,
-    # compare two certified quantities:
-    #  (1) maximal remaining correction-loss budget
-    #      U_S - Lambda_- * y - dmin;
-    #  (2) minimal run loss needed to build terminal amplitude z.
-    # beta<117/200 implies a run that reaches z must contain at least
-    # ceil(200(z-1)/117) nonzero-defect positions.  The run-average theorem
-    # then costs at least (5/48)L.
+    # If a terminal run has L nonzero-defect points and reaches amplitude z,
+    # then z-1 further level increments must occur across L-1 transitions.
+    # Since a +1 increment is possible only at a mechanical gap-2 transition
+    # and beta<117/200,
+    #
+    #   L > 1 + 200(z-2)/117.
+    #
+    # This point/transition indexing is deliberately one step weaker than the
+    # earlier provisional ceil(200(z-1)/117) expression.
     for z, y, shi in EXPECTED_HITS:
-        lrun = ceil_fraction(Fraction(200 * (z - 1), 117))
+        lrun = strict_integer_lower(Fraction(1) + Fraction(200 * (z - 2), 117))
         loss_lower = Fraction(5 * lrun, 48)
         budget_upper = correction_upper - lambda_lower * y - dmin
         assert budget_upper < loss_lower
