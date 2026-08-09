@@ -44,7 +44,7 @@ is exactly a shortest-path/min-plus problem on the parity-prefix tree restricted
 3^{q_j}\ge2^j\qquad(1\le j\le K).
 \]
 
-Two exact solvers were added:
+Three exact solvers were added:
 
 - `collatz/src/minimal_survivor_bestfirst.cpp`: Dijkstra-style best-first search.
 - `collatz/src/minimal_survivor_branch_bound.cpp`: depth-first branch-and-bound using
@@ -145,17 +145,17 @@ so
 \mu(k)=2788008987\quad(433\le k\le446).
 \]
 
-The interval
+The complete interval
 
 \[
-[2788008988,3788008988)
+[2788008988,6788008988)
 \]
 
-was also checked for \(\tau_c(n)>447\) with no survivor, giving the current lower
-bound
+was checked for \(\tau_c(n)>447\) with no survivor.  Thus the current exact lower
+bound is
 
 \[
-\mu(447)\ge3788008988.
+\boxed{\mu(447)\ge6788008988}.
 \]
 
 ## Growth diagnostics
