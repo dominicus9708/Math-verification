@@ -1,0 +1,178 @@
+name: Collatz terminal Family-A compute
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/collatz-eo-matrix-audit
+    paths:
+      - collatz/jobs/terminal_familyA_jobs.json
+      - collatz/src/terminal_familyA_parallel_state_generator.cpp
+      - collatz/src/terminal_state_tau_scan.cpp
+      - .github/workflows/collatz-terminal-familyA.yml
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          with open('collatz/jobs/terminal_familyA_jobs.json', encoding='utf-8') as f:
+              data = json.load(f)
+          matrix = {'include': data['jobs']}
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+              out.write('matrix=' + json.dumps(matrix, separators=(',', ':')) + '\n')
+          print(json.dumps(matrix, indent=2))
+          PY
+
+  compute:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record environment
+        shell: bash
+        run: |
+          mkdir -p collatz/results/${{ matrix.id }} build
+          {
+            echo "job_id=${{ matrix.id }}"
+            echo "description=${{ matrix.description }}"
+            echo "position=${{ matrix.position }}"
+            echo "K=${{ matrix.K }}"
+            echo "R18=${{ matrix.R18 }}"
+            echo "carry=${{ matrix.carry }}"
+            echo "zcap=${{ matrix.zcap }}"
+            echo "threads=${{ matrix.threads }}"
+            echo "maxk=${{ matrix.maxk }}"
+            echo "c_start=${{ matrix.c_start }}"
+            echo "commit=${GITHUB_SHA}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "runner_arch=${RUNNER_ARCH}"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            g++ --version | head -n 1
+          } | tee collatz/results/${{ matrix.id }}/metadata.txt
+
+      - name: Build exact calculators
+        shell: bash
+        run: |
+          set -euo pipefail
+          g++ -O3 -DNDEBUG -std=c++17 -pthread \
+            collatz/src/terminal_familyA_parallel_state_generator.cpp \
+            -o build/terminal_familyA_parallel_state_generator
+          g++ -O3 -DNDEBUG -std=c++17 -pthread \
+            collatz/src/terminal_state_tau_scan.cpp \
+            -o build/terminal_state_tau_scan
+
+      - name: Generate safe high-state superset
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v \
+            build/terminal_familyA_parallel_state_generator \
+            '${{ matrix.K }}' '${{ matrix.R18 }}' '${{ matrix.carry }}' \
+            '${{ matrix.zcap }}' '${{ matrix.threads }}' \
+            collatz/results/${{ matrix.id }}/states.txt \
+            > collatz/results/${{ matrix.id }}/generator.out \
+            2> collatz/results/${{ matrix.id }}/generator.time
+          cat collatz/results/${{ matrix.id }}/generator.out
+          sha256sum collatz/results/${{ matrix.id }}/states.txt \
+            > collatz/results/${{ matrix.id }}/states.sha256
+
+      - name: Scan all upper-four branches exactly
+        shell: bash
+        run: |
+          set -euo pipefail
+          result=collatz/results/${{ matrix.id }}/branch_results.tsv
+          printf 'code\tresult\n' > "$result"
+          for code in $(seq 0 15); do
+            echo "=== upper-four code ${code} ==="
+            line=$(build/terminal_state_tau_scan \
+              collatz/results/${{ matrix.id }}/states.txt \
+              '${{ matrix.R18 }}' '${{ matrix.carry }}' "$code" \
+              '${{ matrix.threads }}' '${{ matrix.maxk }}' '${{ matrix.c_start }}')
+            printf '%s\t%s\n' "$code" "$line" | tee -a "$result"
+          done
+
+      - name: Summarize result
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          jid='${{ matrix.id }}'
+          root=Path('collatz/results')/jid
+          rows=[]
+          for line in (root/'branch_results.tsv').read_text().splitlines()[1:]:
+              if not line.strip():
+                  continue
+              code_s, text=line.split('\t',1)
+              vals={k:int(v) for k,v in re.findall(r'(count|max_tau|max_x|survivors|overflow)=([0-9]+)', text)}
+              vals['code']=int(code_s)
+              rows.append(vals)
+          total=sum(r.get('count',0) for r in rows)
+          maxrow=max(rows, key=lambda r:r.get('max_tau',-1)) if rows else {}
+          survivors=sum(r.get('survivors',0) for r in rows)
+          overflow=sum(r.get('overflow',0) for r in rows)
+          summary={
+              'job_id':jid,
+              'position':int('${{ matrix.position }}'),
+              'carry':int('${{ matrix.carry }}'),
+              'safe_start_count':total,
+              'global_max_tau':maxrow.get('max_tau'),
+              'global_max_x':str(maxrow.get('max_x','')),
+              'global_max_code':maxrow.get('code'),
+              'survivors_to_maxk':survivors,
+              'overflow':overflow,
+              'maxk':int('${{ matrix.maxk }}'),
+              'commit':'${{ github.sha }}',
+          }
+          (root/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          print(json.dumps(summary,indent=2))
+          with open(Path('${{ github.step_summary }}'),'a',encoding='utf-8') as out:
+              out.write(f"## Collatz terminal compute: `{jid}`\n\n")
+              out.write(f"- Position: {summary['position']}\n")
+              out.write(f"- Carry: {summary['carry']}\n")
+              out.write(f"- Safe actual starts scanned: {summary['safe_start_count']:,}\n")
+              out.write(f"- Global max tau_c: {summary['global_max_tau']}\n")
+              out.write(f"- Maximizing x: {summary['global_max_x']}\n")
+              out.write(f"- Upper-four code: {summary['global_max_code']}\n")
+              out.write(f"- Survivors through depth {summary['maxk']}: {summary['survivors_to_maxk']}\n")
+              out.write(f"- Overflow: {summary['overflow']}\n")
+          PY
+
+      - name: Create reproducibility checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=collatz/results/${{ matrix.id }}
+          {
+            sha256sum collatz/src/terminal_familyA_parallel_state_generator.cpp
+            sha256sum collatz/src/terminal_state_tau_scan.cpp
+            sha256sum collatz/jobs/terminal_familyA_jobs.json
+            sha256sum "$root/states.txt"
+            sha256sum "$root/branch_results.tsv"
+            sha256sum "$root/summary.json"
+          } > "$root/checksums.sha256"
+          echo "finished_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$root/metadata.txt"
+
+      - name: Upload exact computation certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: collatz-terminal-${{ matrix.id }}-${{ github.sha }}
+          path: collatz/results/${{ matrix.id }}/
+          if-no-files-found: error
+          retention-days: 30
