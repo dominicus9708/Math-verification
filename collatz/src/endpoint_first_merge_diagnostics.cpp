@@ -1,12 +1,13 @@
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
+#include <map>
 #include <vector>
 
 using u64 = std::uint64_t;
 using u128 = __uint128_t;
 
-// Exact finite-depth diagnostics for same-depth endpoint mergers in the
+// Exact finite-depth diagnostics for TRUE same-depth endpoint mergers in the
 // accelerated Collatz map
 //
 //   T(n) = n/2       (n even)
@@ -15,29 +16,33 @@ using u128 = __uint128_t;
 // Only coefficient-surviving prefixes are retained:
 //   3^q >= 2^k at every prefix depth k.
 //
-// A pair in the same endpoint class is a NEW merge at depth k iff its two
-// time-(k-1) endpoints differ. Once two paths have merged, determinism keeps
-// them merged forever, so inherited collisions are excluded from new-merge
-// diagnostics.
+// IMPORTANT: when a depth-(k-1) canonical state (r,y,q) is lifted by 2^(k-1),
+// its actual time-(k-1) value becomes y + 3^q. Therefore the predecessor used
+// to decide whether a depth-k collision is a first merge must be the LIFTED
+// predecessor
 //
-// For each new merge pair the program records:
-//   * whether the two states have equal q;
-//   * for q_hi > q_lo, whether the exact sufficient endpoint inequality
-//       y * 2^(q_lo+1) > 3^(q_lo+1) - 3*2^q_lo
-//     fails. This is y > (3/2)*((3/2)^q_lo - 1) without floating point;
-//   * whether the correction numerators
-//       R = 2^k y - 3^q r
-//     violate R_hi > R_lo;
-//   * whether the actual canonical starts violate r_hi < r_lo.
+//   pre_y = y + carry*3^q,
+//
+// not the unlifted parent endpoint y. Two depth-k states form a true first
+// merge iff they have the same time-k endpoint and distinct lifted pre_y.
+// Determinism then guarantees they have not merged at any earlier time.
+//
+// For every true first-merge pair the program records q-difference and tests
+// correction/start ordering. For Delta q = 1 it also records the final parity
+// orientation and the exact scaled start/correction gap
+//
+//   G = r_lo - 3 r_hi = (R_hi-R_lo)/3^q_lo.
 //
 // Arithmetic is exact for K <= 39. Full flat enumeration is memory-intensive
-// well before that limit; K=32 is a practical reference run.
+// well before that limit; K=32 is a practical high-memory reference run.
 
 struct State {
     u64 r = 0;
     u64 y = 0;
-    u64 parent_y = 0;
+    u64 pre_y = 0;   // actual lifted time-(k-1) value before the last map step
     int q = 0;
+    int pre_q = 0;
+    int last_b = 0;
 };
 
 int main(int argc, char** argv) {
@@ -54,12 +59,13 @@ int main(int argc, char** argv) {
         pow3[i] = 3 * pow3[i - 1];
     }
 
-    std::vector<State> current{{0, 0, 0, 0}};
+    std::vector<State> current{{0, 0, 0, 0, 0, 0}};
 
     std::cout
-        << "k,total_survivors,new_merge_pairs,new_equal_q_pairs,"
-           "new_qdiff_pairs,endpoint_bound_fail,remainder_order_fail,"
-           "start_order_fail\n";
+        << "k,total_survivors,true_first_merge_pairs,equal_q_pairs,"
+           "qdiff_pairs,d1_pairs,d1_hi_odd_lo_even,d1_hi_even_lo_odd,"
+           "endpoint_bound_fail,remainder_order_fail,start_order_fail,"
+           "same_last_parity_fail\n";
 
     for (int k = 0; k < K; ++k) {
         std::vector<State> next;
@@ -67,25 +73,23 @@ int main(int argc, char** argv) {
 
         for (const State& n : current) {
             for (int b = 0; b <= 1; ++b) {
-                State t = n;
-                t.parent_y = n.y;
-
                 const int carry = b ^ static_cast<int>(n.y & 1ULL);
-                if (carry) {
-                    t.r += pow2[k];
-                    t.y += pow3[t.q];
-                }
+
+                State t;
+                t.r = n.r + (carry ? pow2[k] : 0);
+                t.pre_y = n.y + (carry ? pow3[n.q] : 0);
+                t.pre_q = n.q;
+                t.last_b = b;
+                t.q = n.q;
 
                 if (b == 0) {
-                    t.y >>= 1;
+                    t.y = t.pre_y >> 1;
                 } else {
-                    t.y = (3 * t.y + 1) >> 1;
+                    t.y = (3 * t.pre_y + 1) >> 1;
                     ++t.q;
                 }
 
-                if (pow3[t.q] >= pow2[k + 1]) {
-                    next.push_back(t);
-                }
+                if (pow3[t.q] >= pow2[k + 1]) next.push_back(t);
             }
         }
         current.swap(next);
@@ -97,12 +101,19 @@ int main(int argc, char** argv) {
             return a.r < b.r;
         });
 
-        std::uint64_t new_pairs = 0;
-        std::uint64_t equal_q = 0;
-        std::uint64_t qdiff = 0;
-        std::uint64_t endpoint_bound_fail = 0;
-        std::uint64_t remainder_order_fail = 0;
-        std::uint64_t start_order_fail = 0;
+        u64 new_pairs = 0;
+        u64 equal_q = 0;
+        u64 qdiff = 0;
+        u64 d1 = 0;
+        u64 d1_hi_odd_lo_even = 0;
+        u64 d1_hi_even_lo_odd = 0;
+        u64 endpoint_bound_fail = 0;
+        u64 remainder_order_fail = 0;
+        u64 start_order_fail = 0;
+        u64 same_last_parity_fail = 0;
+
+        std::map<int,u64> qdiff_hist;
+        std::map<std::int64_t,u64> d1_gap_hist;
 
         for (std::size_t s = 0; s < current.size();) {
             std::size_t e = s + 1;
@@ -110,8 +121,14 @@ int main(int argc, char** argv) {
 
             for (std::size_t i = s; i < e; ++i) {
                 for (std::size_t j = i + 1; j < e; ++j) {
-                    if (current[i].parent_y == current[j].parent_y) continue;
+                    if (current[i].pre_y == current[j].pre_y) continue;
                     ++new_pairs;
+
+                    if (current[i].last_b == current[j].last_b) {
+                        // Should be impossible because each parity branch is
+                        // injective on its own domain.
+                        ++same_last_parity_fail;
+                    }
 
                     if (current[i].q == current[j].q) {
                         ++equal_q;
@@ -119,8 +136,10 @@ int main(int argc, char** argv) {
                     }
 
                     ++qdiff;
-                    const State& lo = current[i];  // q-sorted
+                    const State& lo = current[i]; // q-sorted
                     const State& hi = current[j];
+                    const int d = hi.q - lo.q;
+                    ++qdiff_hist[d];
 
                     // Exact sufficient endpoint bound:
                     // y > (3/2)*((3/2)^q_lo - 1).
@@ -141,6 +160,19 @@ int main(int argc, char** argv) {
 
                     if (!(Rhi > Rlo)) ++remainder_order_fail;
                     if (!(hi.r < lo.r)) ++start_order_fail;
+
+                    if (d == 1) {
+                        ++d1;
+                        if (hi.last_b == 1 && lo.last_b == 0)
+                            ++d1_hi_odd_lo_even;
+                        if (hi.last_b == 0 && lo.last_b == 1)
+                            ++d1_hi_even_lo_odd;
+
+                        const std::int64_t G =
+                            static_cast<std::int64_t>(lo.r) -
+                            3 * static_cast<std::int64_t>(hi.r);
+                        ++d1_gap_hist[G];
+                    }
                 }
             }
             s = e;
@@ -151,8 +183,25 @@ int main(int argc, char** argv) {
                   << new_pairs << ','
                   << equal_q << ','
                   << qdiff << ','
+                  << d1 << ','
+                  << d1_hi_odd_lo_even << ','
+                  << d1_hi_even_lo_odd << ','
                   << endpoint_bound_fail << ','
                   << remainder_order_fail << ','
-                  << start_order_fail << '\n';
+                  << start_order_fail << ','
+                  << same_last_parity_fail << '\n';
+
+        if (!qdiff_hist.empty()) {
+            std::cerr << "k=" << (k + 1) << " qdiff_hist";
+            for (const auto& kv : qdiff_hist)
+                std::cerr << " d" << kv.first << '=' << kv.second;
+            std::cerr << '\n';
+        }
+        if (!d1_gap_hist.empty()) {
+            std::cerr << "k=" << (k + 1) << " d1_G_hist";
+            for (const auto& kv : d1_gap_hist)
+                std::cerr << " G" << kv.first << '=' << kv.second;
+            std::cerr << '\n';
+        }
     }
 }
