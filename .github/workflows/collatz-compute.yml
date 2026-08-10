@@ -72,12 +72,20 @@ jobs:
           print(json.dumps(data, indent=2))
           PY
 
-      - name: Compile exact state generator
+      - name: Install exact scanner dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+
+      - name: Compile exact compute binaries
         run: |
           mkdir -p build
           g++ -O3 -std=c++20 -pthread \
             collatz/src/terminal_familyA_parallel_state_generator.cpp \
             -o build/terminal_familyA_parallel_state_generator
+          g++ -O3 -std=c++20 -pthread \
+            collatz/src/terminal_state_tau_scan.cpp \
+            -o build/terminal_state_tau_scan
 
       - name: Generate exact high states
         run: |
@@ -90,14 +98,16 @@ jobs:
             states.txt | tee state-generator-summary.txt
           wc -l states.txt
           gzip -1 states.txt
+          tar -cf prepared.tar \
+            states.txt.gz \
+            state-generator-summary.txt \
+            build/terminal_state_tau_scan
 
-      - name: Upload prepared state artifact
+      - name: Upload prepared compute artifact
         uses: actions/upload-artifact@v7
         with:
-          name: prepared-states
-          path: |
-            states.txt.gz
-            state-generator-summary.txt
+          name: prepared-compute
+          path: prepared.tar
           retention-days: 7
           compression-level: 0
 
@@ -127,24 +137,17 @@ jobs:
       max-parallel: 4
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Download prepared states
+      - name: Download prepared compute artifact
         uses: actions/download-artifact@v8
         with:
-          name: prepared-states
+          name: prepared-compute
           path: prepared
 
-      - name: Restore states
-        run: gunzip -c prepared/states.txt.gz > states.txt
-
-      - name: Compile exact coefficient-stopping scanner
+      - name: Restore exact compute package
         run: |
-          mkdir -p build
-          g++ -O3 -std=c++20 -pthread \
-            collatz/src/terminal_state_tau_scan.cpp \
-            -o build/terminal_state_tau_scan
+          tar -xf prepared/prepared.tar
+          test -x build/terminal_state_tau_scan
+          gunzip -c states.txt.gz > states.txt
 
       - name: Scan actual ordinary starts
         run: |
