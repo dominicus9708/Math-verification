@@ -1,0 +1,6 @@
+hmax=5000
+integer_cycle_hits=1
+h=1,d=1,x=1
+
+Exact integer audit of the least noncontracting critical debit d for each h.
+This is finite evidence only; the divisibility reduction is exact, but the h<=5000 cutoff is not a proof for all h.
