@@ -1,0 +1,263 @@
+name: Collatz distributed exact compute
+
+on:
+  push:
+    branches:
+      - agent/collatz-eo-matrix-audit
+    paths:
+      - collatz/compute_jobs/current.json
+  workflow_dispatch:
+    inputs:
+      job_file:
+        description: Job manifest path
+        required: true
+        default: collatz/compute_jobs/current.json
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: Prepare exact terminal states
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    outputs:
+      matrix: ${{ steps.job.outputs.matrix }}
+      name: ${{ steps.job.outputs.name }}
+      r18: ${{ steps.job.outputs.r18 }}
+      carry: ${{ steps.job.outputs.carry }}
+      maxk: ${{ steps.job.outputs.maxk }}
+      c_start: ${{ steps.job.outputs.c_start }}
+      scan_threads: ${{ steps.job.outputs.scan_threads }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Read job manifest
+        id: job
+        env:
+          JOB_FILE: ${{ github.event_name == 'workflow_dispatch' && inputs.job_file || 'collatz/compute_jobs/current.json' }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          p = Path(os.environ['JOB_FILE'])
+          data = json.loads(p.read_text())
+          required = ['name', 'K', 'R18', 'carry', 'zcap', 'c_start']
+          missing = [k for k in required if k not in data]
+          if missing:
+              raise SystemExit(f'missing manifest keys: {missing}')
+
+          codes = data.get('codes', list(range(16)))
+          if not codes or any((not isinstance(c, int) or c < 0 or c > 15) for c in codes):
+              raise SystemExit('codes must be a non-empty list of integers in [0,15]')
+
+          vals = {
+              'name': str(data['name']),
+              'K': str(data['K']),
+              'r18': str(data['R18']),
+              'carry': str(data['carry']),
+              'zcap': str(data['zcap']),
+              'c_start': str(data['c_start']),
+              'maxk': str(data.get('maxk', 1000)),
+              'state_threads': str(data.get('state_threads', 4)),
+              'scan_threads': str(data.get('scan_threads', 4)),
+              'matrix': json.dumps({'code': codes}, separators=(',', ':')),
+          }
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              for k, v in vals.items():
+                  f.write(f'{k}={v}\n')
+          print(json.dumps(data, indent=2))
+          PY
+
+      - name: Compile exact state generator
+        run: |
+          mkdir -p build
+          g++ -O3 -std=c++20 -pthread \
+            collatz/src/terminal_familyA_parallel_state_generator.cpp \
+            -o build/terminal_familyA_parallel_state_generator
+
+      - name: Generate exact high states
+        run: |
+          ./build/terminal_familyA_parallel_state_generator \
+            '${{ steps.job.outputs.K }}' \
+            '${{ steps.job.outputs.r18 }}' \
+            '${{ steps.job.outputs.carry }}' \
+            '${{ steps.job.outputs.zcap }}' \
+            '${{ steps.job.outputs.state_threads }}' \
+            states.txt | tee state-generator-summary.txt
+          wc -l states.txt
+          gzip -1 states.txt
+
+      - name: Upload prepared state artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: prepared-states
+          path: |
+            states.txt.gz
+            state-generator-summary.txt
+          retention-days: 7
+          compression-level: 0
+
+      - name: Preparation summary
+        run: |
+          {
+            echo '## Collatz exact compute: preparation'
+            echo
+            echo '- Job: `${{ steps.job.outputs.name }}`'
+            echo '- R18: `${{ steps.job.outputs.r18 }}`'
+            echo '- carry: `${{ steps.job.outputs.carry }}`'
+            echo '- zcap: `${{ steps.job.outputs.zcap }}`'
+            echo '- matrix: `${{ steps.job.outputs.matrix }}`'
+            echo
+            echo '```text'
+            cat state-generator-summary.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  scan:
+    name: Exact scan / ternary code ${{ matrix.code }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download prepared states
+        uses: actions/download-artifact@v8
+        with:
+          name: prepared-states
+          path: prepared
+
+      - name: Restore states
+        run: gunzip -c prepared/states.txt.gz > states.txt
+
+      - name: Compile exact coefficient-stopping scanner
+        run: |
+          mkdir -p build
+          g++ -O3 -std=c++20 -pthread \
+            collatz/src/terminal_state_tau_scan.cpp \
+            -o build/terminal_state_tau_scan
+
+      - name: Scan actual ordinary starts
+        run: |
+          set -o pipefail
+          ./build/terminal_state_tau_scan \
+            states.txt \
+            '${{ needs.prepare.outputs.r18 }}' \
+            '${{ needs.prepare.outputs.carry }}' \
+            '${{ matrix.code }}' \
+            '${{ needs.prepare.outputs.scan_threads }}' \
+            '${{ needs.prepare.outputs.maxk }}' \
+            '${{ needs.prepare.outputs.c_start }}' \
+            | tee result-${{ matrix.code }}.txt
+
+      - name: Upload branch result
+        uses: actions/upload-artifact@v7
+        with:
+          name: result-${{ matrix.code }}
+          path: result-${{ matrix.code }}.txt
+          retention-days: 30
+          compression-level: 0
+
+      - name: Branch summary
+        run: |
+          {
+            echo '## Ternary code `${{ matrix.code }}`'
+            echo
+            echo '```text'
+            cat result-${{ matrix.code }}.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  aggregate:
+    name: Aggregate exact results
+    needs: [prepare, scan]
+    if: always() && needs.prepare.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all branch results
+        uses: actions/download-artifact@v8
+        with:
+          pattern: result-*
+          merge-multiple: true
+          path: results
+
+      - name: Build machine-readable and human summary
+        env:
+          JOB_NAME: ${{ needs.prepare.outputs.name }}
+          EXPECTED_MATRIX: ${{ needs.prepare.outputs.matrix }}
+        run: |
+          python3 - <<'PY'
+          import glob, json, os, re
+          from pathlib import Path
+
+          pat = re.compile(r'count=(\d+) max_tau=(\d+) max_x=(\d+) survivors=(\d+) overflow=(\d+)')
+          rows = []
+          for fn in sorted(glob.glob('results/result-*.txt')):
+              text = Path(fn).read_text().strip()
+              m = pat.search(text)
+              code_m = re.search(r'result-(\d+)\.txt$', fn)
+              if not m or not code_m:
+                  raise SystemExit(f'cannot parse {fn}: {text!r}')
+              count, tau, x, survivors, overflow = map(int, m.groups())
+              rows.append({
+                  'code': int(code_m.group(1)),
+                  'count': count,
+                  'max_tau': tau,
+                  'max_x': str(x),
+                  'survivors': survivors,
+                  'overflow': overflow,
+              })
+
+          expected = json.loads(os.environ['EXPECTED_MATRIX'])['code']
+          seen = sorted(r['code'] for r in rows)
+          missing = sorted(set(expected) - set(seen))
+          total = sum(r['count'] for r in rows)
+          survivors = sum(r['survivors'] for r in rows)
+          overflow = sum(r['overflow'] for r in rows)
+          best = max(rows, key=lambda r: r['max_tau']) if rows else None
+          out = {
+              'job': os.environ['JOB_NAME'],
+              'expected_codes': expected,
+              'completed_codes': seen,
+              'missing_codes': missing,
+              'total_count': total,
+              'total_survivors': survivors,
+              'total_overflow': overflow,
+              'global_max_tau': best['max_tau'] if best else None,
+              'global_max_x': best['max_x'] if best else None,
+              'rows': sorted(rows, key=lambda r: r['code']),
+          }
+          Path('summary.json').write_text(json.dumps(out, indent=2) + '\n')
+
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f"## {out['job']}\n\n")
+              f.write(f"- Completed matrix codes: `{seen}`\n")
+              f.write(f"- Missing matrix codes: `{missing}`\n")
+              f.write(f"- Total actual starts scanned: `{total:,}`\n")
+              f.write(f"- Total survivors through maxk: `{survivors}`\n")
+              f.write(f"- Total 128-bit overflows: `{overflow}`\n")
+              if best:
+                  f.write(f"- Global max tau_c: `{best['max_tau']}`\n")
+                  f.write(f"- Maximizing start: `{best['max_x']}`\n")
+              f.write('\n| code | starts | max tau_c | survivors | overflow |\n')
+              f.write('|---:|---:|---:|---:|---:|\n')
+              for r in sorted(rows, key=lambda r: r['code']):
+                  f.write(f"| {r['code']} | {r['count']:,} | {r['max_tau']} | {r['survivors']} | {r['overflow']} |\n")
+          PY
+
+      - name: Upload aggregate summary
+        uses: actions/upload-artifact@v7
+        with:
+          name: aggregate-summary
+          path: summary.json
+          retention-days: 90
+          compression-level: 0
