@@ -1,0 +1,5 @@
+identity_audit_ok odd_n=3..999 q<=80
+macroblock_audit_ok blocks=22381
+
+These are finite reproducibility checks of exact identities implemented in
+collatz/src/event_budget_macroblock_audit.py. They are not evidence of global convergence by themselves.
