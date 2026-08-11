@@ -219,14 +219,79 @@ N'
 \frac{H}{3\ln2\,\delta_H}.
 \]
 
-Thus a critical-layer supercritical renewal at a large floor requires `alpha H` to lie extraordinarily close below an integer. The hard core is therefore reduced to a one-parameter Diophantine resonance family plus the separate linear-depth-overload family.
+Thus a critical-layer supercritical renewal at a large floor requires `alpha H` to lie extraordinarily close below an integer.
 
-## 7. Role
+## 7. Continued-fraction / quadratic-floor dichotomy
+
+Let the reduced fraction associated with `D/H` be `p/q`. If `p/q` is not a continued-fraction convergent of `alpha`, Legendre's theorem yields
+
+\[
+\left|\frac DH-\alpha\right|
+\ge
+\frac1{2H^2}.
+\]
+
+Therefore
+
+\[
+\Delta
+\ge
+\frac1{2H}.
+\]
+
+Combining this with
+
+\[
+\Delta<H\beta(N')
+\]
+
+gives
+
+\[
+\beta(N')>rac1{2H^2}.
+\]
+
+Solving explicitly,
+
+\[
+\boxed{
+N'
+<
+\frac{1}{3\left(2^{1/(2H^2)}-1\right)}.
+}
+\]
+
+As `H->infinity`,
+
+\[
+\boxed{
+N'
+<
+\left(\frac{2}{3\ln2}+o(1)\right)H^2
+\approx(0.9618+o(1))H^2.
+}
+\]
+
+Hence every aggregate-supercritical renewal lies in one of two classes:
+
+\[
+\boxed{
+\begin{array}{ll}
+\text{continued-fraction resonance:}&(D/H)_{\rm red}\text{ is a convergent of }\alpha,\\[1mm]
+\text{quadratic-floor regime:}&N'=O(H^2).
+\end{array}
+}
+\]
+
+This recovers the earlier quadratic-overload idea by a sound route through the rational shadow and the Christoffel extremal theorem.
+
+## 8. Role
 
 This theorem materially sharpens the renewal exceptional sector:
 
 - aggregate-supercritical renewals cannot have arbitrary `(H,D)`;
 - away from the minimal supercritical integer layer they must have event depth linear in the renewal floor;
-- on the minimal layer the admissible floor is explicitly bounded by the Diophantine gap `ceil(alpha H)-alpha H`.
+- on the minimal layer the admissible floor is explicitly bounded by the Diophantine gap `ceil(alpha H)-alpha H`;
+- more generally, every non-convergent exponent ratio forces the next floor to lie below a quadratic function of `H`.
 
-The remaining global task is to prove that an infinite renewal-floor chain cannot repeatedly pay either of these two costs while satisfying the exact Collatz formation arithmetic.
+The remaining global task is to prove that an infinite renewal-floor chain cannot repeatedly pay these arithmetic/depth costs while satisfying the exact Collatz formation arithmetic.
