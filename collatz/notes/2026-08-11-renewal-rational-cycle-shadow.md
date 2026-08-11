@@ -134,12 +134,82 @@ Consequently
 
 Conversely, failure of the divisibility leaves a genuinely rational, non-integral cycle shadow.
 
-## 5. Role in the terminal architecture
+## 5. The shadow cycle has its minimum at the renewal boundary
+
+Let the actual interior block starts be
+
+\[
+X_0=N,
+X_1,\ldots,X_m=N',
+\]
+
+with
+
+\[
+X_r>N'
+\qquad(0<r<m).
+\]
+
+Let `F_r` be the affine prefix through the first `r` maximal blocks, with positive linear coefficient `a_r`, so
+
+\[
+X_r=F_r(N).
+\]
+
+Define the corresponding rational shadow states
+
+\[
+C_r:=F_r(C).
+\]
+
+Then
+
+\[
+\boxed{C_r-X_r=a_r(C-N).}
+\]
+
+Let `a` be the coefficient of the full aggregate word. Since the word is supercritical in the present multiplier convention,
+
+\[
+0<a<1,
+\qquad
+C-N'=a(C-N).
+\]
+
+For every proper interior boundary `r`, the suffix from `X_r` to `N'` is an actual decrease. Because every affine Collatz suffix has positive correction, its linear coefficient must be strictly less than `1`; otherwise its endpoint would exceed its start. Hence
+
+\[
+\frac a{a_r}<1,
+\qquad
+\boxed{a_r>a.}
+\]
+
+Therefore
+
+\[
+\begin{aligned}
+C_r-C
+&=(X_r-N')+(a_r-a)(C-N)\\
+&>0.
+\end{aligned}
+\]
+
+Thus
+
+\[
+\boxed{C_r>C\qquad(0<r<m).}
+\]
+
+So `C` is the strict minimum of the positive rational periodic shadow associated with the supercritical renewal word.
+
+Equivalently, an aggregate-supercritical renewal segment is an integer orbit segment lying strictly below the minimum of a positive rational periodic orbit while following exactly the same finite word once.
+
+## 6. Role in the terminal architecture
 
 This theorem directly joins the two terminal branches:
 
 - the periodic branch corresponds to integrality of a finite-word rational fixed point;
-- every aggregate-supercritical aperiodic renewal segment carries the same fixed point but with nontrivial denominator.
+- every aggregate-supercritical aperiodic renewal segment carries the same positive rational periodic word, with its minimum at the renewal boundary, but with nontrivial denominator.
 
 Thus a future unified theorem may seek to prove that repeated floor-increasing supercritical renewals force the shadow denominator
 
