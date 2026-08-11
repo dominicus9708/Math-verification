@@ -1,32 +1,30 @@
-# Renewal supercritical exact costs
+# Renewal supercritical exact block-count cost
 
 Date: 2026-08-11
 
-Status: **exact necessary-condition theorems for aggregate-supercritical renewal-floor segments**. These strengthen the earlier asymptotic renewal-resonance bounds but do not by themselves exclude an infinite renewal chain.
+Status: **corrected exact theorem**. A stronger event-level version was briefly considered and then withdrawn after audit: renewal-floor minimality controls interior **block starts**, but not every odd-event state inside a maximal block. The surviving theorem below uses only block starts and is exact.
 
 ## 1. Setup
 
-Let `N<N'` be consecutive renewal floors of a nonperiodic odd-state/block orbit. Let the renewal segment contain `m` maximal debit blocks and `H` odd events in total. Let
+Let `N<N'` be consecutive renewal floors of a nonperiodic maximal-block orbit. Let the renewal segment contain `m` maximal debit blocks. Let
 
 \[
-P=\frac{2^{H+D}}{3^H}=2^{D-\alpha H},
-\qquad
-\alpha=\log_2(3/2),
+P=\prod M_r
 \]
 
-be its aggregate coefficient multiplier. Assume the segment is aggregate-supercritical:
+be its aggregate block multiplier, and assume
 
 \[
 \boxed{P>1.}
 \]
 
-Write the floor gap as
+Write
 
 \[
 \boxed{g:=N'-N\ge2.}
 \]
 
-Every interior block start and every interior odd-event state is strictly larger than `N'` by the renewal-floor definition.
+By the renewal-floor definition, every **interior block start** in the segment is strictly larger than `N'`.
 
 ## 2. Exact block-count cost
 
@@ -90,165 +88,42 @@ Equivalently,
 \boxed{P>1\Longrightarrow m\ge g+1.}
 \]
 
-In particular no aggregate-supercritical renewal segment can contain only one or two maximal blocks, because `g>=2`.
-
-## 3. Exact odd-event cost
-
-At odd-event resolution the exact product is
+Since distinct renewal floors are odd, `g>=2`. Therefore an aggregate-supercritical renewal requires at least three maximal blocks:
 
 \[
-P\frac{N'}N
-=
-\prod_{i=0}^{H-1}
-\left(1+\frac1{3x_i}\right),
+\boxed{P>1\Longrightarrow m\ge3.}
 \]
 
-with `x_0=N` and every interior `x_i>N'`.
+## 3. Why the event-level strengthening is invalid
 
-Since `P>1`,
+Inside a maximal block, the `v=1` credit odd states increase from the block start toward the block endpoint. Even if all interior **block starts** exceed the next renewal floor `N'`, early credit states inside the first block may lie between `N` and `N'`.
+
+Therefore one cannot replace every interior odd-event denominator by `N'` in the odd-event correction product. In particular, the previously proposed claims
 
 \[
-\frac{N'}N
-<
-\left(1+\frac1{3N}\right)
-\left(1+\frac1{3N'}\right)^{H-1}.
+H>3g
 \]
 
-Thus
+and
 
 \[
-\frac{N'}{N+1/3}
-<
-\left(1+\frac1{3N'}\right)^{H-1}.
+0<D-\alpha H<\frac{H-1}{3N'\ln2}
 \]
 
-The left side is
+are not established for a general renewal segment by this argument and must not be used.
 
-\[
-1+\frac{g-1/3}{N+1/3}.
-\]
+The earlier block-level harmonic resonance estimate remains the valid aggregate estimate.
 
-Applying the same logarithmic inequalities gives
+## 4. Structural role
 
-\[
-\frac{g-1/3}{N'}
-<
-\frac{H-1}{3N'}.
-\]
-
-Therefore
-
-\[
-\boxed{H>3g.}
-\]
-
-Since `H` is an integer,
-
-\[
-\boxed{P>1\Longrightarrow H\ge3g+1.}
-\]
-
-This is strictly stronger than the block-count cost because `H>=m`.
-
-## 4. Exact resonance upper bound
-
-The mandatory endpoint gap also cancels the starting odd-event correction:
-
-\[
-\frac N{N'}
-\left(1+\frac1{3N}\right)<1.
-\]
-
-Hence
-
-\[
-P
-<
-\prod_{i=1}^{H-1}
-\left(1+\frac1{3x_i}\right)
-<
-\left(1+\frac1{3N'}\right)^{H-1}.
-\]
-
-Taking logarithms,
-
-\[
-0<\log P
-<
-\frac{H-1}{3N'}.
-\]
-
-Since
-
-\[
-\log P=(D-\alpha H)\ln2,
-\]
-
-we obtain the exact universal bound
+The exact content retained from this line of attack is simple and useful:
 
 \[
 \boxed{
-0<\Delta:=D-\alpha H
-<
-\frac{H-1}{3N'\ln2}.
+\text{aggregate-supercritical renewal}
+\Longrightarrow
+\text{block count exceeds floor increment.}
 }
 \]
 
-No asymptotic `O(1/N')` term is needed.
-
-## 5. Continued-fraction / quadratic-overload dichotomy
-
-Let the reduced form of `D/H` be `p/q`. If `p/q` is not a continued-fraction convergent of `alpha`, Legendre's theorem implies
-
-\[
-\left|\frac DH-\alpha\right|
-\ge
-\frac1{2H^2},
-\]
-
-hence
-
-\[
-\boxed{\Delta\ge\frac1{2H}.}
-\]
-
-Combining with the exact renewal upper bound gives
-
-\[
-\frac1{2H}
-<
-\frac{H-1}{3N'\ln2},
-\]
-
-so
-
-\[
-\boxed{
-H(H-1)>
-\frac{3\ln2}{2}\,N'.
-}
-\]
-
-Therefore every aggregate-supercritical renewal segment satisfies the exact dichotomy
-
-\[
-\boxed{
-\begin{array}{ll}
-\text{Arithmetic resonance:}& (D/H)_{\rm red}\text{ is a convergent of }\alpha,\\[1mm]
-\text{or}\
-\text{Quadratic overload:}&H(H-1)>(3\ln2/2)N'.
-\end{array}
-}
-\]
-
-This sharpens the earlier `mH \gtrsim N'` overload alternative.
-
-## 6. Structural role
-
-These theorems do not exclude a divergent orbit. They show instead that every floor-increasing aggregate-supercritical renewal must pay three simultaneous costs:
-
-1. block count exceeds the floor gap: `m>g`;
-2. odd-event count exceeds three times the floor gap: `H>3g`;
-3. the aggregate exponent ratio is either a continued-fraction optimal approximation of `log_2(3/2)` or the segment has odd-event depth at least on the order of `sqrt(N')`.
-
-Thus the only inexpensive renewal transitions are aggregate-subcritical ones. The next global task is to combine these exact costs with formation-floor/mixed-place arithmetic into a well-founded renewal progress theorem.
+This supplies a genuine combinatorial cost without assuming that all odd-event states are above the next renewal floor. Future renewal arguments should stay at maximal-block resolution unless an additional theorem explicitly controls the internal credit states.
