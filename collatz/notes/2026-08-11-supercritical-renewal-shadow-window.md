@@ -2,11 +2,11 @@
 
 Date: 2026-08-11
 
-Status: **exact necessary-and-sufficient local characterization for a fixed aggregate-supercritical renewal word**. It combines the rational cycle shadow with the exact dyadic formation class and all interior renewal inequalities.
+Status: **exact necessary-and-sufficient local characterization for a fixed aggregate-supercritical renewal-compatible segment word**. It combines the rational cycle shadow, the exact dyadic formation class, and all finite interior floor inequalities. It does **not** by itself certify that the endpoint is a suffix minimum of the infinite future orbit.
 
 ## 1. Fixed supercritical word
 
-Let a finite maximal-block renewal word `w` induce the affine map
+Let a finite maximal-block word `w` induce the affine map
 
 \[
 \boxed{F(x)=ax+b,}
@@ -46,9 +46,17 @@ be the corresponding prefix affine map, and define the rational shadow state
 \boxed{C_r:=F_r(C).}
 \]
 
+We call the finite segment **renewal-compatible** if its integer endpoint `N'` is strictly above its start `N` while every interior block start is strictly above `N'`:
+
+\[
+\boxed{N<N',\qquad X_r>N'\text{ for every interior block boundary}.}
+\]
+
+Every genuine floor-to-floor renewal segment has this property. The converse becomes a genuine renewal step only when the infinite continuation from `N'` also stays at or above `N'`.
+
 ## 2. Shadow minimum and prefix-coefficient inequalities
 
-For a renewal word, the rational periodic shadow has `C` as its strict minimum block-start state, so
+For a word occurring as a genuine renewal segment, the rational periodic shadow has `C` as its strict minimum block-start state, so
 
 \[
 \boxed{C_r>C}
@@ -64,7 +72,9 @@ The suffix coefficient is `a/a_r`; hence
 \boxed{a_r>a.}
 \]
 
-## 3. Translate the renewal inequalities below the shadow
+For a fixed word already known to have these shadow inequalities, the finite renewal-compatible integer starts can be characterized exactly as below.
+
+## 3. Translate the finite renewal inequalities below the shadow
 
 Let `N` be an integer in the exact formation class of the word, and write
 
@@ -90,7 +100,7 @@ X_r=F_r(N)
 =C_r-a_r y.
 \]
 
-The renewal condition is
+The finite renewal-compatible condition is
 
 \[
 X_r>N'.
@@ -102,7 +112,7 @@ Substituting the two shadow formulas gives
 C_r-C>(a_r-a)y.
 \]
 
-Because both sides have positive coefficients, this is equivalent to
+Because both coefficients are positive, this is equivalent to
 
 \[
 \boxed{
@@ -121,13 +131,13 @@ W(w):=
 }
 \]
 
-Then all interior renewal inequalities are equivalent to the single bound
+Then, for a fixed word satisfying the shadow-minimum/prefix-coefficient conditions, all **finite** renewal-compatible inequalities are equivalent to
 
 \[
 \boxed{0<C-N<W(w).}
 \]
 
-If the renewal word contains no interior block boundary (one maximal block), the macroblock sign theorem already rules out the supercritical floor-increasing case, so the supercritical theorem is relevant only for multi-block words.
+If the word contains no interior block boundary (one maximal block), the macroblock sign theorem already rules out the supercritical floor-increasing case.
 
 ## 5. Exact formation class
 
@@ -137,7 +147,7 @@ A finite maximal-block word begins at an odd state and ends immediately before t
 \boxed{N\equiv r_w\pmod{2^{A+1}}.}
 \]
 
-Consequently the positive integers that realize the fixed supercritical word as a floor-to-floor renewal segment are exactly
+Consequently the positive integers that realize the fixed word as a **finite renewal-compatible segment** are exactly
 
 \[
 \boxed{
@@ -147,29 +157,29 @@ Consequently the positive integers that realize the fixed supercritical word as 
 }
 \]
 
-This is an exact bounded interval-channel representation.
+A genuine renewal-floor transition is an element of this set whose endpoint `N'` also satisfies the global suffix-minimum condition for the infinite continuation.
 
 ## 6. Atomic consequences
 
-The candidate count for the word is finite. In particular, if
+The finite compatible candidate count for the word is finite. In particular, if
 
 \[
 W(w)<2^{A+1},
 \]
 
-there is at most one integer renewal floor realizing the word.
+there is at most one integer start realizing the finite renewal-compatible segment.
 
-More generally the exact candidate count is the number of points of one arithmetic progression of spacing `2^{A+1}` inside the open shadow window.
+More generally the exact finite candidate count is the number of points of one arithmetic progression of spacing `2^{A+1}` inside the open shadow window.
 
-Thus aggregate-supercritical renewal formation is reduced to a finite **residue–window intersection** rather than an unbounded parity class.
+Thus aggregate-supercritical finite renewal compatibility is reduced to a bounded **residue–window intersection** rather than an unbounded parity class.
 
 ## 7. Relation to the current proof architecture
 
-This theorem does not exclude all supercritical renewal words. Its value is that the three previously separate ingredients are now one object:
+The theorem does not exclude all supercritical renewal words and does not replace the global suffix-minimum condition. Its value is that three finite ingredients are now one object:
 
 1. dyadic formation — `r_w mod 2^{A+1}`;
 2. rational cycle shadow — `C`;
-3. renewal-floor inequalities — window width `W(w)`.
+3. finite floor-to-floor inequalities — window width `W(w)`.
 
 A complete supercritical-renewal exclusion may therefore seek a universal separation theorem of the form
 
@@ -180,4 +190,4 @@ A complete supercritical-renewal exclusion may therefore seek a universal separa
 }
 \]
 
-for the residual economical word classes, or a global theorem showing that such residue-window intersections cannot concatenate indefinitely.
+for residual economical word classes, or a global theorem showing that the surviving residue-window intersections cannot concatenate into an infinite suffix-minimum chain.
