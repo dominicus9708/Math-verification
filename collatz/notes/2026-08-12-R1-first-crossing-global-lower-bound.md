@@ -1,8 +1,8 @@
-# R1 first-crossing global lower bound from paradoxical frontier
+# R1 first-crossing global lower bound
 
 Date: 2026-08-12
 
-Status: **exact structural reduction + finite audit + external finite frontier**. This gives a large unconditional lower bound on the odd-event depth of any R1 renewal-floor counterexample, conditional only on the published Rozier--Terracol finite theorem used as stated. It does not exclude R1.
+Status: **exact structural reduction + finite audit + external verified Collatz frontier**. This gives a large lower bound on the odd-event depth of any R1 renewal-floor counterexample. It does not exclude R1.
 
 ## 1. R1 first coefficient crossing
 
@@ -76,7 +76,7 @@ N<\frac{H}{3(P-1)}.
 }
 \]
 
-## 2. Exact audit of the known small paradoxical range
+## 2. Small paradoxical audit
 
 Rozier--Terracol prove that there are exactly 593 paradoxical sequences starting at integers `<=4614`, and that any additional paradoxical sequence must start above
 
@@ -116,15 +116,33 @@ Reproducibility script:
 
 `collatz/src/r1_first_crossing_small_audit.py`.
 
-Thus none of the 593 known small paradoxical sequences is paradoxical already at its **first** coefficient crossing.
+Thus none of the known small paradoxical sequences is already paradoxical at its **first** coefficient crossing.
 
-Consequently any R1 renewal-floor counterexample is an additional paradoxical start and must satisfy
+This implies the useful finite bound
 
 \[
-\boxed{N>2.8\times10^{19}.}
+N>2.8\times10^{19}
 \]
 
-## 3. Non-convergent slope branch
+for any R1 start, but an actual Collatz counterexample admits a still stronger bound from the verified convergence frontier below.
+
+## 3. Verified Collatz frontier for an actual counterexample
+
+Barina's 2025 verification establishes convergence for every positive start below
+
+\[
+\boxed{2^{71}.}
+\]
+
+If a hypothetical nonperiodic counterexample orbit ever entered this verified range, its remaining tail would converge and therefore the original orbit would also converge. Hence every renewal floor on a genuine counterexample must satisfy
+
+\[
+\boxed{N\ge2^{71}.}
+\]
+
+This is stronger than the paradoxical-start lower bound `2.8e19` and is the bound used in the final R1 depth estimate.
+
+## 4. Non-convergent slope branch
 
 Suppose the reduced rational `A/H` is not a continued-fraction convergent of `gamma`.
 
@@ -157,19 +175,19 @@ N<\frac{H}{3(P-1)}
 <\frac{2H^2}{3\ln2}.
 \]
 
-Combining with `N>2.8e19` gives
+Combining with `N>=2^71` gives
 
 \[
 \boxed{
 H>
-\sqrt{\frac{3\ln2}{2}\,(2.8\times10^{19})}
-\approx5.395570552\times10^9.
+\sqrt{\frac{3\ln2}{2}\,2^{71}}
+\approx4.9547666543\times10^{10}.
 }
 \]
 
-Thus every non-convergent R1 branch needs more than about 5.395 billion odd events before its first coefficient crossing.
+Thus every non-convergent R1 branch needs more than about `49.5` billion odd events before its first coefficient crossing.
 
-## 4. Convergent and finite-multiple branch
+## 5. Convergent and finite-multiple branch
 
 If the reduced fraction `A/H` is an upper continued-fraction convergent `p/q` of `gamma`, write
 
@@ -212,27 +230,7 @@ N<\frac{q}{3(2^{\delta_q}-1)}.
 }
 \]
 
-The upper convergent denominators of `gamma=log_2 3` below the non-convergent threshold are
-
-\[
-1,5,41,306,15601,79335,190537,10781274,171928773,397573379.
-\]
-
-The largest corresponding primitive ceiling is attained at
-
-\[
-(A,H)=(630138897,397573379)
-\]
-
-and is approximately
-
-\[
-\boxed{1.2520795\times10^{18},}
-\]
-
-still far below `2.8e19`.
-
-The next primitive upper convergent is
+All primitive upper convergents with denominator below the non-convergent threshold `4.9547666543e10` have been audited. The last one in that range is
 
 \[
 \boxed{
@@ -240,17 +238,33 @@ The next primitive upper convergent is
 }
 \]
 
-whose denominator already exceeds the non-convergent threshold `5.395570552e9`.
+with primitive universal ceiling approximately
 
-Therefore the convergent/multiple branch also has no R1 candidate below the same threshold.
+\[
+\boxed{2.1689016\times10^{20}<2^{71}.}
+\]
 
-## 5. Global R1 odd-event lower bound
+Every allowed multiple of an earlier convergent has an even smaller ceiling.
 
-Combining the two branches gives
+The next primitive upper convergent is
 
 \[
 \boxed{
-H>5.395570552\times10^9
+(A,H)=(217976794617,137528045312),
+}
+\]
+
+whose denominator already exceeds `4.9547666543e10`.
+
+Therefore the convergent/multiple branch also has no R1 candidate below the same threshold.
+
+## 6. Global R1 odd-event lower bound
+
+Combining the non-convergent and convergent/multiple cases gives
+
+\[
+\boxed{
+H>4.9547666543\times10^{10}
 }
 \]
 
@@ -261,19 +275,24 @@ This bound is independent of whether the first-crossing endpoint is odd or even.
 For an even first-crossing endpoint the separate harmonic overload theorem is much stronger asymptotically:
 
 \[
-H>(170.33\ldots+o(1))N,
+H>(170.33\ldots+o(1))N.
 \]
 
-but the present theorem applies uniformly to the full R1 branch.
+Since an actual counterexample has `N>=2^71`, this puts the even-endpoint sector on the scale
 
-## 6. Scope
+\[
+H\gtrsim4.0\times10^{23}.
+\]
+
+## 7. Scope
 
 This is not an exclusion theorem. It proves only that an R1 counterexample cannot appear at small or medium first-crossing depth.
 
-Its architectural value is that R1 is now forced into an extreme Diophantine regime:
+Its architectural value is that R1 is forced into an extreme Diophantine regime:
 
-- start value above `2.8e19`;
-- at least about `5.4e9` odd events before the first coefficient crossing;
-- and if the ratio is cheaply resonant, it lies on a very high upper continued-fraction layer.
+- every renewal floor is at least `2^71`;
+- at least about `4.95e10` odd events occur before the first coefficient crossing;
+- a non-convergent first-crossing slope pays a quadratic depth/start-size cost;
+- a cheaply resonant slope must lie on a very high upper continued-fraction layer.
 
-The remaining R1 task is still global: rule out an infinite-stopping-time renewal floor whose first coefficient crossing survives above its start at such extreme depth.
+The remaining R1 task is global: rule out an infinite-stopping-time renewal floor whose first coefficient crossing survives above its start at such extreme depth.
