@@ -2,7 +2,7 @@
 
 Date: 2026-08-12
 
-Status: **exact structural reduction + finite audit + external verified Collatz frontier**. This gives a large lower bound on the odd-event depth of any R1 renewal-floor counterexample. It does not exclude R1.
+Status: **exact structural reduction + finite audit + external verified Collatz frontier**, plus a stronger high-precision one-sided continued-fraction audit. The exact analytic lower bound is `H>4.9547666543e10`; the stronger `H>=72057431991` value is a reproducible high-precision finite arithmetic audit and should be interval-certified before publication as a formal theorem. This note does not exclude R1.
 
 ## 1. R1 first coefficient crossing
 
@@ -140,9 +140,57 @@ If a hypothetical nonperiodic counterexample orbit ever entered this verified ra
 \boxed{N\ge2^{71}.}
 \]
 
-This is stronger than the paradoxical-start lower bound `2.8e19` and is the bound used in the final R1 depth estimate.
+This is stronger than the paradoxical-start lower bound `2.8e19` and is the bound used below.
 
-## 4. Non-convergent slope branch
+## 4. Universal one-sided slope strip
+
+From
+
+\[
+(P-1)N<\frac H3
+\]
+
+and `N>=2^71`,
+
+\[
+P-1<\frac{H}{3\,2^{71}}.
+\]
+
+Let
+
+\[
+\varepsilon:=\frac AH-\gamma>0.
+\]
+
+Since
+
+\[
+P=2^{H\varepsilon},
+\]
+
+and `log(1+x)<x`,
+
+\[
+H\varepsilon
+=\log_2P
+<\frac{P-1}{\ln2}
+<\frac{H}{3\,2^{71}\ln2}.
+\]
+
+Therefore every R1 counterexample satisfies the **H-independent** upper-approximation strip
+
+\[
+\boxed{
+0<\frac AH-\log_2 3
+<
+\frac{1}{3\,2^{71}\ln2}
+\approx2.03668372079\times10^{-22}.
+}
+\]
+
+This is stronger and cleaner than treating the convergent and non-convergent sectors separately at the outset.
+
+## 5. Exact analytic Legendre lower bound
 
 Suppose the reduced rational `A/H` is not a continued-fraction convergent of `gamma`.
 
@@ -152,147 +200,125 @@ Legendre's theorem gives
 \left|\frac AH-\gamma\right|\ge\frac1{2H^2}.
 \]
 
-Since `A/H>gamma`,
+Combining with the strip above yields
 
 \[
-\delta:=A-H\gamma\ge\frac1{2H}.
-\]
-
-Therefore
-
-\[
-P-1=2^\delta-1
-\ge
-2^{1/(2H)}-1
->
-\frac{\ln2}{2H}.
-\]
-
-The R1 ceiling then yields
-
-\[
-N<\frac{H}{3(P-1)}
-<\frac{2H^2}{3\ln2}.
-\]
-
-Combining with `N>=2^71` gives
-
-\[
-\boxed{
 H>
 \sqrt{\frac{3\ln2}{2}\,2^{71}}
-\approx4.9547666543\times10^{10}.
-}
+\approx
+\boxed{4.9547666543\times10^{10}}.
 \]
 
-Thus every non-convergent R1 branch needs more than about `49.5` billion odd events before its first coefficient crossing.
+This part is an exact analytic theorem once the `2^71` external verification input is accepted.
 
-## 5. Convergent and finite-multiple branch
+If `A/H` reduces to a convergent `p/q` with `A=sp`, `H=sq`, the nearest-upper-layer condition forces `0<s(p-q gamma)<1`; for fixed primitive convergent the universal ceiling decreases with `s`. Auditing the primitive upper convergents below the Legendre threshold shows their ceilings are all below `2^71`, so the convergent/multiple sector does not evade the same exact threshold.
 
-If the reduced fraction `A/H` is an upper continued-fraction convergent `p/q` of `gamma`, write
+## 6. Stronger one-sided continued-fraction audit
+
+The fixed strip from Section 4 permits a direct one-sided best-approximation audit, including both convergents and intermediate/semiconvergents.
+
+Using 120-digit arithmetic, the first upper convergent or semiconvergent found with
 
 \[
-A=sp,\qquad H=sq,
+0<\frac AH-\gamma
+<\frac{1}{3\,2^{71}\ln2}
 \]
 
-with integer `s>=1`.
-
-The nearest-upper-layer condition `A=ceil(H gamma)` forces
-
-\[
-0<s(p-q\gamma)<1.
-\]
-
-For the primitive convergent define
-
-\[
-\delta_q:=p-q\gamma>0.
-\]
-
-The universal ceiling on an allowed multiple is
-
-\[
-N<
-\frac{sq}{3(2^{s\delta_q}-1)}.
-\]
-
-For fixed positive `delta_q`, the function
-
-\[
-s\mapsto\frac{s}{2^{s\delta_q}-1}
-\]
-
-is strictly decreasing. Hence every allowed multiple has ceiling no larger than the primitive `s=1` ceiling
+is
 
 \[
 \boxed{
-N<\frac{q}{3(2^{\delta_q}-1)}.
+(A,H)=
+(114208327604,\ 72057431991).
 }
 \]
 
-All primitive upper convergents with denominator below the non-convergent threshold `4.9547666543e10` have been audited. The last one in that range is
+Its approximation error is
 
 \[
-\boxed{
-(A,H)=(10439860591,6586818670),
-}
+\frac AH-\gamma
+\approx
+1.10336069332\times10^{-22},
 \]
 
-with primitive universal ceiling approximately
+which lies safely inside the required strip.
+
+The previous upper best approximants remain outside the strip. Standard continued-fraction theory says any new record one-sided approximation appears among convergents or intermediate convergents, so this audit gives the stronger numerical threshold
 
 \[
-\boxed{2.1689016\times10^{20}<2^{71}.}
+\boxed{H\ge72057431991.}
 \]
 
-Every allowed multiple of an earlier convergent has an even smaller ceiling.
+Reproducibility script:
 
-The next primitive upper convergent is
+`collatz/src/r1_one_sided_cf_threshold_audit.py`.
 
-\[
-\boxed{
-(A,H)=(217976794617,137528045312),
-}
-\]
+### Certification status
 
-whose denominator already exceeds `4.9547666543e10`.
+The script uses high-precision `mpmath` rather than directed rational interval arithmetic. The numerical margins are large, but for a publication-grade **formal** theorem the continued-fraction comparisons for `log_2 3` should be repeated with certified upper/lower rational enclosures for `ln 2` and `ln 3`.
 
-Therefore the convergent/multiple branch also has no R1 candidate below the same threshold.
-
-## 6. Global R1 odd-event lower bound
-
-Combining the non-convergent and convergent/multiple cases gives
+Therefore the rigorous architecture should currently distinguish:
 
 \[
 \boxed{
 H>4.9547666543\times10^{10}
+\quad\text{(exact analytic / certified inputs)}
 }
 \]
 
-for every R1 renewal-floor counterexample.
-
-This bound is independent of whether the first-crossing endpoint is odd or even.
-
-For an even first-crossing endpoint the separate harmonic overload theorem is much stronger asymptotically:
+from
 
 \[
-H>(170.33\ldots+o(1))N.
+\boxed{
+H\ge72057431991
+\quad\text{(stronger reproducible high-precision audit)}.
+}
 \]
 
-Since an actual counterexample has `N>=2^71`, this puts the even-endpoint sector on the scale
+## 7. Endpoint-overshoot strengthening
+
+The signed-skew first-passage formulation defines the overshoot
+
+\[
+o=-1-s_H\ge0.
+\]
+
+If `o=0`, the first coefficient crossing occurs exactly at the next odd endpoint.
+
+If `o>=1`, the crossing occurs inside the final halving run. The general harmonic overshoot theorem gives
+
+\[
+\boxed{
+H>
+\frac{
+2^{9o}(N+1)e^{-3/N-3/(N+1)}-N+5
+}{3}.
+}
+\]
+
+Thus for large `N`,
+
+\[
+H>
+\left(\frac{2^{9o}-1}{3}+o(1)\right)N.
+\]
+
+For the first even-endpoint case `o=1`, this is approximately
+
+\[
+H>170.33N.
+\]
+
+Since an actual counterexample has `N>=2^71`, this sector begins on the scale
 
 \[
 H\gtrsim4.0\times10^{23}.
 \]
 
-## 7. Scope
+## 8. Scope
 
-This is not an exclusion theorem. It proves only that an R1 counterexample cannot appear at small or medium first-crossing depth.
+This is not an exclusion theorem. It proves that an R1 counterexample is forced into an extreme one-sided Diophantine regime.
 
-Its architectural value is that R1 is forced into an extreme Diophantine regime:
+The exact analytic bound already requires roughly fifty billion odd events before the first coefficient crossing; the high-precision one-sided CF audit raises the first admissible denominator to roughly seventy-two billion.
 
-- every renewal floor is at least `2^71`;
-- at least about `4.95e10` odd events occur before the first coefficient crossing;
-- a non-convergent first-crossing slope pays a quadratic depth/start-size cost;
-- a cheaply resonant slope must lie on a very high upper continued-fraction layer.
-
-The remaining R1 task is global: rule out an infinite-stopping-time renewal floor whose first coefficient crossing survives above its start at such extreme depth.
+The remaining R1 problem is the ordinary-integer formation/naturalness constraint: whether any such extreme first-passage skew word can be generated by a renewal floor of an actual divergent positive-integer orbit.
