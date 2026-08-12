@@ -1,15 +1,16 @@
-# Zero-output orbit potential and renewal trichotomy
+# Zero-output orbit potential and renewal endpoint classification
 
 Date: 2026-08-12
 
-Status: **exact orbit-side identities plus a renewal endpoint cost theorem** for the post-formation (`t_q=0`) regime. This does not prove Collatz, but it removes formation variables from the long tail and compresses renewal transitions to three cost classes.
+Status: **exact orbit-side identities plus renewal endpoint record/cost theorems** for the post-formation (`t_q=0`) regime. This does not prove Collatz. It removes formation variables from the long tail and sharply restricts what a genuine next renewal floor can look like.
 
 ## 1. Orbit-side harmonic potential
 
 Assume the canonical lift output has stabilized at zero, so the least formation representative is one fixed positive odd integer `N` and the odd Syracuse orbit is
 
 \[
-x_{q+1}=\frac{3x_q+1}{2^{v_q}},\qquad v_q=v_2(3x_q+1).\]
+x_{q+1}=\frac{3x_q+1}{2^{v_q}},\qquad v_q=v_2(3x_q+1).
+\]
 
 Put
 
@@ -38,7 +39,7 @@ c_q:=\sum_{i=0}^{q-1}\frac{2^{A_i}}{3^{i+1}},
 and the exact state identity is
 
 \[
-x_q=(N+c_q)2^{s_q+\theta_q}.
+\boxed{x_q=(N+c_q)2^{s_q+\theta_q}.}
 \]
 
 Define the orbit potential
@@ -68,13 +69,13 @@ we get the formation-independent update
 }
 \]
 
-Thus `H_q` is a genuine monotone quantity transported by the actual Syracuse orbit after formation has ended.
+Thus `mathcal H_q` is a genuine monotone quantity transported by the actual Syracuse orbit after formation has ended.
 
 ## 2. Renewal-tail adiabatic corridor
 
 Restart the coordinates at a renewal floor `N`, meaning every later odd-event state in the considered suffix is at least `N`.
 
-Let `c_m^(N)` and `H_m^(N)` be the corresponding tail correction and potential. Then
+Let `c_m^(N)` and `mathcal H_m^(N)` be the corresponding tail correction and potential. Then
 
 \[
 \mathcal H_m^{(N)}-\log_2N
@@ -111,21 +112,38 @@ Short renewal excursions therefore have almost frozen additive-correction potent
 
 Let a renewal segment start at odd floor `N` and end at the next odd renewal floor `N'>N`. Suppose it contains `H` odd events and total halving count `A`.
 
-Define the relative endpoint signed skew and irrational phase
+For each relative odd-event time `k`, put
+
+\[
+A_k:=\sum_{i<k}v_i,
+\qquad
+\boxed{e_k:=k\gamma-A_k.}
+\]
+
+Thus
+
+\[
+e_k=s_k+\{k\gamma\}.
+\]
+
+At the endpoint define
 
 \[
 \boxed{
 \sigma:=\lfloor H\gamma\rfloor-A\in\mathbb Z,
 \qquad
-\theta:=\{H\gamma\}\in(0,1).
+\theta:=\{H\gamma\}\in(0,1),
 }
 \]
+
+so `e_H=sigma+theta`.
 
 If `c_H` is the tail correction, then exactly
 
 \[
 \boxed{
 \frac{N'}N
+=2^{e_H}\left(1+\frac{c_H}{N}\right)
 =2^{\sigma+\theta}\left(1+\frac{c_H}{N}\right).
 }
 \]
@@ -135,64 +153,155 @@ Equivalently,
 \[
 \boxed{
 \log_2\frac{N'}N
-=\sigma+\theta+
+=e_H+
 \left(\mathcal H_H^{(N)}-\log_2N\right).
 }
 \]
 
-This decomposes every renewal growth step into:
+## 4. Pure-coefficient renewal record theorem
 
-1. an integer signed-skew contribution `sigma`;
-2. the fixed irrational rotation phase `theta`;
-3. a positive harmonic drift.
+Because `N'` is the next suffix minimum among odd-event states,
 
-## 4. Renewal endpoint trichotomy
+\[
+x_k>N'=x_H
+\qquad(0<k<H).
+\]
 
-### 4.1 Positive skew: floor doubling
+Also `c_k<c_H`. Since
+
+\[
+x_k=(N+c_k)2^{e_k},
+\qquad
+x_H=(N+c_H)2^{e_H},
+\]
+
+we obtain the exact strict inequality
+
+\[
+\boxed{
+e_k>e_H
+\qquad(0<k<H).
+}
+\]
+
+Thus every genuine renewal endpoint is a strict minimum of the **pure coefficient log** among all nonzero prefix times of that renewal segment. No formation variable and no harmonic error term remains in this statement.
+
+### 4.1 First odd event
+
+Since the first odd iterate must remain above the renewal floor `N>1`, one cannot have `v_0>=2`, because
+
+\[
+\frac{3N+1}{4}<N.
+\]
+
+Hence necessarily
+
+\[
+\boxed{v_0=1.}
+\]
+
+Therefore
+
+\[
+\boxed{e_1=\gamma-1=: \alpha=\log_2(3/2).}
+\]
+
+The record theorem gives
+
+\[
+\boxed{e_H<\alpha.}
+\]
+
+This immediately rules out every endpoint with
+
+\[
+\boxed{\sigma\ge1.}
+\]
+
+So the previously considered “positive-skew renewal doubling” case is not a genuine next-renewal-floor case at all.
+
+### 4.2 Layer confinement
 
 If
 
 \[
-\sigma\ge1,
+\sigma=-m\qquad(m\ge0),
 \]
 
-then every factor on the right is greater than one and
+then
 
 \[
-\boxed{N'>2N.}
+e_H\in(-m,-m+1).
 \]
 
-Thus any positive endpoint skew pays an immediate floor-doubling cost.
-
-### 4.2 Critical adjacent layers
-
-The two adjacent endpoint layers
+If some proper prefix had `s_k<=-m-1`, then
 
 \[
-\boxed{\sigma=0}
+e_k=s_k+\{k\gamma\}<-m<e_H,
 \]
 
-and
+contradicting the renewal record theorem. Hence
 
 \[
-\boxed{\sigma=-1}
+\boxed{s_k\ge-m\qquad(0<k<H).}
 \]
 
-are the only layers that can increase the renewal floor without either automatic doubling or a large harmonic compensation.
+In particular:
 
-They are exactly the nearest lower and nearest upper dyadic layers around `H log_2 3`:
+- if `sigma=0`, the entire segment satisfies `s_k>=0` and ends at `s_H=0`;
+- if `sigma=-1`, the entire segment satisfies `s_k>=-1` and ends at `s_H=-1`.
+
+Thus the two economical endpoint layers are also exact finite-strip constraints on the entire signed-skew excursion.
+
+## 5. Correct renewal endpoint classes
+
+Every genuine renewal endpoint satisfies
 
 \[
-A=\lfloor H\gamma\rfloor
+\boxed{\sigma\le0.}
 \]
 
-or
+### 5.1 Nearest lower layer
+
+If
 
 \[
-A=\lceil H\gamma\rceil.
+\boxed{\sigma=0,}
 \]
 
-### 4.3 Deep negative skew: exponential-duration overload
+then
+
+\[
+A=\lfloor H\gamma\rfloor,
+\]
+
+and the record theorem further forces
+
+\[
+\boxed{\theta=\{H\gamma\}<\alpha=\log_2(3/2).}
+\]
+
+The whole segment remains on the coefficient-survival side `s_k>=0`.
+
+### 5.2 Nearest upper layer
+
+If
+
+\[
+\boxed{\sigma=-1,}
+\]
+
+then
+
+\[
+A=\lceil H\gamma\rceil,
+\]
+
+and the whole segment stays above the signed-skew floor `-1` before ending at `-1`.
+
+These are the only two adjacent critical layers.
+
+### 5.3 Deep negative layer: exponential-duration overload
 
 Let
 
@@ -219,7 +328,7 @@ For a nonperiodic renewal segment all odd-event states are distinct and at least
 \log\frac{N+3H-5}{N+1}.
 \]
 
-Combining the two inequalities yields the explicit lower bound
+Combining gives
 
 \[
 \boxed{
@@ -239,46 +348,102 @@ H>
 }
 \]
 
-Thus each additional negative signed-skew layer multiplies the required odd-event duration by asymptotically a factor of `2^9=512`.
+Thus each additional negative endpoint layer multiplies the required odd-event duration asymptotically by `512`.
 
-For example:
+Examples:
 
 - `sigma=-2`: `H>(170.33...+o(1))N`;
 - `sigma=-3`: `H>(87381+o(1))N`.
 
-## 5. Hard-core consequence
+## 6. Large floor jumps also cost harmonic time
 
-Every post-formation renewal transition on a hypothetical nonperiodic counterexample is therefore in exactly one of three cost classes:
+Because every genuine renewal endpoint satisfies
+
+\[
+e_H<\alpha=\log_2(3/2),
+\]
+
+we have
+
+\[
+2^{e_H}<\frac32.
+\]
+
+Hence
 
 \[
 \boxed{
-\text{floor doubling}
-\quad\lor\quad
-\text{nearest lower/upper critical layer}
-\quad\lor\quad
-\text{exponential-duration overload}.
+\frac{N'}N
+<\frac32\left(1+\frac{c_H}{N}\right).
 }
 \]
 
-Hence any low-cost infinite renewal chain must spend all sufficiently economical transitions on the two adjacent critical layers `sigma in {0,-1}`.
+So the pure multiplicative coefficient of a genuine renewal segment can never by itself double the floor.
 
-This recovers, in a formation-independent orbit language, the two-layer structure previously obtained through macroblock/Christoffel analysis.
-
-## 6. Scope
-
-The monotone orbit potential does not by itself prove a contradiction. Large valuation resets can occur when `x_q` is large, making the increment
+If
 
 \[
-\log_2(1+1/(3x_q))
+N'\ge2N,
 \]
 
-very small. Therefore `H_q` is not a well-founded Lyapunov function.
+then necessarily
 
-Its value is structural:
+\[
+1+\frac{c_H}{N}>\frac43.
+\]
 
-- it survives after all formation digits have frozen;
-- it exactly separates coefficient skew from additive correction;
-- it gives an adiabatic corridor on renewal tails;
-- and it yields a clean renewal endpoint trichotomy without any formation bookkeeping.
+The sparse harmonic estimate yields
 
-The remaining economical aperiodic hard core is an actual positive-integer orbit whose renewal endpoints repeatedly use the adjacent critical layers `sigma=0` or `sigma=-1`, while all other transitions pay either floor doubling or exponential duration.
+\[
+\boxed{
+H>
+\frac{
+(4/3)^9(N+1)e^{-3/N-3/(N+1)}-N+5
+}{3}.
+}
+\]
+
+Thus for large `N`,
+
+\[
+\boxed{
+H>(4.1060983\ldots+o(1))N.
+}
+\]
+
+More generally, any renewal floor growth factor `R>3/2` must be paid for by harmonic correction rather than by pure coefficient growth.
+
+## 7. Refined hard core
+
+After formation has stabilized, a genuine nonperiodic renewal transition is therefore constrained as follows:
+
+\[
+\boxed{
+\text{nearest lower layer }(\sigma=0)
+\quad\lor\quad
+\text{nearest upper layer }(\sigma=-1)
+\quad\lor\quad
+\text{deep-negative exponential-duration overload}.
+}
+\]
+
+There is no positive-skew renewal endpoint branch.
+
+Moreover, a floor doubling or any larger-than-`3/2` jump must itself pay a linear harmonic-time cost.
+
+The remaining low-cost aperiodic hard core is therefore an actual positive-integer orbit whose renewal segments repeatedly use only the two adjacent critical layers `sigma in {0,-1}` and satisfy the strict pure-coefficient endpoint-record condition.
+
+## 8. Scope
+
+The monotone orbit potential is not by itself a well-founded Lyapunov function: large valuation resets tend to occur at large `x_q`, where its positive increment is tiny.
+
+The new information is instead the combination of:
+
+- a formation-independent monotone correction potential;
+- exact decomposition of floor growth;
+- strict pure-coefficient record structure at every renewal endpoint;
+- elimination of positive endpoint skew;
+- confinement of the entire signed-skew excursion above its endpoint layer;
+- and explicit time overload for deep negative endpoints or large floor jumps.
+
+A complete proof still needs an obstruction to infinite concatenation of the two adjacent critical-layer renewal excursions for one fixed positive integer orbit.
