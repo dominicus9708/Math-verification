@@ -2,9 +2,9 @@
 
 Date: 2026-08-13
 
-Status: **exact probabilistic reformulation + application of an external all-moduli mixing lemma**. It proves the Fourier-energy hypothesis needed by the coefficient-mass transport theorem in a deep-selector / shallower-binary regime `d >= A L^2` for a sufficiently large constant `A`. It does not reach the sharper linear `d~L` regime seen in finite calculations and does not prove Collatz.
+Status: **exact probabilistic reformulation + corrected application of an external all-moduli mixing lemma**. It proves the Fourier-energy hypothesis needed by the coefficient-mass transport theorem in a deep-selector / shallower-binary regime `d >= A L^2` for a sufficiently large constant `A`. It does not reach the sharper linear `d~L` regime seen in finite calculations and does not prove Collatz.
 
-## 1. Selector Fourier energy as a collision probability
+## 1. Selector Fourier energy
 
 Consider the ternary `0/1` selector measure
 
@@ -44,11 +44,13 @@ E_{d,r}
 Equivalently, for two independent selector sums `S_d,S_d'`,
 
 \[
+\boxed{
 E_{d,r}+1
 =q\Pr(S_d\equiv S_d'\pmod q).
+}
 \]
 
-## 2. Balanced-ternary difference law
+## 2. Balanced-ternary collision representation
 
 Write
 
@@ -57,7 +59,7 @@ Write
 =\sum_{i=0}^{d-1}\varepsilon_i3^i.
 \]
 
-For each digit,
+For each difference digit,
 
 \[
 \boxed{
@@ -79,30 +81,42 @@ E_{d,r}
 }
 \]
 
-The same identity follows combinatorially from uniqueness of balanced ternary: a signed digit vector with `s` nonzero digits corresponds to exactly `2^(d-s)` ordered selector pairs.
+This is an exact collision identity. It can also be read combinatorially from uniqueness of balanced ternary: a signed digit vector with `s` nonzero digits corresponds to exactly `2^(d-s)` ordered selector pairs.
 
-## 3. Time-homogeneous affine random walk
+**Important scope point.** The balanced-difference process is useful for the collision representation, but its own `L^2` mixing would control fourth powers `sum |widehat mu|^4`, not the selector energy `E=sum |widehat mu|^2`. Therefore the external mixing lemma in Section 4 must be applied to the original selector process, not to the difference process.
 
-Because the digits are i.i.d., reversing their order does not change the distribution of `Delta_d`.
+## 3. The selector distribution is an affine random walk
 
-Therefore `Delta_d mod q` has the same law as the affine recursion
+Because the selector digits are i.i.d., reversing their order does not change the distribution of `S_d`.
+
+Thus `S_d mod q` has exactly the same distribution as the time-homogeneous affine recursion
 
 \[
 \boxed{
-Y_{n+1}=3Y_n+\varepsilon_{n+1}\pmod q,
-\qquad Y_0=0,
+Y_{n+1}=3Y_n+a_{n+1}\pmod q,
+\qquad
+Y_0=0,
 }
 \]
 
-with the noise law of Section 2.
-
-Equivalently, after rescaling by `3^{-n}` one may use
+where
 
 \[
-X_{n+1}=3^{-1}(X_n+\varepsilon_n)\pmod q.
+\boxed{
+\Pr(a_n=0)=\Pr(a_n=1)=\frac12.
+}
 \]
 
-Thus the powers-of-three Riesz product is exactly the Fourier transform of one fixed affine Markov chain.
+Indeed,
+
+\[
+Y_d
+=a_d+3a_{d-1}+\cdots+3^{d-1}a_1,
+\]
+
+which has the same law as `S_d` after digit reversal.
+
+Therefore the ternary-selector Riesz product is exactly the Fourier transform of the affine Markov chain with multiplier `a=3` and Bernoulli noise on `{0,1}`.
 
 ## 4. External all-moduli mixing lemma
 
@@ -138,19 +152,19 @@ q\|\mu_n\bmod q-u_q\|_2^2
 
 for constants `C,c>0` depending only on `a` and the noise law.
 
-Our process satisfies the hypotheses with
+Apply this **directly to the selector chain** of Section 3:
 
 \[
 a=3,
 \qquad
 q=2^r,
 \qquad
-\Pr(\varepsilon=0)=1/2,
-\quad
-\Pr(\varepsilon=\pm1)=1/4.
+\Pr(b=0)=\Pr(b=1)=\frac12.
 \]
 
-Therefore
+The support-difference gcd is one and `(2^r,3)=1`, so all hypotheses hold.
+
+Since the law at time `d` is exactly `mu_{d,r}`, the left side of the external estimate is precisely `E_{d,r}`. Therefore
 
 \[
 \boxed{
@@ -221,7 +235,7 @@ E_{d,r}
 }
 \]
 
-The same argument applies to the parent modulus and to the full nonzero child energy, which dominates the odd-frequency child energy used in the signed transport correlation.
+The same selector-chain mixing estimate applies to the parent modulus and to the full nonzero child energy, which dominates the odd-frequency child energy used in the signed transport correlation.
 
 Thus the Fourier-energy hypothesis in the conditional growing-resolution transport theorem is **unconditionally valid** in the regime
 
