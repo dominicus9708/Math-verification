@@ -62,7 +62,8 @@ Therefore
 
 \[
 \boxed{
-r_B(w)=[-3^{-q_U}R_U]_{2^B}.}
+r_B(w)=[-3^{-q_U}R_U]_{2^B}.
+}
 \]
 
 Thus the low `B` bits of the canonical start address depend **only** on the first `B` parity symbols.  All later parity decisions and all later defects cancel out of the formula.
@@ -181,7 +182,7 @@ Write the 2-adic high tail of the prefix coordinate as
 \[
 \Lambda_B(P)
 :=
-\frac{ho(P)-N}{2^B}
+\frac{\rho(P)-N}{2^B}
 \in\mathbb Z_2.
 \]
 
