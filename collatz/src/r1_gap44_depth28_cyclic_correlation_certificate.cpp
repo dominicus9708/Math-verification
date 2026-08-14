@@ -84,24 +84,19 @@ int main(int argc, char** argv) {
     u64 allow_count = 0;
     for (int q = 18; q <= 28; ++q) {
         const string path = dir + "/q" + to_string(q) + ".bin";
-        ifstream f(path, ios::binary);
+        ifstream f(path, ios::binary | ios::ate);
         if (!f) {
             cerr << "cannot read " << path << '\n';
             return 3;
         }
-        vector<u32> residues((istreambuf_iterator<char>(f)), {});
-        // The iterator constructor above is byte-oriented and unsuitable for u32.
-        // Re-open with an explicit byte count.
-        f.close();
-        ifstream g(path, ios::binary | ios::ate);
-        const streamsize bytes = g.tellg();
-        if (bytes < 0 || bytes % 4) return 4;
-        g.seekg(0);
-        vector<u32> rr(size_t(bytes / 4));
-        g.read(reinterpret_cast<char*>(rr.data()), bytes);
-        if (!g) return 5;
+        const streamsize bytes = f.tellg();
+        if (bytes < 0 || bytes % streamsize(sizeof(u32))) return 4;
+        f.seekg(0);
+        vector<u32> residues(size_t(bytes / streamsize(sizeof(u32))));
+        f.read(reinterpret_cast<char*>(residues.data()), bytes);
+        if (!f) return 5;
 
-        for (u32 r : rr) {
+        for (u32 r : residues) {
             if ((r & 3u) != 3u) return 6;
             const u32 x = (r - 3u) >> 2;
             if (allow[x]) return 7; // q-slices must be disjoint
