@@ -1,20 +1,19 @@
 # Predecessor-credit / periodic-lift handoff at a Euclidean macroblock
 
-Date: 2026-08-13
+Date: 2026-08-13  
+Correction: 2026-08-14
 
-Status: **exact valuation dichotomy + finite type-17 handoff certificate**. This connects failure of an integer predecessor collision to the rational high-lift channel. It does not prove Collatz.
+Status: **exact local valuation dichotomy and exact type-17 witness; corrected global interpretation**.  The local identity `148 -> 440/3` is valid for one selected alternate-pair relation.  It is **not** a proof that the whole integer-credit frontier, or every candidate branch, is forced into the rational channel at that point.  The former greedy-max interpretation has been superseded by `2026-08-14-credit-frontier-correction-and-hensel-sibling-max.md`.  This note does not prove Collatz.
 
 ## 1. Cross-block correction difference
 
-Let a left macroblock `U` have length `L_U` and odd count `q_U`. Let a right macroblock already contain two orientations whose correction difference is
+Let a left macroblock `U` have length `L_U` and odd count `q_U`.  Let a right alternate-pair relation have correction difference
 
 \[
-D_V=3^{q_V}\delta,
+D_V=3^{q_V}\delta.
 \]
 
-so `delta` is an integer predecessor credit on the right.
-
-For two left orientations with correction difference `D_U`, the full concatenation difference is
+For two left orientations with correction difference `D_U`, concatenation gives
 
 \[
 \boxed{
@@ -27,225 +26,134 @@ D
 Put
 
 \[
-X:=D_U+2^{L_U}\delta.
-\]
-
-## 2. Valuation dichotomy
-
-Let
-
-\[
-s=v_3(X).
+X=D_U+2^{L_U}\delta.
 \]
 
 If
 
 \[
-s\ge q_U,
+s=v_3(X)\ge q_U,
 \]
 
-then
-
-\[
-3^{q_U+q_V}\mid D
-\]
-
-and the full alternate predecessor shift is the ordinary integer
+then the full displacement is the ordinary integer credit
 
 \[
 \boxed{
-\Delta=\frac{X}{3^{q_U}}.
+\Delta=X/3^{q_U}.
 }
 \]
 
-This is the integer-credit channel.
-
-If instead
-
-\[
-s<q_U,
-\]
-
-write
-
-\[
-X=3^s a,
-\qquad 3\nmid a.
-\]
-
-Then the normalized full predecessor displacement is the reduced rational
+If instead `s<q_U`, the reduced displacement is
 
 \[
 \boxed{
-\frac{D}{3^{q_U+q_V}}
-=\frac{a}{3^{q_U-s}}.
+\frac{X/3^s}{3^{q_U-s}}.
 }
 \]
 
-Thus failure of full integerization does not erase the arithmetic information: it produces an exact odd 3-power denominator.
-
-## 3. High-lift consequence
-
-For reduced denominator
-
-\[
-3^d,
-\qquad d=q_U-s>0,
-\]
-
-the high-resolution dyadic residue of the rational displacement follows the deterministic inverse-two orbit modulo `3^d`.
-
-Its period is
+Thus one selected relation has the exact alternative
 
 \[
 \boxed{
-\operatorname{ord}_{3^d}(2)
-=2\cdot3^{d-1}.
-}
-\]
-
-Across one complete period the newly exposed high binary digits contain exactly half zeros and half ones.
-
-Therefore every cross-block state has the exact alternative:
-
-\[
-\boxed{
-\text{integer predecessor credit}
+\text{integer credit}
 \quad\text{or}\quad
-\text{periodic nonzero late-lift obligation}.
+\text{nonintegral odd-}3\text{-power denominator}.
 }
 \]
 
-The two channels are selected by the 3-adic valuation of the same correction numerator `X`.
+## 2. Exact type-17 local witness
 
-## 4. Finite reachable-context diagnostic
-
-Starting from the certified length-92 context with incoming credit
+For the length-19 factor
 
 \[
-\delta=30,
+\boxed{1101101011011010110}
 \]
 
-a finite backward context calculation in 19-bit Sturmian factors shows:
-
-- the first 100 predecessor blocks have 25 possible phase branches;
-- every branch reaches the same integer credit
-  \[
-  \boxed{148};
-  \]
-- the growth occurs through long plateaus and phase-wrap jumps, not monotone block-by-block increase.
-
-Extending to 500 predecessor blocks gives 118 phase branches. Every branch loses the full integer-credit congruence at the same local state:
-
-\[
-\boxed{
-\text{factor type }17
-=1101101011011010110,
-\qquad
-\delta=148.
-}
-\]
-
-The first failure occurs at predecessor-block index `121` or `122` depending on phase.
-
-This is a finite diagnostic of the factor-context model; it is not yet a rigorous infinite substitution theorem.
-
-## 5. Exact type-17 valuation handoff
-
-The type-17 factor has
+we have
 
 \[
 L_U=19,
-\qquad
-q_U=12.
+\qquad q_U=12.
 \]
 
-Its neutral survival fibre contains `3387` orientations.
-
-For incoming credit
+For the particular incoming relation
 
 \[
 \delta=148,
 \]
 
-there is no pair satisfying the full congruence modulo
-
-\[
-3^{12}.
-\]
-
-However there are pairs satisfying it modulo
-
-\[
-3^{11}.
-\]
-
-The maximum possible 3-adic valuation of
-
-\[
-D_U+2^{19}\cdot148
-\]
-
-is therefore exactly
+no tested neutral-orientation pair realizes full divisibility by `3^12`.  The maximum available 3-adic valuation is exactly
 
 \[
 \boxed{s=11.}
 \]
 
-One extremal positive numerator is
+One exact positive numerator is
 
 \[
-\boxed{
 D_U+2^{19}\cdot148
 =77,944,680
 =440\cdot3^{11}.
-}
 \]
 
-Since `q_U=12`, the reduced alternate-predecessor displacement is
+Hence this selected relation becomes
 
 \[
-\boxed{\frac{440}{3}.}
+\boxed{440/3.}
 \]
 
-Thus the failed integer-credit channel hands off to the smallest possible nontrivial 3-adic denominator:
+For denominator `3`, the associated rational-grid high-resolution binary coordinate has period two and one nonzero lift bit per two positions, by the separate rational-grid label theorem.
 
-\[
-\boxed{d=1.}
-\]
+## 3. Correction to the old finite diagnostic
 
-## 6. Period-two late-lift obligation
+The earlier calculation retained only the **largest** available integer credit at each block.  In that greedy quotient, many diagnosed phase branches reached `148` and the selected maximum relation then handed off to `440/3` at type 17.
 
-For denominator `3`,
+This must not be read as a forced candidate transition.
 
-\[
-\operatorname{ord}_3(2)=2.
-\]
-
-Hence after the finite numerator-dependent low-bit transient, the high-resolution binary displacement has a period-two tail with one `1` in every two positions.
-
-This is the strongest simple periodic-lift obligation available from an odd 3-power denominator: the high-lift density is exactly `1/2` with the shortest nontrivial period.
-
-## 7. Proof-program consequence
-
-A scalar predecessor-credit potential alone is not monotone: it can plateau and can cease to integerize.
-
-The correct multichannel state should instead retain at least
+When **all** available integer relations are retained, smaller integer credits can survive the same type-17 context even though the greedy maximum `148` does not.  Therefore:
 
 \[
 \boxed{
-(\Delta_{\rm int},\ d_{3},\ \text{return-word type/phase})
+148\to440/3
+\text{ is a local relation handoff, not a global frontier handoff.}
 }
 \]
 
-where
+The correct state is set-valued and candidate survival is a coverage-avoidance problem, not a scalar-credit growth problem.
 
-- `Delta_int` records the best ordinary predecessor credit when `d_3=0`;
-- `d_3=q_U-v_3(X)` records the residual rational denominator exponent when full integerization fails;
-- the return-word type determines the next correction-difference options.
+## 4. Stronger denominator absorption theorem
 
-The next target is a lexicographic/well-founded progress theorem:
+The 2026-08-14 correction note proves a stronger statement for a relation which is **already nonintegral**.  If
 
-> along every critical-return context, either an integer predecessor credit eventually exceeds the available orbit headroom, or the residual denominator channel forces a late canonical lift incompatible with the eventually-zero binary expansion of an ordinary start.
+\[
+\delta=a/3^d,
+\qquad d>0,
+\qquad3\nmid a,
+\]
 
-The type-17 `148 -> 440/3` handoff is the first explicit finite instance where the two channels meet at exactly the same obstruction point.
+then prepending any integer correction block gives denominator exponent
+
+\[
+\boxed{d'=d+q_U.}
+\]
+
+Hence a relation that has entered the rational channel cannot later recover an integer displacement by further left concatenation.
+
+This makes the rational channel absorbing for the specific objective of producing an ordinary predecessor at a still earlier original start.  It does **not** imply that every simultaneously available integer relation has disappeared.
+
+## 5. Current role
+
+This local witness remains useful as an exact bridge between correction congruence and periodic late-lift structure, but it is no longer treated as a well-founded progress theorem.
+
+The active proof target is now the max-plus/Hensel coverage system described in the 2026-08-14 correction note:
+
+\[
+\boxed{
+(\text{return phase},\Sigma,M,
+\text{3-adic sibling maxima},
+\text{dyadic canonical prefix},
+\text{headroom/excess}).
+}
+\]
+
+Git history retains the superseded greedy interpretation for auditability.
