@@ -78,7 +78,6 @@ int main(int argc, char** argv) {
 
     vector<u32> low_rev(N, 0), allow(N, 0);
 
-    // Generate all 2^21 low-selector sums modulo 2^25.
     vector<u32> sums(1, 0);
     sums.reserve(1u << 21);
     u32 weight = 1;
@@ -91,7 +90,6 @@ int main(int argc, char** argv) {
     }
     if (sums.size() != (1u << 21)) return 3;
 
-    // Reverse the low distribution so convolution becomes correlation.
     u64 low_total = 0;
     for (u32 x : sums) {
         ++low_rev[(-x) & MASK];
@@ -99,7 +97,6 @@ int main(int argc, char** argv) {
     }
     if (low_total != (1u << 21)) return 4;
 
-    // Load depth-27 retained residues and reduce N == 3 mod 4 to Z/2^25.
     ifstream f(path, ios::binary);
     vector<u64> bits((1u << 27) / 64);
     f.read(reinterpret_cast<char*>(bits.data()), bits.size() * sizeof(u64));
@@ -133,7 +130,6 @@ int main(int argc, char** argv) {
     u64 total = 0;
     for (u32 h = 0; h < N; ++h) {
         const u32 v = low_rev[h];
-        // True integer correlation is < 2^21, so modular output is direct.
         if (v >= MOD || v > (1u << 21)) return 7;
         minimum = min(minimum, v);
         if (v > maximum) {
@@ -146,9 +142,30 @@ int main(int argc, char** argv) {
     if (minimum != 65'248u || maximum != 67'470u || argmax != 23'374'573u)
         return 8;
 
-    // Sum identity: total_h C(h) = |C21| * |A|.
     const u64 expected_total = (1ULL << 21) * 1'061'510ULL;
     if (total != expected_total) return 9;
+
+    // If a gap interval of length < 3^21 meets two low-21 copies, their
+    // high-prefix starts must differ by exactly 3^21.  Therefore the reduced
+    // dyadic shifts differ by delta = 3^21 mod 2^25.  Compute the exact
+    // maximum of the sum of the two complete-copy correlations.  This safely
+    // dominates the actual tail+head intersection.
+    u32 delta = 1;
+    for (int i = 0; i < 21; ++i)
+        delta = static_cast<u32>(static_cast<u64>(delta) * 3u & MASK);
+
+    u32 pair_max = 0;
+    u32 pair_argmax = 0;
+    for (u32 h = 0; h < N; ++h) {
+        const u32 v = low_rev[h] + low_rev[(h + delta) & MASK];
+        if (v > pair_max) {
+            pair_max = v;
+            pair_argmax = h;
+        }
+    }
+
+    if (delta != 24'924'851u || pair_max != 134'265u || pair_argmax != 26'369'234u)
+        return 10;
 
     cout << "R1 gap44/depth27 correlation certificate: PASS\n";
     cout << "low_selector_count " << (1u << 21) << '\n';
@@ -156,6 +173,8 @@ int main(int argc, char** argv) {
     cout << "correlation_min " << minimum << '\n';
     cout << "correlation_max " << maximum << '\n';
     cout << "argmax " << argmax << '\n';
-    cout << "two_copy_uniform_bound " << 2ULL * maximum << '\n';
+    cout << "adjacent_copy_shift " << delta << '\n';
+    cout << "two_copy_uniform_bound " << pair_max << '\n';
+    cout << "two_copy_argmax " << pair_argmax << '\n';
     return 0;
 }
