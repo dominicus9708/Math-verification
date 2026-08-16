@@ -327,7 +327,161 @@ Thus the exact product-state target can be split into
 
 The lower 879 entrance bits contribute only a sub-unit carry to the root coordinate.
 
-## 6. Re-exclusion of the known finite-natural sample
+## 6. Exact \(E=13\) entrance band
+
+The current numerical root interval and the positive formation correction imply
+
+\[
+X+1
+=
+\frac{3^{1526}}{2^{1539}}
+\left(N+1+\varepsilon_{13}\right).
+\]
+
+Using
+
+\[
+N_0\le N\le N_{\max},
+\qquad
+0<\varepsilon_{13}\le\frac{32764}{9},
+\]
+
+gives the exact integer entrance band
+
+\[
+\boxed{
+X_{\min}
+=
+24961404950713407785044340533872892200826777415253815101861284798892991884063821161864321246103361281452131137913082204773289959066740275526930829434963704257943222212946990926750669974588707622795781654823000934568316113773713246183998155805637023432465495124814364828929739935709815880
+}
+\]
+
+and
+
+\[
+\boxed{
+X_{\max}
+=
+37441896065470917410458958737337594009723815753128857071822265848862599489950406338707881684685809029848402819533467520192630894133100189359806563891132723771060196170952254781167173446817800739483885310057400801996379444587776275124306907449630503943529112950669897802467062548666042628.
+}
+\]
+
+Both endpoints have bit length 952 and satisfy
+
+\[
+2^{951}<X_{\min}\le X_{\max}<2^{952}.
+\]
+
+Therefore
+
+\[
+\boxed{
+E=13
+\quad\Longrightarrow\quad
+\operatorname{bitlen}(x_{1539})=952.
+}
+\]
+
+This is an immediate global subtraction rule: every finite-natural G13 entrance of bit length at most 951 is incompatible with the entire current `E=13` R1 layer.
+
+The corresponding 73-bit prefix band is
+
+\[
+\boxed{
+6193025058704856278260
+\le h\le
+9289485148641721970895.
+}
+\]
+
+Its cardinality is
+
+\[
+\boxed{
+3,096,460,089,936,865,692,636.
+}
+\]
+
+## 7. Set-level ternary-core subtraction bound
+
+For a fixed current-core root \(N\), solve the high-prefix root window for \(h\).
+
+The compatible integer \(h\)-values lie in an interval whose length is at most
+
+\[
+1+\frac{\varepsilon_{13,\max}}{\lambda}.
+\]
+
+Exactly,
+
+\[
+\boxed{
+\left\lceil
+1+\frac{(32764/9)}{\lambda}
+\right\rceil
+=
+5725.
+}
+\]
+
+Thus **one current-core root can touch at most 5725 high-prefix values**.
+
+The full `m=44` family has \(2^{44}\) selector words. The present numerical floor removes exactly the words with
+
+\[
+a_{33}=a_{34}=\cdots=a_{43}=0,
+\]
+
+of which there are \(2^{33}\). Hence the numerical current-core superset has exact size
+
+\[
+\boxed{
+2^{44}-2^{33}
+=
+17,583,596,109,824.
+}
+\]
+
+Without enumerating any of those roots, a union bound gives
+
+\[
+\boxed{
+|\mathcal H_{13}^{\rm core}|
+\le
+5725(2^{44}-2^{33})
+=
+100,666,087,728,742,400.
+}
+\]
+
+Comparing this with the full numerically admissible prefix band,
+
+\[
+\frac{|\mathcal H_{13}^{\rm core}|}
+{3,096,460,089,936,865,692,636}
+<
+\frac{33}{1,000,000}.
+\]
+
+Therefore fewer than
+
+\[
+\boxed{0.0033\%}
+\]
+
+of the numerically admissible 73-bit prefixes can even touch the current ternary core under the `E=13` formation bound.
+
+Equivalently, more than
+
+\[
+\boxed{99.9967\%}
+\]
+
+of the whole admissible high-prefix band is removed **without following a single 1539-step trajectory**.
+
+This is a cardinality upper bound, not yet an emptiness theorem. Overlap between the 5725-wide prefix windows can only make the true compatible set smaller.
+
+## 8. Re-exclusion of the known finite-natural sample
 
 The previously found ordinary finite-natural G13 sample is
 
@@ -382,7 +536,7 @@ X_0\not\leftarrow F_{44}^{\rm current}
 
 This independently reproduces the earlier candidate-specific reverse-tree exclusion by a stronger set-level attachment test.
 
-## 7. Structural interpretation
+## 9. Structural interpretation
 
 The new bridge changes the proof object from
 
@@ -426,7 +580,7 @@ F_{44}^{\rm current}
 
 but \(\mathcal P_{E=13}\) should now be represented by the short root windows above, not by the \(97\) billion first-73 words.
 
-## 8. Next exact target
+## 10. Next exact target
 
 The next implementation should make the G13 natural transducer expose the high prefix
 
