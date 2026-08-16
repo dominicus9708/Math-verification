@@ -146,6 +146,52 @@ def main() -> None:
     assert high_prefix_window_width < Fraction(3642, 1)
     assert ceil_fraction(high_prefix_window_width) == 3642
 
+    # Exact E=13 entrance band forced by the current R1 numerical interval.
+    # X+1 = (3^1526 / 2^1539) * (N+1+epsilon_13).
+    scale = Fraction(3**1526, 1 << 1539)
+    lower_z = scale * (N0 + 1)  # strict: X+1 > lower_z because epsilon_13>0
+    upper_z = scale * (Fraction(NMAX + 1) + epsilon_max(E13))
+    x13_min = lower_z.numerator // lower_z.denominator
+    x13_max = upper_z.numerator // upper_z.denominator - 1
+
+    assert (x13_min, x13_max) == (
+        24_961_404_950_713_407_785_044_340_533_872_892_200_826_777_415_253_815_101_861_284_798_892_991_884_063_821_161_864_321_246_103_361_281_452_131_137_913_082_204_773_289_959_066_740_275_526_930_829_434_963_704_257_943_222_212_946_990_926_750_669_974_588_707_622_795_781_654_823_000_934_568_316_113_773_713_246_183_998_155_805_637_023_432_465_495_124_814_364_828_929_739_935_709_815_880,
+        37_441_896_065_470_917_410_458_958_737_337_594_009_723_815_753_128_857_071_822_265_848_862_599_489_950_406_338_707_881_684_685_809_029_848_402_819_533_467_520_192_630_894_133_100_189_359_806_563_891_132_723_771_060_196_170_952_254_781_167_173_446_817_800_739_483_885_310_057_400_801_996_379_444_587_776_275_124_306_907_449_630_503_943_529_112_950_669_897_802_467_062_548_666_042_628,
+    )
+    assert (1 << 951) < x13_min <= x13_max < (1 << 952)
+    assert x13_min.bit_length() == 952
+    assert x13_max.bit_length() == 952
+
+    h13_min = (x13_min + 1) >> 879
+    h13_max = (x13_max + 1) >> 879
+    assert (h13_min, h13_max) == (
+        6_193_025_058_704_856_278_260,
+        9_289_485_148_641_721_970_895,
+    )
+    assert h13_min.bit_length() == h13_max.bit_length() == 73
+
+    # Set-level subtraction bound.
+    # Solving the high-prefix root interval for h shows that one fixed current
+    # core root N can be compatible with at most
+    #   ceil(1 + epsilon_13_max/lambda)
+    # high-prefix values.  No core-member enumeration is needed.
+    h_per_root_cap = ceil_fraction(Fraction(1, 1) + epsilon_max(E13) / lam)
+    assert h_per_root_cap == 5725
+
+    # N >= N0 is equivalent to the ternary selector sum being >= 3^33.
+    # Exactly 2^33 of the 2^44 m=44 selector words lie below N0.
+    current_core_numeric_count = (1 << 44) - (1 << 33)
+    assert current_core_numeric_count == 17_583_596_109_824
+
+    h_band_count = h13_max - h13_min + 1
+    assert h_band_count == 3_096_460_089_936_865_692_636
+
+    compatible_h_union_cap = current_core_numeric_count * h_per_root_cap
+    assert compatible_h_union_cap == 100_666_087_728_742_400
+
+    compatible_fraction_cap = Fraction(compatible_h_union_cap, h_band_count)
+    assert compatible_fraction_cap < Fraction(33, 1_000_000)  # < 0.0033 percent
+
     # Candidate-specific exact recheck for the known finite-natural G13 sample.
     lo13, hi13 = root_window(X0, E13)
     assert hi13 - lo13 + 1 <= 3641
@@ -170,6 +216,13 @@ def main() -> None:
     print("epsilon_13_max = 32764/9; integer root count <= 3641")
     print("E13 high-prefix low-879-bit uncertainty lambda < 1")
     print("high-prefix root window integer count <= 3642")
+    print(f"E13 entrance_X_band=[{x13_min},{x13_max}]")
+    print("E13 entrance bitlength = 952 exactly")
+    print(f"E13 high_prefix_h_band=[{h13_min},{h13_max}] (73 bits)")
+    print(f"E13 high_prefix band count={h_band_count}")
+    print(f"one current-core root touches <= {h_per_root_cap} high prefixes")
+    print(f"compatible high-prefix union cap={compatible_h_union_cap}")
+    print("compatible fraction < 33/1,000,000 (<0.0033 percent)")
     print(f"known_X0 E13 root_window=[{lo13},{hi13}] outside current interval")
     print(f"known_X0 E14 root_window=[{lo14},{hi14}] count=7282")
     print("known_X0 E14 current_m44_core_matches=0")
