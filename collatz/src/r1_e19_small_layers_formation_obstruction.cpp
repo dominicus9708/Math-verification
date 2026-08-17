@@ -105,6 +105,8 @@ int main() {
         {12,3,27,187565,219},
         {11,4,30,4785691,18688},
         {10,5,33,96748211,1137712},
+        // k=9 is split: z<=5 is direct here; z=6 is handled by MITM.
+        {9,5,33,96748211,3417527},
     };
 
     for (const auto& s:specs) {
@@ -121,5 +123,5 @@ int main() {
                   << " numeric=" << acc.numeric
                   << " zero_by_K=" << s.zeroK << "\n";
     }
-    std::cout << "R1 E19 small first73 layers: PASS\n";
+    std::cout << "R1 E19 direct small/sublayers: PASS\n";
 }
