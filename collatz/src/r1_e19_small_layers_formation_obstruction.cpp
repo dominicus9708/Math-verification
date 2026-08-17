@@ -100,6 +100,7 @@ int main() {
     init_terms();
     struct Spec { int k,m,zeroK; uint64_t raw,numeric; };
     const Spec specs[] = {
+        {15,0,12,1,0},
         {14,1,12,105,0},
         {13,2,15,5461,2},
         {12,3,27,187565,219},
