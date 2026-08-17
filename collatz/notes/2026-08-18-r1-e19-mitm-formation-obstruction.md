@@ -19,12 +19,14 @@ The necessary even-position vector entering this layer is
 [0,1,2,3,4,5,6,7,8,9,10,11,12,19,81,177,329,567,944].
 \]
 
-Hence rank 15 cannot occur before position 177.  In the 104 accelerated positions
+Hence rank 15 cannot occur before position 177. In the 104 accelerated positions
 73..176, a first-73 layer with \(k=e_{73}\) may therefore contain at most
-\(15-k\) further even events.  Existing first-73 certificates already remove
-\(k\le8\), while run-cover gives \(k\le15\).  Thus only \(k=9,\ldots,14\)
-need explicit window-formation subtraction; \(k=15\) is excluded by the same
-numerical/window endpoint intersection at the boundary used in the construction.
+\(15-k\) further even events. Existing first-73 certificates already remove
+\(k\le8\), while run-cover gives \(k\le15\). Thus the finite window check covers
+\(k=9,\ldots,15\). The boundary case \(k=15\) permits zero further window-even
+events and therefore forces \(U_{73}\equiv0\pmod{2^{104}}\); its positive
+numerical \(U_{73}\) interval lies strictly below \(2^{104}\), so its numerical
+intersection is empty immediately.
 
 ## 2. Direct sparse-address identity
 
@@ -53,6 +55,7 @@ Exact direct enumeration gives
 
 | \(e_{73}\) | raw address classes | numerical intersection | zero by |
 |---:|---:|---:|---:|
+| 15 | 1 | 0 | immediate |
 | 14 | 105 | 0 | immediate |
 | 13 | 5,461 | 2 | \(K=15\) |
 | 12 | 187,565 | 219 | \(K=27\) |
@@ -71,14 +74,14 @@ The remaining six-event layer alone contains
 \binom{104}{6}=1,517,381,580
 \]
 
-ordinary sparse words.  Including the zero-through-five-event sublayers, the
+ordinary sparse words. Including the zero-through-five-event sublayers, the
 full \(k=9\) raw window count is
 
 \[
 \sum_{j=0}^{6}\binom{104}{j}=1,614,129,791.
 \]
 
-The six-event layer is split 3+3.  Left triples are indexed by their terminal
+The six-event layer is split 3+3. Left triples are indexed by their terminal
 position so that the ordering constraint \(p_2<p_3\) is enforced before pairing.
 Only sums whose dyadic address lies in the exact numerical \(U_{73}\) interval
 are materialized.
@@ -123,7 +126,7 @@ Therefore \(k=9\) is empty, and all E=19 layers are empty.
 \]
 
 For E=20..31 the exact relaxed run-cap maxima all satisfy
-\(U_{1539}<2^{941}\).  At E=32 the coarse product bound is already below the
+\(U_{1539}<2^{941}\). At E=32 the coarse product bound is already below the
 same threshold and decreases by a factor 1/2 for each additional even event.
 Thus
 
