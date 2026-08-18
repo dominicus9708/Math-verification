@@ -4,51 +4,49 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <boost/multiprecision/cpp_int.hpp>
 
 // Exact hard-set-independent transversality certificate for the four remaining
 // m=45 first-defect cylinders p in {2,5,8,10} at binary depth 28.
 //
 // Let
 //   N = 4(3^45 + b 3^44 + sum_{i=0}^{43} a_i 3^i) + 3,
-// with b in {0,1} and a_i in {0,1}.  Conditioning on first defect p fixes
-// N modulo 2^(p+1), equivalently Y=(N-3)/4 modulo 2^(p-1).  The remaining
+// with b in {0,1} and a_i in {0,1}. Conditioning on first defect p fixes
+// N modulo 2^(p+1), equivalently Y=(N-3)/4 modulo 2^(p-1). The remaining
 // depth-28 dyadic lift coordinate has size M_p=2^(27-p).
 //
-// This verifier computes the COMPLETE 44-selector subset-sum multiplicity
-// distribution modulo 2^26 by one exact cyclic NTT convolution of two 22-digit
-// halves.  The largest multiplicity is only 264167, far below the NTT prime,
-// so the recovered coefficients are ordinary exact integers, not residues.
+// The complete 44-selector subset-sum distribution modulo 2^26 is obtained by
+// cyclic NTT convolution of two exact 22-selector histograms. Each half
+// histogram has maximum multiplicity exactly 4, so every full convolution
+// coefficient is at most 4*2^22=16,777,216, strictly below the NTT prime.
+// Thus the inverse-NTT coefficients are certified ordinary integers rather
+// than merely residues modulo the NTT prime.
 //
-// For each (p,b), it then computes exactly the total-variation distance between
-// the conditional selector distribution mu_{p,b} on those M_p lifts and the
-// uniform distribution nu_p.  All eight cases satisfy
+// For each (p,b), the exact total-variation distance between the conditional
+// selector distribution mu_{p,b} and the uniform distribution nu_p satisfies
 //
 //     TV(mu_{p,b},nu_p) < 1/1600.
 //
-// The p-compatible depth-28 coefficient+Hensel hard fractions already
-// certified elsewhere satisfy u_p=A_p/M_p >= 3/64.  Therefore for ANY hard
-// subset H of the p-cylinder having uniform fraction at least 3/64,
+// The p-compatible depth-28 coefficient+Hensel hard fractions certified in the
+// companion q-sliced calculation satisfy u_p=A_p/M_p >= 3/64. Therefore for
+// ANY hard subset H of the p-cylinder with uniform fraction at least 3/64,
 //
 //     mu_{p,b}(H)/nu_p(H)
 //       <= 1 + TV/u_p
 //       < 1 + (1/1600)/(3/64)
 //       = 76/75.
 //
-// Since 76^50 < 2*75^50,
+// Since 76^50 < 2*75^50, log_2(76/75) < 1/50 bit. Hence one depth-28
+// cross-base hard-set correlation can repair less than 0.02 bit in every
+// remaining m=45 first-defect cylinder, independently of the hard-set geometry.
 //
-//     log_2(76/75) < 1/50 bit.
-//
-// Thus a single depth-28 cross-base hard-set correlation can repair less than
-// 0.02 bit in every remaining m=45 first-defect cylinder, independently of the
-// detailed geometry of the hard set.
-//
-// This is a finite one-window theorem.  It does NOT by itself justify repeating
-// the same 0.02-bit bound after arbitrary conditioning at later windows, and it
-// is not a proof of the Collatz conjecture.
+// This is a finite one-window theorem. It does NOT justify repeating the same
+// bound after arbitrary later conditioning, and it is not a proof of Collatz.
 
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 using u128 = unsigned __int128;
+using boost::multiprecision::cpp_int;
 
 namespace {
 
@@ -69,27 +67,18 @@ struct Expected {
     u64 raw;
     u64 min_count;
     u64 max_count;
-    u128 tv_num;
-    u128 tv_den;
+    u64 tv_num;
 };
 
 const std::array<Expected,8> EXPECTED{{
-    {2,0,8'796'093'022'208ULL,260'113ULL,264'163ULL,
-     u128(352'117'077'839'970'304ULL),u128(590'295'810'358'705'651'712ULL)},
-    {2,1,8'796'093'022'208ULL,260'110ULL,264'167ULL,
-     u128(352'101'617'299'881'984ULL),u128(590'295'810'358'705'651'712ULL)},
-    {5,0,1'099'511'627'776ULL,260'183ULL,264'082ULL,
-     u128(5'502'289'305'403'392ULL),u128(9'223'372'036'854'775'808ULL)},
-    {5,1,1'099'511'103'504ULL,260'206ULL,264'151ULL,
-     u128(5'501'887'494'144'160ULL),u128(9'223'367'638'942'482'432ULL)},
-    {8,0,137'438'953'481ULL,260'260ULL,263'912ULL,
-     u128(85'957'936'677'836ULL),u128(144'115'188'085'293'056ULL)},
-    {8,1,137'438'887'938ULL,260'354ULL,263'954ULL,
-     u128(86'055'322'907'416ULL),u128(144'115'119'358'476'288ULL)},
-    {10,0,34'359'739'317ULL,260'308ULL,263'764ULL,
-     u128(5'369'573'154'106ULL),u128(9'007'199'503'515'648ULL)},
-    {10,1,34'359'721'961ULL,260'367ULL,263'965ULL,
-     u128(5'366'750'776'560ULL),u128(9'007'194'953'744'384ULL)},
+    {2,0,8'796'093'022'208ULL,260'113ULL,264'163ULL,352'117'077'839'970'304ULL},
+    {2,1,8'796'093'022'208ULL,260'110ULL,264'167ULL,352'101'617'299'881'984ULL},
+    {5,0,1'099'511'627'776ULL,260'183ULL,264'082ULL,5'502'289'305'403'392ULL},
+    {5,1,1'099'511'103'504ULL,260'206ULL,264'151ULL,5'501'887'494'144'160ULL},
+    {8,0,137'438'953'481ULL,260'260ULL,263'912ULL,85'957'936'677'836ULL},
+    {8,1,137'438'887'938ULL,260'354ULL,263'954ULL,86'055'322'907'416ULL},
+    {10,0,34'359'739'317ULL,260'308ULL,263'764ULL,5'369'573'154'106ULL},
+    {10,1,34'359'721'961ULL,260'367ULL,263'965ULL,5'366'750'776'560ULL},
 }};
 
 u32 modpow(u32 a,u64 e) {
@@ -149,6 +138,10 @@ std::vector<u32> half_histogram(int lo,int hi) {
     return h;
 }
 
+u32 histogram_max(const std::vector<u32>& h) {
+    return *std::max_element(h.begin(),h.end());
+}
+
 std::string s128(u128 x) {
     if(!x) return "0";
     std::string s;
@@ -162,6 +155,14 @@ std::string s128(u128 x) {
 int main() {
     auto A=half_histogram(0,22);
     auto B=half_histogram(22,44);
+
+    const u32 maxA=histogram_max(A);
+    const u32 maxB=histogram_max(B);
+    if(maxA!=4U || maxB!=4U) return 1;
+    const u64 exact_coefficient_upper=
+        std::min<u64>(u64(maxA)*(1ULL<<22),u64(maxB)*(1ULL<<22));
+    if(exact_coefficient_upper>=MOD) return 2;
+
     ntt(A,false);
     ntt(B,false);
     for(u32 i=0;i<N;++i) A[i]=static_cast<u32>(u64(A[i])*B[i]%MOD);
@@ -175,9 +176,9 @@ int main() {
         global_min=std::min(global_min,c);
         global_max=std::max(global_max,c);
     }
-    if(total!=(1ULL<<44)) return 1;
-    if(global_min!=260'110U || global_max!=264'167U) return 2;
-    if(global_max>=MOD) return 3; // certifies no NTT coefficient wrap.
+    if(total!=(1ULL<<44)) return 3;
+    if(global_min!=260'110U || global_max!=264'167U) return 4;
+    if(global_max>exact_coefficient_upper) return 5;
 
     const u32 c45=pow3mod(45);
     const u32 c44=pow3mod(44);
@@ -192,13 +193,12 @@ int main() {
         const u32 targetY=((targetN-3U)>>2)&lowmask;
         const u64 Mp=1ULL<<(26-r); // 2^(27-p)
 
-        // Uniform hard fractions from the exact depth-28 q-sliced hard sets.
-        // All satisfy A_p/M_p >= 3/64 exactly.
-        if(u128(HARD_CARD[ip])*64 < u128(3)*Mp) return 4;
+        // Uniform hard fraction u_p=A_p/M_p is at least 3/64 exactly.
+        if(u128(HARD_CARD[ip])*64 < u128(3)*Mp) return 6;
 
         for(int block=0;block<2;++block,++ei){
             const Expected& e=EXPECTED[ei];
-            if(e.p!=p || e.block!=block) return 5;
+            if(e.p!=p || e.block!=block) return 7;
             const u32 base=(c45+(block?c44:0U))&MASK;
 
             u128 raw=0;
@@ -221,11 +221,11 @@ int main() {
             }
             const u128 tvden=u128(2)*raw*Mp;
 
-            if(raw!=e.raw || minc!=e.min_count || maxc!=e.max_count) return 6;
-            if(l1num!=e.tv_num || tvden!=e.tv_den) return 7;
+            if(raw!=e.raw || minc!=e.min_count || maxc!=e.max_count) return 8;
+            if(l1num!=u128(e.tv_num)) return 9;
 
             // TV = l1num/tvden < 1/1600.
-            if(u128(1600)*l1num>=tvden) return 8;
+            if(u128(1600)*l1num>=tvden) return 10;
 
             std::cout<<"p="<<p<<" block="<<block
                      <<" raw="<<s128(raw)
@@ -234,13 +234,13 @@ int main() {
         }
     }
 
-    // Exact repair-bit consequence:
-    // TV<1/1600 and u>=3/64 => Xi<76/75.
-    // 76^50 < 2*75^50 => log2(Xi)<1/50 bit.
-    u128 p76=1,p75=1;
+    // Exact repair-bit consequence: Xi<76/75 and log2(Xi)<1/50.
+    cpp_int p76=1,p75=1;
     for(int i=0;i<50;++i){ p76*=76; p75*=75; }
-    if(!(p76<u128(2)*p75)) return 9;
+    if(!(p76<2*p75)) return 11;
 
+    std::cout<<"half-histogram max multiplicities="<<maxA<<","<<maxB<<"\n";
+    std::cout<<"full-coefficient certified upper="<<exact_coefficient_upper<<"\n";
     std::cout<<"uniform hard-set relative overlap Xi < 76/75\n";
     std::cout<<"one-window repair budget log2(Xi) < 1/50 bit\n";
     std::cout<<"m45 depth28 hard-set-independent transversality: PASS\n";
