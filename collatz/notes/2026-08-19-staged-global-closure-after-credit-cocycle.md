@@ -2,7 +2,9 @@
 
 Date: 2026-08-19
 
-Status: **Stages 1--3 structurally closed; Stage 4 reduced to one weaker cross-base growth inequality.**  This is a proof-program reduction, not a proof of the Collatz conjecture.
+Correction date: 2026-08-20
+
+Status: **Stages 1, 2, 3A and 3B remain structurally closed. Stage 3C is corrected to a local/pullback-qualified theorem. The unconditional Stage 4 front is coefficient-only cross-base transversality.** This is a proof-program reduction, not a proof of the Collatz conjecture.
 
 ## Stage 1 — coordinate alignment: closed
 
@@ -32,13 +34,7 @@ Certificate:
 
 ## Stage 2 — finite depth-28 renewal syndrome: closed
 
-The exact q-sliced depth-28 Hensel language was regenerated from the repository algorithm.  Its union has
-
-\[
-1,976,972
-\]
-
-retained canonical residues.
+The exact q-sliced depth-28 Hensel language has 1,976,972 retained canonical residues.
 
 The ordinary first-defect hard sizes are
 
@@ -52,52 +48,38 @@ p&2&5&8&10&13&16&18&21&24&27\\\hline
 Under one fixed immediate-return normalization, all ordinary renewal translations are exact set equalities except
 
 \[
-p=8\to10:
-\quad 14,443=11,763+2,680,
+p=8\to10:\quad14,443=11,763+2,680,
 \]
 
 and
 
 \[
-p=16\to18:
-\quad125=100+25.
+p=16\to18:\quad125=100+25.
 \]
 
-Call the two exceptional states \(E_{10}\) and \(E_{18}\).  Auditing every finite first-return group of \(E_{10}\) produces only two exceptional normalized descendants:
+The recursive exceptional graph has only
 
 \[
-\boxed{
+\boxed{E_{10},E_{18},E_{21}},
+\]
+
+with exceptional finite edges
+
+\[
 E_{10}\to E_{18},
 \qquad
-E_{10}\to E_{21},\quad |E_{21}|=5.
-}
+E_{10}\to E_{21}.
 \]
 
-Every finite return from \(E_{18}\) or \(E_{21}\) normalizes back into an ordinary later hard state.  Thus the recursive depth-28 syndrome graph has only three named exceptional states
-
-\[
-\boxed{E_{10},E_{18},E_{21}}.
-\]
-
-The no-return-at-depth-28 counts are
-
-\[
-865,\quad7,\quad1,
-\]
-
-respectively.  They are open positive-height excursions, not permanent new syndrome types.
+Open no-return counts at depth 28 are 865, 7 and 1.
 
 Certificate:
 
 `collatz/src/m45_depth28_renewal_syndrome_graph_certificate.cpp`.
 
-This supersedes the earlier exploratory `2680->529->125->25->5` interpretation, which is not reproduced under the single consistent normalization used by the exact graph certificate.
-
 ## Stage 3A — height/credit exchange: closed
 
-For each of the complete twenty length-19 Sturmian factor types, all binary orientations were enumerated against incoming relative height \(H\).
-
-For every same-q surviving pair,
+For every complete length-19 Sturmian factor type, every incoming height H and every same-q surviving pair,
 
 \[
 \boxed{
@@ -111,13 +93,13 @@ The exact worst value is
 \frac{3,909,437}{531,441}<8.
 \]
 
-If the pair is in one full-Hensel correction class, so
+For a full-Hensel pair,
 
 \[
 R_u-R_w=3^q\Delta,
 \]
 
-then
+and
 
 \[
 \boxed{|\Delta|<7\,3^H.}
@@ -131,17 +113,19 @@ Certificate:
 
 ## Stage 3B — phase-cocycle normalization: closed
 
-For one 19-step factor let \(Q\in\{11,12\}\) be its mechanical odd count, \(q\) the actual odd count, and
+For a length-19 factor with mechanical odd count \(Q\in\{11,12\}\), actual odd count q and relative heights H,H',
 
 \[
 H'=H+q-Q.
 \]
 
-The ordinary credit concatenation law becomes, after defining
+With
 
 \[
 \chi=\frac{\delta_{\rm credit}}{3^H},
 \]
+
+the credit recurrence becomes
 
 \[
 \boxed{
@@ -153,264 +137,195 @@ The ordinary credit concatenation law becomes, after defining
 }
 \]
 
-The actual q and the height change disappear from the homogeneous multiplier.
-
-At the exact G81/G82 phase-return scale, with
+At the exact G81/G82 first-return scale the homogeneous multiplier is a phase coboundary. With
 
 \[
-\varepsilon=12-19\log_3 2,
-\qquad
-\delta=1-81\varepsilon,
+\Psi=3^x\chi,
 \]
 
-the gate multiplier is exactly
+the gate recurrence is additive and satisfies
 
 \[
-\boxed{A_{\rm gate}=3^{x'-x}}
-\]
-
-for the first-return phase map \(x\mapsto x'\).
-
-Therefore
-
-\[
-\boxed{
-\Psi:=3^x\chi
-}
-\]
-
-satisfies a purely additive recurrence.  The exact local source theorem and the mechanical prefix discrepancy give
-
-\[
-|S_{\rm gate}|<1968,
-\]
-
-and hence
-
-\[
-\boxed{
-|\Psi_L-\Psi_R|<5904.
-}
+\boxed{|\Psi_L-\Psi_R|<5904.}
 \]
 
 Across n first-return gates,
 
 \[
-\boxed{
-|\Psi_0-\Psi_n|<5904n.
-}
+\boxed{|\Psi_0-\Psi_n|<5904n.}
 \]
 
-Thus at renewal height H=0 the ordinary predecessor-credit amplitude is only \(O(n)\); its excess information is \(O(\log n)\), not linear in n.
+Hence renewal-boundary predecessor-credit amplitude is only O(n), with O(log n) excess information rather than a positive exponential repair rate.
 
-Certificate and proof note:
+Certificates:
 
 - `collatz/src/height_credit_phase_cocycle_certificate.py`;
 - `collatz/notes/2026-08-19-height-credit-phase-cocycle-globalization.md`.
 
-## Stage 3C — deterministic local residue-maximality: closed
+## Stage 3C — corrected: local merge theorem + prefix-pullback requirement
 
-The unrestricted length-19 binary cube has exact full-Hensel class counts
+The unrestricted length-19 cube still has exact full-Hensel class counts
 
 \[
 (c_q)_{q=0}^{19}
 =
 (1,2,6,18,54,162,486,1458,4352,11692,
-23557,31072,27469,17527,8411,3048,817,154,19,1).
+23557,31072,27469,17527,8411,3048,817,154,19,1),
 \]
 
-The maximum ordinary credit difference inside any full-Hensel class is
+and maximum local ordinary credit
 
 \[
 \boxed{\Delta_{\max}=87,381.}
 \]
 
-If a hypothetical minimal counterexample has \(N>87,381\), every later state is at least N.  If an actual 19-step word w were not the maximum-correction representative of its full-Hensel class, there would be a word u and a positive \(\Delta\le87,381\) with
+For a same-class pair,
 
 \[
-R_u-R_w=3^q\Delta.
+R_u-R_w=3^q\Delta>0,
 \]
 
-Starting u at \(x-\Delta>0\) gives
+the exact local identity
 
 \[
 \frac{3^q(x-\Delta)+R_u}{2^{19}}
 =
-\frac{3^qx+R_w}{2^{19}},
+\frac{3^q x+R_w}{2^{19}}
 \]
 
-so the smaller start merges exactly with the counterexample after the block, contradicting minimality.
+is valid.
 
-Hence every block of a sufficiently large minimal counterexample must be a **residue-maximal representative**.
-
-Certificate:
-
-`collatz/src/h19_unrestricted_residue_maximality_certificate.cpp`.
-
-## Stage 3D — residue-maximal language entropy: closed
-
-Use the exact weight
+The previous conclusion that every later block of a sufficiently large minimal counterexample must therefore be residue-maximal is withdrawn. If the minimal counterexample is N and a later block begins at \(x=T^s(N)\), minimality only gives \(x\ge N\). A direct local contradiction requires
 
 \[
-z=\frac54.
+\boxed{\Delta>x-N.}
 \]
 
-For a Q=12 mechanical factor define
-
-\[
-P_{12}(z)=\sum_{q=0}^{19}c_qz^{q-12}.
-\]
-
-The exact value is
+More generally a local credit must be pulled back through the actual prefix to an integer smaller original start. If the actual and alternate prefixes have common odd count a and corrections \(C_P,C_{P'}\), the required original-start credit d obeys
 
 \[
 \boxed{
-P_{12}(5/4)
+3^a d=2^s\Delta+C_{P'}-C_P.
+}
+\]
+
+Therefore Stage 3C is now classified as:
+
+- local Hensel merge identity: closed;
+- finite local credit bounds: closed;
+- unconditional repeated residue-maximality: not established;
+- prefix-pullback qualification: open/global.
+
+Certificates and note:
+
+- `collatz/src/h19_unrestricted_residue_maximality_certificate.cpp`;
+- `collatz/src/stage3c_pullback_headroom_certificate.py`;
+- `collatz/notes/2026-08-20-stage3c-pullback-correction-and-safe-stage4.md`.
+
+## Stage 3D — residue-maximal entropy: retained conditionally
+
+The H19 and L7 residue-maximal language counts remain exact combinatorial statements for their respective conditional languages.
+
+They may be used as strengthening lemmas only after a theorem places the relevant trajectories inside the repeated residue-maximal language. Until then their 1/9, 7/50, and related optimized entropy gains are not part of the unconditional Stage 4 budget.
+
+## Stage 4 — unconditional global bridge
+
+Let
+
+\[
+\mathcal C_m
 =
-\frac{477477466377643529}{4000000000000}
-<2^{17}.
-}
+\left\{
+4\left(3^m+\sum_{i=0}^{m-1}a_i3^i\right)+3:
+a_i\in\{0,1\}
+\right\}
 \]
 
-For Q=11,
+be the reduced ternary-selector core.
+
+Let \(\mathcal B_H\) be the coefficient-survival dyadic language satisfying
 
 \[
-P_{11}(5/4)=\frac54P_{12}(5/4)<2^{18}.
+3^{q_k}\ge2^k
+\qquad(1\le k\le H).
 \]
 
-Since z>1, endpoint positive height only increases the weighted count.  Dropping all intermediate nonnegativity constraints also only enlarges the language.  Therefore these polynomials give rigorous upper bounds on the number of locally residue-maximal coefficient-surviving block words.
-
-A first-return gate contains exactly one Q=11 factor:
-
-\[
-971=80\cdot12+11,
-\qquad
-983=81\cdot12+11.
-\]
-
-Thus the complete binary languages satisfy the conservative exact bit ceilings
+Its unconditional exclusion rate is
 
 \[
 \boxed{
-G81:\quad \#\mathcal L_{81}<2^{1378}
-\quad\text{inside }2^{1539},
+\eta_{\rm coeff}
+=1-H_2(\log_3 2)
+\approx0.05004447.
 }
 \]
+
+Define
+
+\[
+\Xi^{\rm coeff}_{m,H}
+=
+\frac{|\mathcal C_m\cap\mathcal B_H|/|\mathcal C_m|}
+{|\mathcal B_H|/2^H}.
+\]
+
+Because both families force \(N\equiv3\pmod4\), use
+
+\[
+\boxed{\Xi^{\circ,\rm coeff}_{m,H}=\Xi^{\rm coeff}_{m,H}/4.}
+\]
+
+The preferred sufficient theorem is
 
 \[
 \boxed{
-G82:\quad \#\mathcal L_{82}<2^{1395}
-\quad\text{inside }2^{1558}.
+\Xi^{\circ,\rm coeff}_{m,H}=2^{o(H)}.
 }
 \]
 
-Therefore the deterministic local-maximality exclusion rates are at least
-
-\[
-\eta_{81}>\frac{161}{1539},
-\qquad
-\eta_{82}>\frac{163}{1558}.
-\]
-
-Put
-
-\[
-\boxed{
-\eta_*:=\frac{161}{1539}
-\approx0.1046133853.
-}
-\]
-
-Certificate:
-
-`collatz/src/h19_residue_maximal_language_entropy_certificate.py`.
-
-## Stage 4 — remaining global bridge
-
-Let \(\mathcal C_m\) be the reduced ternary-selector candidate family, \(|\mathcal C_m|\le2^m\).  Let \(\mathcal L_H\) be the dyadic parity-prefix language satisfying coefficient survival and the mandatory local residue-maximality rule through a gate-aligned horizon H.
-
-Define the exact same-integer overlap amplification
-
-\[
-\Xi_{m,H}
-:=
-\frac{
-|\mathcal C_m\cap\mathcal L_H|/|\mathcal C_m|
-}{
-|\mathcal L_H|/2^H
-}.
-\]
-
-The residue-maximal language theorem gives, up to gate-boundary constants,
-
-\[
-\frac{|\mathcal L_H|}{2^H}
-\le
-2^{-\eta_*H+O(1)}.
-\]
-
-Hence
-
-\[
-\log_2|\mathcal C_m\cap\mathcal L_H|
-\le
-m-\eta_*H+\log_2\Xi_{m,H}+O(1).
-\]
-
-Therefore the remaining sufficient cross-base theorem is only
-
-\[
-\boxed{
-\limsup_{H\to\infty}
-\frac{\log_2\Xi_{m,H}}{H}
-<\eta_*
-\approx0.1046133853
-}
-\]
-
-uniformly on the reduced candidate core in the scaling regime used by the proof decomposition.
-
-This is substantially weaker than the previous formation-only tolerance
-
-\[
-0.05004447281.
-\]
-
-If the stronger subexponential overlap bound
-
-\[
-\Xi_{m,H}=2^{o(H)}
-\]
-
-holds, then any asymptotic horizon
+Under this stronger form, any asymptotic horizon
 
 \[
 \boxed{
 H>Cm,
 \qquad
-C>\frac1{\eta_*}
-=\frac{1539}{161}
-\approx9.55900621
+C>\frac1{\eta_{\rm coeff}}
+\approx19.9823
 }
 \]
 
-forces finite extinction of the integer candidate mass.
+forces finite extinction up to fixed boundary constants.
 
-The prior formation-only constant was approximately 19.98223, so deterministic local residue-maximality has reduced the required linear-horizon slope by more than a factor of two.
+## Finite calibration that remains unconditional
 
-## Finite calibration of Stage 4
+The m=45 depth-28 selector distribution proves, independently of repeated residue-maximality:
 
-For the current m=45 depth-28 hard cylinders, the exact selector distribution already proves:
+- conditional TV < 1/1600 in each remaining first-defect cylinder;
+- hard-set-independent one-window amplification < 76/75 for hard fractions at least 3/64;
+- one-window repair budget < 1/50 bit;
+- strong parent/child selector balance in the companion transport calculations.
 
-- pointwise density amplification `<129/128` for every dyadic hard subset in the four remaining p-cylinders;
-- full TV `<1/1600`;
-- parent-by-parent binary child imbalance `<1/160`;
-- one-window repair budget `<1/80` bit.
+The exact mass-transport identity
 
-These are strong finite calibrations in the required direction.  They do not yet prove that the same bound survives arbitrary repeated conditioning at later renewal windows.
+\[
+2C_{\rm next}=2C-D+K,
+\qquad |K|\le U,
+\]
 
-Thus the sole main structural target after Stages 1--3 is now:
+gives
 
-> **Renewal-conditioned cross-base transversality theorem.**  Prove that the same-integer overlap amplification of the ternary selector core with the residue-maximal dyadic renewal language has exponential rate strictly below \(161/1539\), preferably zero.
+\[
+\boxed{
+C-C_{\rm next}\ge\frac{D-U}{2}
+}
+\]
 
-The height/credit amplitude, projective-credit coordinate, local predecessor relation, and finite depth-28 syndrome graph are no longer independent unresolved exponential channels.
+whenever \(U<D\). The checked m=44 boundary depths satisfy this positive-loss condition.
+
+These calculations remain on the safe unconditional path.
+
+## Revised remaining theorem
+
+> **Renewal-conditioned coefficient-language transversality theorem.** Prove that repeated conditioning on survived dyadic/renewal information cannot make the reduced ternary-selector distribution acquire a positive exponential same-integer concentration inside the coefficient-survival language.
+
+A proof of subexponential normalized overlap is sufficient. A future prefix-pullback theorem may then reintroduce the stronger conditional residue-maximal entropy savings.
