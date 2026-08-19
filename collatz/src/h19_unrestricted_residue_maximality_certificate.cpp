@@ -8,27 +8,33 @@
 // Exact unrestricted length-19 correction/Hensel-class certificate.
 //
 // For a binary word w of length 19 with q odd symbols, let R(w) be its affine
-// correction.  In a fixed full-Hensel class R mod 3^q, if R_u>R_w then
+// correction. In a fixed full-Hensel class R mod 3^q, if R_u>R_w then
 //
 //     Delta=(R_u-R_w)/3^q
 //
-// is a positive ordinary predecessor credit: starting u at x-Delta and w at x
-// gives exactly the same 19-step endpoint.
+// is a positive ordinary *local* predecessor credit: starting u at x-Delta
+// and w at x gives exactly the same 19-step endpoint.
 //
 // This verifier enumerates the COMPLETE 2^19 binary cube (no survival filter),
-// so every mechanical-factor/height constrained fibre is a subset.  It proves
+// so every mechanical-factor/height constrained fibre is a subset. It proves
 // the universal local bound
 //
 //     Delta <= 87381.
 //
-// It also records the number of occupied full-Hensel residue classes for each
-// q.  Therefore, for any hypothetical minimal counterexample N>87381, every
-// actual 19-step block must be the maximum-correction representative of its
-// own occupied full-Hensel residue class: otherwise x-Delta>0 is a smaller
-// trajectory reaching the same block endpoint.
+// IMPORTANT CORRECTION (2026-08-20): for a later block of a hypothetical
+// minimal counterexample N, its block start x=T^s(N) is generally only known
+// to satisfy x>=N. Therefore x-Delta<x does NOT by itself imply x-Delta<N.
+// Local minimality excludes the block immediately only when
 //
-// The final minimality implication is algebraic and stated in the companion
-// note; this file certifies the finite local constant and class counts.
+//     Delta > x-N,
+//
+// or when a separate prefix-pullback theorem produces an integer smaller
+// original start. Thus this file certifies the finite local constant, class
+// counts, and merge identity; it does not certify unconditional repeated
+// residue-maximality along every later block.
+//
+// See:
+// collatz/notes/2026-08-20-stage3c-pullback-correction-and-safe-stage4.md
 
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
@@ -100,6 +106,6 @@ int main() {
     std::cout << "total_full_hensel_classes " << total_classes << "\n";
     std::cout << "global_local_credit_max " << global_max_credit
               << " at_q " << max_q << "\n";
-    std::cout << "H19 unrestricted residue-maximality certificate: PASS\n";
+    std::cout << "H19 unrestricted local-credit certificate: PASS\n";
     return 0;
 }
