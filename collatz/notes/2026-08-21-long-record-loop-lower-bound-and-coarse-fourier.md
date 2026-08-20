@@ -1,8 +1,8 @@
-# Long-record loop lower bound and coarse Fourier closure
+# Long-record bridge loops and coarse Fourier closure
 
 Date: 2026-08-21
 
-Status: **analytic lower bound on critical Bernoulli record mass and consequent almost-every-scale Fourier contraction for long record excursions.** This closes the coarse-Fourier side of the record-strip program. Short records and the final selector/Hensel splice remain open. This is not a proof of the Collatz conjecture.
+Status: **analytic lower bound on critical Bernoulli record mass and consequent almost-every-scale Fourier contraction for long record excursions.** The initial linear-block argument has been strengthened to an \(r^2\)-block bridge argument. This closes the coarse-Fourier side of the record-strip program. Short records and the final selector/Hensel splice remain open. This is not a proof of the Collatz conjecture.
 
 Let
 
@@ -17,8 +17,6 @@ and let \(\mathcal R_{s,r}(L)\) be a nonempty record first-passage language in t
 0\le y_j\le r\quad(j<L),
 \qquad y_L=-1.
 \]
-
-The terminal step is necessarily a mechanical plateau followed by an odd parity bit.
 
 Under the product Bernoulli measure \(P_\alpha\), parity bits are independent with
 
@@ -36,7 +34,7 @@ K_\alpha(\mathcal R)
 
 where all record words have the same total odd count \(Q\).
 
-## 1. Mechanical block displacement is centered
+## 1. Exact mechanical centering
 
 For a block of length \(n\) beginning at phase \(a\), put
 
@@ -50,13 +48,13 @@ The one-slack ceiling identity gives
 \boxed{|D_a(n)-\alpha n|<1.}
 \]
 
-If a block starts at strip state \(y\), and its number of odd parity bits is \(X\), then
+If a block begins at strip state \(y\) and has \(X\) odd parity bits, then
 
 \[
 y_{\rm out}=y+D_a(n)-X.
 \]
 
-Hence the condition
+Therefore
 
 \[
 \boxed{X=D_a(n)}
@@ -64,138 +62,215 @@ Hence the condition
 
 returns exactly to the same strip state.
 
-## 2. A central loop block has probability at least c/sqrt(r)
+## 2. Condition on the exact endpoint: a discrete Bernoulli bridge
 
-Fix a central state
+Fix a block length \(n\) and put
+
+\[
+D=D_a(n),
+\qquad p_n=D/n.
+\]
+
+Condition on
+
+\[
+X_n=D.
+\]
+
+Under this conditioning, the \(D\) odd bits are uniformly distributed among the \(n\) positions. Equivalently, the centered variables
+
+\[
+Y_i=\varepsilon_i-p_n
+\]
+
+are a random permutation of a fixed finite population with total sum zero.
+
+Let
+
+\[
+S_k=Y_1+\cdots+Y_k=X_k-kp_n.
+\]
+
+For \(k<n\), sampling without replacement gives
+
+\[
+\mathbb E(Y_{k+1}\mid\mathcal F_k)
+=-\frac{S_k}{n-k}.
+\]
+
+Hence
+
+\[
+\boxed{
+M_k:=\frac{S_k}{n-k}
+}
+\]
+
+is an exact martingale for \(0\le k<n\).
+
+The hypergeometric variance is
+
+\[
+\boxed{
+\mathbb E S_k^2
+=\frac{k(n-k)}{n-1}p_n(1-p_n).
+}
+\]
+
+Take \(m=\lfloor n/2\rfloor\). Since \(p_n(1-p_n)\le1/4\),
+
+\[
+\mathbb E M_m^2
+=\frac{m}{(n-1)(n-m)}p_n(1-p_n)
+\le\frac{1}{4(n-1)}.
+\]
+
+If \(|S_k|\ge A\) for some \(k\le m\), then
+
+\[
+|M_k|\ge A/n.
+\]
+
+Doob's \(L^2\) maximal inequality therefore gives
+
+\[
+P\left(\max_{k\le m}|S_k|\ge A\mid X_n=D\right)
+\le
+\frac{n^2}{4(n-1)A^2}.
+\]
+
+Apply the same argument to the reversed bridge on the second half. For \(n\ge2\),
+
+\[
+\boxed{
+P\left(\max_{k\le n}|S_k|\ge A\mid X_n=D\right)
+\le
+\frac{n}{A^2}.
+}
+\]
+
+This is the bridge maximal inequality needed below; no external parabolic-Harnack theorem is required.
+
+## 3. An r-squared central loop has probability at least c/r
+
+Fix the central strip state
 
 \[
 c_r=\lfloor r/2\rfloor.
 \]
 
-Consider any block length
-
-\[
-r\le n\le2r.
-\]
-
 Let
-
-\[
-X_k=\varepsilon_1+\cdots+\varepsilon_k,
-\qquad
-S_k=X_k-\alpha k.
-\]
-
-For fixed \(\alpha\in(0,1)\), standard Stirling bounds for the binomial mass imply that there is a constant \(c_0(\alpha)>0\) such that, uniformly in \(n\) and every integer \(D\) with \(|D-\alpha n|<1\),
-
-\[
-\boxed{
-P_\alpha(X_n=D)\ge\frac{c_0}{\sqrt n}
-\ge\frac{c_0}{\sqrt{2r}}.
-}
-\]
-
-The Bernoulli centered increments have range length one. The exponential-martingale proof of the maximal Hoeffding inequality gives
-
-\[
-P_\alpha\left(\max_{k\le n}|S_k|\ge A\right)
-\le2\exp\left(-\frac{2A^2}{n}\right).
-\]
-
-Choose
 
 \[
 A_r=r/4-2.
 \]
 
-Since \(n\le2r\), the right side is \(O(e^{-c r})\). For all sufficiently large \(r\), it is less than half the preceding central point mass. Therefore the event
+Choose a small fixed \(c_*>0\), for example any value small enough that for all sufficiently large \(r\), every
 
 \[
-X_n=D_a(n),
-\qquad
-\max_{k\le n}|S_k|<A_r
+c_*r^2\le n\le2c_*r^2
 \]
 
-has probability at least
+satisfies
 
 \[
-\boxed{
-\frac{c_1(\alpha)}{\sqrt r}.
-}
+\frac{n}{A_r^2}\le\frac12.
 \]
 
-During this event,
+By the bridge maximal inequality,
+
+\[
+P\left(\max_{k\le n}|S_k|<A_r\mid X_n=D_a(n)\right)
+\ge\frac12.
+\]
+
+Now compare the bridge centering \(kp_n\) with the mechanical count \(D_a(k)\). Since both \(D_a(n)-\alpha n\) and \(D_a(k)-\alpha k\) have absolute value below one,
+
+\[
+|kp_n-D_a(k)|<2.
+\]
+
+Therefore on the bridge event,
 
 \[
 |X_k-D_a(k)|
-\le |S_k|+|D_a(k)-\alpha k|
-<r/4-1,
+\le|S_k|+|kp_n-D_a(k)|
+<r/4.
 \]
 
-so a path beginning at \(c_r\) remains strictly inside \([0,r]\) and returns exactly to \(c_r\) at block end.
+A path starting at \(c_r\) stays strictly inside \([0,r]\) and, because \(X_n=D_a(n)\), returns exactly to \(c_r\) at block end.
 
-Thus it is a genuine strip loop.
-
-## 3. Deterministic entrance and exit connectors cost only exp(-O(r))
-
-Starting at \(y=0\), choose parity zero until the mechanical rise count reaches \(c_r\). Then
+For fixed \(\alpha\), Stirling bounds give a constant \(c_0(\alpha)>0\) such that whenever \(|D-\alpha n|<1\),
 
 \[
-y_j=D_s(j)
+P_\alpha(X_n=D)\ge\frac{c_0}{\sqrt n}.
 \]
 
-increases monotonically from \(0\) to \(c_r\) without leaving the strip. Because
+Since \(n\asymp r^2\),
 
 \[
-D_s(j)=\alpha j+O(1),
+P_\alpha(X_n=D_a(n))\ge\frac{c_1}{r}.
 \]
 
-this entrance connector has length \(O_\alpha(r)\).
-
-Conversely, ending immediately before the prescribed terminal record crossing, choose parity one over the shortest suffix containing exactly \(c_r\) mechanical plateau steps. Along this connector, \(y\) decreases monotonically from \(c_r\) to \(0\). Since the plateau density is \(1-\alpha\), its length is also \(O_\alpha(r)\).
-
-The final plateau-odd step exits through \(y=-1\).
-
-Let
+Combining with the conditional bridge probability gives the genuine strip-loop estimate
 
 \[
-\rho_\alpha=\min(\alpha,1-\alpha)>0.
+\boxed{
+P_\alpha(\text{central }r^2\text{-loop block})
+\ge\frac{c_2(\alpha)}{r}.
+}
 \]
 
-All forced connector bits therefore have total Bernoulli probability at least
+This improves the earlier \(O(r)\)-length loop of probability \(c/\sqrt r\).
+
+## 4. Entrance and exit connectors cost only exp(-O(r))
+
+Starting from \(y=0\), choose parity zero until the mechanical rise count reaches \(c_r\). Then \(y\) increases monotonically from \(0\) to \(c_r\). The entrance length is \(O_\alpha(r)\).
+
+For the exit, choose parity one over the shortest suffix before the terminal record step containing exactly \(c_r\) mechanical plateaus. Then \(y\) decreases monotonically from \(c_r\) to \(0\). Its length is also \(O_\alpha(r)\).
+
+The final plateau-odd bit exits through \(y=-1\).
+
+With
+
+\[
+\rho_\alpha=\min(\alpha,1-\alpha)>0,
+\]
+
+the combined forced connectors have Bernoulli probability at least
 
 \[
 \exp(-C_0(\alpha)r).
 \]
 
-## 4. Fill the middle by independent loop blocks
+## 5. Fill a long record by independent bridge loops
 
-After removing the two connectors and final exit, partition the remaining middle interval into blocks whose lengths lie in \([r,2r]\), except for at most one remainder of length \(<r\). The remainder can be absorbed into the forced connector cost by following the mechanical bit \(\varepsilon=d\), which keeps \(y\) fixed.
-
-Each full middle block independently has a strip-loop event of probability at least
+After removing the entrance connector, exit connector and final exit, partition the middle into blocks with lengths in
 
 \[
-c_1/\sqrt r.
+[c_*r^2,2c_*r^2],
 \]
 
-The number of full blocks is at most
+except for at most one shorter remainder. The remainder can be absorbed into the connector cost by choosing \(\varepsilon=d\), which keeps the strip state fixed.
+
+Every full middle block independently contributes probability at least \(c_2/r\), and the number of such blocks is
 
 \[
-\frac{L}{r}+1.
+O\left(\frac{L}{r^2}+1\right).
 \]
 
-Therefore there are constants \(r_0,C_1,C_2>0\), depending only on \(\alpha\), such that for every \(r\ge r_0\) and every nonempty record length \(L\ge C_1r\),
+Therefore there exist phase-independent constants \(r_0,C_1,C_2>0\), depending only on \(\alpha\), such that for every \(r\ge r_0\) and every nonempty record length \(L\ge C_1r\),
 
 \[
 \boxed{
 P_\alpha(\mathcal R_{s,r}(L))
 \ge
 \exp(-C_2r)
-\left(\frac{c_1}{\sqrt r}\right)^{L/r+1}.
+\left(\frac{c_2}{r}\right)^{C_2(L/r^2+1)}.
 }
 \]
 
-Taking minus logarithms gives
+Thus
 
 \[
 \boxed{
@@ -203,14 +278,12 @@ K_\alpha(\mathcal R_{s,r}(L))
 \le
 C_3(\alpha)
 \left[
-r+\left(\frac{L}{r}+1\right)\log r
+r+\left(\frac{L}{r^2}+1\right)\log r
 \right].
 }
 \]
 
-The constants are phase-independent.
-
-## 5. Long records have vanishing information cost per bit
+## 6. Long records: information cost per bit is O(1/r)
 
 If
 
@@ -223,11 +296,12 @@ then
 \[
 \boxed{
 \frac{K_\alpha(\mathcal R)}{L}
-=O_\alpha\left(\frac{\log r}{r}\right).
+=O_\alpha\left(\frac1r+\frac{\log r}{r^2}\right)
+=O_\alpha(1/r).
 }
 \]
 
-From the entropy–Haar dichotomy proved in the companion note, for every \(\eta>0\),
+The entropy–Haar dichotomy gives, for every \(\eta>0\),
 
 \[
 \#\left\{j:
@@ -244,11 +318,11 @@ where
 \delta_\alpha=|2\alpha-1|\approx0.2618595071.
 \]
 
-Hence for every fixed \(\eta>0\), a long record with \(L\ge r^2\) has
+Consequently a long record has
 
 \[
 \boxed{
-1-O_\alpha\left(\frac{\log r}{\eta^2r}\right)
+1-O_\alpha\left(\frac{1}{\eta^2r}\right)
 }
 \]
 
@@ -256,44 +330,48 @@ of all dyadic valuation levels satisfying
 
 \[
 \boxed{
-|\widehat\mu(t)|\le\delta_\alpha+\eta<1
+|\widehat\mu(t)|\le\delta_\alpha+\eta.
 }
 \]
 
-provided \(\eta<1-\delta_\alpha\).
+For any fixed
 
-For example, any fixed \(\eta<1/2-\delta_\alpha\) makes the good-level bound strictly below \(1/2\), while the bad-level fraction tends to zero.
+\[
+0<\eta<\frac12-\delta_\alpha,
+\]
 
-This proves the required **coarse Fourier contraction for long record excursions** without a pointwise parabolic Harnack theorem.
+the right side is strictly below \(1/2\), while the exceptional fraction tends to zero like \(O(1/r)\).
 
-## 6. New long/short record split
+Thus the **long-record coarse-Fourier regime is analytically closed** up to a vanishing exceptional set of valuation levels.
 
-The deterministic tail now divides naturally into two exact regimes.
+## 7. Exact long/short split
 
-### Long record
+The remaining deterministic tail divides into:
+
+### Long records
 
 \[
 L_r\ge r^2.
 \]
 
-The theorem above gives near-\(\delta_\alpha\) Fourier contraction on all but an \(O(\log r/r)\) fraction of valuation levels.
+All but an \(O(1/r)\) fraction of dyadic levels have record-side Fourier contraction bounded by a fixed constant below \(1/2\).
 
-### Short record
+### Short records
 
 \[
 L_r<r^2.
 \]
 
-The entire record occupies only \(O(r^2)\) dyadic levels. These are now the remaining fine/deterministic windows to splice with the selector Haar/Hensel machinery.
+The whole record occupies only \(O(r^2)\) levels and is assigned to the fine/deterministic selector-Haar/Hensel side.
 
-Thus the previous vague coarse/fine cutoff of order \((r+1)^2\) is no longer only heuristic: the long side has an analytic Fourier theorem, and the unresolved side is explicitly the short-record family plus the exceptional \(O(L\log r/r)\) levels inside long records.
+The unresolved part of a long record is likewise only the \(O(L_r/r)\)-scale exceptional set supplied by the information budget.
 
-## 7. Remaining theorem
+## 8. Remaining theorem
 
-The remaining Stage-4 bridge can now be stated as:
+The Stage-4 bridge is now reduced to:
 
-> **Exceptional-level selector/Hensel splice.** Control the selector overlap on (i) all levels belonging to short record excursions \(L_r<r^2\), and (ii) the \(O(L_r\log r/r)\) exceptional valuation levels of long record excursions. Long-record nonexceptional levels already have uniform record-side Fourier contraction.
+> **Exceptional-level selector/Hensel splice.** Control selector concentration on (i) all levels of short record excursions \(L_r<r^2\), and (ii) the \(O(L_r/r)\) exceptional valuation levels inside long records. Every other level of every sufficiently large long record already has uniform record-side Fourier contraction below \(1/2\).
 
-Companion finite regression:
+The finite certificate remains
 
 `collatz/src/long_record_loop_fourier_certificate.py`.
