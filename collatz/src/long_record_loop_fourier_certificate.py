@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Finite regression for the long-record loop lower-bound mechanism.
+"""Finite regression for the long-record r^2 bridge-loop mechanism.
 
-The companion note proves the asymptotic theorem using a central binomial
-point-mass lower bound and maximal Hoeffding.  This script checks the mechanical
-loop construction, connector lengths, exact strip probabilities, and the
-resulting information-cost trend on finite grids.
+The companion note proves the asymptotic theorem by conditioning a Bernoulli
+block on its exact near-mean endpoint, turning it into a sampling-without-
+replacement bridge.  The exact martingale S_k/(n-k), hypergeometric variance,
+and Doob L2 maximal inequality give a uniform strip-stay probability for
+n=c r^2.  Combining with the central endpoint mass yields a loop probability
+of order 1/r.
 
-This is a regression/diagnostic, not the all-r proof and not a proof of Collatz.
+This script checks the mechanical loop event, connector lengths, exact strip
+information costs, and the finite r*P(loop) scaling.  It is a regression, not
+the all-r proof and not a proof of Collatz.
 """
 
 from __future__ import annotations
@@ -28,7 +32,7 @@ def barriers(nmax: int) -> list[int]:
     return out
 
 
-B = barriers(5000)
+B = barriers(8000)
 
 
 def D(a: int, n: int) -> int:
@@ -54,17 +58,16 @@ def strip_count(s: int, r: int, L: int) -> int:
     return dp[0] if B[s + L] == B[s + L - 1] else 0
 
 
-def loop_probability(a: int, r: int, n: int) -> float:
-    """Exact Bernoulli-alpha probability of a conservative central loop event.
+def conservative_loop_probability(a: int, r: int, n: int) -> float:
+    """Exact Bernoulli-alpha probability of a safe central loop event.
 
-    We require final odd count X_n=D(a,n), and at every prefix
-        |X_k-D(a,k)| <= margin.
-    This is slightly stronger/easier to compute than the centered-S condition
-    used in the proof and guarantees strip safety from y=floor(r/2).
+    Require X_n=D(a,n) and the stronger pathwise band
+        |X_k-D(a,k)| <= floor(r/4)-1.
+    Starting at y=floor(r/2), this stays strictly inside the strip and returns
+    exactly to the same state.
     """
     margin = max(1, r // 4 - 1)
     target = D(a, n)
-    # dp[q] = number of bit strings reaching q while obeying the deviation band.
     dp = {0: 1}
     for k in range(1, n + 1):
         nd: dict[int, int] = {}
@@ -89,10 +92,6 @@ def entrance_length(s: int, r: int) -> int:
 
 
 def exit_length(s_end: int, r: int) -> int:
-    """Shortest backward suffix length containing c=floor(r/2) plateaus.
-
-    s_end is the time immediately before the final record-exit step.
-    """
     c = r // 2
     plateaus = 0
     n = 0
@@ -117,51 +116,60 @@ def exact_information_cost(s: int, r: int, L: int) -> float | None:
     return -log_mass
 
 
+def bridge_variance_bound(n: int, k: int, p: float) -> float:
+    """Var(S_k) for a 0/1 random permutation bridge with total fraction p."""
+    return k * (n - k) * p * (1.0 - p) / (n - 1)
+
+
 def main() -> None:
-    # One-slack centering is exact on a broad finite grid.
     for a in range(100):
         for n in range(1, 300):
             assert abs(D(a, n) - ALPHA * n) < 1.0
 
-    # Loop event stays quantitatively nonzero; scaled probability sqrt(r)*P
-    # remains healthy in the tested range.
-    worst_scaled = 1e100
-    for r in range(12, 81, 4):
-        for a in (0, 1, 5, 17, 41):
-            for n in (r, (3 * r) // 2, 2 * r):
-                p = loop_probability(a, r, n)
-                assert p > 0.0
-                worst_scaled = min(worst_scaled, math.sqrt(r) * p)
+    # Exact martingale-variance algebra at the midpoint.
+    for n in range(8, 200):
+        p = D(0, n) / n
+        m = n // 2
+        varS = bridge_variance_bound(n, m, p)
+        varM = varS / ((n - m) ** 2)
+        assert varM <= 1.0 / (4.0 * (n - 1)) + 1e-15
 
-    # Connector lengths are linear in r, uniformly over tested phases.
+    # r^2-block loop probability: with n approximately r^2/128, r*P(loop)
+    # stays uniformly positive over the tested phases/range.
+    worst_r_scaled = 1e100
+    bridge_rows = []
+    for r in range(32, 129, 8):
+        n = max(8, (r * r) // 128)
+        for a in (0, 1, 5, 17, 41):
+            p = conservative_loop_probability(a, r, n)
+            assert p > 0.0
+            worst_r_scaled = min(worst_r_scaled, r * p)
+        bridge_rows.append((r, n, conservative_loop_probability(0, r, n)))
+
     max_in_ratio = 0.0
     max_out_ratio = 0.0
     for r in range(8, 101):
         for s in (0, 3, 19, 100):
-            tin = entrance_length(s, r)
-            max_in_ratio = max(max_in_ratio, tin / r)
-        # Pick several valid endpoints far enough from zero.
+            max_in_ratio = max(max_in_ratio, entrance_length(s, r) / r)
         for send in (300, 500, 900):
-            tout = exit_length(send, r)
-            max_out_ratio = max(max_out_ratio, tout / r)
+            max_out_ratio = max(max_out_ratio, exit_length(send, r) / r)
 
-    # Exact long-strip information-cost diagnostics.  We only evaluate lengths
-    # whose final mechanical step is a plateau, hence a record exit is possible.
     rows = []
     for r in (4, 6, 8, 10, 12, 16, 20):
-        L0 = r * r
-        L = L0
+        L = r * r
         while B[L] != B[L - 1]:
             L += 1
         K = exact_information_cost(0, r, L)
         assert K is not None and K >= -1e-9
         rows.append((r, L, K, K / L))
 
-    print("long-record loop/Fourier regression: PASS")
-    print("worst_sqrt_r_loop_probability", worst_scaled)
+    print("long-record r^2 bridge/Fourier regression: PASS")
+    print("worst_r_times_loop_probability", worst_r_scaled)
     print("max_entrance_length_over_r", max_in_ratio)
     print("max_exit_length_over_r", max_out_ratio)
     print("delta_alpha", abs(2.0 * ALPHA - 1.0))
+    for row in bridge_rows:
+        print("bridge r n P rP", row[0], row[1], row[2], row[0] * row[2])
     for row in rows:
         print("r L K K_over_L", *row)
 
