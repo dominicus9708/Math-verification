@@ -2,23 +2,49 @@
 
 Date: 2026-08-19
 
-Status: **deterministic language-exclusion budget strengthened; cross-base theorem still open.**  This is not a proof of the Collatz conjecture.
+Correction date: 2026-08-20
+
+Status: **conditional language-exclusion calculation retained; unconditional repeated-minimality interpretation withdrawn pending prefix pullback.** This is not a proof of the Collatz conjecture.
+
+## 0. 2026-08-20 correction
+
+The local Hensel identity used below is exact: if a length-L word w has a larger-correction representative u in the same full-Hensel class,
+
+\[
+R_u-R_w=3^q\Delta>0,
+\]
+
+then starting u at \(x-\Delta\) merges with w started at x after L steps.
+
+However, for a later block of a hypothetical minimal counterexample N, the block start is \(x=T^s(N)\ge N\). The inequality \(x-\Delta<x\) does not imply \(x-\Delta<N\). Local minimality excludes the block immediately only when
+
+\[
+\boxed{\Delta>x-N,}
+\]
+
+or when a separate prefix-pullback theorem constructs a smaller positive original start.
+
+Therefore the repeated residue-maximal language used in this note remains a valid conditional combinatorial language, but it is not currently established as a mandatory language for every later block of a minimal counterexample.
+
+Companion correction note:
+
+`collatz/notes/2026-08-20-stage3c-pullback-correction-and-safe-stage4.md`.
+
+Exact headroom certificate:
+
+`collatz/src/stage3c_pullback_headroom_certificate.py`.
 
 ## 1. Previous Stage 4 budget
 
-The H19 residue-maximal language gave an exact exclusion rate above 1/9 after rational weight optimization.  This already improved the required same-integer overlap theorem to
+The H19 residue-maximal language gave an exact exclusion rate above 1/9 after rational weight optimization. Under the now-withdrawn unconditional repeated-maximality interpretation this improved the required same-integer overlap theorem to
 
 \[
 \limsup_{H\to\infty}\frac{\log_2\Xi_{m,H}}H<\frac19.
 \]
 
-Under subexponential overlap this required only \(H>Cm\) with \(C>9\).
+The numerical language bound remains correct conditionally.
 
-Certificate:
-
-`collatz/src/h19_residue_maximal_entropy_one_ninth_certificate.py`.
-
-## 2. Residue maximality is not intrinsically length 19
+## 2. Local residue maximality is not intrinsically length 19
 
 For any fixed binary block length L and fixed odd count q, group words by their full-Hensel correction residue
 
@@ -26,39 +52,48 @@ For any fixed binary block length L and fixed odd count q, group words by their 
 R(w)\pmod{3^q}.
 \]
 
-If a word w is not the maximum-correction member of its class, choose u in the same class with larger correction.  Then
+If a word w is not the maximum-correction member of its class, choose u in the same class with larger correction. Then
 
 \[
 R_u-R_w=3^q\Delta,\qquad \Delta>0,
 \]
 
-and starting u at x-Delta gives exactly the same L-step endpoint as starting w at x.
+and starting u at \(x-\Delta\) gives exactly the same L-step endpoint as starting w at x.
 
-Therefore a hypothetical minimal counterexample larger than the finite maximum local credit must use a residue-maximal word in every aligned L-step block.
+This is an exact **local merge theorem**. It does not by itself imply repeated global maximality at later block starts.
 
-## 3. Exact L=7 local theorem
+## 3. Exact L=7 local and conditional-language theorem
 
-The complete 2^7 cube has full-Hensel class counts
+The complete \(2^7\) cube has full-Hensel class counts
 
 \[
 (c_q)_{q=0}^{7}=(1,2,6,15,21,16,7,1).
 \]
 
-The largest ordinary predecessor credit in any class is exactly
+The largest ordinary local predecessor credit in any class is exactly
 
 \[
 \boxed{\Delta_{\max}=21}.
 \]
 
-Hence any hypothetical minimal counterexample \(N>21\) must use a maximum-correction representative in every aligned seven-step block.
-
-For a seven-step mechanical reference block the critical odd count is Q=4 or Q=5.  Take
+The full positive local-deficit alphabet is
 
 \[
-z=\frac43.
+\boxed{D_7=\{1,2,4,5,8,10,16,17,20,21\}.}
 \]
 
-Writing
+At a block with numerical headroom \(h=x-N\), local minimality alone permits every word with \(\Delta(w)\le h\). Exact counts are
+
+\[
+\begin{array}{c|rrrrr}
+h&0&1&2&5&21\\\hline
+\#\text{ locally permitted words}&69&93&106&118&128.
+\end{array}
+\]
+
+Thus only the first block \(x=N\), or a later block with an independently controlled headroom/pullback, is forced into the maximum-correction sublanguage.
+
+For the **conditional** language in which every aligned seven-step block is residue-maximal, use \(z=4/3\). Writing
 
 \[
 P_5(z)=\sum_{q=0}^7 c_q z^{q-5},
@@ -66,13 +101,12 @@ P_5(z)=\sum_{q=0}^7 c_q z^{q-5},
 
 a Q=4 block costs the extra factor z.
 
-Over any 700-step macro there are 100 seven-step blocks.  Since
+Over a 700-step macro there are 100 seven-step blocks. Since
 
 \[
 3^{441}<2^{700}<3^{442},
 \]
-
-the mechanical odd-count total is at least 441, so there can be at most 59 Q=4 blocks.  Therefore the full weighted language is bounded by
+there can be at most 59 Q=4 blocks. Hence
 
 \[
 F=P_5(4/3)^{100}(4/3)^{59}.
@@ -83,126 +117,120 @@ The exact rational certificate proves
 \[
 F^{50}<2^{30100},
 \]
-
-hence
+so
 
 \[
-\boxed{F<2^{602}}.
+F<2^{602}.
 \]
 
-Thus a 700-step macro loses strictly more than
+Therefore the conditional repeated-residue-maximal language loses strictly more than 98 bits per 700 steps:
 
 \[
-700-602=98
-\]
-
-binary information bits, and the deterministic language-exclusion rate satisfies
-
-\[
-\boxed{\eta>\frac{98}{700}=\frac7{50}=0.14}.
+\boxed{\eta_{\rm conditional}>\frac7{50}=0.14.}
 \]
 
 Certificate:
 
 `collatz/src/l7_residue_maximal_seven_fiftieths_macro_certificate.py`.
 
-## 4. New sufficient Stage 4 theorem
+## 4. Conditional Stage 4 consequence
 
-Let the exact same-integer overlap amplification be
-
-\[
-\Xi_{m,H}
-=\frac{|\mathcal C_m\cap\mathcal L_H|/|\mathcal C_m|}
-{|\mathcal L_H|/2^H}.
-\]
-
-The L7 theorem replaces the previous sufficient target by
+If a future prefix-pullback theorem proves that the relevant candidate trajectories really lie in the repeated L7 residue-maximal language, then the same-integer overlap target
 
 \[
-\boxed{
-\limsup_{H\to\infty}
-\frac{\log_2\Xi_{m,H}}H
-<\frac7{50}.
-}
+\limsup_{H\to\infty}\frac{\log_2\Xi_{m,H}}H<\frac7{50}
 \]
 
-In the stronger subexponential case \(\Xi=2^{o(H)}\), any
+and, in the subexponential case, the slope
 
 \[
-\boxed{H>Cm,\qquad C>\frac{50}{7}\approx7.142857}
+H>Cm,\qquad C>\frac{50}{7}
 \]
 
-is sufficient for finite extinction of the reduced selector mass, up to fixed boundary constants.
+become sufficient again.
 
-This is substantially weaker than all previous overlap targets:
-
-- formation-only: approximately 0.0500445 exclusion, slope approximately 19.982;
-- original H19 residue-maximal bound: approximately 0.104613, slope approximately 9.559;
-- optimized H19 rational bound: >1/9, slope <9;
-- current L7 macro bound: >7/50, slope <50/7.
+At present these statements are **conditional strengthening targets**, not the unconditional Stage 4 theorem.
 
 ## 5. Mandatory mod-4 normalization
 
-Coefficient survival itself forces the first two parity bits to be 11:
-
-- after one step one odd event is necessary;
-- after two steps two odd events are necessary because 3<4<9.
-
-The corresponding canonical start cylinder is
+Coefficient survival forces the first two parity bits to be 11, hence
 
 \[
 N\equiv3\pmod4.
 \]
 
-The recursively sufficient Cantor core also has the form
+The reduced Cantor core has the same forced cylinder. Therefore the raw overlap factor contains a constant factor four, and the normalized amplification remains
 
 \[
-N=4Y+3.
+\boxed{\Xi^\circ_{m,H}=\Xi_{m,H}/4.}
 \]
 
-Thus the raw overlap factor contains a forced constant factor four.  Define the prefix-normalized amplification
+This normalization does not change exponential rates.
+
+## 6. Exact L8 finite calibration: retained as conditional evidence
+
+The L8 verifier checks the candidate family
 
 \[
-\boxed{\Xi^\circ_{m,H}:=\Xi_{m,H}/4.}
+N=4\left(3^m+\sum_{i=0}^{m-1}a_i3^i\right)+3,
+\qquad a_i\in\{0,1\},
 \]
 
-This normalization does not change the exponential rate but explains why the finite repeated-window calibrations naturally cluster near \(\Xi\approx4\), equivalently \(\Xi^\circ\approx1\).
+under coefficient survival plus repeated aligned L8 residue-maximality.
 
-## 6. Exact multiwindow calibration under the stronger L8 rule
-
-A separate exact verifier uses the L=8 residue-maximal rule, which has a slightly weaker asymptotic entropy constant than the phase-aware L7 macro but is convenient for finite block calculations.
-
-Selected exact candidate survivor counts are:
+Selected exact counts remain
 
 \[
 \begin{array}{c|rrrr}
 m & H=32&H=64&H=96&H=128\\\hline
 20&9981&251&9&1\\
 21&20200&474&10&0\\
-22&40359&1022&28&0
+22&40359&1022&28&0.
 \end{array}
 \]
-
-Thus the m=21 and m=22 small cores are already empty by H=128 under coefficient survival plus local residue maximality.  The exact verifier also computes the complete dyadic language counts, so the same-integer overlap can be calibrated without a statistical independence assumption.
 
 Certificate:
 
 `collatz/src/l8_small_core_multiwindow_overlap_certificate.cpp`.
 
-The observed raw overlap factor remains near the forced value four throughout the bulk-survivor regime; after dividing by the common mod-4 factor, the observed amplification is of order one rather than exponential.  This is finite evidence only, not the remaining theorem.
+These are exact finite facts about the stronger conditional language. They must not be interpreted as coefficient-only extinction.
 
-## 7. Remaining structural target
+## 7. Unconditional fallback
 
-Stages 1--3 of the credit/renewal program remain closed.  Stage 4 is now reduced to the following weaker theorem:
-
-> **Renewal-conditioned cross-base growth theorem.**  Show that the same-integer overlap amplification between the recursively sufficient ternary-selector core and the coefficient-surviving, locally residue-maximal dyadic language has exponential rate strictly below 7/50.
-
-A proof of the stronger
+The logically safe Stage 4 language is coefficient survival alone:
 
 \[
-\Xi_{m,H}=2^{o(H)}
+\mathcal B_H=\{3^{q_k}\ge2^k\text{ for every }k\le H\}.
 \]
 
-would still be sufficient, but is no longer necessary.
+Its exclusion rate is
 
-The next proof-level task is to split this amplification into the selector-active prefix and the deterministic renewal tail, and prove that the latter cannot supply a linear-in-H repair budget.
+\[
+\eta_{\rm coeff}
+=1-H_2(\log_3 2)
+\approx0.05004447.
+\]
+
+The unconditional sufficient target is to control the normalized same-integer overlap between the reduced ternary-selector core and \(\mathcal B_H\), preferably by
+
+\[
+\boxed{\Xi^{\circ,\rm coeff}_{m,H}=2^{o(H)}.}
+\]
+
+Under that stronger form, a horizon slope
+
+\[
+\boxed{H>Cm,\qquad C>1/\eta_{\rm coeff}\approx19.9823}
+\]
+
+is sufficient up to fixed boundary constants.
+
+The finite m=45 depth-28 selector-transversality and mass-transport certificates remain relevant to this unconditional route because they do not depend on repeated residue-maximality.
+
+## 8. Revised structural target
+
+The main proof-level target is now:
+
+> **Renewal-conditioned coefficient-language transversality theorem.** After conditioning on previously survived dyadic/renewal information, prove that the reduced ternary-selector distribution cannot acquire a positive exponential concentration inside the coefficient-survival language.
+
+A future prefix-pullback theorem may safely reintroduce the stronger L7/H19 conditional entropy gains.
