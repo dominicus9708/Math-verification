@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Exact arithmetic certificate for unconditional m=45 root maximality to H=200.
 
+The current recursively sufficient m=45 family has two affine blocks
+
+    N = 4*(3^45 + b*3^44 + sum_{i=0}^{43} a_i 3^i) + 3,
+    b in {0,1}, a_i in {0,1}.
+
 For a length-H q-odd parity word, the maximum possible affine correction is
 
     R_max(H,q) = 2^(H-q) (3^q - 2^q),
@@ -10,10 +15,10 @@ same-q complete-Hensel correction difference R'-R=3^q d satisfies
 
     0 < d < R_max/3^q < 2^(H-q).
 
-Coefficient survival through H forces 3^q >= 2^H.  The m=45 recursively
-sufficient roots all satisfy 2^73 < N < 2^74.  Therefore whenever H-q <= 73,
-any positive complete-prefix sibling credit automatically satisfies d<N and
-is a valid smaller-root predecessor.
+Coefficient survival through H forces 3^q >= 2^H.  Both m=45 affine blocks
+satisfy 2^73 < N < 2^74.  Therefore whenever H-q <= 73, any positive
+complete-prefix sibling credit automatically satisfies d<N and is a valid
+smaller-root predecessor.
 
 This script proves exactly that the worst coefficient-surviving q has
 H-q <=73 for every H<=200, while H=201 is the first horizon where the crude
@@ -35,8 +40,10 @@ def qmin(H: int) -> int:
 
 def main() -> None:
     m = 45
+    # Two current affine blocks: b=0 and b=1.
+    low_selector_max = (3**44 - 1) // 2
     n_min = 4 * 3**m + 3
-    n_max = 4 * (3**m + (3**44 - 1)//2) + 3
+    n_max = 4 * (3**m + 3**44 + low_selector_max) + 3
 
     assert 2**73 < n_min < n_max < 2**74
 
@@ -61,8 +68,8 @@ def main() -> None:
     assert first_unsafe_q == 127
     assert first_unsafe_slack == 74
 
-    print("m45 N range:", n_min, n_max)
-    print("2^73 < N < 2^74: PASS")
+    print("m45 two-block N range:", n_min, n_max)
+    print("2^73 < N < 2^74 for both affine blocks: PASS")
     print("last uniformly root-maximality-safe horizon:", last_safe)
     print("H=200 qmin=127 slack=73")
     print("H=201 qmin=127 slack=74 (crude uniform guarantee ends)")
