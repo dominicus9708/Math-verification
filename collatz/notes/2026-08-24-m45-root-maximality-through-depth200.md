@@ -6,24 +6,24 @@ Status: **exact finite range theorem.**  This removes the need for an asymptotic
 
 ## 1. Exact numeric range of the current m=45 roots
 
-For the recursively sufficient m=45 family
+The current recursively sufficient m=45 family consists of two affine blocks:
 
 \[
-N=4\left(3^{45}+\sum_{i=0}^{43}a_i3^i\right)+3,
-\qquad a_i\in\{0,1\},
+N=4\left(3^{45}+b3^{44}+\sum_{i=0}^{43}a_i3^i\right)+3,
+\qquad b\in\{0,1\},\quad a_i\in\{0,1\}.
 \]
 
-we have
+Hence
 
 \[
 N_{\min}=4\cdot3^{45}+3,
 \]
 
-and
+and the maximum over **both** affine blocks is
 
 \[
 N_{\max}
-=4\left(3^{45}+\frac{3^{44}-1}{2}\right)+3.
+=4\left(3^{45}+3^{44}+\frac{3^{44}-1}{2}\right)+3.
 \]
 
 Exact integer comparison gives
@@ -32,7 +32,7 @@ Exact integer comparison gives
 \boxed{2^{73}<N_{\min}\le N\le N_{\max}<2^{74}.}
 \]
 
-Thus every current m=45 root is a 74-bit positive integer and, crucially, is larger than \(2^{73}\).
+Thus every current m=45 root in either affine block is a 74-bit positive integer and, crucially, is larger than \(2^{73}\).
 
 ## 2. Universal same-q whole-prefix credit bound
 
@@ -112,7 +112,7 @@ q_{\min}(200)=127,
 200-127=73.
 \]
 
-Therefore for every coefficient-surviving current m=45 prefix with
+Therefore for every coefficient-surviving current m=45 prefix from either affine block with
 
 \[
 H\le200,
@@ -176,9 +176,9 @@ The previously introduced nearest-credit quantity
 G_H
 \]
 
-remains useful for asymptotic understanding, but it is **not needed to justify whole-prefix root maximality anywhere up to depth 200 in the current m=45 branch**.
+remains useful for asymptotic understanding, but it is **not needed to justify whole-prefix root maximality anywhere up to depth 200 in either current m=45 affine block**.
 
-This matters because the m=45 selector itself is already completely resolved as an ordinary integer by binary depth 74.  Thus:
+This matters because every m=45 selector integer is already completely resolved by its binary address at depth 74.  Thus:
 
 1. through depth 74, whole-prefix maximality is automatically root-valid;
 2. the same root-validity actually continues much farther, through depth 200;
