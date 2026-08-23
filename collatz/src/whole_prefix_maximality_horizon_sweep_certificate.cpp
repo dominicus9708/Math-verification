@@ -25,6 +25,7 @@
 // This is an exact finite certificate and theorem-candidate diagnostic, not a
 // proof of an all-H endpoint-injectivity theorem and not a proof of Collatz.
 
+using u32 = std::uint32_t;
 using u64 = std::uint64_t;
 using u128 = unsigned __int128;
 
