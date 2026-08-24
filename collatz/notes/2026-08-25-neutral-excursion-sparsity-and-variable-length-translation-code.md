@@ -2,7 +2,7 @@
 
 Date: 2026-08-25
 
-Status: **exact algebraic reduction using the harmonic budget plus the root-translation ultrametric theorem.**  This does not prove Collatz.  It shows that completed neutral excursions are necessarily sparse and that every hypothetical hard orbit contains arbitrarily long open-positive excursions.  It also identifies a prefix-free 2-adic code carried by each completed excursion.
+Status: **audit-corrected algebraic reduction using the harmonic budget plus the root-translation ultrametric theorem.**  This does not prove Collatz.  It shows that completed neutral excursions and zero-height mechanical waiting events are both necessarily sparse, and therefore every hypothetical hard orbit contains arbitrarily long open-positive excursions.  It also identifies a prefix-free 2-adic code carried by each completed excursion.
 
 ## 1. Mechanical odd-event blocks
 
@@ -134,29 +134,77 @@ In particular the completed neutral-return count has zero density and the `r`th 
 
 This is the harmonic counterpart of the root-translation locking theorem.
 
-## 4. Arbitrarily long open-positive excursions are unavoidable
+## 4. Zero-height mechanical waiting is sparse as well
 
-There are two cases.
+The previous draft of this note jumped from the excursion-count bound directly to a long-excursion conclusion.  That omitted the possibility that long intervals might be spent at height zero while the actual parity word exactly follows the mechanical word.  The following harmonic estimate closes that gap.
 
-### 4.1 Finitely many neutral returns
+At a zero-height mechanical odd event `i`, the actual `i`th odd symbol occurs at exactly the mechanical position
 
-After the last return, the relative height remains strictly positive forever.  Hence there is an infinite open-positive tail.
+\[
+A_i=B_i=\lfloor i\gamma\rfloor.
+\]
 
-### 4.2 Infinitely many neutral returns
-
-Among the first `q` odd events, at most `O_N(q^{1/9})` positive excursions are completed.  These excursions and the zero-height gaps partition a total time scale of order `q` in odd-event coordinates (and order `gamma q` in parity-time coordinates).
-
-Therefore at least one open-positive excursion among the first `q` odd events has span
+Therefore
 
 \[
 \boxed{
-\Omega_N(q^{8/9}).
+\lambda_i
+=\frac{2^{\lfloor i\gamma\rfloor}}{3^i}
+=2^{-\{i\gamma\}}
+>\frac12.
 }
 \]
 
-along an unbounded sequence of `q`.
+Let `Z(q)` be the number of odd-event indices below `q` that occur while the path remains on the zero-height mechanical track.  Then
 
-Consequently every hypothetical hard orbit contains open-positive excursions of arbitrarily large length, whether or not neutral returns occur infinitely often.
+\[
+\frac12Z(q)
+<\sum_{i<q}\lambda_i
+\le C_Nq^{1/9},
+\]
+
+so
+
+\[
+\boxed{
+Z(q)<2C_Nq^{1/9}.
+}
+\]
+
+Thus neither completed-return events nor mechanical zero-height waiting can occupy a positive fraction of odd-event time.
+
+## 5. Arbitrarily long open-positive excursions are unavoidable
+
+There are two cases.
+
+### 5.1 Finitely many neutral returns
+
+After the last return, once the path next leaves height zero it cannot return.  Since zero-height mechanical waiting itself contains only `O_N(q^{1/9})` odd events up to scale `q`, the path cannot remain on the zero-height track forever.  Hence there is an infinite open-positive tail.
+
+### 5.2 Infinitely many neutral returns
+
+Among the first `q` odd events:
+
+- at most `O_N(q^{1/9})` nontrivial positive excursions are completed;
+- at most `O_N(q^{1/9})` odd events lie on the zero-height mechanical track.
+
+Consequently
+
+\[
+q-O_N(q^{1/9})
+\]
+
+odd events lie inside the positive excursions, while there are only `O_N(q^{1/9})` such excursion intervals.  By pigeonhole, along an unbounded sequence of `q`, at least one open-positive excursion contains
+
+\[
+\boxed{
+\Omega_N(q^{8/9})
+}
+\]
+
+odd events.  Since every mechanical block has parity-time length one or two, its parity-time span is of the same order.
+
+Therefore every hypothetical hard orbit contains open-positive excursions of arbitrarily large length, whether or not neutral returns occur infinitely often.
 
 This collapses the previous bookkeeping fork to one common asymptotic target:
 
@@ -168,9 +216,9 @@ This collapses the previous bookkeeping fork to one common asymptotic target:
 }
 \]
 
-## 5. Excursion translation as a prefix-free 2-adic code
+## 6. Excursion translation as a prefix-free 2-adic code
 
-Fix a mechanical prefix and a zero-height state at position `a`.  Consider the family of nontrivial positive excursions beginning at `a` and returning for the first time at positions `b>a`.
+Fix a mechanical prefix and a zero-height state at position `a`.  Consider the family of nontrivial positive excursions whose first defect occurs at `a` and whose first return to zero occurs at positions `b>a`.
 
 For one such excursion `e`, let `D_e` be its root-globalized canonical-start translation.  The ultrametric theorem gives
 
@@ -207,22 +255,24 @@ Equivalently, the corresponding dyadic cylinders are disjoint.  Since every code
 }
 \]
 
-This is a 2-adic Kraft inequality for neutral-excursion translations.
+This is a 2-adic Kraft inequality for fixed-entry neutral-excursion translations.
 
-## 6. Why this matters for Stage 4
+## 7. Why this matters for Stage 4
 
 The earlier weighted-L2 to first-order conversion failed because a fixed-depth Cauchy estimate introduced the ambient factor `sqrt(2^H)`.
 
 The excursion code supplies a different geometry: the relevant next-return translation cylinders are variable-length and prefix-free, hence disjoint before any first-order selector mass is summed.
 
-For a selector probability measure `mu` and a prefix-free excursion family `F`, one may work with the multiscale cylinder energy
+For a selector probability measure `mu` and a fixed-entry prefix-free excursion family `F`, define
 
 \[
 \boxed{
 \mathcal E_F(\mu)
-:=\sum_{I\in F}\frac{\mu(I)^2}{|I|}.
+:=\sum_{I\in F}\frac{\mu(I)^2}{|I|},
 }
 \]
+
+where `|I|` is the relative dyadic cylinder length from the fixed entry parent.
 
 Cauchy on the disjoint cylinders gives
 
@@ -239,7 +289,7 @@ Thus the ambient `2^H` factor is replaced by the Kraft mass of the actual excurs
 
 This does **not** yet close Stage 4: a usable theorem must still bound the selector's multiscale energy on these translated excursion cylinders.  But it gives a first-order-compatible target that respects both same-integer locking and variable return lengths.
 
-## 7. Correct next target
+## 8. Correct next target
 
 The main open calculation is now:
 
@@ -250,9 +300,9 @@ on long open-positive excursion translation cylinders.}
 }
 \]
 
-This is preferable to multiplying finite-window densities or building a finite-height recurrent SCC.  The harmonic theorem guarantees arbitrarily long open excursions, while ultrametric locking guarantees that their entry translation is genuine same-integer information.
+This is preferable to multiplying finite-window densities or building a finite-height recurrent SCC.  The harmonic theorem now rigorously guarantees arbitrarily long open excursions, while ultrametric locking guarantees that their entry translation is genuine same-integer information.
 
-## 8. Finite regression
+## 9. Finite regression
 
 `collatz/src/neutral_excursion_harmonic_budget_regression.cpp`
 
@@ -262,4 +312,4 @@ exhaustively checks the first 28 mechanical bits.  Across the exact `3,524,586` 
 0.3464394161>1/3.
 \]
 
-The finite calculation is only an implementation regression; Sections 2--5 are algebraic.
+The finite calculation is only an implementation regression; Sections 2--7 are algebraic.
