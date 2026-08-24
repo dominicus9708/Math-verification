@@ -19,8 +19,11 @@
 // at least 74, so the parity-vector/residue bijection gives at most one
 // positive start below 2^74 for each exact local word.
 //
+// Across all three remaining 44-trit affine blocks the same argument gives
+// multiplicity at most two, and the certificate reports both thresholds.
+//
 // No later-block L7 maximality assumption is used.  This is a finite
-// first-crossing certificate for the current m=44 resonance, not a proof
+// first-crossing certificate for the current resonance, not a proof
 // of the Collatz conjecture.
 
 #include <bits/stdc++.h>
@@ -41,9 +44,12 @@ int main(){
  constexpr int Q=8,M=6561,L=47,WMAX=576,HF=3; const ull H=137528045312ULL;
  cpp_int p44=1;for(int i=0;i<44;i++)p44*=3;
  cpp_int V0=4*p44+2;
- cpp_int NMAX=6*p44+1, two73=cpp_int(1)<<73;
- // 2(NMAX+H/3)<2^74, checked without division.
- cpp_int state_lhs=3*NMAX+H, state_rhs=3*two73; if(state_lhs>=state_rhs)return 10;
+ cpp_int NMAX1=6*p44+1, NMAXALL=18*p44+1;
+ cpp_int two73=cpp_int(1)<<73, two74=cpp_int(1)<<74;
+ // First block: 2(N+H/3)<2^74 => multiplicity 1 for D>=74.
+ cpp_int lhs1=3*NMAX1+H, rhs1=3*two73; if(lhs1>=rhs1)return 10;
+ // All three remaining 44-trit blocks: 2(N+H/3)<2^75 => multiplicity <=2.
+ cpp_int lhs2=3*NMAXALL+H, rhs2=3*two74; if(lhs2>=rhs2)return 11;
  vector<vector<int>>dmin(Q+1);for(int q=1;q<=Q;q++){int mod=p3i(q);dmin[q].assign(mod,999);vector<int>a(q);for(int K=q;K<2*q;K++)comps(q,0,K,a,dmin[q]);}
  vector<vector<int>>fac(48);set<vector<int>>uniq;int minD=999;
  for(int u=0;u<48;u++){fac[u]=factor_upper(u,L);uniq.insert(fac[u]);minD=min(minD,accumulate(fac[u].begin(),fac[u].end(),0));}
@@ -65,30 +71,38 @@ int main(){
    #pragma omp critical
    {for(int w=0;w<=WMAX;w++){auto &z=C[w];ull a=LC[w];if(ULLONG_MAX-z<a)z=ULLONG_MAX;else z+=a;}}
  }
- auto phi=[&](ull E)->__uint128_t{ull rem=E;__uint128_t cost=0;for(int w=0;w<=WMAX;w++){ull take=min(rem,C[w]);cost+=(__uint128_t)w*take;rem-=take;if(!rem)return cost;}return ~(__uint128_t)0;};
- auto ok=[&](ull W){ull rmax=W/32;ull E=(2*rmax>=H-L)?0:(H-L-2*rmax);return phi(E)<=(__uint128_t)46*W;};
- ull lo=0,hi=32*H;while(lo<hi){ull md=lo+(hi-lo)/2;if(ok(md))hi=md;else lo=md+1;}
- const ull TH=917388026368ULL;
- if(lo!=TH || ok(TH-1) || !ok(TH)) return 3;
+ auto phi=[&](ull E,ull mult)->__uint128_t{ull rem=E;__uint128_t cost=0;for(int w=0;w<=WMAX;w++){__uint128_t cc=(__uint128_t)C[w]*mult;ull avail=cc>ULLONG_MAX?ULLONG_MAX:(ull)cc;ull take=min(rem,avail);cost+=(__uint128_t)w*take;rem-=take;if(!rem)return cost;}return ~(__uint128_t)0;};
+ auto ok=[&](ull W,ull mult){ull rmax=W/32;ull E=(2*rmax>=H-L)?0:(H-L-2*rmax);return phi(E,mult)<=(__uint128_t)46*W;};
+ auto threshold=[&](ull mult){ull lo=0,hi=32*H;while(lo<hi){ull md=lo+(hi-lo)/2;if(ok(md,mult))hi=md;else lo=md+1;}return lo;};
+ const ull TH1=917388026368ULL, THALL=886418567776ULL;
+ if(threshold(1)!=TH1 || ok(TH1-1,1) || !ok(TH1,1)) return 3;
+ if(threshold(2)!=THALL || ok(THALL-1,2) || !ok(THALL,2)) return 12;
  if(C[0]!=48ULL || C[32]!=917ULL || C[64]!=8669ULL || C[80]!=1ULL ||
     C[96]!=54509ULL || C[112]!=61ULL || C[128]!=258366ULL ||
     C[256]!=23657288ULL || C[384]!=529247117ULL ||
-    C[512]!=7391705817ULL || C[575]!=129ULL || C[576]!=25486655704ULL) return 4;
+    C[512]!=7391705817ULL || C[544]!=13828289036ULL ||
+    C[575]!=129ULL || C[576]!=25486655704ULL) return 4;
  ull cum575=0; for(int w=0;w<=575;w++) cum575+=C[w];
  if(cum575!=76218244353ULL) return 5;
- ull Eprev=H-L-2*((TH-1)/32), Eat=H-L-2*(TH/32);
- auto Pprev=phi(Eprev), Pat=phi(Eat);
- auto Bprev=(__uint128_t)46*(TH-1), Bat=(__uint128_t)46*TH;
- if(Eprev!=80191293619ULL || Eat!=80191293617ULL) return 6;
- if(Pprev!=(__uint128_t)42199849213041ULL || Bprev!=(__uint128_t)42199849212882ULL) return 7;
- if(Pat!=(__uint128_t)42199849211889ULL || Bat!=(__uint128_t)42199849212928ULL) return 8;
- if(Eat-cum575!=3973049264ULL || Eat-cum575>C[576]) return 9;
- cout<<"threshold "<<TH<<"\n";
- cout<<"previous_E "<<Eprev<<" phi "<<u128(Pprev)<<" budget "<<u128(Bprev)<<" gap +159\n";
- cout<<"threshold_E "<<Eat<<" phi "<<u128(Pat)<<" budget "<<u128(Bat)<<" gap -1039\n";
- cout<<"cum_weight_le_575 "<<cum575<<"\n";
- cout<<"weight576_needed "<<(Eat-cum575)<<" of "<<C[576]<<"\n";
- cout<<setprecision(18)<<"eta/H_ge "<<(5.0L*(long double)TH)/(1536.0L*H)<<"\n";
- cout<<setprecision(18)<<"D/H_ge "<<(15.0L*(long double)TH)/(1536.0L*H)<<"\n";
+ ull E1p=H-L-2*((TH1-1)/32), E1=H-L-2*(TH1/32);
+ auto P1p=phi(E1p,1), P1=phi(E1,1);
+ auto B1p=(__uint128_t)46*(TH1-1), B1=(__uint128_t)46*TH1;
+ if(E1p!=80191293619ULL || E1!=80191293617ULL) return 6;
+ if(P1p!=(__uint128_t)42199849213041ULL || B1p!=(__uint128_t)42199849212882ULL) return 7;
+ if(P1!=(__uint128_t)42199849211889ULL || B1!=(__uint128_t)42199849212928ULL) return 8;
+ if(E1-cum575!=3973049264ULL || E1-cum575>C[576]) return 9;
+ ull E2p=H-L-2*((THALL-1)/32), E2=H-L-2*(THALL/32);
+ auto P2p=phi(E2p,2), P2=phi(E2,2);
+ auto B2p=(__uint128_t)46*(THALL-1), B2=(__uint128_t)46*THALL;
+ if(E2p!=82126884781ULL || E2!=82126884779ULL) return 13;
+ if(P2p!=(__uint128_t)40775254118456ULL || B2p!=(__uint128_t)40775254117650ULL) return 14;
+ if(P2!=(__uint128_t)40775254117368ULL || B2!=(__uint128_t)40775254117696ULL) return 15;
+ ull cum543=0;for(int w=0;w<=543;w++)cum543+=2*C[w];
+ if(cum543!=76145563906ULL || E2-cum543!=5981320873ULL || E2-cum543>2*C[544])return 16;
+ cout<<"first_block_threshold "<<TH1<<" eta/H_ge "<<setprecision(18)<<(5.0L*(long double)TH1)/(1536.0L*H)<<"\n";
+ cout<<"first_previous gap +159; threshold gap -1039\n";
+ cout<<"all_core_threshold "<<THALL<<" eta/H_ge "<<setprecision(18)<<(5.0L*(long double)THALL)/(1536.0L*H)<<"\n";
+ cout<<"all_core_previous gap +806; threshold gap -328\n";
+ cout<<"all_core_weight544_needed "<<(E2-cum543)<<" of "<<(2*C[544])<<"\n";
  cout<<"q8 level-set weighted window certificate: PASS\n";
 }
