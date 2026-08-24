@@ -8,9 +8,17 @@ The complete 2^7 full-Hensel class counts are
 
     c_q = (1,2,6,15,21,16,7,1),
 
-and the largest ordinary predecessor credit inside any class is 21.  Hence a
-hypothetical minimal counterexample N>21 must use a maximum-correction
-representative in every aligned seven-step block.
+and the largest ordinary predecessor credit inside any class is 21.
+
+SCOPE CORRECTION (2026-08-25): for a block beginning at a current orbit state
+x, a non-maximal representative with credit Delta gives a smaller current
+predecessor x-Delta.  This proves x-Delta<x, but for an arbitrary later block it
+does NOT by itself prove x-Delta<N for the original least-counterexample root N.
+Therefore the locally residue-maximal language and the entropy calculation
+below are exact, but membership of every later block of a hypothetical least
+counterexample requires a separate root-pullback/headroom or repair-budget
+theorem.  See `2026-08-25-l7-global-maximality-scope-correction.md` and
+`l7_later_block_globality_counterexample_certificate.py`.
 
 For an aligned seven-step mechanical reference block, the critical odd count Q
 is either 4 or 5 because
@@ -36,8 +44,8 @@ of Q=4 blocks, then
 hence n4<=59, uniformly over the starting phase (the usual floor/ceiling
 mechanical discrepancy is at most one, and this is the worse choice).
 
-Therefore the complete weighted residue-maximal language of a 700-step macro is
-bounded by
+Therefore the complete weighted locally residue-maximal language of a 700-step
+macro is bounded by
 
     F = P5(z)^100 z^59.
 
@@ -45,13 +53,13 @@ The exact integer inequality
 
     F^50 < 2^30100
 
-is equivalent to F<2^602.  Thus at least 98 of every 700 binary information bits
-are deterministically excluded:
+is equivalent to F<2^602.  Thus the locally residue-maximal language loses more
+than 98 of every 700 binary information bits:
 
     eta > 98/700 = 7/50.
 
-Under a subexponential same-integer overlap amplification, the reduced ternary
-selector family therefore needs only H>Cm with C>50/7.
+This rate is a conditional/local-language exclusion rate until a valid
+later-block globalization theorem is supplied.
 """
 from fractions import Fraction
 from itertools import product
@@ -112,8 +120,8 @@ def main():
     print("macro_steps",700)
     print("Q4_blocks_max",N4_MAX)
     print("weighted_macro_allowed_bits_lt",602)
-    print("deterministic_exclusion_rate_gt","7/50")
-    print("subexponential_overlap_sufficient_slope","C>50/7")
+    print("local_language_exclusion_rate_gt","7/50")
+    print("later_block_globalization","REQUIRES_SEPARATE_BRIDGE")
     print("L7 seven-fiftieths macro certificate: PASS")
 
 
