@@ -12,6 +12,13 @@
 //   Phi(H-47-2 floor(W6/32)) <= 46 W6.
 // The first W6 satisfying this necessary condition is certified below.
 //
+// Capacity multiplicity is one on the targeted first m=44 selector block:
+//   N = 4(3^44 + sum_{i<44} a_i 3^i)+3 <= 6*3^44+1,
+// and every zero-defect state obeys x < 2(N+H/3) < 2^74.
+// Every length-47 zero-endpoint local parity word has time-expanded length
+// at least 74, so the parity-vector/residue bijection gives at most one
+// positive start below 2^74 for each exact local word.
+//
 // No later-block L7 maximality assumption is used.  This is a finite
 // first-crossing certificate for the current m=44 resonance, not a proof
 // of the Collatz conjecture.
@@ -32,9 +39,15 @@ struct Hsh{size_t operator()(Key const&k)const{return ((size_t)k.res*11995408973
 static string u128(__uint128_t x){if(!x)return"0";string s;while(x){s.push_back('0'+x%10);x/=10;}reverse(s.begin(),s.end());return s;}
 int main(){
  constexpr int Q=8,M=6561,L=47,WMAX=576,HF=3; const ull H=137528045312ULL;
- cpp_int V0=4;for(int i=0;i<44;i++)V0*=3;V0+=2;
+ cpp_int p44=1;for(int i=0;i<44;i++)p44*=3;
+ cpp_int V0=4*p44+2;
+ cpp_int NMAX=6*p44+1, two73=cpp_int(1)<<73;
+ // 2(NMAX+H/3)<2^74, checked without division.
+ cpp_int state_lhs=3*NMAX+H, state_rhs=3*two73; if(state_lhs>=state_rhs)return 10;
  vector<vector<int>>dmin(Q+1);for(int q=1;q<=Q;q++){int mod=p3i(q);dmin[q].assign(mod,999);vector<int>a(q);for(int K=q;K<2*q;K++)comps(q,0,K,a,dmin[q]);}
- vector<vector<int>>fac(48);set<vector<int>>uniq;for(int u=0;u<48;u++){fac[u]=factor_upper(u,L);uniq.insert(fac[u]);}if(uniq.size()!=48)return 2;
+ vector<vector<int>>fac(48);set<vector<int>>uniq;int minD=999;
+ for(int u=0;u<48;u++){fac[u]=factor_upper(u,L);uniq.insert(fac[u]);minD=min(minD,accumulate(fac[u].begin(),fac[u].end(),0));}
+ if(uniq.size()!=48||minD<74)return 2;
  vector<int>modq(Q+1);for(int q=1;q<=Q;q++)modq[q]=p3i(q);
  const size_t SZ=(size_t)48*48*(HF+1)*M;vector<unsigned char>forbidden(SZ);auto ix=[&](int u,int s,int h,int res){return ((((size_t)u*48+s)*(HF+1)+h)*M+res);};
  for(int u=0;u<48;u++)for(int s=1;s<=47;s++){auto[pn,pd]=phase_sup(u,s);for(int h=0;h<=HF;h++)for(int res=0;res<M;res++){bool bad=false;for(int q=1;q<=min(Q,s);q++){int K=dmin[q][res%modq[q]];if(K==999)continue;cpp_int lhs=cpp_int(1)<<(K+h);lhs*=pn;lhs*=(3*V0+H);cpp_int rhs=1;for(int z=0;z<q+1;z++)rhs*=3;rhs*=V0;rhs*=pd;if(lhs<rhs){bad=true;break;}}forbidden[ix(u,s,h,res)]=bad;}}
