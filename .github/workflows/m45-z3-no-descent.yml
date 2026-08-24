@@ -7,6 +7,12 @@ on:
     paths:
       - 'collatz/src/m45_z3_no_descent.py'
       - '.github/workflows/m45-z3-no-descent.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'collatz/src/m45_z3_no_descent.py'
+      - '.github/workflows/m45-z3-no-descent.yml'
   workflow_dispatch:
 
 jobs:
