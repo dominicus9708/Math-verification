@@ -16,12 +16,10 @@
 //   pass ternary digits 0..41 in {0,1}          :           1
 //   pass ternary digits 0..42 in {0,1}          :           0
 //
-// Hence t mod 3^43 already excludes the entire zero-mixed branch.  The unique
-// candidate surviving through ternary digit 41 is
-//
-//   N*=5009655000888502825071,
-//
-// for which digit_42(t*)=2, digit_43(t*)=0, while digits 0..41 are all 0/1.
+// Hence t mod 3^43 already excludes the entire zero-mixed branch.  An
+// independent diagnostic identifies the unique candidate surviving through
+// ternary digit 41 as N*=5009655000888502825071; its digit_42(t*)=2,
+// digit_43(t*)=0, while digits 0..41 are all 0/1.
 //
 // This is a finite exact certificate inside the present m=44 reduction.  It is
 // not an asymptotic theorem and not a proof of the Collatz conjecture.
@@ -118,7 +116,7 @@ bool apply(const St&s, const Tr&tr, int bl, St&t){
         const int pos=off+k, bit=(tr.mask>>k)&1u;
         const int carry=bit ^ int(t.y&1);
         if(carry){
-            if(pos>=73) return false; // final canonical start must be <2^73
+            if(pos>=73) return false;
             t.r += ((u128)1)<<pos;
             t.y += t.p3;
         }
@@ -161,14 +159,7 @@ void inspect_leaf(const St&s, Count&c){
         const unsigned d=(unsigned)(z%3);
         if(d>1){
             ++c.bad[i];
-            if(i==42){
-                if(s.r!=u128(5009655000888502825ULL)*1000u128 + 71) {
-                    // The literal above is intentionally not used as the proof;
-                    // finalNear below is checked by cardinality.  Keep execution
-                    // portable even on compilers without 128-bit literals.
-                }
-                ++c.finalNear;
-            }
+            if(i==42) ++c.finalNear;
             return;
         }
         z/=3;
