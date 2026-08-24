@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """Exact-rational start-ceiling consequences of the q<=8 level-set window bounds.
 
-The all-core threshold uses multiplicity <=2 and is valid across all three
-remaining 44-trit affine blocks.  The first-block threshold uses multiplicity 1
-and is reported separately.  No floating-point comparison is used in assertions.
+The all-core threshold is the authoritative length-48 result, where the
+remaining recursive core itself gives zero-defect states below 2^75 while every
+length-48 zero-endpoint local parity word has time-expanded length at least 76.
+Thus local parity multiplicity is one across all three remaining 44-trit affine
+blocks.  The first-block length-47 threshold is reported separately.
+No floating-point comparison is used in assertions.
 """
 from fractions import Fraction
 
 A = 217_976_794_617
 H = 137_528_045_312
 W_FIRST = 917_388_026_368
-W_ALL = 886_418_567_776
+W_ALL = 894_734_262_659
 NLOG = 70
 
 
@@ -37,7 +40,7 @@ S_up = Fraction(H, 1)/(6*l2) + Fraction(1, 3)
 eta_first = Fraction(5*W_FIRST, 1536)
 eta_all = Fraction(5*W_ALL, 1536)
 assert eta_first == Fraction(8_958_867_445, 3)
-assert eta_all == Fraction(138_502_901_215, 48)
+assert eta_all == Fraction(4_473_671_313_295, 1536)
 
 
 def safe_upper(eta: Fraction) -> Fraction:
@@ -54,7 +57,7 @@ U_all = safe_upper(eta_all)
 
 assert floorq(U0) == 36_797_780_654_565_556_495_673
 assert floorq(U_first) == 33_474_714_987_020_083_379_399
-assert floorq(U_all) == 33_586_896_028_881_930_990_375
+assert floorq(U_all) == 33_556_773_987_419_405_994_758
 assert U_first < U_all < U0 < 2**75
 assert U_all > 2**74
 
@@ -69,10 +72,10 @@ assert all_core_max < U_all
 
 print('q8 level-set start ceiling: PASS')
 print('eta_first =', eta_first)
-print('eta_all =', eta_all)
+print('eta_all_L48 =', eta_all)
 print('floor no-defect safe ceiling =', floorq(U0))
 print('floor first-block weighted ceiling =', floorq(U_first))
-print('floor all-core weighted ceiling =', floorq(U_all))
+print('floor all-core L48 weighted ceiling =', floorq(U_all))
 print('all-core gain vs zero-defect =', floorq(U0)-floorq(U_all))
 print('remaining all-core max =', all_core_max)
 print('ceiling does not prune the remaining core; all-core max is already < 2^74')
