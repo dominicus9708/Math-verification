@@ -21,14 +21,12 @@
 //
 //     Delta <= 87381.
 //
-// It also records the number of occupied full-Hensel residue classes for each
-// q.  Therefore, for any hypothetical minimal counterexample N>87381, every
-// actual 19-step block must be the maximum-correction representative of its
-// own occupied full-Hensel residue class: otherwise x-Delta>0 is a smaller
-// trajectory reaching the same block endpoint.
-//
-// The final minimality implication is algebraic and stated in the companion
-// note; this file certifies the finite local constant and class counts.
+// SCOPE CORRECTION (2026-08-25): at an arbitrary later block this identity
+// proves only x-Delta < x.  It does not by itself prove x-Delta < N for the
+// original least-counterexample root N.  Therefore the local class counts and
+// credit bound below remain exact, but arbitrary later-block maximality needs a
+// separate root-pullback/headroom or repair-budget theorem.  See
+// collatz/notes/2026-08-25-l7-global-maximality-scope-correction.md.
 
 using u32 = std::uint32_t;
 using u64 = std::uint64_t;
@@ -100,6 +98,7 @@ int main() {
     std::cout << "total_full_hensel_classes " << total_classes << "\n";
     std::cout << "global_local_credit_max " << global_max_credit
               << " at_q " << max_q << "\n";
+    std::cout << "later_block_globalization REQUIRES_SEPARATE_BRIDGE\n";
     std::cout << "H19 unrestricted residue-maximality certificate: PASS\n";
     return 0;
 }
