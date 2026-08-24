@@ -82,11 +82,7 @@ def main():
 
     max_credit=0
     for q,cls in enumerate(classes):
-        for lo,hi in cls.items():
-            pass
-    for q,cls in enumerate(classes):
-        for lo_hi in cls.values():
-            lo,hi=lo_hi
+        for lo,hi in cls.values():
             assert (hi-lo)%p3[q]==0
             max_credit=max(max_credit,(hi-lo)//p3[q])
     assert max_credit==42
