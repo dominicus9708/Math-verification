@@ -5,10 +5,18 @@ This is a structural certificate in the Collatz proof program, not a proof of
 the Collatz conjecture.
 
 For each 8-bit parity word w with q odd symbols, let R(w) be its affine
-correction.  Within each full-Hensel class R mod 3^q, a hypothetical minimal
-counterexample larger than the maximum class credit must use the
-maximum-correction representative; otherwise a smaller positive predecessor
-merges to the same 8-step endpoint.
+correction.  Within each full-Hensel class R mod 3^q, replacing a non-maximal
+word by a larger-correction sibling gives a smaller predecessor of the current
+block state.
+
+SCOPE CORRECTION (2026-08-25): for a later block beginning at x this local
+predecessor is x-Delta<x, but it need not be smaller than the original
+least-counterexample root N.  Therefore the local class arithmetic and the
+entropy bound below are exact, while the claim that every later actual block is
+forced into this locally maximal language requires a separate root-pullback,
+headroom, or repair-budget theorem.  See
+`2026-08-25-l7-global-maximality-scope-correction.md`; the same logical issue
+applies to L8.
 
 The complete 2^8 cube has occupied class counts
 
@@ -29,10 +37,9 @@ We prove using integer arithmetic only that
 Fifteen blocks have length 120.  Hence, after dropping all intermediate
 nonnegativity constraints (which only enlarges the language), the number of
 locally residue-maximal coefficient-surviving 120-step words is <2^104.
-Thus the deterministic exclusion rate is >16/120=2/15 bits per step.
-
-For a reduced ternary-selector family of size <=2^m, a subexponential
-same-integer overlap amplification would therefore need only H>Cm with C>15/2.
+Thus the locally maximal sublanguage has exclusion rate >16/120=2/15 bits per
+step.  This is a conditional/local-language rate until a valid later-block
+globalization theorem is supplied.
 """
 from fractions import Fraction
 from itertools import product
@@ -75,7 +82,11 @@ def main():
 
     max_credit=0
     for q,cls in enumerate(classes):
-        for lo,hi in cls.values():
+        for lo,hi in cls.items():
+            pass
+    for q,cls in enumerate(classes):
+        for lo_hi in cls.values():
+            lo,hi=lo_hi
             assert (hi-lo)%p3[q]==0
             max_credit=max(max_credit,(hi-lo)//p3[q])
     assert max_credit==42
@@ -92,8 +103,8 @@ def main():
     print("worst_block_factor", F)
     print("macro_steps", 120)
     print("macro_allowed_bits_lt", 104)
-    print("deterministic_exclusion_rate_gt", "2/15")
-    print("subexponential_overlap_sufficient_slope", "C>15/2")
+    print("local_language_exclusion_rate_gt", "2/15")
+    print("later_block_globalization", "REQUIRES_SEPARATE_BRIDGE")
     print("L8 residue-maximal entropy certificate: PASS")
 
 
