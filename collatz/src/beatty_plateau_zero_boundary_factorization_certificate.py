@@ -71,7 +71,8 @@ def main() -> None:
     # Selected exact total counts already certified elsewhere.
     expected = {
         7: 13,
-        14: 367,
+        13: 367,
+        14: 734,
         20: 27_328,
         24: 286_581,
     }
