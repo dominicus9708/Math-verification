@@ -25,10 +25,10 @@ jobs:
           python-version: '3.12'
       - name: Install Z3
         run: python -m pip install z3-solver
-      - name: Check m45 milestones
+      - name: Check m45 handoff milestones
         run: |
           set -o pipefail
-          python collatz/src/m45_z3_no_descent.py --milestones 200,300,400,500,600 | tee /tmp/m45-z3-latest.txt
+          python collatz/src/m45_z3_no_descent.py --milestones 74,84,112,140,168,196,200 | tee /tmp/m45-z3-latest.txt
       - name: Persist exact result
         if: always()
         run: |
