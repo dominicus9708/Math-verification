@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
-"""Exact SAT audit for the current m=45 Stage-4 core.
+"""Exact SAT audit for the current m=45 Stage-4 minimal-counterexample core.
 
-This verifier deliberately separates two questions at each requested horizon H:
-
-1. LANGUAGE: does a selector integer realize all currently imposed *necessary*
-   symbolic conditions through H?
-2. NO_DESCENT: after adding the exact deterministic inequalities T^j(N)>=N,
-   does such a selector survive without descent through H?
-
-Current necessary conditions used here:
+Current necessary conditions:
 - m=45 recursively sufficient selector layer;
 - exact coefficient survival q_j >= ceil(j log_3 2) at every prefix;
 - every complete aligned 7-step block is one of the 69 full-Hensel
@@ -17,9 +10,16 @@ Current necessary conditions used here:
   p in {2,5,8,10}, the ordinary m=45 channels left after the previously
   certified first-defect closures.
 
-The script is a finite proof-search/audit tool. SAT is only a surviving
-candidate. UNSAT is useful only together with the cited necessity of all
-filters above. UNKNOWN is explicitly non-conclusive.
+For this m=45 layer, the coherent-ballot certificate proves through H=301,993
+that no-descent implies coefficient survival. The converse follows immediately
+from the positive affine correction. Therefore coefficient survival and
+no-descent are equivalent throughout every horizon used here, and no separate
+UGE(T^j(N),N) solver is required.
+
+SAT means a candidate remains after these necessary minimal-counterexample
+filters. UNSAT closes this already-pruned m=45 core through the tested horizon,
+when combined with the previously certified first-defect closures. UNKNOWN is
+non-conclusive. This is finite computation, not a proof of Collatz globally.
 """
 
 from __future__ import annotations
@@ -27,23 +27,10 @@ from __future__ import annotations
 import argparse
 from collections import defaultdict
 
-from z3 import (
-    And,
-    Bool,
-    BitVecVal,
-    If,
-    LShR,
-    Not,
-    Or,
-    Solver,
-    Sum,
-    UGE,
-    sat,
-    unsat,
-    unknown,
-)
+from z3 import And, Bool, BitVecVal, If, LShR, Not, Or, PbGe, Solver, sat, unsat, unknown
 
 M = 45
+H_EQUIV_MAX = 301_993
 POW3 = [3**i for i in range(M + 1)]
 N_MIN = 4 * POW3[M] + 3
 N_MAX = 4 * (POW3[M] + (POW3[M] - 1) // 2) + 3
@@ -74,7 +61,6 @@ def parity_prefix_int(n: int, H: int) -> list[int]:
 
 
 def exact_safe_width(max_h: int) -> int:
-    # The monotone all-odd affine branch dominates both accelerated branches.
     x = N_MAX
     peak = x
     for _ in range(max_h):
@@ -122,7 +108,7 @@ def l7_residue_maximal_words() -> tuple[tuple[int, ...], ...]:
     out = []
     counts = [0] * 8
     for (q, _), arr in groups.items():
-        R, bits = max(arr)
+        _R, bits = max(arr)
         out.append(bits)
         counts[q] += 1
     assert tuple(counts) == (1, 2, 6, 15, 21, 16, 7, 1)
@@ -166,6 +152,8 @@ def main() -> None:
     if not milestones or milestones[0] < 28:
         raise SystemExit("milestones must start at H>=28")
     max_h = milestones[-1]
+    if max_h > H_EQUIV_MAX:
+        raise SystemExit("requested horizon exceeds coherent-ballot equivalence certificate")
     target = set(milestones)
 
     qmin = qmin_table(max_h)
@@ -173,7 +161,6 @@ def main() -> None:
     allowed_l7 = l7_residue_maximal_words()
     width = exact_safe_width(max_h)
 
-    # Regression against the mechanical prefix used by the depth-28 audits.
     expected28 = "1101101101011011010110110110"
     assert "".join(map(str, mechanical[:28])) == expected28
 
@@ -185,18 +172,16 @@ def main() -> None:
 
     x = n
     odd_bits = []
-    states = []
-    language = Solver()
-    language.set(timeout=args.timeout_ms)
+    solver = Solver()
+    solver.set(timeout=args.timeout_ms)
 
     print("m45 Stage-4 necessary-language Z3 verifier", flush=True)
+    print("equivalence_certified_through", H_EQUIV_MAX, flush=True)
     print("N_min", N_MIN, flush=True)
     print("N_max", N_MAX, flush=True)
     print("width", width, flush=True)
     print("L7_words", len(allowed_l7), flush=True)
     print("remaining_first_defects", REMAINING_FIRST_DEFECTS, flush=True)
-
-    first_defect_added = False
 
     for j in range(1, max_h + 1):
         odd = (x & BitVecVal(1, width)) == BitVecVal(1, width)
@@ -204,56 +189,38 @@ def main() -> None:
         odd_value = LShR(3 * x + BitVecVal(1, width), 1)
         even_value = LShR(x, 1)
         x = If(odd, odd_value, even_value)
-        states.append(x)
 
-        # Exact coefficient-survival requirement. Because q_j is monotone,
-        # constraining every prefix is the clearest auditable formulation.
-        language.add(Sum(*[If(b, 1, 0) for b in odd_bits]) >= qmin[j])
+        # Exact coefficient-survival constraints are required only at Beatty
+        # rises: q_j is nondecreasing and q_min is constant between rises.
+        if qmin[j] > qmin[j - 1]:
+            solver.add(PbGe([(b, 1) for b in odd_bits], qmin[j]))
 
         if j % 7 == 0:
-            language.add(word_constraint(odd_bits[j - 7 : j], allowed_l7))
+            solver.add(word_constraint(odd_bits[j - 7 : j], allowed_l7))
 
-        if j == 28 and not first_defect_added:
-            language.add(first_defect_constraint(odd_bits[:28], mechanical[:28]))
-            first_defect_added = True
+        if j == 28:
+            solver.add(first_defect_constraint(odd_bits[:28], mechanical[:28]))
 
         if j not in target:
             continue
 
-        ls = language.check()
-        print("H", j, "language_status", ls, flush=True)
-        if ls == sat:
-            model = language.model()
+        status = solver.check()
+        print("H", j, "status", status, flush=True)
+        if status == sat:
+            model = solver.model()
             nv, mask = selector_value(model, selectors)
             bits = parity_prefix_int(nv, j)
             assert all(sum(bits[:h]) >= qmin[h] for h in range(1, j + 1))
-            print("language_witness_N", nv, flush=True)
-            print("language_witness_mask", mask, flush=True)
-            print("language_witness_first_descent", first_descent(nv, j), flush=True)
-        elif ls == unknown:
-            print("language_reason_unknown", language.reason_unknown(), flush=True)
-
-        # Exact no-descent test on top of the already-pruned symbolic language.
-        nd = Solver()
-        nd.set(timeout=args.timeout_ms)
-        nd.add(*language.assertions())
-        nd.add(*[UGE(states[h - 1], n) for h in range(1, j + 1)])
-        ns = nd.check()
-        print("H", j, "no_descent_status", ns, flush=True)
-        if ns == sat:
-            model = nd.model()
-            nv, mask = selector_value(model, selectors)
-            fd = first_descent(nv, j)
-            assert fd is None, (j, nv, fd)
-            print("no_descent_witness_N", nv, flush=True)
-            print("no_descent_witness_mask", mask, flush=True)
-        elif ns == unknown:
-            print("no_descent_reason_unknown", nd.reason_unknown(), flush=True)
-        elif ns == unsat:
-            print("first_no_descent_unsat_milestone", j, flush=True)
-            # Larger horizons inherit the same no-descent impossibility under
-            # the already imposed necessary prefix conditions.
-            break
+            assert first_descent(nv, j) is None
+            print("witness_N", nv, flush=True)
+            print("witness_mask", mask, flush=True)
+        elif status == unsat:
+            print("first_unsat_milestone", j, flush=True)
+            return
+        elif status == unknown:
+            print("reason_unknown", solver.reason_unknown(), flush=True)
+        else:
+            raise RuntimeError(status)
 
 
 if __name__ == "__main__":
