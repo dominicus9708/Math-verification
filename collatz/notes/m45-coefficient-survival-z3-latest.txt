@@ -1,0 +1,17 @@
+m45 exact coefficient-survival Z3 verifier
+equivalence_certified_through 301993
+N_min 11817250826203334794575
+N_max 17725876239305002191859
+width 193
+H 74 status unknown
+reason_unknown timeout
+H 84 status unknown
+reason_unknown canceled
+H 112 status unknown
+reason_unknown canceled
+H 140 status unknown
+reason_unknown canceled
+H 168 status unknown
+reason_unknown canceled
+H 196 status unknown
+reason_unknown canceled
