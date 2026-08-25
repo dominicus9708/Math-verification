@@ -12,9 +12,10 @@ own start through specified accelerated-Collatz depths:
     T(n)=(3n+1)/2        for odd n.
 
 Only the 45 selector bits are free.  The trajectory is a deterministic Z3
-bit-vector circuit.  The chosen width is large enough for the mathematical
-worst-case growth through MAX_H; Python exact integers independently recheck
-any SAT model returned by Z3.
+bit-vector circuit.  The chosen width is obtained from an exact monotone
+all-odd upper-bound recurrence and is large enough for every intermediate
+3*x+1 numerator through MAX_H. Python exact integers independently recheck any
+SAT model returned by Z3.
 
 This is a finite computational certificate generator.  SAT means the tested
 horizon does not close m=45.  UNSAT at a horizon H proves that no integer in
@@ -46,6 +47,25 @@ def first_descent(n: int, limit: int) -> int | None:
     return None
 
 
+def exact_safe_width(max_h: int) -> int:
+    """Return a rigorous width for every 3*x+1 intermediate through max_h.
+
+    For positive x, both accelerated branches are bounded by the odd affine
+    branch (3*x+1)/2.  Iterating that monotone branch from N_MAX therefore
+    dominates every actual trajectory from the selector layer, regardless of
+    parity.  We track the pre-shift numerator as well, because bit-vector
+    multiplication must not wrap before LShR.
+    """
+    x = N_MAX
+    peak = x
+    for _ in range(max_h):
+        numerator = 3 * x + 1
+        peak = max(peak, numerator)
+        x = numerator // 2
+    # One extra guard bit makes the no-wrap comparison visually explicit.
+    return peak.bit_length() + 1
+
+
 def selector_value(model, selectors) -> tuple[int, int]:
     mask = 0
     y = POW3[M]
@@ -69,9 +89,7 @@ def main() -> None:
         raise SystemExit("positive milestones required")
 
     max_h = milestones[-1]
-    # All-odd accelerated growth is < (3/2)^H plus a geometric correction.
-    # max_h extra bits is therefore a deliberately loose rigorous guard.
-    width = N_MAX.bit_length() + max_h + 8
+    width = exact_safe_width(max_h)
 
     sel = [Bool(f"a_{i}") for i in range(M)]
     zero = BitVecVal(0, width)
