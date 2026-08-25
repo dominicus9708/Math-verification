@@ -1,12 +1,33 @@
-# Recursive-sufficiency Cantor-core reduction
+# Recursive-sufficiency Cantor-core reduction — conditional dependency status
 
 Date: 2026-08-09
 
-Status: derived reduction using Ansari (2025) plus the first-crossing correction bounds. This is not a proof of the Collatz conjecture.
+Audit update: 2026-08-26
 
-## 1. Minimal counterexamples must lie in Ansari's recursively sufficient core
+Status: **CONDITIONAL**. The algebra below is retained, but the upstream claim that Ansari's entire sequence \(F_n\) is recursively sufficient is not established by the published induction as written. See `2026-08-26-ansari-recursive-sufficiency-induction-audit.md`. This is not a proof of the Collatz conjecture.
 
-Ansari constructs decreasing recursively sufficient sets F_n and proves that their intersection is
+## 0. Dependency warning
+
+The original version of this note treated the implication
+
+\[
+\text{minimal counterexample}\Longrightarrow F
+\]
+
+as established from Ansari (2025). A primary-source audit on 2026-08-26 found that the equality used to complete Lemma 3.1's induction fails already at \(n=1\). Therefore the ternary-core entry step must now be read conditionally:
+
+\[
+\boxed{
+\text{IF the required recursive-sufficiency theorem for the }F_n\text{ chain is repaired,}
+\text{ THEN a minimal counterexample is confined to }F.
+}
+\]
+
+All counting, tensor, carry and selector calculations below remain valid statements about the explicitly defined set \(F\); what is no longer unconditional is the claim that every hypothetical minimal Collatz counterexample must lie in it.
+
+## 1. Conditional Cantor-core reduction
+
+Define
 
 \[
 F=\left\{
@@ -15,18 +36,21 @@ F=\left\{
 \right\}.
 \]
 
-Because F is recursively sufficient, a minimal Collatz counterexample N would have to lie in F. If N were outside F, recursive sufficiency would provide m<N merging with N; minimality would make m convergent and therefore N convergent, a contradiction.
+If a repaired proof establishes that the relevant decreasing sets \(F_n\) are recursively sufficient, then their intersection \(F\) is recursively sufficient, and a minimal Collatz counterexample \(N\) would have to lie in \(F\). If \(N\notin F\), recursive sufficiency would provide \(m<N\) merging with \(N\); minimality would make \(m\) convergent and therefore \(N\) convergent, a contradiction.
 
-Thus a hypothetical minimal counterexample has a ternary-Cantor representation: after removing the affine wrapper (x-3)/4, its ternary digits are only 0 or 1.
+Under that repaired-entry hypothesis, a hypothetical minimal counterexample has a ternary-Cantor representation: after removing the affine wrapper \((x-3)/4\), its ternary digits are only 0 or 1.
 
-## 2. Counting the core below X
+Without that hypothesis, \(F\) is only an explicitly defined selector family used for conditional calculations.
 
-For fixed leading ternary exponent m there are 2^m choices of the lower digits. If
+## 2. Counting the explicit core below X
+
+For fixed leading ternary exponent m there are \(2^m\) choices of the lower digits. If
 
 \[
 Y=(X-3)/4,
 \]
-then m<=floor(log_3 Y), and hence
+
+then \(m\le\lfloor\log_3Y\rfloor\), and hence
 
 \[
 |F\cap[1,X]|
@@ -44,6 +68,8 @@ The exponent is
 \[
 \log_3 2=0.6309297535714574\ldots
 \]
+
+This counting statement concerns the explicit set \(F\) and does not depend on recursive sufficiency.
 
 ## 3. First-crossing magnitude bound
 
@@ -73,21 +99,23 @@ so
 \[
 \delta=e^{\sigma\log2-q\log3}-1\ge\sigma^{-13.3}.
 \]
-Since q<sigma,
+Since \(q<\sigma\),
 
 \[
 \boxed{x=O(\sigma^{14.3})}.
 \]
 
-## 4. Layerwise candidate-count reduction
+This bound is logically separate from the disputed ternary-core entry theorem.
 
-Intersecting this polynomial magnitude window with F yields
+## 4. Conditional layerwise candidate-count reduction
+
+If minimal first-crossing candidates are legitimately restricted to \(F\), intersecting the polynomial magnitude window with \(F\) yields
 
 \[
 \#\{\text{minimal FCS candidates at order }\sigma\}
 =O\left((\sigma^{14.3})^{\log_3 2}\right).
 \]
-Hence
+Hence, conditionally,
 
 \[
 \boxed{
@@ -97,16 +125,11 @@ N_{\rm core}(\sigma)
 }
 \]
 
-This is stronger than the earlier direct binary-prefix count bound. It says that, after recursive sufficiency is imposed, the independent realization coordinates can be taken as only
+The statement that the independent realization coordinates reduce to \(O(\log\sigma)\) ternary digits is therefore also conditional on the repaired recursive-sufficiency entry theorem.
 
-\[
-O(\log\sigma)
-\]
-ternary 0/1 digits.
+## 5. Matrix/tensor representation of the explicit selector family
 
-## 5. Matrix/tensor representation
-
-For a fixed leading exponent m, the candidate set has generating polynomial
+For a fixed leading exponent m, the family has generating polynomial
 
 \[
 G_m(z)
@@ -115,36 +138,56 @@ G_m(z)
  \prod_{i=0}^{m-1}(1+z^{4\cdot3^i}).
 \]
 
-Modulo 2^B, use
+Modulo \(2^B\), use
 
 \[
 G_m(z)\pmod{z^{2^B}-1}.
 \]
-The support is precisely the dyadic residue set generated by the ternary 0/1 core.
+The support is precisely the dyadic residue set generated by the ternary 0/1 family.
 
-Independently, the pre-crossing parity language is produced by the narrow transfer matrices whose state is the accumulated odd count q_k and whose allowed transitions are b in {0,1} subject to
+Independently, the pre-crossing parity language is produced by the narrow transfer matrices whose state is the accumulated odd count \(q_k\) and whose allowed transitions are \(b\in\{0,1\}\) subject to
 
 \[
 3^{q_k}\ge2^k.
 \]
 
-Thus both sides separately have low-complexity descriptions:
+Thus the two explicit combinatorial objects retain low-complexity descriptions:
 
-- ternary minimal-counterexample core: product tensor / subset-sum generating function;
-- binary first-crossing language: narrow ballot transfer matrix.
+- ternary 0/1 selector family: product tensor / subset-sum generating function;
+- binary coefficient-surviving language: narrow ballot transfer matrix.
 
-The hard bridge is the 2-adic parity conjugacy / carry conversion mapping the integer represented by the ternary tensor to its binary Collatz parity word.
+The 2-adic parity/carry conversion problem between them remains mathematically meaningful, but it becomes relevant to the full Collatz conjecture only after the upstream recursive-sufficiency entry edge is repaired.
 
-Stérin--Woods' base-conversion result is directly relevant here: Collatz embeds a base-3 to base-2 conversion process. Their complexity result also warns that the carry bridge is not expected to collapse to a trivial constant-state map.
+## 6. Correct interpretation after the 2026-08-26 audit
 
-## 6. Interpretation
-
-The nominal q-dimensional parity search has now been reduced, for a hypothetical minimal finite-crossing counterexample, to two logarithmic cores describing the same integer:
+The earlier interpretation
 
 \[
-\text{ternary Cantor digits } a_i\in\{0,1\}
-\quad\leftrightarrow\quad
-\text{binary parity core}.
+\text{global minimal counterexample}
+\to
+\text{ternary Cantor digits}
+\leftrightarrow
+\text{binary parity core}
 \]
 
-The remaining proof problem is not the size of either set separately; it is controlling the cross-base conjugacy between them uniformly in the scale.
+must be replaced by
+
+\[
+\text{repaired RS entry theorem}
+\Longrightarrow
+\left(
+\text{ternary Cantor digits}
+\leftrightarrow
+\text{binary parity core}
+\right).
+\]
+
+The downstream calculations have not been algebraically refuted. Their status has changed from an unconditional global reduction to **conditional results on an explicit selector family**.
+
+The immediate repair target is the first missing deletion class
+
+\[
+36\mathbb N_0+27,
+\]
+
+because the companion class \(36\mathbb N_0+31\) has an explicit smaller-merge certificate. Even a proof for \(36\mathbb N_0+27\) would repair only \(F_1\to F_2\); the general induction would still require a separate valid argument.
