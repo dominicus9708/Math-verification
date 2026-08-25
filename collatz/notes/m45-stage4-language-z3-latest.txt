@@ -1,0 +1,24 @@
+m45 Stage-4 necessary-language Z3 verifier
+N_min 11817250826203334794575
+N_max 17725876239305002191859
+width 142
+L7_words 69
+remaining_first_defects (2, 5, 8, 10)
+H 28 language_status sat
+language_witness_N 13282182275375024832679
+language_witness_mask 11343952048325
+language_witness_first_descent None
+H 28 no_descent_status unknown
+no_descent_reason_unknown timeout
+H 74 language_status unknown
+language_reason_unknown canceled
+H 74 no_descent_status unknown
+no_descent_reason_unknown timeout
+H 84 language_status unknown
+language_reason_unknown canceled
+H 84 no_descent_status unknown
+no_descent_reason_unknown timeout
+H 112 language_status unknown
+language_reason_unknown canceled
+H 112 no_descent_status unknown
+no_descent_reason_unknown timeout
