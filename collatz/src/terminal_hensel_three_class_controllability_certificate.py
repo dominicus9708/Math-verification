@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """Exact local controllability audit for zero-target terminal Hensel lifts.
 
-This certificate proves that after the required displacement parity is fixed,
-the three same-parity residue classes d,d+2,d+4 modulo 6 produce all three
-possible next ternary carry digits.  Therefore a sign-only discrepancy theorem
-cannot be valid without also using ordering/cost/boundary information.
+This certificate proves two facts:
+
+1. after the required displacement parity is fixed, the three same-parity
+   classes d,d+2,d+4 modulo 6 produce all three possible next ternary carry
+   digits;
+2. if boundary states are left arbitrary, every finite mechanical block admits
+   a zero-cost d=0 Hensel path.
+
+Therefore neither a sign-only discrepancy theorem nor a positive local block
+cost theorem can close the first resonance without retaining the two boundary
+states, ordering memory, and real displacement cost.
 
 This is a structural audit, not a proof of the Collatz conjecture.
 """
@@ -15,11 +22,7 @@ def invpow2(d: int, mod: int) -> int:
 
 
 def next_digit(K9: int, e: int, d: int) -> int:
-    """Return K' mod 3 for K'=(K+2^(e-d))/3 in Z_3.
-
-    K9 is K modulo 9 and must be a unit modulo 3.  The action d must satisfy
-    divisibility modulo 3.  Computation modulo 9 is enough for the next digit.
-    """
+    """Return K' mod 3 for K'=(K+2^(e-d))/3 in Z_3."""
     u = (pow(2, e, 9) * invpow2(d, 9)) % 9
     z = (K9 + u) % 9
     assert z % 3 == 0
@@ -36,6 +39,27 @@ def required_parity(K9: int, e: int) -> int:
     return good[0]
 
 
+def zero_cost_block(exponents, terminal_carry=1):
+    """Construct a d=0 Hensel path backwards across any finite block.
+
+    Forward recurrence for d=0 is
+        K_i = (K_{i-1} + 2^e_i)/3.
+    Given the terminal unit K_L, define backwards
+        K_{i-1} = 3 K_i - 2^e_i.
+    Every predecessor is automatically a unit modulo 3 because
+        K_{i-1} == -2^e_i (mod 3).
+    """
+    assert terminal_carry % 3 != 0
+    carries = [None] * (len(exponents) + 1)
+    carries[-1] = terminal_carry
+    for i in range(len(exponents) - 1, -1, -1):
+        carries[i] = 3 * carries[i + 1] - (1 << exponents[i])
+        assert carries[i] % 3 != 0
+        assert (carries[i] + (1 << exponents[i])) % 3 == 0
+        assert (carries[i] + (1 << exponents[i])) // 3 == carries[i + 1]
+    return carries
+
+
 def main() -> None:
     for e in (0, 1):
         for K9 in range(9):
@@ -43,33 +67,36 @@ def main() -> None:
                 continue
             p = required_parity(K9, e)
 
-            # Any three consecutive same-parity classes modulo 6 exhaust the
-            # three units having the required residue modulo 3.  Hence their
-            # quotients exhaust the next carry digits 0,1,2.
             vals = [next_digit(K9, e, p + 2*r) for r in range(3)]
             assert sorted(vals) == [0, 1, 2]
 
-            # Rotating the starting representative by any even amount preserves
-            # the same statement.
             for shift in range(0, 18, 2):
                 d0 = p + shift
                 vals2 = [next_digit(K9, e, d0 + 2*r) for r in range(3)]
                 assert sorted(vals2) == [0, 1, 2]
 
-    # Ordering lower bound audit: if L is the smallest allowed displacement
-    # and p the required parity, let d0 be the first d>=L with d==p mod2.
-    # Among d0,d0+2,d0+4 exactly one dies (next digit 0), and the other two
-    # realize next carry 1 and 2.  Thus survival is always locally possible by
-    # d<=d0+2, and either desired nonzero next carry by d<=d0+4.
+    # Ordering lower-bound audit.
     for L in range(20):
         for p in (0, 1):
             d0 = L if L % 2 == p else L + 1
             assert d0 >= L and d0 % 2 == p
 
-    print("PASS terminal Hensel three-class controllability")
+    # Exact arbitrary finite-block zero-cost construction.  Several unrelated
+    # exponent patterns are used as regressions; the proof in zero_cost_block
+    # is algebraic and does not depend on these examples.
+    for exponents in (
+        [0],
+        [1, 0, 1, 1, 0],
+        [7, 5, 4, 2, 1, 0],
+        [12, 10, 9, 7, 5, 4, 2],
+    ):
+        zero_cost_block(exponents, terminal_carry=1)
+        zero_cost_block(exponents, terminal_carry=2)
+
+    print("PASS terminal Hensel controllability audit")
     print("same-parity actions d,d+2,d+4 exhaust next carry digits {0,1,2}")
-    print("sign-only correlation is not a standalone obstruction")
-    print("ordering + displacement cost + two-boundary state must be retained")
+    print("every finite mechanical block has a zero-cost path for a suitable boundary carry")
+    print("therefore two-boundary conditioning is mathematically indispensable")
 
 
 if __name__ == "__main__":
