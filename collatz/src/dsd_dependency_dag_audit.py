@@ -4,7 +4,8 @@
 This is a proof-control certificate, not a Collatz proof certificate.
 It checks that the declared live dependency graph is acyclic, that the
 unconditional spine is not contaminated by quarantined conditional results,
-and that explicitly forbidden reverse edges are absent.
+that the s=1 Hensel sector cannot masquerade as all-surplus coverage, and
+that explicitly forbidden reverse edges are absent.
 
 Only Python's standard library is used.
 """
@@ -12,7 +13,7 @@ Only Python's standard library is used.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, FrozenSet, Iterable, List, Set, Tuple
+from typing import Dict, FrozenSet, List, Set, Tuple
 
 
 SAFE = "SAFE"
@@ -64,7 +65,7 @@ MODULES: Dict[str, Module] = {
     ),
     "C4": Module(
         "C4", SAFE, frozenset({"C3"}),
-        "A0 first-crossing sector",
+        "all A0 first-crossing sectors with checkpoint surplus s >= 1",
         "ten-J0 checkpoint surplus s, U-tail, endpoint gap",
         "finite terminal recovery OR A0-only cycle OR leave A0 language",
         True,
@@ -77,17 +78,28 @@ MODULES: Dict[str, Module] = {
         "finite-depth Hensel refinement",
         True,
     ),
-    "C6": Module(
-        "C6", OPEN, frozenset({"C4", "C5"}),
-        "s=1 terminal-recovery Hensel sector",
-        "finite-depth congruence state plus relaxed suffix",
-        "monotone full-Hensel lower bound OR surviving Hensel language",
+    # C6A is intentionally only the minimal-surplus subdomain.
+    "C6A": Module(
+        "C6A", OPEN, frozenset({"C4", "C5"}),
+        "s = 1 terminal-recovery Hensel sector only",
+        "finite-depth congruence state plus relaxed suffix for s=1",
+        "s=1 full-Hensel lower bound OR surviving s=1 language",
+        False,
+    ),
+    # C6B is the separate all-surplus coverage theorem.  It must not be
+    # silently replaced by C6A.  It can be proved by extremality, a uniform
+    # bound, or an audited partition of all admissible s >= 1.
+    "C6B": Module(
+        "C6B", OPEN, frozenset({"C4", "C5"}),
+        "all A0 terminal-recovery sectors with s >= 1",
+        "surplus s, Hensel state, uniform/partitioned lower-bound data",
+        "all-surplus Hensel lower bound OR explicit surviving surplus sectors",
         False,
     ),
     "C7": Module(
-        "C7", OPEN, frozenset({"C1", "C2", "C3", "C4", "C6"}),
-        "independently derived near-root budget plus C6 lower bound",
-        "D_allowed and inf T_Hensel",
+        "C7", OPEN, frozenset({"C1", "C2", "C3", "C4", "C6B"}),
+        "independently derived near-root budget plus full-domain C6B lower bound",
+        "D_allowed and all-surplus inf T_Hensel",
         "terminal-recovery closure OR surviving recovery language",
         False,
     ),
@@ -118,10 +130,14 @@ MODULES: Dict[str, Module] = {
 # Edges that would encode known circular/invalid proof moves.
 FORBIDDEN_EDGES: FrozenSet[Tuple[str, str]] = frozenset({
     # source -> destination
-    ("C7", "C5"),  # near-root comparison may not construct ordering/Hensel lower layer
-    ("C7", "C6"),  # desired budget contradiction may not justify Hensel refinement
-    ("C3", "C5"),  # A0/J0 macro budget may not justify ordering-only Bellman bound
-    ("C4", "C5"),  # terminal near-return geometry may not be used to derive C5
+    ("C7", "C5"),   # budget comparison may not construct ordering layer
+    ("C7", "C6A"),  # desired contradiction may not justify s=1 Hensel refinement
+    ("C7", "C6B"),  # desired contradiction may not justify all-surplus coverage
+    ("C3", "C5"),   # A0/J0 macro budget may not justify ordering-only Bellman bound
+    ("C4", "C5"),   # terminal near-return geometry may not be used to derive C5
+    ("C6A", "C4"),  # s=1 result may not redefine the upstream all-s formation domain
+    ("C6A", "C5"),  # s=1 result may not justify its ordering relaxation
+    ("C6A", "C6B"), # no automatic s=1 -> all-surplus promotion without an explicit theorem
     ("Q1", "C0"),
     ("Q1", "C1"),
     ("Q2", "C0"),
@@ -130,7 +146,8 @@ FORBIDDEN_EDGES: FrozenSet[Tuple[str, str]] = frozenset({
     ("Q2", "C3"),
     ("Q2", "C4"),
     ("Q2", "C5"),
-    ("Q2", "C6"),
+    ("Q2", "C6A"),
+    ("Q2", "C6B"),
     ("Q2", "C7"),
     ("Q2", "C8"),
 })
@@ -211,14 +228,31 @@ def validate_forbidden_edges(modules: Dict[str, Module]) -> None:
 def validate_key_separations(modules: Dict[str, Module]) -> None:
     # C5 must stay independent of the near-root resonance budget spine.
     assert modules["C5"].deps == frozenset()
-    # The first legal join of C4 geometry and C5 lower-bound machinery is C6.
-    assert {"C4", "C5"}.issubset(modules["C6"].deps)
-    # C7 may compare only after C6 exists as a separate node.
-    assert "C6" in modules["C7"].deps
+
+    # Both Hensel modules may use C4 formation data and C5 ordering relaxation.
+    assert {"C4", "C5"}.issubset(modules["C6A"].deps)
+    assert {"C4", "C5"}.issubset(modules["C6B"].deps)
+
+    # Critical DSD scope lock: s=1 is NOT by itself the all-surplus bridge.
+    assert "C6A" not in modules["C6B"].deps
+
+    # Budget comparison is forbidden until the all-surplus bridge exists.
+    assert "C6B" in modules["C7"].deps
+    assert "C6A" not in modules["C7"].deps
+
     # Quarantined selector family cannot enter the unconditional spine.
     for c in ["C0", "C1", "C2", "C3", "C4", "C5"]:
         assert "Q1" not in transitive_dependencies(c, modules)
         assert "Q2" not in transitive_dependencies(c, modules)
+
+
+def validate_scope_coverage(modules: Dict[str, Module]) -> None:
+    # This is a proof-control assertion: the all-s producer C4 must route to
+    # an all-s consumer C6B before C7.  C6A is explicitly a strict subdomain.
+    assert "s >= 1" in modules["C4"].formation_domain
+    assert "s = 1" in modules["C6A"].formation_domain
+    assert "s >= 1" in modules["C6B"].formation_domain
+    assert "C6B" in modules["C7"].deps
 
 
 def main() -> None:
@@ -227,6 +261,7 @@ def main() -> None:
     validate_forbidden_edges(MODULES)
     validate_unconditional_quarantine(MODULES)
     validate_key_separations(MODULES)
+    validate_scope_coverage(MODULES)
 
     print("DSD dependency DAG audit: PASS")
     print("topological order:", " -> ".join(order))
@@ -239,6 +274,7 @@ def main() -> None:
           ", ".join(name for name, m in MODULES.items() if m.status == CONDITIONAL))
     print("forbidden reverse-edge audit: PASS")
     print("conditional-leak audit: PASS")
+    print("surplus scope audit: PASS (C6A s=1 is not promoted to C6B all-s)")
     print("NOTE: PASS certifies proof-graph hygiene only; it does not prove Collatz.")
 
 
