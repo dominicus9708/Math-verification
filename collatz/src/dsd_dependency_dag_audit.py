@@ -4,7 +4,8 @@
 This is a proof-control certificate, not a Collatz proof certificate.
 It checks that the declared live dependency graph is acyclic, that the
 unconditional spine is not contaminated by quarantined conditional results,
-that the s=1 Hensel sector cannot masquerade as all-surplus coverage, and
+that the s=1 Hensel sector cannot masquerade as all-surplus coverage, that
+local A0 word structure is separated from global near-root budget data, and
 that complementary escape branches remain explicit.
 
 Only Python's standard library is used.
@@ -72,14 +73,25 @@ MODULES: Dict[str, Module] = {
     "C3": Module(
         "C3", SAFE, frozenset({"C2E"}),
         "audited local endpoint gap bands on the exact second-resonance branch",
-        "gap band, active multiplicities, scale",
-        "J0 debit, A0 return, survival beyond current scale",
+        "root-relative gap band, active multiplicities, resonance scale",
+        "actual A0 routing OR lower resonance/later-scale exits",
         True,
     ),
-    "C4": Module(
-        "C4", SAFE, frozenset({"C3"}),
-        "all A0 first-crossing sectors with checkpoint surplus s >= 1",
-        "ten-J0 checkpoint surplus s, U-tail, endpoint gap",
+    # C4F is deliberately local: it knows the A0 first-crossing word grammar,
+    # but not the global near-root budget or whether a counterexample reaches it.
+    "C4F": Module(
+        "C4F", SAFE, frozenset(),
+        "any A0 first-crossing parity word, with checkpoint surplus s >= 1",
+        "parity word, ten-J0 surplus s, U-tail, local affine/Hensel data",
+        "local terminal-recovery grammar",
+        True,
+    ),
+    # C4R is global routing: it combines the actual near-root branch with C4F
+    # only after the orbit is shown to instantiate an A0 first crossing.
+    "C4R": Module(
+        "C4R", SAFE, frozenset({"C3", "C4F"}),
+        "actual A0 first crossing reached from the repaired J0/A0 near-root corridor",
+        "N, root-relative gap, active resonance scale, instantiated local A0 word",
         "finite terminal recovery OR E4C A0-only cycle OR E4L leave A0 language",
         True,
     ),
@@ -91,40 +103,41 @@ MODULES: Dict[str, Module] = {
         "finite-depth Hensel refinement",
         True,
     ),
-    # C6A is intentionally only the minimal-surplus subdomain.
+    # C6A reads only local grammar + independent ordering relaxation.
     "C6A": Module(
-        "C6A", OPEN, frozenset({"C4", "C5"}),
+        "C6A", OPEN, frozenset({"C4F", "C5"}),
         "s = 1 terminal-recovery Hensel sector only",
         "finite-depth congruence state plus relaxed suffix for s=1",
         "s=1 full-Hensel lower bound OR surviving s=1 language",
         False,
     ),
-    # C6B is a separate all-surplus coverage theorem.  It can be proved by
-    # extremality, a uniform bound, or an audited partition of all s >= 1.
+    # C6B is a separate all-surplus theorem, also forbidden from reading C4R.
     "C6B": Module(
-        "C6B", OPEN, frozenset({"C4", "C5"}),
+        "C6B", OPEN, frozenset({"C4F", "C5"}),
         "all A0 terminal-recovery sectors with s >= 1",
         "surplus s, Hensel state, uniform/partitioned lower-bound data",
         "all-surplus Hensel lower bound OR explicit surviving surplus sectors",
         False,
     ),
     "E4C": Module(
-        "E4C", OPEN, frozenset({"C4"}),
+        "E4C", OPEN, frozenset({"C4R"}),
         "infinite consecutive A0-return language classified as a nontrivial positive cycle",
         "cycle endpoint and block period",
         "independent cycle exclusion OR remain an open cycle escape",
         False,
     ),
     "E4L": Module(
-        "E4L", OPEN, frozenset({"C4"}),
+        "E4L", OPEN, frozenset({"C4R"}),
         "leave the present A0 language / later finite or infinite coefficient survivor",
         "later scale, coefficient state, Hensel-compatible escape data",
         "independent later-scale routing/closure",
         False,
     ),
+    # C7 is the first legal meeting of the global near-root channel and the
+    # independently derived all-surplus Hensel lower-bound channel.
     "C7": Module(
-        "C7", OPEN, frozenset({"C1", "C2E", "C3", "C4", "C6B"}),
-        "independently derived near-root budget plus full-domain C6B lower bound",
+        "C7", OPEN, frozenset({"C4R", "C6B"}),
+        "global near-root admissible budget plus independent all-surplus Hensel lower bound",
         "D_allowed and all-surplus inf T_Hensel",
         "terminal-recovery closure OR surviving recovery language",
         False,
@@ -153,20 +166,32 @@ MODULES: Dict[str, Module] = {
 }
 
 
-# Edges that would encode known circular/invalid proof moves.
 FORBIDDEN_EDGES: FrozenSet[Tuple[str, str]] = frozenset({
     # source -> destination
+    # downstream budget/comparison must never construct its own lower bound
+    ("C7", "C4F"),
+    ("C7", "C4R"),
     ("C7", "C5"),
     ("C7", "C6A"),
     ("C7", "C6B"),
+    # global near-root channel must not leak backward into local Hensel channel
+    ("C3", "C4F"),
     ("C3", "C5"),
-    ("C4", "C5"),
-    ("C6A", "C4"),
+    ("C3", "C6A"),
+    ("C3", "C6B"),
+    ("C4R", "C4F"),
+    ("C4R", "C5"),
+    ("C4R", "C6A"),
+    ("C4R", "C6B"),
+    # no automatic minimal-surplus -> all-surplus promotion
+    ("C6A", "C4F"),
     ("C6A", "C5"),
-    ("C6A", "C6B"),  # no automatic s=1 -> all-surplus promotion
-    ("E2S", "C2E"), # complementary K1 branch may not be folded into exact branch for free
-    ("E4C", "C4"),
-    ("E4L", "C4"),
+    ("C6A", "C6B"),
+    # complementary branches cannot be folded back into the chosen branch for free
+    ("E2S", "C2E"),
+    ("E4C", "C4R"),
+    ("E4L", "C4R"),
+    # quarantined selector family cannot feed the SAFE/unconditional spine
     ("Q1", "C0"),
     ("Q1", "C1"),
     ("Q2", "C0"),
@@ -174,7 +199,8 @@ FORBIDDEN_EDGES: FrozenSet[Tuple[str, str]] = frozenset({
     ("Q2", "C2"),
     ("Q2", "C2E"),
     ("Q2", "C3"),
-    ("Q2", "C4"),
+    ("Q2", "C4F"),
+    ("Q2", "C4R"),
     ("Q2", "C5"),
     ("Q2", "C6A"),
     ("Q2", "C6B"),
@@ -184,7 +210,6 @@ FORBIDDEN_EDGES: FrozenSet[Tuple[str, str]] = frozenset({
 
 
 def edges(modules: Dict[str, Module]) -> Set[Tuple[str, str]]:
-    """Return dependency edges in source -> destination orientation."""
     result: Set[Tuple[str, str]] = set()
     for dst, module in modules.items():
         for src in module.deps:
@@ -238,7 +263,6 @@ def transitive_dependencies(name: str, modules: Dict[str, Module]) -> Set[str]:
 
 
 def validate_unconditional_quarantine(modules: Dict[str, Module]) -> None:
-    """No SAFE unconditional candidate may transitively depend on Q/OPEN/REJECTED."""
     for name, module in modules.items():
         if not (module.unconditional_candidate and module.status == SAFE):
             continue
@@ -256,35 +280,44 @@ def validate_forbidden_edges(modules: Dict[str, Module]) -> None:
 
 
 def validate_key_separations(modules: Dict[str, Module]) -> None:
+    # Independent local channels.
+    assert modules["C4F"].deps == frozenset()
     assert modules["C5"].deps == frozenset()
 
-    # K1 split is explicit: C3 only consumes the exact-resonance child.
+    # Global route may instantiate local grammar, but local Hensel must not read C4R.
+    assert {"C3", "C4F"}.issubset(modules["C4R"].deps)
+    assert {"C4F", "C5"}.issubset(modules["C6A"].deps)
+    assert {"C4F", "C5"}.issubset(modules["C6B"].deps)
+    assert "C4R" not in modules["C6A"].deps
+    assert "C4R" not in modules["C6B"].deps
+
+    # K1 split is explicit: C3 only consumes exact resonance.
     assert "C2" in modules["C2E"].deps
     assert "C2" in modules["E2S"].deps
     assert "C2E" in modules["C3"].deps
     assert "E2S" not in modules["C3"].deps
 
-    # Both terminal Hensel modules may use C4 formation data and C5 relaxation.
-    assert {"C4", "C5"}.issubset(modules["C6A"].deps)
-    assert {"C4", "C5"}.issubset(modules["C6B"].deps)
-
-    # Critical surplus scope lock.
+    # Minimal-surplus result cannot substitute for all-surplus coverage.
     assert "C6A" not in modules["C6B"].deps
     assert "C6B" in modules["C7"].deps
     assert "C6A" not in modules["C7"].deps
+
+    # C7 is the first meeting of global near-root and independent Hensel channels.
+    assert "C4R" in modules["C7"].deps
+    assert "C6B" in modules["C7"].deps
 
     # Global branch ledger cannot forget complementary escapes.
     for escape in ["E2S", "E4C", "E4L", "C7"]:
         assert escape in modules["C8"].deps
 
-    # Quarantined selector family cannot enter the SAFE spine.
-    for c in ["C0", "C1", "C2", "C2E", "C3", "C4", "C5"]:
+    # Quarantined selector family cannot enter any SAFE spine node.
+    for c in ["C0", "C1", "C2", "C2E", "C3", "C4F", "C4R", "C5"]:
         assert "Q1" not in transitive_dependencies(c, modules)
         assert "Q2" not in transitive_dependencies(c, modules)
 
 
 def validate_scope_coverage(modules: Dict[str, Module]) -> None:
-    assert "s >= 1" in modules["C4"].formation_domain
+    assert "s >= 1" in modules["C4F"].formation_domain
     assert "s = 1" in modules["C6A"].formation_domain
     assert "s >= 1" in modules["C6B"].formation_domain
     assert "C6B" in modules["C7"].deps
@@ -300,7 +333,7 @@ def main() -> None:
 
     print("DSD dependency DAG audit: PASS")
     print("topological order:", " -> ".join(order))
-    print("SAFE unconditional candidates:",
+    print("SAFE nodes:",
           ", ".join(name for name, m in MODULES.items()
                     if m.unconditional_candidate and m.status == SAFE))
     print("OPEN gates/escapes:",
@@ -309,6 +342,7 @@ def main() -> None:
           ", ".join(name for name, m in MODULES.items() if m.status == CONDITIONAL))
     print("forbidden reverse-edge audit: PASS")
     print("conditional-leak audit: PASS")
+    print("local/global A0 channel split: PASS (C4F != C4R)")
     print("surplus scope audit: PASS (C6A s=1 != C6B all-s)")
     print("escape-ledger audit: PASS (E2S, E4C, E4L remain explicit)")
     print("NOTE: PASS certifies proof-graph hygiene only; it does not prove Collatz.")
