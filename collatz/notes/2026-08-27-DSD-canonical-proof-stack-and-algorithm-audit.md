@@ -4,7 +4,7 @@ Date: 2026-08-27
 
 Status: **AUDIT FRAMEWORK / COLLATZ CONJECTURE NOT PROVED**
 
-Purpose: import the DSD-style algorithm audit used in the Navier–Stokes project into the Collatz proof program. The objective is not to create a new axiom or to promote computational evidence into proof. It is to compress the live argument into a directed theorem stack, preserve rejected/conditional branches as audit evidence, and actively search for missing formation-domain edges, hidden reverse dependencies, and un-routed escape branches.
+This file is the canonical proof-control ledger for the active Collatz program. It imports the DSD-style algorithm audit used in the Navier–Stokes project: formation-domain declaration, state preservation, explicit escape routing, acyclic dependencies, adversarial anti-proof checks, and strict separation of `SAFE`, `CONDITIONAL`, `OPEN`, and `REJECTED` claims.
 
 \[
 \boxed{\text{THE COLLATZ CONJECTURE REMAINS UNPROVED.}}
@@ -12,99 +12,80 @@ Purpose: import the DSD-style algorithm audit used in the Navier–Stokes projec
 
 ---
 
-## 0. DSD audit semantics
+# 1. DSD audit semantics
 
-Every live module is represented by five fields:
+Every live module must declare:
 
-1. **formation domain** — exactly which integers / parity words / residue classes the module applies to;
-2. **state** — the mathematical data carried into the module;
-3. **transition** — the proved map from input state to output state;
-4. **exit set** — every branch that may leave the module;
-5. **claim type** — `SAFE`, `CONDITIONAL`, `OPEN`, or `REJECTED`.
+1. **formation domain** — exactly which integers / parity words / residue classes enter it;
+2. **state** — every datum needed downstream;
+3. **transition** — the proved local implication;
+4. **exit set** — every branch left alive by the implication;
+5. **claim type** — `SAFE`, `CONDITIONAL`, `OPEN`, or `REJECTED`;
+6. **dependencies** — upstream modules only.
 
-The governing rule is:
+The governing rules are
 
 \[
 \boxed{
-\text{a downstream calculation may survive even when its upstream entry edge fails,}
+\text{downstream exact algebra may survive a broken entry edge only as CONDITIONAL},
 }
 \]
 
-but it must then be downgraded to a conditional calculation on its explicitly stated formation domain.
+and
 
-This is exactly the correction applied to the Ansari / ternary-selector branch.
+\[
+\boxed{
+\text{a consumer may not silently cover a larger formation domain than it proves}.}
+\]
 
 ---
 
-# Canonical proof stack
+# 2. Canonical proof/control DAG
 
-## C0. External finite base and minimal-counterexample normalization
+## `C0` — external finite base + minimal-counterexample normalization
 
-**Claim type:** SAFE GIVEN EXTERNAL THEOREM INPUTS / EXTERNAL HYPOTHESES MUST BE REAUDITED.
+**Status:** SAFE given the retained published external verification input.
 
-Use only the published finite verification threshold retained by the certificates:
-
-\[
-N>2^{71}
-\]
-
-for a hypothetical minimal counterexample.
-
-Elementary minimality gives
+For a hypothetical minimal counterexample,
 
 \[
+N>2^{71},
+\qquad
 N\equiv3\pmod4.
 \]
 
-This module is an entry normalization, not a global proof step.
-
-**State:** `N`, its parity orbit, and the first-descent prohibition below `N`.
-
-**Audit lock:** a larger live computational verification threshold may strengthen numerics, but must not silently replace the published input used in an existing certificate.
+A stronger live computation may not silently replace the published threshold used by an existing certificate.
 
 ---
 
-## C1. First global coefficient resonance and near-return gap
+## `C1` — first global resonance / near-return
 
-**Claim type:** SAFE DERIVED REDUCTION, CONDITIONAL ONLY ON C0 EXTERNAL INPUTS.
-
-The first global coefficient crossing is
+**Status:** SAFE on `C0`.
 
 \[
-(A_0,Q_0)
-=(114208327604,72057431991).
+(A_0,Q_0)=(114208327604,72057431991).
 \]
 
-If
+With
 
 \[
 y=T^{A_0}(N)=N+g,
 \]
 
-then the repaired first-crossing / correction argument gives
+one has
 
 \[
 \boxed{
 g\in4\mathbb Z_{>0},\qquad0<g<2^{33}.}
 \]
 
-This branch uses no ternary-selector entry theorem and no repeated local pullback.
-
-**State:**
-
-\[
-(N;A_0,Q_0;g).
-\]
-
-**Exit set:** finite second crossing, coefficient survival beyond the current scale, or a cycle branch where separately justified.
+This line does not use the broken ternary-selector entry theorem.
 
 ---
 
-## C2. Phase renewal and repaired second-resonance annulus
+## `C2` — phase-renewal splitter at `K1`
 
-**Claim type:** SAFE BRANCH REDUCTION.
-
-Let
+**Status:** SAFE splitter.
 
 \[
 (K_1,P_1)=(103768467013,65470613321),
@@ -114,135 +95,212 @@ Let
 (J_0,R_0)=(10439860591,6586818670),
 \]
 
-and
-
 \[
 (A_2,Q_2)=(217976794617,137528045312).
 \]
 
-The phase-renewal bridge gives a two-way branch at `K1` from the first endpoint:
-
-1. coefficient-surplus recovery;
-2. exact second lower resonance `q_{K1}=P1`.
-
-On the exact second-resonance branch, with
+The branch split is
 
 \[
-z=T^{A_2}(N)=N+h,
+q_{K_1}(y)=P_1
 \]
 
-one has
+or
 
 \[
-\boxed{h\in4\mathbb Z_{>0},\qquad2^{33}<h<7\cdot2^{33}.}
+q_{K_1}(y)\ge P_1+1.
 \]
 
-**Audit requirement:** the surplus-recovery branch and the exact-resonance branch remain separate until a theorem reconnects them.
+The two children must remain separate.
 
 ---
 
-## C3. Local resonance/gap transition system
+## `C2E` — exact second lower resonance
 
-**Claim type:** SAFE FINITE-SCALE TRANSITION LEMMAS.
+**Status:** SAFE branch theorem.
 
-The local state is not merely a residue class. The DSD state is
+On
+
+\[
+q_{K_1}(y)=P_1,
+\]
+
+write
+
+\[
+z=T^{A_2}(N)=N+h.
+\]
+
+Then
 
 \[
 \boxed{
-(\text{gap band},\text{active resonance multiplicities},\text{current scale}).
-}
+h\in4\mathbb Z_{>0},\qquad2^{33}<h<7\cdot2^{33}.}
 \]
 
-The proved transition structure includes:
-
-- a local `J0` debit satisfying
-  \[
-  \Delta_J>2.527\,G,\qquad G=2^{33};
-  \]
-- two `J0` debits promote the next possible subcritical scale to `A0`;
-- one promoted `A0` return preserves the immediate `J0` exclusion;
-- `A0` maximum credit `a_A` and `J0` minimum debit `a_J` satisfy
-  \[
-  \boxed{5a_A<a_J};
-  \]
-- the activation ladder for `mJ0`, `1\le m\le10`, is
-  \[
-  \boxed{k_m=5m-3}.
-  \]
-
-This is a weighted deterministic transition system, not a probabilistic density argument.
-
-**Audit lock:** local residue-maximality is not a root-predecessor theorem. Any local-to-global pullback must separately discharge the `3^p` divisibility / Hensel compatibility requirement.
+This is the branch consumed by the present `J0/A0` near-root line.
 
 ---
 
-## C4. Internal structure of an `A0` first crossing
+## `E2S` — `K1` surplus-recovery escape
 
-**Claim type:** SAFE LOCAL STRUCTURAL LEMMA.
+**Status:** OPEN.
 
-The exact Euclidean decomposition is
+Formation domain:
 
 \[
-\boxed{(A_0,Q_0)=10(J_0,R_0)+(U,P)}
+q_{K_1}(y)\ge P_1+1.
 \]
 
-with
+The exact-resonance analysis does not eliminate this complement. It remains an explicit global escape until independently routed.
+
+---
+
+## `C3` — repaired local resonance/gap corridor
+
+**Status:** SAFE on `C2E`.
+
+Let
+
+\[
+G=2^{33}.
+\]
+
+The current exact finite-scale structure includes:
+
+\[
+\Delta_J>2.527G,
+\]
+
+at an actual primitive `J0` crossing; two consecutive `J0` debits reduce the root-relative gap below `2G`; after those two debits the complete sub-`A0` Worley–Dujella audit promotes the next possible scale to `A0`.
+
+For the `A0/J0` activation budget,
+
+\[
+a_A/G\approx0.5022073893714335,
+\]
+
+\[
+a_J/G\approx2.5270212947568598,
+\]
+
+and
+
+\[
+\boxed{5a_A<a_J}.
+\]
+
+For `1\le m\le10`, the activation index is
+
+\[
+\boxed{k_m=5m-3}.
+\]
+
+These are deterministic weighted-transition facts. They do not prove that a `J0` resonance must eventually be chosen.
+
+---
+
+# 3. Critical local/global split at `A0`
+
+## `C4F` — local `A0` formation grammar
+
+**Status:** SAFE on its stated local formation domain.
+
+**Formation domain:** any parity word satisfying the `A0` first-crossing conditions.
+
+This node intentionally does **not** know the global near-root recovery budget or whether a hypothetical counterexample actually reaches this word.
+
+The exact decomposition is
+
+\[
+\boxed{(A_0,Q_0)=10(J_0,R_0)+(U,P)},
+\]
 
 \[
 (U,P)=(9809721694,6189245291).
 \]
 
-For an `A0` first-crossing word, the ten `J0` checkpoints force surplus
+At the tenth `J0` checkpoint,
 
 \[
 s=q_{10J_0}-10R_0\ge1,
 \]
 
-and the terminal `U` block has odd count
+and the terminal `U` block has
 
 \[
 q_{\rm tail}=P-s.
 \]
 
-The ten-`J0` prefix must make an internal excursion satisfying at least
+The homogeneous factors are
 
 \[
-\boxed{T^{10J_0}(X)>2.99X}
+C_{\rm pre}(s)=3^s e^{-10\delta_J},
+\qquad
+C_{\rm tail}(s)=e^{\delta_U}3^{-s},
 \]
 
-at minimal surplus `s=1`, while the terminal block must recover to the near-root endpoint.
+with
 
-An infinite sequence of consecutive `A0` endpoint returns remains in a finite affine interval and therefore repeats; hence
+\[
+C_{\rm pre}(s)C_{\rm tail}(s)=e^{-\delta_A}<1.
+\]
+
+At minimal surplus `s=1`, the forced prefix coefficient excursion exceeds `2.99` times the local start.
+
+The full normalized affine correction composes as
 
 \[
 \boxed{
-\text{infinite A0-only endpoint language}
-\Longrightarrow
-\text{nontrivial positive Collatz cycle}.
+S_{\rm full}
+=S_{\rm pre}
++\frac{S_{\rm tail}}{C_{\rm pre}(s)}.
 }
 \]
 
-**Audit lock:** this classifies the infinite `A0`-only escape. It does not exclude every nontrivial cycle and must not be used as though it did.
+The cancellation of the homogeneous `s` factors does not imply affine/Hensel monotonicity in `s`.
 
 ---
 
-## C5. Acyclic ordering-only Bellman lower-bound layer
+## `C4R` — global route into the `A0` grammar
 
-**Claim type:** SAFE LOCAL LEMMA / EXACT FINITE CERTIFICATE.
+**Status:** SAFE routing/reduction node on the branch where an actual `A0` first crossing is reached.
 
-For a gap word
+Dependencies:
+
+\[
+(C3,C4F)\to C4R.
+\]
+
+This node carries the global state
+
+\[
+(N,\text{root-relative gap},\text{active resonance scale})
+\]
+
+and instantiates a local `C4F` word only after the `A0` event is established.
+
+Its exits are:
+
+1. finite terminal recovery;
+2. `E4C` — infinite consecutive `A0` returns, classified as a nontrivial positive cycle;
+3. `E4L` — leave the present `A0` language toward later finite/infinite coefficient-survivor behavior.
+
+---
+
+# 4. Independent Hensel channel
+
+## `C5` — ordering-only Bellman relaxation
+
+**Status:** SAFE local lemma / exact finite certificate.
+
+For a binary gap word
 
 \[
 w=(g_1,\ldots,g_n),\qquad g_i\in\{1,2\},
 \]
 
-remove Hensel congruence conditions but retain ordering. With
-
-\[
-p_i=\max(0,p-N_2(i)),
-\]
-
-the ordering-only defect cost has exact closed form
+the ordering-only cost has exact closed form
 
 \[
 \boxed{
@@ -254,60 +312,92 @@ B_w(p)
 }
 \]
 
-The exact Hensel problem satisfies only the relaxation inequality
+The exact Hensel problem only satisfies the relaxation inequality
 
 \[
 \boxed{\mathcal T_w^{\rm Hensel}\ge B_w(p).}
 \]
 
-No near-root budget and no `A0/J0` contraction is used to derive `B_w`.
-
-**Dependency direction is locked:**
-
-\[
-\boxed{
-\text{ordering}
-\to
-\text{finite-depth Hensel}
-\to
-\text{full Hensel lower bound}
-\to
-\text{independent near-root budget comparison}.
-}
-\]
+`C5` is independent of the global near-root `A0/J0` gap channel.
 
 ---
 
-## C6. Finite-depth Hensel refinement hierarchy
+## `C6A` — minimal-surplus Hensel sector
 
-**Claim type:** OPEN.
+**Status:** OPEN.
 
-Construct certified lower bounds
+Formation domain:
 
 \[
-\boxed{
-\mathcal T_w^{\rm Hensel}
-\ge B_w^{(h+1)}
-\ge B_w^{(h)}
+s=1.
+\]
+
+Dependencies:
+
+\[
+(C4F,C5)\to C6A.
+\]
+
+Target a monotone hierarchy
+
+\[
+\mathcal T_{w,1}^{\rm Hensel}
+\ge B_{w,1}^{(h+1)}
+\ge B_{w,1}^{(h)}
 \ge B_w.
-}
 \]
 
-The first `h` congruence decisions must be enforced exactly, while only the suffix is relaxed.
-
-A finite computation is admissible only as a finite-depth theorem unless an explicit extension / stabilization theorem upgrades it.
-
-**Current gate:** derive a nontrivial monotone Hensel lower-bound sequence for the `s=1` terminal-recovery sector.
+Finite-depth computation is only a finite-depth theorem unless an explicit extension/stabilization theorem upgrades it.
 
 ---
 
-## C7. Independent recovery-budget comparison
+## `C6B` — all-surplus Hensel coverage
 
-**Claim type:** OPEN MAIN GAP FOR THE CURRENT `A0`-DOMINANT BRANCH.
+**Status:** OPEN and logically separate from `C6A`.
 
-Only after C6 has been independently derived may one compare it with the near-root defect budget.
+Formation domain:
 
-The desired form is
+\[
+s\ge1.
+\]
+
+Dependencies:
+
+\[
+(C4F,C5)\to C6B.
+\]
+
+At least one of the following must be proved:
+
+1. `s=1` extremality,
+   \[
+   \inf_{s\ge1}\mathcal T_s^{\rm Hensel}
+   =\inf\mathcal T_1^{\rm Hensel};
+   \]
+2. a uniform all-surplus lower bound;
+3. an audited partition of every admissible surplus sector.
+
+No current theorem establishes the promotion
+
+\[
+C6A\Longrightarrow C6B.
+\]
+
+---
+
+# 5. First legal meeting of the two channels
+
+## `C7` — independent recovery-budget comparison
+
+**Status:** OPEN.
+
+The local Hensel channel and global near-root channel are kept separate until
+
+\[
+\boxed{(C4R,C6B)\to C7.}
+\]
+
+The desired comparison has the form
 
 \[
 \boxed{
@@ -315,74 +405,71 @@ The desired form is
 }
 \]
 
-If established with independent inputs, the corresponding terminal-recovery language closes.
+Forbidden circular pattern:
 
-If the inequality fails or is not proved, the branch remains OPEN. Numerical proximity is not a proof substitute.
+\[
+D_{\rm allowed}
+\to\text{discard surplus/residue states}
+\to L_{\rm Hensel}
+\to L_{\rm Hensel}>D_{\rm allowed}.
+\]
+
+The Hensel lower bound must be obtained without reading `C4R`'s downstream budget data.
 
 ---
 
-## C8. Global escape completeness
+# 6. Global escape ledger
 
-**Claim type:** OPEN GLOBAL BRANCH-COMPLETENESS AUDIT.
+## `E4C` — nontrivial-cycle escape
 
-Even closing C7 would not by itself prove Collatz. The proof tree must still account for every escape from the current resonance language, including at least:
+The implication
 
-1. coefficient survival through `A0` to later finite scales;
-2. an infinite coefficient-survivor branch;
-3. nontrivial cycle branches not eliminated by an independently applicable cycle theorem;
-4. any Hensel-compatible local branch not represented by the current `J0/A0` macro language;
-5. the conditional ternary-selector family, unless its upstream entry theorem is repaired or rendered unnecessary.
+\[
+\text{infinite consecutive A0-only endpoint language}
+\Longrightarrow
+\text{nontrivial positive Collatz cycle}
+\]
 
-The global conjecture can be promoted only after this exit set is exhaustive and every member is closed.
+is SAFE.
+
+Exclusion of every resulting cycle is OPEN unless an independently applicable theorem closes it.
+
+## `E4L` — later-scale / infinite-survivor escape
+
+**Status:** OPEN.
+
+This includes leaving the present `A0` language, a later finite coefficient crossing, or an infinite coefficient-survivor state not already closed by the current resonance grammar.
+
+## `C8` — global branch completeness
+
+**Status:** OPEN.
+
+A global closure node must consume at least
+
+\[
+\boxed{C7,\ E2S,\ E4C,\ E4L.}
+\]
+
+Closing the terminal-recovery branch alone cannot prove Collatz.
 
 ---
 
-# Dependency graph
+# 7. Quarantined selector branch
 
-The current allowed main direction is
+## `Q1` — Ansari recursive-sufficiency entry
 
-\[
-\boxed{
-C0
-\to C1
-\to C2
-\to C3
-\to C4
-\to C5
-\stackrel{\mathbf{C6\ OPEN}}{\longrightarrow}
-C7
-\stackrel{\mathbf{C8\ OPEN}}{\longrightarrow}
-\text{global closure}.
-}
-\]
+**Status:** CONDITIONAL / published entry argument broken as used.
 
-Some arrows are structural organization rather than logical implication between every lemma; any actual theorem invocation must cite its exact prerequisites.
-
-The ternary-selector branch is not on this unconditional spine.
-
----
-
-# Conditional / quarantined branch
-
-## Q1. Ansari recursive-sufficiency → ternary selector
-
-**Claim type:** CONDITIONAL / ENTRY EDGE BROKEN AS PUBLISHED.
-
-The equality used in the published recursive-sufficiency induction fails already at `n=1`. The progression
+The induction equality fails already at `n=1`.
 
 \[
-36\mathbb N_0+31
+F_1\setminus F_2
+=(36\mathbb N_0+27)\cup(36\mathbb N_0+31).
 \]
 
-has been repaired as recursive, while
+The `36k+31` progression has a smaller recursive predecessor, while `36k+27` remains unrepaired.
 
-\[
-36\mathbb N_0+27
-\]
-
-remains the first unrepaired class.
-
-Therefore
+Thus
 
 \[
 \boxed{
@@ -392,211 +479,177 @@ Therefore
 }
 \]
 
-Downstream m44/m45 selector, Fourier, carry, same-address and related finite calculations may remain algebraically correct on that family, but are quarantined from the unconditional spine.
+## `Q2` — downstream selector/Fourier/carry/same-address calculations
+
+**Status:** CONDITIONAL.
+
+These calculations may remain exact inside the fixed selector family, but they cannot feed the SAFE spine until `Q1` is repaired or made unnecessary.
 
 ---
 
-# Adversarial anti-proof audit
+# 8. Adversarial anti-proof attacks
 
-The audit must actively try to falsify each reduction rather than merely rerun its certificate.
+Every future module is attacked with all of the following.
 
-## A1. Formation-domain attack
+### A1 — formation-domain attack
 
-For every edge `X -> Y`, ask:
+Does every object emitted upstream actually enter the claimed downstream module?
 
-> Is every object admitted by X actually shown to enter Y?
-
-Failure mode already observed: global minimal counterexample → ternary selector family.
-
-Required output: either a proof of the entry edge, or downgrade Y to CONDITIONAL.
-
-## A2. State-loss attack
-
-Ask whether a compression discards data needed later.
-
-For the present resonance line, the retained state must include at least
+Current detected example:
 
 \[
-(\text{scale},\text{gap},\text{odd-count surplus},\text{active resonance set},\text{Hensel displacement}).
+C4F:\ s\ge1
 \]
 
-A transition proved only after forgetting one of these coordinates cannot later reconstruct it for free.
+was wider than the original Hensel target
 
-## A3. Reverse-dependency / circularity attack
+\[
+C6A:\ s=1.
+\]
 
-Forbidden cycles include:
+This forced creation of `C6B`.
 
-- near-root budget `->` Hensel lower bound `->` near-root contradiction;
-- `A0/J0` macro contraction `->` local Hensel bound used to justify the same contraction;
-- local residue survival `->` global predecessor theorem `->` local residue survival;
-- assuming absence of a later-scale escape in order to prove that no later-scale escape exists.
+### A2 — state-loss attack
 
-Every new proof note must provide an acyclic dependency list.
+A compressed state may not reconstruct discarded coordinates later without a theorem.
 
-## A4. Quantifier attack
+The current live state channels include at least:
 
-Explicitly distinguish:
+\[
+\text{global}: (N,d,\text{scale},\text{active resonances}),
+\]
+
+\[
+\text{local word}: (j,q_j,s,\text{parity prefix}),
+\]
+
+\[
+\text{Hensel}: (p,\text{congruence/displacement state}).
+\]
+
+### A3 — reverse-dependency / circularity attack
+
+The near-root budget may not construct the Hensel lower bound that is later compared against that same budget.
+
+### A4 — quantifier attack
+
+Distinguish exactly:
 
 - one word vs all admissible words;
-- one residue class vs every integer in the formation domain;
+- one surplus sector vs all `s\ge1`;
+- one residue class vs every integer in the domain;
 - finite depth vs arbitrary depth;
-- finite search vs an infinite language;
-- density-one / almost-all results vs every hypothetical counterexample;
+- finite scan vs infinite language;
+- density/almost-all vs every hypothetical counterexample;
 - local endpoint return vs global first descent.
 
-Changing one quantifier requires a theorem, not a notation change.
-
-## A5. Extension attack
-
-A finite certificate establishes only what it enumerates unless a proved extension theorem is attached.
-
-In particular:
+### A5 — extension attack
 
 \[
-\boxed{
-\text{finite Hensel search}
-\not\Rightarrow
-\text{infinite Hensel closure}
-}
+\boxed{\text{finite Hensel search}\not\Rightarrow\text{infinite Hensel closure}.}
 \]
-
-and
 
 \[
-\boxed{
-\text{finite resonance table}
-\not\Rightarrow
-\text{no later resonance}.
-}
+\boxed{\text{finite resonance table}\not\Rightarrow\text{no later resonance}.}
 \]
 
-## A6. Branch-completeness attack
+### A6 — branch-completeness attack
 
-Whenever a branch is eliminated, construct its complement explicitly and ask whether the complement was routed.
+Every split creates explicit complements. Consuming one child never erases the others.
 
-Example:
+### A7 — external-theorem hypothesis attack
 
-\[
-\text{A0-only forever}
-\to
-\text{cycle}
-\]
+Record exact map convention, domain, threshold, strictness, cycle-length convention, publication status, and exact invocation point.
 
-leaves the divergent branch with the complement
+### A8 — numerical-to-exactness attack
 
-\[
-\text{activated lower resonance}
-\lor
-\text{survival beyond A0}
-\lor
-\text{later crossing / other language}.
-\]
-
-These exits must remain visible until individually closed.
-
-## A7. External-theorem hypothesis attack
-
-Every external result must be recorded with:
-
-- exact map convention;
-- domain (`positive integers`, shortcut map, etc.);
-- threshold and whether strict/non-strict;
-- cycle-length convention (total steps, odd members, local minima, ...);
-- publication status;
-- exact place where the theorem is invoked.
-
-A stronger recent computational claim does not automatically inherit the hypotheses of an older certificate.
-
-## A8. Numerical-to-exactness attack
-
-Decimal values may guide search, but every decisive strict inequality must be reducible to exact integer/rational arithmetic or directed certified bounds.
-
-Near-equality at a resonance is especially high risk and receives mandatory exact auditing.
+Decisive strict inequalities must reduce to exact integer/rational arithmetic or directed certified bounds. Resonance near-equalities receive mandatory exact checking.
 
 ---
 
-# Audit locks
+# 9. Audit locks
 
-Do not use the following without a new theorem:
+Do not use without a new theorem:
 
 1. repeated local `L7/L14/L19` residue-maximality as a root-predecessor theorem;
-2. Ansari recursive sufficiency as an unconditional global selector-entry theorem;
-3. m44/m45 selector conclusions as unconditional facts about all Collatz counterexamples;
+2. Ansari recursive sufficiency as unconditional selector entry;
+3. m44/m45 selector results as unconditional facts about all counterexamples;
 4. finite Hensel scans as infinite closure;
 5. local same-address coincidence as global descent;
-6. an `A0`-only cycle classification as exclusion of all nontrivial cycles;
+6. `A0`-only cycle classification as exclusion of all nontrivial cycles;
 7. `5a_A<a_J` as proof that a `J0` debit must eventually occur;
-8. activation of `mJ0` as proof that the orbit actually chooses that resonance;
-9. near-root gap bounds as input to the Hensel lower bound they are later compared against;
-10. computational verification below a threshold as a theorem about all larger integers.
+8. activation of `mJ0` as proof that the orbit chooses that resonance;
+9. `s=1` Hensel results as all-`s` closure;
+10. `C4R` near-root budget data as an input to `C6A/C6B`;
+11. one phase-renewal child as closure of its complementary child;
+12. computational verification below a threshold as a theorem about all larger integers.
 
 ---
 
-# Algorithmic audit protocol for every future module
+# 10. Algorithmic audit protocol
 
-Each new lemma/certificate must be processed in this order:
+Every new lemma/certificate follows:
 
-### P0 — Declare
+1. `P0 DECLARE` — formation domain, state, target, dependencies, external inputs;
+2. `P1 PROVE LOCALLY` — no downstream contradiction/budget may be used;
+3. `P2 REPRODUCE` — exact or directed-bound certificate and explicit scope;
+4. `P3 ATTACK` — run A1–A8 and deliberately search at least one complement/escape;
+5. `P4 CLASSIFY` — assign `SAFE`, `CONDITIONAL`, `OPEN`, or `REJECTED`;
+6. `P5 ROUTE EXITS` — no branch silently disappears;
+7. `P6 UPDATE DAG` — add forward dependencies only; a cycle is an audit failure;
+8. `P7 PROMOTE CAUTIOUSLY` — only an all-SAFE upstream path may enter the SAFE spine.
 
-Record formation domain, exact hypotheses, state variables, target conclusion, external inputs.
+The executable companion is
 
-### P1 — Prove locally
+`collatz/src/dsd_dependency_dag_audit.py`.
 
-Derive the claimed transition without using any downstream budget or desired contradiction.
+The dedicated surplus scope certificate is
 
-### P2 — Reproduce
-
-Provide exact or directed-bound certificate where computation is involved. The certificate must print its scope.
-
-### P3 — Attack
-
-Run the eight anti-proof attacks above. At least one deliberate complement / escape search is required.
-
-### P4 — Classify
-
-Assign exactly one status:
-
-- `SAFE`: theorem/certificate proved on its stated domain and all invoked prerequisites are available;
-- `CONDITIONAL`: local result is valid but one or more upstream entry edges are unproved;
-- `OPEN`: target implication is not proved;
-- `REJECTED`: a claimed implication or computation is false / invalid as stated.
-
-### P5 — Route exits
-
-List every surviving branch. No branch is silently discarded.
-
-### P6 — Update DAG
-
-Add only forward dependencies. A dependency cycle is an audit failure requiring refactoring before the result is used.
-
-### P7 — Promote cautiously
-
-A result enters the unconditional spine only if every upstream edge is SAFE. Otherwise it remains quarantined even if its internal computation is exact.
+`collatz/src/dsd_surplus_scope_gap_certificate.py`.
 
 ---
 
-# Current DSD audit verdict
+# 11. Current DSD verdict
 
-The present unconditional work has made genuine structural progress:
+### SAFE / structurally clean
 
-- the false/unsupported ternary selector entry has been quarantined instead of contaminating downstream algebra;
-- the global first resonance and near-return channel are independent of that selector;
-- the `J0/A0` gap system is now a finite-state weighted transition language at the audited scales;
-- the `A0` block has a forced internal surplus/recovery structure;
-- the ordering-only Bellman layer is deliberately acyclic.
+- first-resonance near-return line on its stated inputs;
+- exact second-resonance child and near-root annulus;
+- finite-scale `J0/A0` debit/activation lemmas;
+- local `A0` ten-checkpoint surplus grammar `C4F`;
+- ordering-only Bellman relaxation `C5`;
+- selector branch quarantine;
+- local/global `A0` state split;
+- explicit escape ledger and acyclic proof-control graph.
 
-But the canonical stack exposes two principal live gates:
-
-\[
-\boxed{C6:\ \text{finite-depth Hensel lower-bound refinement}}
-\]
-
-and
+### OPEN live gates
 
 \[
-\boxed{C8:\ \text{global escape / branch completeness}.}
+\boxed{C6A:\ s=1\text{ finite-depth/full-Hensel refinement}}
 \]
 
-Closing only the first without the second would still not prove the conjecture.
+\[
+\boxed{C6B:\ \text{all-surplus Hensel coverage}}
+\]
 
-This file is therefore a proof-control ledger and adversarial audit specification, not a Collatz proof claim.
+\[
+\boxed{C7:\ \text{independent recovery-budget comparison}}
+\]
+
+\[
+\boxed{E2S:\ K_1\text{ surplus-recovery branch}}
+\]
+
+\[
+\boxed{E4C:\ \text{nontrivial-cycle exclusion}}
+\]
+
+\[
+\boxed{E4L:\ \text{later/infinite coefficient-survivor routing}}
+\]
+
+\[
+\boxed{C8:\ \text{global branch completeness}}
+\]
+
+The important new audit result is not a proof of Collatz but a stricter proof architecture: the `s=1` scope leak and the coarse local/global `A0` dependency have been isolated before they could be used as hidden assumptions.
