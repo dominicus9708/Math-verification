@@ -19,13 +19,13 @@ This certificate combines three exact facts.
    Thus no physical 72-bit X can follow the exact threshold word through
    the first 75 parity positions.
 
-3. Exhaust every pure-ballot length-75 word at Hamming distance <= 4 from
+3. Exhaust every pure-ballot length-75 word at Hamming distance <= 5 from
    that threshold prefix.  After imposing the strict physical shell and the
    previously certified A0 s=1 X upper bound, every remaining address loses
-   the pure-ballot condition by prefix 222.
+   the pure-ballot condition by prefix 378.
 
 Therefore every full A0 s=1 survivor satisfying the earlier X bound must
- differ from the threshold word in at least five of the first 75 positions.
+ differ from the threshold word in at least six of the first 75 positions.
 
 This is a finite necessary-condition certificate only.  It does not certify
  the full t0 bridge, C4F, or the Collatz conjecture.
@@ -34,8 +34,8 @@ This is a finite necessary-condition certificate only.  It does not certify
 from collections import defaultdict
 
 H = 75
-MAX_SCAN = 256
-MAX_DEV = 4
+MAX_SCAN = 400
+MAX_DEV = 5
 
 X_LO = 1 << 71
 X_HI = 1 << 72
@@ -183,6 +183,7 @@ expected = {
     2: (987, 62, 18, 110),
     3: (14_003, 916, 386, 161),
     4: (248_564, 15_560, 6_174, 222),
+    5: (2_350_907, 147_027, 58_212, 378),
 }
 for d in range(MAX_DEV + 1):
     assert tuple(stats[d]) == expected[d]
@@ -194,10 +195,10 @@ total_physical = sum(stats[d][1] for d in range(MAX_DEV + 1))
 total_bounded = sum(stats[d][2] for d in range(MAX_DEV + 1))
 latest_failure = max(stats[d][3] for d in range(MAX_DEV + 1))
 
-assert total_words == 263_582
-assert total_physical == 16_539
-assert total_bounded == 6_579
-assert latest_failure == 222
+assert total_words == 2_614_489
+assert total_physical == 163_566
+assert total_bounded == 64_791
+assert latest_failure == 378
 
 print("PASS A0 s=1 72-bit closure and near-threshold block-jump certificate")
 print("threshold_address_72", A72)
@@ -205,9 +206,9 @@ print("threshold_address_75", A75)
 print("threshold_75_lift", "A75 = A72 + 2^74")
 print("threshold_first_orbit_mismatch_zero_indexed", first_mismatch)
 print("hamming_radius_closed", MAX_DEV)
-print("ballot_words_radius_le_4", total_words)
-print("physical_shell_words_radius_le_4", total_physical)
-print("bounded_physical_words_radius_le_4", total_bounded)
+print("ballot_words_radius_le_5", total_words)
+print("physical_shell_words_radius_le_5", total_physical)
+print("bounded_physical_words_radius_le_5", total_bounded)
 print("all_bounded_candidates_fail_by_prefix", latest_failure)
-print("necessary_first75_hamming_distance", ">= 5")
+print("necessary_first75_hamming_distance", ">= 6")
 print("status", "SAFE finite necessary-condition closure")
