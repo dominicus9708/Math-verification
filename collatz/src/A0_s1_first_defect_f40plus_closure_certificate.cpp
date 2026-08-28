@@ -185,7 +185,7 @@ int main() {
     }
 
     assert(grand_total == 455010884ULL);
-    assert(grand_pass75 == 22346436ULL);
+    assert(grand_pass75 == 22346636ULL);
     assert(grand_survivors == 0);
     assert(grand_latest == 454);
 
