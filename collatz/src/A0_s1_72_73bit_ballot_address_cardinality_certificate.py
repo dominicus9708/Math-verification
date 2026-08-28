@@ -6,10 +6,13 @@ This certificate counts two NECESSARY local address languages only:
 1. the first 72 parity bits of the pre 0->0 renewal ballot bridge;
 2. the first 73 parity bits after the renewal point t0.
 
+It also records the exact 40-bit marginal counts used by the dyadic-dyadic
+L_minus corridor meet.
+
 The thresholds are certified by directed rational bounds for ln(2), ln(3),
 and the word counts are exact integer dynamic programs.
 
-The two counts are MARGINAL counts.  They must not be multiplied as if the
+All counts here are MARGINAL counts.  They must not be multiplied as if the
 pre and tail/checkpoint addresses were probabilistically independent.
 No finite local address count is promoted to a full long-block path theorem.
 This is not a proof of Collatz.
@@ -80,11 +83,21 @@ def count_ballot_words(req):
     return sum(states.values()), states
 
 
+pre40, _ = count_ballot_words(req_pre72[:40])
+tail40, _ = count_ballot_words(req_tail73[:40])
 pre72, pre_terminal_counts = count_ballot_words(req_pre72)
 tail73, tail_terminal_counts = count_ballot_words(req_tail73)
 
+assert pre40 == 6_402_835_000
+assert tail40 == 31_654_570_714
 assert pre72 == 4_650_657_914_809_371_340
 assert tail73 == 42_553_228_731_364_551_533
+
+# Sharp integer reciprocal-density brackets in the complete 40-bit space.
+assert 171 * pre40 < (1 << 40)
+assert not (172 * pre40 < (1 << 40))
+assert 34 * tail40 < (1 << 40)
+assert not (35 * tail40 < (1 << 40))
 
 # Sharp integer reciprocal-density brackets relative to the physical shells
 # used by the current Route-B audit.  These are marginal upper-density facts,
@@ -97,6 +110,10 @@ assert not (111 * tail73 < (1 << 72))
 # Explicitly do not form a product estimate for the joint same-address event.
 
 print("PASS A0 s=1 72/73-bit ballot address cardinality certificate")
+print("pre40_necessary_words", pre40)
+print("pre40_reciprocal_density_floor", 171)
+print("tail40_necessary_words", tail40)
+print("tail40_reciprocal_density_floor", 34)
 print("pre72_necessary_words", pre72)
 print("pre72_reciprocal_density_floor", 507)
 print("tail73_necessary_words", tail73)
