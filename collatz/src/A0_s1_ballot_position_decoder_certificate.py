@@ -153,10 +153,10 @@ assert actual_parity_prefix(3, 2) == (1, 1)
 count72 = ballot_word_count(H_PHYSICAL)
 assert count72 == EXPECTED_COUNT_72
 
-# The original physical shell has size 2^71.  Even without resolving how
-# the allowed residues distribute inside that shell, its intersection is at
-# most count72.  This gives a deterministic cardinality upper fraction.
-shell_size = 1 << 71
+# The strict physical shell is 2^71 < X < 2^72, hence its exact integer
+# cardinality is 2^71-1.  Even without resolving how the accepted residues
+# distribute inside that shell, the intersection has cardinality <=count72.
+shell_size = (1 << 71) - 1
 shell_fraction_upper = Fraction(count72, shell_size)
 
 print("PASS A0 s=1 ballot position-decoder certificate")
@@ -165,5 +165,6 @@ print("forced_prefix", "11")
 print("forced_start_residue", "X == 3 (mod 4)")
 print("valid_pure_ballot_words_depth_72", count72)
 print("all_72bit_residue_fraction", float(Fraction(count72, 1 << 72)))
+print("strict_physical_shell_size", shell_size)
 print("physical_shell_cardinality_fraction_upper", float(shell_fraction_upper))
 print("status", "SAFE necessary condition; C4F still OPEN")
