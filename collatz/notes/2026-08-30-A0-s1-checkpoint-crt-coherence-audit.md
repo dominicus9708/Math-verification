@@ -1,18 +1,21 @@
-# A0 s=1 same-checkpoint CRT coherence audit — 2026-08-30
+# A0 s=1 checkpoint CRT coherence and local-splice audit — 2026-08-30
 
 ## Status
 
 - **EXACT:** same-checkpoint 2-adic / 3-adic residues admit a unique CRT class.
 - **EXACT:** the pre-checkpoint 3-adic endpoint residue is terminal-local after `M` odd events.
-- **SAFE:** at the current `(K,M)=(27,28)`, every coherent boundary signature has at most one ordinary checkpoint `Z` in the current checkpoint corridor.
-- **REJECTED:** Cartesian pairing of independently counted pre- and post-boundary marginals.
-- **OPEN:** construct or enumerate the provenance-preserving paired boundary relation.
+- **EXACT:** if the left terminal suffix contains **exactly `M` odd events**, a positive CRT lift together with a `K`-bit right word constructs a genuine ordinary local orbit segment across the checkpoint.
+- **SAFE:** at the current `(K,M)=(27,28)`, every locally compatible boundary signature has at most one ordinary checkpoint `Z` in the current checkpoint corridor.
+- **SAFE:** positivity of the reconstructed left start is automatic in the current corridor for every exact-28-odd terminal suffix.
+- **REJECTED:** treating an independently counted left/right Cartesian product as automatically satisfying the full long-language conditions.
+- **OPEN:** construct or enumerate globally admissible left/right boundary states, preserving every nonlocal conclusion-relevant predicate.
 - **OPEN:** C4F renewal/gap conditions and the global Collatz conclusion.
 
 Primary certificates:
 
 - `collatz/src/A0_s1_checkpoint_crt_coherence_certificate.py`
 - `collatz/src/A0_s1_terminal_ternary_residue_compression_certificate.py`
+- `collatz/src/A0_s1_checkpoint_local_splice_certificate.py`
 
 ## 1. Affine correction identity
 
@@ -25,10 +28,12 @@ For a parity word `w` of length `n` and odd count `q(w)`, define `C(w)` by
 For concatenation `uv`,
 
 \[
+\boxed{
 C(uv)=3^{q(v)}C(u)+2^{|u|}C(v).
+}
 \]
 
-This is the only composition law used below.
+This is the composition law used throughout the audit.
 
 ## 2. Pre-checkpoint ternary endpoint residue
 
@@ -54,7 +59,7 @@ R_M(w):=2^{-|w|}C(w)\pmod{3^M}.
 
 ### Terminal locality
 
-Let `u=ab`. From correction composition,
+Let `u=ab`. Then
 
 \[
 R_M(ab)
@@ -65,7 +70,7 @@ R_M(ab)
 \pmod{3^M}.
 \]
 
-If `q(b)>=M`, then the first term vanishes modulo `3^M`. Hence
+If `q(b)>=M`, the first term vanishes modulo `3^M`, hence
 
 \[
 \boxed{
@@ -76,7 +81,7 @@ R_M(ab)=R_M(b)\pmod{3^M}
 
 Therefore the checkpoint residue modulo `3^M` is determined by any terminal suffix ending at the same checkpoint that contains at least `M` odd events.
 
-A canonical choice is the shortest suffix beginning at the `M`-th-last odd event. It contains exactly `M` odd bits.
+A canonical choice is the shortest suffix beginning at the `M`-th-last odd event. It contains **exactly `M` odd bits**.
 
 For the current `M=28`, everything earlier than the 28th-last odd event is exactly irrelevant **for this residue only**.
 
@@ -98,7 +103,7 @@ R'\equiv \frac{3R+1}{2}\pmod{3^M}.
 
 Starting from `R=0`, consuming a terminal word produces `R_M(w)` exactly.
 
-This gives a finite modular left-boundary state of size `3^M`, but it is **not** by itself a complete language state: provenance and the terminal-word constraints must still be preserved.
+This is an exact finite modular state for the endpoint residue, but not by itself a complete state for every long-language predicate.
 
 ## 4. Post-checkpoint dyadic address
 
@@ -110,11 +115,11 @@ Z\equiv A_K(v)\pmod{2^K}.
 }
 \]
 
-The present boundary uses `K=27`.
+The current boundary uses `K=27`.
 
-## 5. Same-checkpoint paired signature
+## 5. CRT boundary signature
 
-For a pre-checkpoint terminal suffix `b` and a post-checkpoint prefix `v` that are known to meet at the **same ordinary checkpoint** `Z`, define
+For a left terminal suffix `b` and a right prefix `v`, define
 
 \[
 \boxed{
@@ -127,15 +132,137 @@ R_M(b)
 }
 \]
 
-The two moduli are coprime, so CRT produces one class
+Because `2^K` and `3^M` are coprime, CRT produces one class
 
 \[
 Z\equiv Z_\Gamma\pmod{2^K3^M}.
 \]
 
-This is an arithmetic theorem conditional only on the same-checkpoint provenance of the pair.
+At this stage alone, `Gamma` is a modular compatibility signature. The next section shows that when the left suffix is the canonical **exact-M-odd** suffix, a positive CRT lift is stronger: it constructs a genuine local orbit splice.
 
-## 6. Current uniqueness window
+## 6. Exact local-splice theorem
+
+Let `b` have length `n` and exactly `M` odd bits:
+
+\[
+q(b)=M.
+\]
+
+Let `v` expose `K` right-hand parity bits. Suppose an ordinary positive integer `Z` satisfies
+
+\[
+Z\equiv R_M(b)\pmod{3^M},
+\]
+
+and
+
+\[
+Z\equiv A_K(v)\pmod{2^K}.
+\]
+
+Define
+
+\[
+\boxed{
+Y:=\frac{2^nZ-C(b)}{3^M}.
+}
+\]
+
+The ternary congruence makes the numerator divisible by `3^M`, so `Y` is an integer.
+
+Moreover,
+
+\[
+3^M Y\equiv -C(b)\pmod{2^n}.
+\]
+
+Since `3^M` is invertible modulo `2^n`,
+
+\[
+\boxed{
+Y\equiv -3^{-M}C(b)=A_n(b)\pmod{2^n}.
+}
+\]
+
+By the deterministic parity-address theorem, the actual first `n` parity bits of `Y` are exactly `b`. The defining affine equation then gives
+
+\[
+\boxed{T^n(Y)=Z.}
+\]
+
+Likewise `Z mod 2^K=A_K(v)` forces the actual first `K` future parity bits of `Z` to equal `v`.
+
+Therefore
+
+\[
+\boxed{
+\text{exact-M left suffix}
++
+\text{K-bit right word}
++
+\text{positive CRT lift}
+\Longrightarrow
+\text{genuine local ordinary orbit segment }b\mid v.
+}
+\]
+
+This removes the need for an additional opaque provenance label **for local checkpoint continuity**.
+
+### Why `q(b)=M` is essential here
+
+If `q(b)>M`, the congruence modulo `3^M` proves divisibility only by `3^M`, not by the full `3^{q(b)}` required by the affine endpoint equation. Therefore the local-splice theorem intentionally uses the canonical suffix with exactly `M` odd events.
+
+The certificate includes a counter-regression showing that replacing `q(b)=M` by merely `q(b)>=M` would be unsound for this reconstruction step.
+
+## 7. Current positivity is automatic
+
+For every binary word `b` of length `n` with exactly `M` odd bits,
+
+\[
+C(b)
+<
+2^n\sum_{j=0}^{M-1}3^j
+=
+2^n\frac{3^M-1}{2}.
+\]
+
+For `M=28`,
+
+\[
+\frac{3^{28}-1}{2}
+=
+\boxed{11,438,396,227,480}.
+\]
+
+The checkpoint corridor begins at
+
+\[
+Z_{\min}
+=
+7,083,549,723,369,539,339,554,
+\]
+
+so
+
+\[
+Z_{\min}>\frac{3^{28}-1}{2}.
+\]
+
+Hence for every canonical exact-28-odd suffix and every checkpoint lift in the current corridor,
+
+\[
+2^nZ>C(b),
+\]
+
+and therefore
+
+\[
+\boxed{Y>0}
+\]
+
+automatically.
+
+## 8. Current CRT uniqueness window
 
 Current exact values are
 
@@ -182,90 +309,97 @@ Hence
 }>0.
 \]
 
-Therefore every coherent boundary signature has **at most one** ordinary lift in the current corridor:
+Therefore a specific exact-28-odd left suffix and 27-bit right word have **at most one** local checkpoint splice in the current corridor.
 
-\[
-\boxed{
-\Gamma_{27,28}\Longrightarrow \text{at most one ordinary }Z.
-}
-\]
+They may still have no lift in the corridor.
 
-It may still have no lift in the corridor.
+## 9. What Cartesian pairing now means
 
-## 7. Why this does not license marginal multiplication
+The earlier warning against arbitrary Cartesian pairing needs a precise refinement.
 
-The theorem does **not** say that every independently allowed pre-boundary residue may be paired with every independently allowed post-boundary address.
+### Locally
 
-Doing so would destroy the only fact needed for CRT relevance: both values must refer to the same checkpoint on the same admissible boundary object.
+For a **specific** exact-28-odd left word `b` and a **specific** 27-bit right word `v`, it is legitimate to:
 
-Accordingly:
+1. compute `R_28(b)`;
+2. compute `A_27(v)`;
+3. CRT-combine them;
+4. test whether the unique class has a lift in the checkpoint corridor;
+5. if it does, reconstruct `Y`.
 
-- a pre-boundary terminal word count is not automatically a count of distinct `Z mod 3^M` values;
-- a post-boundary tail-word count is not automatically a count of distinct `Z mod 2^K` values;
-- neither marginal count may be multiplied by the other without an explicit paired relation or a proved independence/product theorem.
+A successful test certifies a genuine ordinary local orbit segment `b|v`.
 
-This is especially important for the previously obtained `8,478,475` necessary tail-27 ballot words. Until an address-image theorem is proved for that collection, the value remains a **word count**, not a distinct-checkpoint count.
+Thus local same-checkpoint continuity no longer requires an external provenance object.
 
-## 8. Interaction with the f=37 low-projection saturation
+### Globally
 
-The `f=37` checkpoint sieve has no pruning power after projection to `Z mod 2^27` alone because its allowed interval is much wider than `2^27`.
+It remains **invalid** to interpret every locally splicable pair as a survivor of the full Route-B language.
 
-That negative result does not contradict the present theorem. The paired signature uses the product modulus
+A left terminal word may fail to admit a legal long prehistory with the required accumulated rank, ballot, defect, correction, or shell constraints. A right word may fail the required long continuation. Cross-boundary aggregate predicates may also depend on state not contained in `(A_27,R_28)`.
+
+Therefore an independently counted marginal product is still not a valid count of globally admissible long objects unless the missing nonlocal predicates are proved invariant or carried explicitly.
+
+In particular:
+
+- a pre-boundary terminal-word count is not automatically a count of distinct `Z mod 3^28` values;
+- a post-boundary tail-word count is not automatically a count of distinct `Z mod 2^27` values;
+- the previously obtained `8,478,475` necessary tail-27 ballot words remain a **word count** until their exact boundary orientation and address-image relation are verified from the generating certificate.
+
+## 10. Interaction with f=37 low-projection saturation
+
+The `f=37` checkpoint sieve has no pruning power after projection to `Z mod 2^27` alone because its allowed interval is wider than `2^27`.
+
+The local-splice signature instead uses the product modulus
 
 \[
 2^{27}3^{28},
 \]
 
-which is larger than the full checkpoint corridor and therefore restores ordinary-checkpoint uniqueness once coherence is known.
+which is larger than the whole checkpoint corridor. Therefore once a concrete left/right pair is available, CRT recovers zero or one ordinary checkpoint and the exact late-shell reducer can then be applied to that ordinary `Z`.
 
-Thus the correct next target is not a finer marginal count. It is
+## 11. Correct remaining structural gate
+
+The local arithmetic gate is now closed:
 
 \[
 \boxed{
-\text{marginal boundary information}
-\longrightarrow
-\text{provenance-preserving paired boundary relation}.
+(b_{q=28},v_{27})
+\xrightarrow{\ CRT\ }
+Z
+\xrightarrow{\ exact\ reconstruction\ }
+Y\to Z\to\text{right future}
 }
 \]
 
-## 9. Next exact construction target
+whenever the unique CRT class hits the corridor.
 
-A legal paired state must carry enough information to certify that its two sides refer to one boundary object. A minimal candidate interface is
+The remaining gate is **not** “prove that two modular residues refer to the same local orbit.” That part is reconstructible.
+
+The remaining gate is:
 
 \[
-\mathcal B_{K,M}
+\boxed{
+\text{which locally splicable }(b,v)
+\text{ also possess the required long left/right extensions and cross-boundary states?}
+}
+\]
+
+A legal compressed boundary state therefore needs only the nonlocal information not recoverable from the local splice. Schematically,
+
+\[
+\mathcal B
 =
-(\Pi,\,A_K,\,R_M),
+(\Sigma_{\mathrm{nonlocal}},\,b_{q=28},\,v_{27}),
 \]
 
-where `Pi` is an explicit provenance / boundary-identity component, not merely a label discarded during merging.
+or a compressed equivalent in which every future conclusion-relevant predicate is invariant under state merging.
 
-Any merge is legal only if every future conclusion-relevant predicate is invariant under that merge. In particular, equality of `(A_K,R_M)` alone is insufficient to merge states if their admissible continuation or prehistory languages differ.
+## 12. Audit conclusion
 
-The next task is therefore to derive a provenance-preserving composition rule from the existing long correction / Christoffel-Stern-Brocot representation, rather than taking a Cartesian product of the existing marginals.
+Three layers are now separated cleanly:
 
-## 10. Audit conclusion
+1. **Local ordinary-orbit continuity:** **CLOSED / EXACT** for an exact-28-odd left suffix and a 27-bit right word whose CRT class hits the current corridor.
+2. **Long-language left/right compatibility:** **OPEN.** This is now the main Route-B boundary gate.
+3. **C4F / global Collatz conclusion:** **OPEN.** No implication is claimed from the local certificates alone.
 
-The arithmetic coherence gate itself is now closed:
-
-\[
-\boxed{
-\text{same checkpoint}
-\Rightarrow
-(A_{27},R_{28})
-\Rightarrow
-\text{at most one ordinary }Z
-}
-\]
-
-in the current corridor.
-
-The remaining gate is structural, not CRT arithmetic:
-
-\[
-\boxed{
-\text{prove which }(A_{27},R_{28})\text{ pairs are generated by one admissible long object.}
-}
-\]
-
-No C4F or global Collatz conclusion follows from this certificate alone.
+The immediate next task is to identify the exact generating objects behind the existing `8,478,475` tail-27 word count and the compatible left terminal-language representation, then apply the local CRT-splice filter without discarding the nonlocal state needed by Route B.
