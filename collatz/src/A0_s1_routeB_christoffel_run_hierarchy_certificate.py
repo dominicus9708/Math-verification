@@ -453,6 +453,46 @@ assert endpoint_indistinguishable_through_R == 6_189_245_291
 assert dag_states[ROOT].critical_prefix == first_distinguishing_dyadic_K
 
 
+# ---------------------------------------------------------------------------
+# Ballot critical-prefix provenance is the reverse run hierarchy.
+# ---------------------------------------------------------------------------
+def critical_trace(i: int):
+    directions = []
+    steps = 0
+    while nodes[i]["left"] is not None:
+        a = dag_states[i].critical_prefix
+        assert a is not None
+        li = nodes[i]["left"]
+        ri = nodes[i]["right"]
+        left_length = nodes[li]["q"]
+
+        if a == left_length:
+            return tuple(directions), i, steps
+
+        if a < left_length:
+            # Parent critical prefix came from the left child unchanged.
+            assert dag_states[li].critical_prefix == a
+            directions.append("L")
+            i = li
+        else:
+            # Parent critical prefix came from the shifted right child.
+            local = a - left_length
+            assert dag_states[ri].critical_prefix == local
+            directions.append("R")
+            i = ri
+        steps += 1
+
+    return tuple(directions), i, steps
+
+
+CRITICAL_DIRECTIONS, CRITICAL_STOP_NODE, critical_trace_steps = critical_trace(root)
+CRITICAL_RUNS = run_length_encode(CRITICAL_DIRECTIONS)
+assert critical_trace_steps == 126
+assert CRITICAL_STOP_NODE == 2
+assert CRITICAL_RUNS == tuple(reversed(RUNS))
+assert len(CRITICAL_RUNS) == 20
+
+
 print("PASS A0 s=1 Route-B Christoffel run-hierarchy certificate")
 print("continued_fraction_terms", len(CF))
 print("continued_fraction", CF)
@@ -473,6 +513,9 @@ print("final_ray_B_length", nodes[B]["q"])
 print("final_ray_B_ones", nodes[B]["p"])
 print("final_ray_pair_checks", final_ray_checks)
 print("final_ray_ballot_checks", final_ray_ballot_checks)
+print("critical_trace_steps", critical_trace_steps)
+print("critical_trace_run_groups", len(CRITICAL_RUNS))
+print("critical_trace_runs", CRITICAL_RUNS)
 print("base_lcp_A_B", base_lcp)
 print("max_compressed_lcp_expansions", max_lcp_expansions)
 print("root_predecessor_length", nodes[PREDECESSOR]["q"])
