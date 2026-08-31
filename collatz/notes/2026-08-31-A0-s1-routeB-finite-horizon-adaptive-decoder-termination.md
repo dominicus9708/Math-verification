@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note upgrades the existing finite adaptive-decoder regressions to an exact theorem at every **fixed finite word length**.
+This note combines an already-proved fixed-(h,q) dyadic termination theorem with a new exact ternary diameter bound and derives a two-axis adaptive-termination theorem at every **fixed finite word length**.
 
 It does **not** prove a uniform resolution bound independent of word length, and it does **not** prove global Collatz closure.
 
@@ -26,30 +26,24 @@ The exact affine identity is
 2^hT^h(x)=3^q x+C(W).
 \]
 
-The existing fixed-(h,q) correction-language decoder gives two exact facts:
+The repository already contains the stronger fixed-(h,q) dyadic theorem:
 
-1. ordinary `C(W)` is injective at fixed `(h,q)`;
-2. even `C(W) mod 2^h` is injective at fixed `(h,q)`.
+> If `U != V` have the same `(h,q)`, then
+> \[
+> v_2(C(U)-C(V))\le h-2.
+> \]
 
-The second fact follows equivalently from the unique parity start address
+Its proof uses the prefix-channel bijection modulo `2^(h-1)`: equality of the first `h-1` parity symbols together with equal total one-count `q` forces the final symbols to agree as well.
 
-\[
-x(W)\equiv -C(W)(3^q)^{-1}\pmod{2^h}.
-\]
-
-Therefore any two distinct fixed-(h,q) words satisfy
+Therefore, for every non-singleton fixed-(h,q) class,
 
 \[
-C(U)\not\equiv C(V)\pmod{2^h}.
+\boxed{K_{\rm dy}(h,q)=h-1}
 \]
 
-So the dyadic observation depth
+is sufficient to distinguish all words.
 
-\[
-\boxed{K_*(h,q)=h}
-\]
-
-is always sufficient to separate every fixed-(h,q) correction word.
+This is stronger than the weaker `K=h` consequence of full parity-address injectivity and must be used as the correct dyadic stopping barrier.
 
 ## Exact ternary diameter bound
 
@@ -77,7 +71,7 @@ C_{\max}(h,q)
 =2^{h-q}(3^q-2^q).
 \]
 
-Therefore the diameter of the fixed-(h,q) correction language obeys the exact bound
+Therefore the exact correction-language diameter is bounded by
 
 \[
 \boxed{
@@ -95,21 +89,21 @@ For any two fixed-(h,q) words,
 Define
 
 \[
-L_*(h,q)=\min\{L\ge0:3^L>D_{h,q}\}.
+L_{\rm ter}(h,q)=\min\{L\ge0:3^L>D_{h,q}\}.
 \]
 
 If
 
 \[
-C(U)\equiv C(V)\pmod{3^{L_*(h,q)}},
+C(U)\equiv C(V)\pmod{3^{L_{\rm ter}(h,q)}},
 \]
 
-then the difference is a multiple of `3^{L_*}` whose absolute value is smaller than `3^{L_*}`. Hence the difference is zero, and fixed-(h,q) injectivity gives `U=V`.
+then `C(U)-C(V)` is a multiple of `3^L` whose absolute value is smaller than `3^L`. Hence the difference is zero, and ordinary fixed-(h,q) correction injectivity gives `U=V`.
 
 Thus
 
 \[
-\boxed{L\ge L_*(h,q)\Longrightarrow\text{ternary residue alone separates the fixed-(h,q) language}.}
+\boxed{L\ge L_{\rm ter}(h,q)\Longrightarrow\text{ternary residue alone separates the fixed-(h,q) language}.}
 \]
 
 The degenerate cases `q=0` and `q=h` contain only one word and are already singleton classes.
@@ -127,57 +121,89 @@ Let `T` be any candidate subset of one fixed `(h,q)` class and let `t in T` be a
 Then
 
 \[
+\boxed{
 \mathcal A_{K+1,L}(t)\subseteq\mathcal A_{K,L}(t),
 \qquad
 \mathcal A_{K,L+1}(t)\subseteq\mathcal A_{K,L}(t).
+}
 \]
 
 No refinement step can create a new collider.
 
-Moreover,
+Moreover, for a non-singleton fixed-(h,q) class,
 
 \[
-K\ge h\quad\Longrightarrow\quad\mathcal A_{K,L}(t)=\varnothing,
+K\ge h-1\quad\Longrightarrow\quad\mathcal A_{K,L}(t)=\varnothing,
 \]
 
 and
 
 \[
-L\ge L_*(h,q)\quad\Longrightarrow\quad\mathcal A_{K,L}(t)=\varnothing.
+L\ge L_{\rm ter}(h,q)\quad\Longrightarrow\quad\mathcal A_{K,L}(t)=\varnothing.
 \]
 
-## Finite-horizon adaptive termination theorem
+## Two-axis finite-horizon adaptive termination theorem
 
-Consider any adaptive decoder that starts from a finite resolution `(K_0,L_0)` and, while a non-target collider remains, increases exactly one of `K` or `L` by one.
+Consider any adaptive decoder that starts from finite resolution `(K_0,L_0)` and, while a non-target collider remains, increases exactly one of `K` or `L` by one.
 
-For every fixed finite `(h,q)` candidate class, this decoder must terminate after finitely many refinements.
+For every fixed finite `(h,q)` candidate class, this decoder must terminate after finitely many refinements, regardless of how the axis is selected.
 
-Indeed, an unresolved path cannot pass either barrier
+Indeed, an unresolved path cannot reach either stopping barrier
 
 \[
-K=h
+K=h-1
 \]
 
 or
 
 \[
-L=L_*(h,q).
+L=L_{\rm ter}(h,q).
 \]
 
-Therefore there is no infinite refinement path at fixed finite `(h,q)`.
+Since each refinement raises one coordinate by one, there is no infinite path inside the finite rectangle
 
-A simple safe refinement-count bound is
+\[
+K_0\le K<h-1,
+\qquad
+L_0\le L<L_{\rm ter}(h,q).
+\]
+
+A simple deliberately non-sharp bound is
 
 \[
 \boxed{
 N_{\rm refine}
-\le (h-K_0)+(L_*(h,q)-L_0)
+\le
+\max(0,h-1-K_0)+
+\max(0,L_{\rm ter}(h,q)-L_0)
 }
 \]
 
-when the initial resolutions lie below both barriers. The bound is intentionally non-sharp; the actual decoder can terminate much earlier.
+before one of the two universal stopping barriers must be reached.
 
-This theorem does not depend on the greedy axis-selection rule. Greedy refinement is an efficiency policy, not a termination assumption.
+Thus the greedy target-aware policy is an efficiency rule, not a termination hypothesis.
+
+## Partition-rank consequence
+
+At any `(K,L)`, equality of correction residues partitions a fixed finite target class. Raising `K` or `L` only refines this partition.
+
+For a finite candidate set `T`, define the unresolved-pair rank
+
+\[
+R_{K,L}
+=
+\sum_{B\in\Pi_{K,L}}\binom{|B|}{2}.
+\]
+
+Then
+
+\[
+R_{K+1,L}\le R_{K,L},
+\qquad
+R_{K,L+1}\le R_{K,L}.
+\]
+
+Whenever a refinement actually splits a bucket, the inequality is strict. This gives a valid finite partition rank, but the stopping-barrier theorem above is stronger for termination because it also rules out an infinite sequence of resolution increases that temporarily produce no split.
 
 ## Existing length-18 target as a check
 
@@ -201,46 +227,54 @@ Since
 3^{15}=14,348,907 < D_{18,12}<43,046,721=3^{16},
 \]
 
-we obtain the target-independent fixed-class bound
+we obtain
 
 \[
-L_*(18,12)=16.
+L_{\rm ter}(18,12)=16.
 \]
 
-The previously audited target+ballot subclass is substantially smaller: its actual target-specific maximum ternary collision valuation is `10`, and the greedy regression isolates the target at `(K,L)=(1,11)`.
+The existing dyadic theorem gives the generic same-(18,12) barrier
 
-Thus the finite regression is consistent with, and much sharper than, the general fixed-horizon theorem.
+\[
+K_{\rm dy}=17.
+\]
 
-## What this closes
+The previously audited target+ballot subclass is much smaller: its target-specific maximum ternary collision valuation is `10`, and the greedy regression isolates the target at `(K,L)=(1,11)`.
 
-✅ collider sets are nested under either resolution refinement;
+So the observed finite path is consistent with, and much sharper than, the generic fixed-class barriers `(17,16)`.
 
-✅ new target candidates cannot appear merely because resolution increases;
+## What is genuinely added here
 
-✅ every fixed finite `(h,q)` correction class has a universal dyadic separating depth `K=h`;
+✅ existing result reused: fixed-(h,q) dyadic separation satisfies `K<=h-1`;
 
-✅ every fixed finite `(h,q)` correction class has an explicit finite ternary separating depth `L_*(h,q)`;
+✅ new exact bound: the fixed-(h,q) correction-language ternary diameter is `(2^(h-q)-1)(3^q-2^q)`;
 
-✅ every one-axis-at-a-time adaptive decoder terminates at fixed finite `(h,q)`, independently of the greedy policy;
+✅ new combined consequence: either dyadic or ternary resolution has an explicit finite stopping barrier for every fixed `(h,q)`;
 
-✅ finite-horizon adaptive termination no longer requires a separate ambiguity-cardinality descent hypothesis.
+✅ new scheduler-independent consequence: any one-axis-at-a-time adaptive refinement path terminates at every fixed finite horizon;
+
+✅ collider sets and observation partitions are monotone under both axes.
 
 ## What remains open
 
-❌ `K_*=h` and `L_*(h,q)` grow with the horizon; no length-independent observation-depth theorem has been proved;
+❌ both universal barriers depend on the horizon: `K_{dy}=h-1` and `L_{ter}=L_{ter}(h,q)` grow with `(h,q)`;
 
-❌ this theorem does not by itself compress arbitrary long words into a fixed global finite-state decoder;
+❌ this does not compress arbitrary long words into one fixed global finite-state decoder;
 
-❌ recursive long-word closure still requires either a horizon-normalized quotient or a well-founded descent that replaces the growing absolute resolution by a smaller recursive subproblem;
+❌ recursive long-word closure still requires a horizon-normalized quotient, renewal rule, or a well-founded descent that turns a long unresolved class into a strictly smaller recursive subproblem;
+
+❌ target identification remains logically distinct from Route-B language membership;
 
 ❌ no global Collatz conclusion is claimed.
 
 ## DSD audit
 
-The audit distinction is now sharper:
+The proof levels are now separated as follows:
 
-- **finite enumeration evidence**: earlier length-12 and length-18 decoder regressions;
-- **exact finite-horizon theorem**: the result above, valid for every fixed finite `(h,q)` without enumeration;
-- **global long-language lift**: still open because the required separating depth is not yet uniform in `h`.
+- **exact prior theorem**: fixed-(h,q) dyadic termination, `v2(Delta C)<=h-2`;
+- **exact new finite-horizon lemma**: ternary correction diameter and `L_{ter}` barrier;
+- **exact combined theorem**: arbitrary adaptive axis scheduling terminates for each fixed finite `(h,q)`;
+- **finite regression**: length-12 and length-18 efficiency measurements;
+- **open globalization**: eliminate or recursively normalize the growth of the required observation scale with `h`.
 
-The former finite-regression bottleneck has therefore moved: the unresolved question is not whether finite words eventually separate, but whether the scale growth can be quotiented, renewed, or forced to descend recursively.
+Therefore the long-word bottleneck is no longer finite-horizon termination. It is **scale normalization/globalization**.
