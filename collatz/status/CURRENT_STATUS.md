@@ -16,7 +16,7 @@ Canonical certificate:
 
 - `../src/A0_s1_14root_long_membership_forest_certificate.py`
 
-This forest is a search-family representation after SAFE upstream pruning.  It is not a proof that any root realizes full membership.
+This forest is a search-family representation after SAFE upstream pruning. It is not a proof that any root realizes full membership.
 
 ## Current structural state
 
@@ -31,32 +31,152 @@ The following components are available as exact/local tools:
 - ternary suffix carry and displacement cylinders;
 - normalized defect semiring;
 - projective-cylinder exact defect floors;
-- inverse physical defect budget and min-plus dominance reductions.
+- inverse physical defect budget;
+- integer defect numerator `N=3^q eta`;
+- exact scalar physical danger score `P` with one `P_min` Bellman label per exact active source/payload key;
+- minimal lazy ternary observation `R_q=N_q mod 3^m(q)` for final `3^L` residue predicates;
+- critical-cut ternary shielding;
+- uniform projective-cylinder multiplicity bound with singleton threshold `m>=23`.
+
+## Current physical Bellman reduction
+
+For the directed real-envelope gate define
+
+\[
+P=m_{lo}N+\delta_{lo}3^qX_{lo}.
+\]
+
+The whole family closes under this gate when
+
+\[
+P>B3^q.
+\]
+
+Under a common exact source/control and interval-payload transition, `P` evolves by an increasing affine map `P -> P+c` or `P -> 3P+c`.
+
+Therefore only the minimum `P` label is needed for this predicate.
+
+The earlier `(source residue, defect)` Pareto frontier remains the general representation only when a later predicate queries those coordinates separately.
+
+## Newly closed terminal-ternary interface
+
+For a final defect/correction residue predicate
+
+\[
+N_J\pmod{3^L},
+\]
+
+the current exact observation precision is
+
+\[
+m(q)=\max(0,L-(J-q)).
+\]
+
+Thus the current residue coordinate
+
+\[
+R_q=N_q\bmod3^{m(q)}
+\]
+
+is completely dormant while at least `L` future one-events remain.
+
+For the current
+
+\[
+J=j_0=65,868,186,701,
+\]
+
+a 28-trit terminal residue does not require any prefix ternary state through
+
+\[
+q\le65,868,186,673.
+\]
+
+Once active, the augmented exact key
+
+`source/control × interval payload × R_q`
+
+still carries only one `P_min` label.
+
+## Critical-cut localization
+
+At the existing exact critical cut, the right H-side factor has
+
+\[
+q_B=397,573,380
+\]
+
+one-events.
+
+Hence every terminal residue predicate modulo `3^L` with
+
+\[
+L\le397,573,380
+\]
+
+is completely shielded from the left block.
+
+In particular the current 24-, 28-, and 47-trit terminal resolutions are right-local.
+
+Therefore the terminal ternary predicate should not be carried through the full left/forward 14-root scan.
+
+## Projective-cylinder width
+
+For every ranked one-position, the legal dominance interval has width at most
+
+\[
+t_0-j_0=38,530,419,209.
+\]
+
+At ternary precision `m`, a projective exponent cylinder has period
+
+\[
+\lambda_m=2\cdot3^{m-1}.
+\]
+
+Since
+
+\[
+\lambda_{23}=62,762,119,218>38,530,419,209,
+\]
+
+every specified projective exponent cylinder is empty or singleton for `m>=23`.
+
+For a 28-trit backward filter, the first six one-gates (`m=28..23`) therefore have no within-cylinder exponent multiplicity.
+
+This does not imply a unique carry/suffix branch.
 
 ## Current stopping point
 
-The next computation should operate directly on the 14 source roots using an exact family state of the form
+The architecture is now a two-front exact join.
 
-`active source/control state × interval payload × minimum physical-risk/defect label`
+### Forward front
 
-and close a node whenever the certified defect/physical inequality holds for its entire source interval.
+Carry
 
-Additional predicates are to be activated lazily:
+`source/control × interval payload × P_min`
 
-- checkpoint residue coherence;
-- ternary/projective suffix constraints;
-- tail first-passage constraints;
-- renewal/C4F/global formation compatibility.
+on the 14-root forest, without terminal ternary state while it is unobservable.
 
-A predicate is not carried merely because a diagnostic coordinate exists; it is carried when the unresolved membership definition actually queries it.
+### Backward right front
+
+Start from the actual required terminal correction/defect residue and propagate it backward through the compressed right H/projective factor as an empty-or-singleton predecessor residue cylinder for each specified branch.
+
+### Join
+
+At an exact block boundary, join the backward admissible projective/control state to the forward source/physical Bellman families.
+
+No independence assumption or marginal-ratio multiplication is allowed.
 
 ## Current mathematical bottleneck
 
-The core open question is still the long membership/nonmembership problem for the 14-root families through the complete pre bridge and required tail/checkpoint interface.
+The next unresolved object is
 
-In shorthand:
+`compressed right-H backward projective residue filter -> exact cut-boundary export state`.
 
-`14 roots -> compressed family refinement -> certified defect accumulation -> physical closure OR unresolved membership predicate -> lazy refinement`
+After that:
+
+`forward 14-root Bellman state JOIN backward H/projective filter -> whole-family closure or next predicate activation`.
 
 ## What is already ruled out
 
@@ -67,11 +187,14 @@ Do not restart these rejected proof shortcuts:
 - endpoint exposure as same-orbit connectivity;
 - product of marginal densities without independence;
 - local carry greedy as a global defect minimizer before the cylinder sequence is fixed;
-- terminal ternary saturation as an automatic contradiction with an early defect invisible at that ternary resolution.
+- terminal ternary saturation as an automatic contradiction with an early defect invisible at that ternary resolution;
+- carrying a full terminal ternary residue coordinate from every root before the residue is observable.
 
 ## What has not been proved
 
 - no global 14-root closure yet;
+- no complete right-H backward residue filter yet;
+- no exact forward/backward cut join yet;
 - no complete Route-B membership/nonmembership theorem yet;
 - no Route-A completion yet;
 - no all-surplus `s>=2` completion yet;
@@ -79,4 +202,8 @@ Do not restart these rejected proof shortcuts:
 
 ## Resume instruction
 
-When computation resumes, start from `../frontier/A0_S1_ROUTEB.md` rather than from the chronological `notes/` directory.
+When computation resumes, start from `../frontier/A0_S1_ROUTEB.md` and the two new theorem objects:
+
+- `../theorems/LAZY_TERNARY_OBSERVATION.md`;
+- `../theorems/CRITICAL_CUT_TERNARY_SHIELDING.md`;
+- `../theorems/TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md`.
