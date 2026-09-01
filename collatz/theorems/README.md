@@ -1,8 +1,8 @@
 # Theorem index
 
-This directory is the role index for reusable mathematical statements.  During reorganization phase 1, theorem evidence remains at its existing `notes/` / `src/` paths to preserve links and imports.
+This directory is the role index for reusable mathematical statements. During reorganization phase 1, theorem evidence remains at its existing `notes/` / `src/` paths to preserve links and imports.
 
-A theorem belongs in this index only when its general statement is algebraically/logically proved in the stated domain.  Finite regression alone belongs under `certificates/`, not here.
+A theorem belongs in this index only when its general statement is algebraically/logically proved in the stated domain. Finite regression alone belongs under `certificates/`, not here.
 
 ## T0 — Source cylinder and deterministic refinement
 
@@ -40,7 +40,7 @@ Representative note:
 
 - `../notes/2026-09-01-A0-s1-routeB-dual-HL-canonical-grammar.md`.
 
-Target H/L–Stern-Brocot alignment is a target-specialized theorem and must not be generalized to arbitrary H/L members.
+Target H/L–Stern-Brocot alignment is target-specialized and must not be generalized to arbitrary H/L members.
 
 ## T3 — Correction composition and boundary localization
 
@@ -49,26 +49,42 @@ Role:
 - fixed `(h,q)` correction injectivity;
 - dyadic left-front localization;
 - ternary right-front locality;
-- critical-cut / block correction factorization.
+- critical-cut / block correction factorization;
+- lazy terminal-ternary observation;
+- critical-cut ternary shielding.
 
-Representative note:
+Canonical theorem objects:
+
+- [`LAZY_TERNARY_OBSERVATION.md`](LAZY_TERNARY_OBSERVATION.md);
+- [`CRITICAL_CUT_TERNARY_SHIELDING.md`](CRITICAL_CUT_TERNARY_SHIELDING.md).
+
+Representative chronological note:
 
 - `../notes/2026-09-01-A0-s1-routeB-fixed-hq-correction-collision-frontiers.md`.
 
-## T4 — Projective ternary carry
+## T4 — Projective ternary carry and formation feasibility
 
 Role:
 
 - one-step carry bijection;
 - suffix-carry recurrence;
 - projective block carry;
-- displacement isometry / cylinder representation.
+- displacement isometry / cylinder representation;
+- uniform exponent-cylinder width;
+- max-slack ordering-history quotient at fixed carry.
+
+Canonical theorem objects:
+
+- [`TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md`](TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md);
+- [`BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md`](BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md).
 
 Representative certificate names in `../src/`:
 
 - `A0_s1_routeB_ternary_carry_transition_bijection_certificate.py`;
 - `A0_s1_routeB_general_suffix_gate_displacement_isometry_certificate.py`;
-- `A0_s1_routeB_projective_block_ternary_carry_certificate.py`.
+- `A0_s1_routeB_projective_block_ternary_carry_certificate.py`;
+- `A0_s1_routeB_terminal_projective_cylinder_multiplicity_certificate.py`;
+- `A0_s1_routeB_backward_max_slack_projective_quotient_certificate.py`.
 
 ## T5 — Normalized defect
 
@@ -91,14 +107,17 @@ Representative certificates:
 Role:
 
 - directed Christoffel real envelope;
-- defect floor → safe physical X upper bound;
+- defect floor -> safe physical X upper bound;
 - inverse defect budget;
-- exact monotone physical-risk/min-plus dominance state where stated.
+- integer defect numerator;
+- exact scalar physical danger score / Bellman minimum state.
 
 Representative certificates:
 
 - `../src/A0_s1_radius7_defect_christoffel_real_envelope_certificate.py`;
-- `../src/A0_s1_routeB_defect_budget_inverse_certificate.py`.
+- `../src/A0_s1_routeB_defect_budget_inverse_certificate.py`;
+- `../src/A0_s1_routeB_integer_defect_numerator_certificate.py`;
+- `../src/A0_s1_routeB_linear_physical_danger_score_certificate.py`.
 
 ## T7 — Finite interval family quotients
 
@@ -124,4 +143,4 @@ When a chronological note is promoted into a canonical theorem object:
 4. retain the old dated note as history/source evidence;
 5. update `../PROOF_MAP.md` only if the theorem changes a module obligation.
 
-Phase 1 does not duplicate the full theorem text here; this file is the stable role map.
+Phase 1 does not require moving legacy executable files from `src/`.
