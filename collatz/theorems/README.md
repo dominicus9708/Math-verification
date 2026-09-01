@@ -1,146 +1,96 @@
 # Theorem index
 
-This directory is the role index for reusable mathematical statements. During reorganization phase 1, theorem evidence remains at its existing `notes/` / `src/` paths to preserve links and imports.
+This directory indexes reusable exact mathematical statements. Finite regression alone belongs under `certificates/`; chronological evidence remains in `notes/` and executable certificates remain in `src/` during the non-destructive reorganization phase.
 
-A theorem belongs in this index only when its general statement is algebraically/logically proved in the stated domain. Finite regression alone belongs under `certificates/`, not here.
+## T0 — Source cylinders
 
-## T0 — Source cylinder and deterministic refinement
-
-Role:
-
-- exact affine representation of a parity-prefix source family;
+- exact affine parity-prefix source family;
 - exact parameter-bit refinement;
-- deterministic continuation once enough ordinary X bits are exposed.
+- deterministic continuation after sufficient ordinary-X exposure.
 
-Legacy evidence lives under `../src/` with `prefix_channel`, `source_cylinder`, and related names.
-
-## T1 — Ballot / dominance language
-
-Role:
+## T1 — Ballot / target dominance
 
 - pure-ballot one-position inequalities;
-- fixed-count ballot future cone;
-- target prefix-dominance language;
-- surplus/counter representations.
-
-Representative current notes:
-
-- `../notes/2026-09-01-A0-s1-routeB-fixed-count-ballot-three-way-status.md`;
-- `../notes/2026-09-01-A0-s1-routeB-target-ballot-surplus-dominance.md`.
+- fixed-count future cone;
+- target prefix-dominance and surplus coordinates.
 
 ## T2 — Dual H/L grammar
 
-Role:
-
-- universal exact H/L canonical decomposition and converse;
-- intrinsic well-founded cut;
+- universal exact H/L decomposition and converse;
 - target hierarchy specialization only after the universal grammar is established.
 
-Representative note:
+## T3 — Correction localization
 
-- `../notes/2026-09-01-A0-s1-routeB-dual-HL-canonical-grammar.md`.
-
-Target H/L–Stern-Brocot alignment is target-specialized and must not be generalized to arbitrary H/L members.
-
-## T3 — Correction composition and boundary localization
-
-Role:
-
-- fixed `(h,q)` correction injectivity;
-- dyadic left-front localization;
-- ternary right-front locality;
-- critical-cut / block correction factorization;
-- lazy terminal-ternary observation;
-- critical-cut ternary shielding.
-
-Canonical theorem objects:
+Canonical objects include:
 
 - [`LAZY_TERNARY_OBSERVATION.md`](LAZY_TERNARY_OBSERVATION.md);
 - [`CRITICAL_CUT_TERNARY_SHIELDING.md`](CRITICAL_CUT_TERNARY_SHIELDING.md).
 
-Representative chronological note:
+Role: dyadic left localization, ternary right locality, block correction factorization, and minimal terminal observation.
 
-- `../notes/2026-09-01-A0-s1-routeB-fixed-hq-correction-collision-frontiers.md`.
+## T4 — Projective ternary carry / formation
 
-## T4 — Projective ternary carry and formation feasibility
+Canonical objects include:
+
+- [`BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md`](BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md);
+- [`TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md`](TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md);
+- [`TERNARY_PROJECTIVE_INTERVAL_PAYLOAD.md`](TERNARY_PROJECTIVE_INTERVAL_PAYLOAD.md);
+- [`RIGHT_H_PROJECTIVE_SINGLETON_THRESHOLD.md`](RIGHT_H_PROJECTIVE_SINGLETON_THRESHOLD.md);
+- [`BACKWARD_EXPONENTIAL_PROJECTIVE_CARRY_CHART.md`](BACKWARD_EXPONENTIAL_PROJECTIVE_CARRY_CHART.md).
 
 Role:
 
 - one-step carry bijection;
-- suffix-carry recurrence;
-- projective block carry;
-- displacement isometry / cylinder representation;
-- uniform exponent-cylinder width;
-- max-slack ordering-history quotient at fixed carry.
+- projective displacement isometry;
+- one-dimensional interval payload;
+- ordering/formation quotient at fixed carry;
+- current right-H prescribed-cylinder singleton threshold `m>=18`;
+- exact backward exponential carry chart.
 
-Canonical theorem objects:
-
-- [`TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md`](TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md);
-- [`BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md`](BACKWARD_MAX_SLACK_PROJECTIVE_QUOTIENT.md).
-
-Representative certificate names in `../src/`:
-
-- `A0_s1_routeB_ternary_carry_transition_bijection_certificate.py`;
-- `A0_s1_routeB_general_suffix_gate_displacement_isometry_certificate.py`;
-- `A0_s1_routeB_projective_block_ternary_carry_certificate.py`;
-- `A0_s1_routeB_terminal_projective_cylinder_multiplicity_certificate.py`;
-- `A0_s1_routeB_backward_max_slack_projective_quotient_certificate.py`.
+Scope warning: these do not imply uniqueness of a complete carry path.
 
 ## T5 — Normalized defect
 
-Role:
+- monotone target-relative defect;
+- exact projective-cylinder defect floor;
+- fixed-cylinder ordering-aware minimum;
+- normalized defect semiring;
+- displaced-rank / phase-weighted lower bounds.
 
-- monotonicity under target dominance;
-- positive defect atoms;
-- semiring/block composition;
-- projective-cylinder exact minimum defect;
-- phase-weighted / displaced-rank bounds.
+## T6 — Physical Bellman closure functional
 
-Representative certificates:
-
-- `../src/A0_s1_routeB_normalized_defect_semiring_certificate.py`;
-- `../src/A0_s1_routeB_projective_cylinder_defect_floor_certificate.py`;
-- `../src/A0_s1_routeB_displaced_rank_defect_count_certificate.py`.
-
-## T6 — Physical closure functional
-
-Role:
-
-- directed Christoffel real envelope;
-- defect floor -> safe physical X upper bound;
+- directed real envelope;
 - inverse defect budget;
-- integer defect numerator;
-- exact scalar physical danger score / Bellman minimum state.
-
-Representative certificates:
-
-- `../src/A0_s1_radius7_defect_christoffel_real_envelope_certificate.py`;
-- `../src/A0_s1_routeB_defect_budget_inverse_certificate.py`;
-- `../src/A0_s1_routeB_integer_defect_numerator_certificate.py`;
-- `../src/A0_s1_routeB_linear_physical_danger_score_certificate.py`.
+- integer defect numerator `N=3^q eta`;
+- scalar score `P` and one `P_min` label per exact active key.
 
 ## T7 — Finite interval family quotients
 
+- exact interval child arithmetic;
+- source/payload compression;
+- predicate-relative forgetting/absorption.
+
+## T8 — Synchronized ordinary checkpoint exposure
+
+Canonical object:
+
+- [`SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`](SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md).
+
 Role:
 
-- exact interval child arithmetic;
-- fixed-depth payload-state compression;
-- predicate-relative active-frontier forgetting/absorption.
+- derive a SAFE ordinary `Z` corridor from independent pre-defect `X` and debit inputs;
+- convert right-H carry to `Z mod 3^28` exactly;
+- synchronize with `Z mod 2^27` by coprime CRT;
+- use corridor span `< 2^27*3^28` to prove at most one ordinary checkpoint per coherent observation pair.
 
-Representative certificate:
+Scope warning: checkpoint singleton exposure is not source/orbit/full-membership compatibility, and no marginal-density independence argument is permitted.
 
-- `../src/A0_s1_routeB_interval_four_state_cylinder_certificate.py`.
+Certificate:
+
+- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
 
 ---
 
 # Promotion policy
 
-When a chronological note is promoted into a canonical theorem object:
-
-1. give the theorem a stable descriptive name independent of date;
-2. state hypotheses, conclusion, and scope restrictions explicitly;
-3. link its executable certificate separately;
-4. retain the old dated note as history/source evidence;
-5. update `../PROOF_MAP.md` only if the theorem changes a module obligation.
-
-Phase 1 does not require moving legacy executable files from `src/`.
+A theorem enters this index only when its general statement is proved in its stated domain. Finite checks remain implementation/regression evidence. Every promoted theorem must state its hypotheses, conclusion, scope restrictions, and executable certificate separately.
