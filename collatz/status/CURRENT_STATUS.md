@@ -8,7 +8,7 @@ Primary active object: `A0, s=1, Route-B` long-membership closure.
 
 ## Last fully reduced search family
 
-Every current Route-B survivor belongs to the exact 14-root arithmetic forest with first threshold disagreement
+Every current Route-B survivor belongs to the exact 14-root arithmetic forest
 
 `F14 = {2,5,8,10,13,16,18,21,24,27,29,32,35,37}`.
 
@@ -16,194 +16,169 @@ Canonical certificate:
 
 - `../src/A0_s1_14root_long_membership_forest_certificate.py`
 
-This forest is a search-family representation after SAFE upstream pruning. It is not a proof that any root realizes full membership.
+This is a search-family representation after SAFE upstream pruning, not a proof that any root realizes full membership.
 
-## Current structural state
+## Exact structural state now available
 
-The following components are available as exact/local tools:
+The current live toolbox includes:
 
-- source affine cylinder and exact bit refinement;
+- exact source affine cylinders and bit refinement;
 - finite interval payload compression;
-- fixed-count ballot and target-dominance representation;
-- exact dual H/L grammar;
-- target-specific H/L–Stern-Brocot scale alignment;
-- fixed-resolution correction/projective states;
-- ternary suffix carry and displacement cylinders;
-- normalized defect semiring;
-- projective-cylinder exact defect floors;
-- inverse physical defect budget;
+- fixed-count ballot / target-dominance states;
+- exact H/L grammar and target-only hierarchy alignment;
+- correction front localization and critical-cut ternary shielding;
+- ternary carry, displacement cylinders, and backward exponential carry chart;
+- one-dimensional ternary projective interval payload `Pi3_k`;
+- normalized defect semiring and ordering-aware fixed-cylinder minimum;
 - integer defect numerator `N=3^q eta`;
-- exact scalar physical danger score `P` with one `P_min` Bellman label per exact active source/payload key;
-- minimal lazy ternary observation `R_q=N_q mod 3^m(q)` for final `3^L` residue predicates;
-- critical-cut ternary shielding;
-- uniform projective-cylinder multiplicity bound with singleton threshold `m>=23`.
+- scalar physical danger score `P` with one `P_min` label per exact active key;
+- lazy terminal ternary observation;
+- synchronized checkpoint CRT singleton exposure.
 
-## Current physical Bellman reduction
+## Physical Bellman front
 
-For the directed real-envelope gate define
+For the directed physical gate
 
 \[
 P=m_{lo}N+\delta_{lo}3^qX_{lo}.
 \]
 
-The whole family closes under this gate when
+Whole-family rejection occurs when
 
 \[
-P>B3^q.
+P>(L_{max}QFP+c_{W,hi})3^q.
 \]
 
-Under a common exact source/control and interval-payload transition, `P` evolves by an increasing affine map `P -> P+c` or `P -> 3P+c`.
+Under one exact source/control + payload transition the score map is increasing, so one `P_min` label is exact for this predicate.
 
-Therefore only the minimum `P` label is needed for this predicate.
+## Right-H localization and projective sharpening
 
-The earlier `(source residue, defect)` Pareto frontier remains the general representation only when a later predicate queries those coordinates separately.
-
-## Newly closed terminal-ternary interface
-
-For a final defect/correction residue predicate
+At the critical cut the right H block has
 
 \[
-N_J\pmod{3^L},
+h_R=630{,}138{,}897,\qquad q_R=397{,}573{,}380.
 \]
 
-the current exact observation precision is
+Hence the current 24-, 28-, and 47-trit terminal predicates are fully right-local.
+
+For right-indexed target capacity,
 
 \[
-m(q)=\max(0,L-(J-q)).
-\]
-
-Thus the current residue coordinate
-
-\[
-R_q=N_q\bmod3^{m(q)}
-\]
-
-is completely dormant while at least `L` future one-events remain.
-
-For the current
-
-\[
-J=j_0=65,868,186,701,
-\]
-
-a 28-trit terminal residue does not require any prefix ternary state through
-
-\[
-q\le65,868,186,673.
-\]
-
-Once active, the augmented exact key
-
-`source/control × interval payload × R_q`
-
-still carries only one `P_min` label.
-
-## Critical-cut localization
-
-At the existing exact critical cut, the right H-side factor has
-
-\[
-q_B=397,573,380
-\]
-
-one-events.
-
-Hence every terminal residue predicate modulo `3^L` with
-
-\[
-L\le397,573,380
-\]
-
-is completely shielded from the left block.
-
-In particular the current 24-, 28-, and 47-trit terminal resolutions are right-local.
-
-Therefore the terminal ternary predicate should not be carried through the full left/forward 14-root scan.
-
-## Projective-cylinder width
-
-For every ranked one-position, the legal dominance interval has width at most
-
-\[
-t_0-j_0=38,530,419,209.
-\]
-
-At ternary precision `m`, a projective exponent cylinder has period
-
-\[
-\lambda_m=2\cdot3^{m-1}.
+D_t\le h_R-q_R=232{,}565{,}517.
 \]
 
 Since
 
 \[
-\lambda_{23}=62,762,119,218>38,530,419,209,
+\lambda_m=2\cdot3^{m-1},\qquad
+\lambda_{18}=258{,}280{,}326>232{,}565{,}517,
 \]
 
-every specified projective exponent cylinder is empty or singleton for `m>=23`.
+every **prescribed** right-H projective slack/exponent cylinder is empty or singleton for `m>=18`.
 
-For a 28-trit backward filter, the first six one-gates (`m=28..23`) therefore have no within-cylinder exponent multiplicity.
+This gives high-precision prescribed-cylinder ranges of 7, 11, and 30 one-gates for `L=24,28,47` respectively. It does not imply a unique carry path.
 
-This does not imply a unique carry/suffix branch.
+## Newly closed synchronized checkpoint interface
+
+Use only the independent pre-defect corridor inputs
+
+\[
+2^{71}<X<\frac43 2^{71}+0.478\,2^{33},
+\]
+
+\[
+75\,2^{33}<L_-<112\,2^{33},\qquad L_-=3X-Z.
+\]
+
+They imply the SAFE integer checkpoint corridor
+
+\[
+Z_{min}=7{,}083{,}549{,}723{,}342{,}395{,}146{,}241,
+\]
+
+\[
+Z_{max}=9{,}444{,}732{,}965{,}107{,}363{,}299{,}196.
+\]
+
+For the right H factor,
+
+\[
+z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}},
+\]
+
+with
+
+\[
+2^s\equiv12{,}596{,}342{,}295{,}887,
+\]
+
+\[
+C(H_s^*)\equiv2{,}677{,}095{,}985{,}033
+\pmod{3^{28}}.
+\]
+
+Together with `Z mod 2^27`, ordinary coprime CRT gives one class modulo
+
+\[
+M=2^{27}3^{28}=3{,}070{,}471{,}107{,}232{,}407{,}748{,}608.
+\]
+
+The certified corridor span is
+
+\[
+2{,}361{,}183{,}241{,}764{,}968{,}152{,}955<M,
+\]
+
+so each synchronized dyadic/right-H observation pair admits at most one ordinary checkpoint `Z` in the corridor.
+
+Canonical theorem/certificate:
+
+- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`;
+- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
+
+No marginal-density multiplication or independence assumption is used, and no later defect-derived X bound is used retroactively.
 
 ## Current stopping point
 
-The architecture is now a two-front exact join.
+The checkpoint exposure seam is closed. The live architecture is now:
 
 ### Forward front
 
-Carry
-
-`source/control × interval payload × P_min`
-
-on the 14-root forest, without terminal ternary state while it is unobservable.
+`14-root source/control × interval payload × P_min`.
 
 ### Backward right front
 
-Start from the actual required terminal correction/defect residue and propagate it backward through the compressed right H/projective factor as an empty-or-singleton predecessor residue cylinder for each specified branch.
+right-H projective/carry state synchronized to the actual checkpoint observation.
 
-### Join
+### Next join
 
-At an exact block boundary, join the backward admissible projective/control state to the forward source/physical Bellman families.
+Apply the synchronized observation to the real 14-root export families and join it with the forward `P_min` state at the exact boundary.
 
-No independence assumption or marginal-ratio multiplication is allowed.
+The immediate unresolved questions are which root/state families admit a synchronized checkpoint at all, which close by the physical Bellman gate before/at the join, and which require the next membership/tail predicate.
 
-## Current mathematical bottleneck
+## What remains OPEN
 
-The next unresolved object is
+- actual 14-root forward `P_min` execution/export;
+- compressed multi-gate right-H carry-family export where still needed;
+- exact 14-root forward/backward synchronized join;
+- remaining pre-bridge correction-language membership;
+- remaining ordinary debit/tail/renewal compatibility after checkpoint exposure;
+- Route-A;
+- all `s>=2` sectors;
+- global branch completeness;
+- the Collatz conjecture.
 
-`compressed right-H backward projective residue filter -> exact cut-boundary export state`.
+## Forbidden shortcuts retained
 
-After that:
-
-`forward 14-root Bellman state JOIN backward H/projective filter -> whole-family closure or next predicate activation`.
-
-## What is already ruled out
-
-Do not restart these rejected proof shortcuts:
-
-- target adic mismatch as automatic membership rejection;
-- interval inclusion as correction-language membership;
-- endpoint exposure as same-orbit connectivity;
-- product of marginal densities without independence;
-- local carry greedy as a global defect minimizer before the cylinder sequence is fixed;
-- terminal ternary saturation as an automatic contradiction with an early defect invisible at that ternary resolution;
-- carrying a full terminal ternary residue coordinate from every root before the residue is observable.
-
-## What has not been proved
-
-- no global 14-root closure yet;
-- no complete right-H backward residue filter yet;
-- no exact forward/backward cut join yet;
-- no complete Route-B membership/nonmembership theorem yet;
-- no Route-A completion yet;
-- no all-surplus `s>=2` completion yet;
-- no global Collatz proof.
+- adic mismatch -> membership rejection;
+- marginal dyadic/ternary density multiplication;
+- singleton prescribed cylinder -> singleton carry path;
+- local carry greedy -> global path optimum;
+- later refined bound used retroactively;
+- checkpoint singleton exposure -> automatic same-orbit/full membership.
 
 ## Resume instruction
 
-When computation resumes, start from `../frontier/A0_S1_ROUTEB.md` and the two new theorem objects:
+Resume from `../frontier/A0_S1_ROUTEB.md`.
 
-- `../theorems/LAZY_TERNARY_OBSERVATION.md`;
-- `../theorems/CRITICAL_CUT_TERNARY_SHIELDING.md`;
-- `../theorems/TERMINAL_PROJECTIVE_CYLINDER_WIDTH.md`.
+The next calculation is the **14-root synchronized join**, using the forward `P_min` export and the right-H/checkpoint observation without introducing an independence assumption.
