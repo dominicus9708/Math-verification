@@ -6,7 +6,7 @@ This register contains unresolved obligations only. Closed lemmas belong in the 
 
 **Module:** C4
 
-Run the exact forward family state on all 14 source roots with the smallest currently sufficient active state
+Run the exact forward family state on all 14 source roots with
 
 `source/control × interval payload × P_min`
 
@@ -14,57 +14,66 @@ and quantify where whole-family physical closure occurs before singleton expansi
 
 Required output:
 
-- exact node state definition;
-- exact merge/dominance rule;
+- exact node state and merge rule;
 - reproducible root-level certificate;
-- closed/unresolved counts without probability language.
-
-Terminal ternary state is not carried while it is dormant.
+- closed/unresolved counts without probability language;
+- exact export families for the synchronized join.
 
 Status: **ACTIVE**.
 
-## G2 — Backward right-H projective residue filter
+## G2 — Backward right-H projective/export filter
 
 **Module:** C4/C5
 
-The minimal forward ternary observation problem for a final `N_J mod 3^L` predicate is now closed:
+Several former G2 subgates are now CLOSED:
 
-\[
-m(q)=\max(0,L-(J-q)).
-\]
+- lazy terminal-ternary observation;
+- critical-cut right localization for `L=24,28,47`;
+- one-dimensional projective interval payload;
+- prescribed-cylinder singleton threshold sharpened to `m>=18` for the current right H block;
+- exact affine synchronization
+  `z_H = 2^s Z-C(H_s^*) mod 3^28`;
+- synchronized `2^27 × 3^28` CRT checkpoint singleton exposure.
 
-Critical-cut shielding also proves that the current 24-, 28-, and 47-trit terminal correction/defect residue predicates are entirely right-local at the existing critical cut.
-
-The remaining gate is therefore to construct the compressed backward filter inside the right H/projective factor.
+The remaining G2 obligation is not checkpoint exposure itself. It is to export only those compressed right-H projective/carry states that can supply the synchronized observation required by the join, without flat enumeration of all carry residues.
 
 Required output:
 
-- actual required right-block terminal residue(s);
-- exact backward branch/cylinder transition;
-- compressed state representation without flat carry-residue enumeration;
-- state counts by terminal precision;
-- exact cut-boundary export state.
+- compact multi-gate right-H state where more than one prescribed carry/cylinder remains possible;
+- exact export coordinates queried by G3;
+- state counts / exact finite execution evidence clearly separated from theorem claims.
 
-Known structural help:
+Known constraints:
 
-- each fixed one-event predecessor residue is empty or singleton;
-- projective exponent cylinders have period `2*3^(m-1)`;
-- for `m>=23`, every specified exponent cylinder is empty or singleton inside the entire legal dominance interval;
-- the rejected local-carry greedy rule remains forbidden.
+- prescribed cylinders are empty/singleton for `m>=18`;
+- singleton prescribed cylinder does not imply singleton carry path;
+- carry base cannot generally be discarded;
+- one-layer injectivity does not imply whole-path injectivity;
+- local carry greedy remains forbidden.
 
-Status: **ACTIVE — principal new structural gate**.
+Status: **ACTIVE, narrowed**.
 
-## G3 — Exact forward/backward cut join
+## G3 — Exact synchronized 14-root forward/backward join
 
 **Module:** C4/C5
 
-Join the forward 14-root source/physical Bellman families to the backward right-H projective filter at an exact block boundary.
+Join
 
-The join must preserve every boundary/control coordinate queried by either side.
+`14-root source/control × interval payload × P_min`
+
+with the right-H synchronized observation/export state at an exact boundary.
+
+The checkpoint part of the join is now deterministic: each coherent pair
+
+`(Z mod 2^27, z_H mod 3^28)`
+
+admits at most one ordinary checkpoint `Z` in the certified SAFE corridor.
+
+The join must still prove that a given source/right-H state actually supplies a coherent pair and must preserve every boundary/control coordinate queried later.
 
 Do not multiply marginal counts or assume left/right independence.
 
-Status: **OPEN after G1/G2 export states are explicit**.
+Status: **OPEN after G1/G2 export states are explicit; next principal join**.
 
 ## G4 — Full pre-bridge correction-language membership
 
@@ -72,21 +81,22 @@ Status: **OPEN after G1/G2 export states are explicit**.
 
 For every remaining joined family, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
 
-Boundary exposure alone is insufficient.
+Checkpoint/boundary exposure alone is insufficient.
 
-Status: **OPEN — principal local membership gate after the two-front join**.
+Status: **OPEN after G3**.
 
-## G5 — Checkpoint and debit coherence
+## G5 — Ordinary checkpoint/debit coherence after exposure
 
 **Module:** C5
 
-Join coherent checkpoint residues to an ordinary checkpoint and compatible debit without circularly using X and L_- to define one another.
+The synchronized checkpoint singleton **exposure subgate is CLOSED** by
 
-Existing exposure theorems may be used only through the synchronized interface already audited in the chronological notes.
+- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`;
+- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
 
-The new lazy-residue and shielding theorems may be applied only after the relevant checkpoint/debit condition is explicitly reduced to a correction/defect residue congruence.
+Remaining obligation: for a joined source/right-H family that supplies the synchronized observation, verify compatibility of the reconstructed ordinary checkpoint with the required source `X`, debit `L_-=3X-Z`, and any later ordinary renewal predicate without circularity.
 
-Status: **OPEN after structural exposure lemmas**.
+Status: **OPEN after G3; exposure itself CLOSED**.
 
 ## G6 — Tail first-passage / post-checkpoint compatibility
 
@@ -134,8 +144,6 @@ Status: **OPEN**.
 
 Current priority is
 
-`G1 || G2 -> G3 -> G4/G5/G6/G7 -> G8/G9 -> G10`.
+`G1 || narrowed G2 -> G3 -> G4/G5/G6/G7 -> G8/G9 -> G10`.
 
-`G1` and `G2` may proceed independently until their exact boundary/export states are ready for `G3`.
-
-The order may change only when a new exact theorem makes an earlier gate redundant. Such a change should be recorded in `DEPENDENCY_LEDGER.md`.
+The synchronized checkpoint CRT seam is no longer a blocker and should not be recomputed unless an upstream hypothesis changes.
