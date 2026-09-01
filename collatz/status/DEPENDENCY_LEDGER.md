@@ -13,79 +13,97 @@ Required order:
 → `Christoffel real-envelope conversion`
 → `refined X upper bound`.
 
-Rule: the refined X bound is not used retroactively to justify the finite radius-seven closure unless a separate certificate reruns that closure under the new hypothesis.
+Rule: the refined X bound is not used retroactively to justify radius-seven closure unless a separate certificate reruns that closure.
 
 ## D2 — Refined X bound before shell-conditioned pruning
 
-The first-defect shell cardinalities / shell-specific physical restrictions depend on the upstream refined physical interval.
+Shell-specific physical restrictions that were derived from the refined interval remain downstream of that interval.
 
-Rule: any later stronger shell bound must declare whether it is independent of, or downstream from, the existing refined X bound.
+Rule: any later stronger shell bound must declare whether it is independent or downstream.
 
 ## D3 — 14-root forest after late-shell elimination
 
-The 14-root forest is the retained family only after the late first-defect shells have been eliminated by certified pruning.
+The 14-root forest is retained only after certified late-shell elimination.
 
-Rule: do not present the 14 roots as the complete unconditioned set of all threshold deviations.
+Rule: do not present the 14 roots as an unconditional partition of every possible threshold deviation.
 
-## D4 — H/L grammar before target Christoffel specialization
+## D4 — H/L grammar before target specialization
 
-Universal dual H/L grammar is defined/proved for the ballot languages first.
+Universal dual H/L grammar is established before target Christoffel/Stern-Brocot specialization.
 
-Only then may the already certified target word be aligned with its Stern-Brocot/continued-fraction hierarchy.
+Rule: arbitrary H/L candidates are not Christoffel words merely because the target is.
 
-Rule: arbitrary H/L candidates are not promoted to Christoffel words.
-
-## D5 — Target-collision state before membership use
-
-Adic/projective target-collision coordinates may localize candidate positions or force displacement cylinders.
-
-Only the resulting ordinary correction defect / explicit membership predicate may be used for physical rejection.
+## D5 — Projective observation before membership use
 
 Required interface:
 
 `projective observation`
 → `formation/order restriction`
 → `ordinary displacement/defect`
-→ `normalized eta floor`
-→ `physical X pruning`.
+→ `eta floor`
+→ `physical pruning`.
 
-Rejected shortcut:
-
-`adic mismatch -> membership rejection`.
+Rejected shortcut: `adic mismatch -> membership rejection`.
 
 ## D6 — Local defect floors before global accumulation
 
-A local `1/12`, `1/8`, or exact cylinder floor is not automatically additive with another floor unless their supports/ranks or semiring block composition are certified to avoid double counting.
+Local floors are not automatically additive. Use ranked atoms, fixed-cylinder ordering minimum, or a certified semiring/block composition.
 
-Rule: use ranked atoms, fixed-cylinder ordering minimum, or the normalized-defect semiring.
+## D7 — Fixed-cylinder greedy only after cylinder sequence is fixed
 
-## D7 — Fixed-cylinder greedy after cylinder sequence is fixed
+Right-to-left maximal-position greedy is exact inside an already fixed cylinder sequence, not for selecting the carry/cylinder path.
 
-The right-to-left maximal-position greedy is exact for an already fixed sequence of admissible position cylinders.
+## D8 — Bellman merge only inside exact future-control classes
 
-Rule: it is not used to choose the ternary carry/cylinder sequence itself.  A counterexample to local carry-greedy selection is retained in the audit record.
+One `P_min` label is legal only when histories share the exact future control/payload state required by the active theorem.
 
-## D8 — Physical-risk merge inside an exact future-control class
+## D9 — Synchronized checkpoint reconstruction
 
-Min-plus/Bellman merging of histories is legal only when the merged histories share the exact future transition/predicate class required by the active state theorem.
+The checkpoint dyadic and ternary observations are residues of the **same** ordinary checkpoint `Z`.
 
-Rule: a smaller defect/risk label does not permit merging source controls that can emit different future parity/predicate behavior.
+The exposure chain is now CLOSED in this order:
 
-## D9 — Checkpoint residue exposure before ordinary checkpoint reconstruction
+`independent pre-defect X/L_- corridor`
+→ `SAFE ordinary Z corridor`
+→ `right-H affine z_H <-> Z mod 3^28`
+→ `Z mod 2^27`
+→ `coprime CRT class mod 2^27*3^28`
+→ `corridor span < CRT modulus`
+→ `at most one ordinary Z`.
 
-Checkpoint dyadic and ternary residues must be coherent residues of the same checkpoint.
+The canonical theorem is `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`.
 
-Only after the CRT/corridor singleton condition is satisfied may an ordinary checkpoint be reconstructed.
+Rules:
 
-Rule: do not multiply marginal residue densities and do not infer checkpoint membership from one boundary channel alone.
+- do not multiply marginal dyadic/ternary densities;
+- do not assume independence;
+- checkpoint singleton exposure does not itself prove orbit/membership compatibility.
 
-## D10 — Debit reconstruction without circularity
+## D10 — No retroactive defect bound in checkpoint CRT seam
 
-`L_- = 3X - Z` couples X, Z, and debit.
+The synchronized checkpoint singleton certificate intentionally uses only
 
-Rule: terminal correction data plus the required X residue determine the debit residue; terminal debit trits are not treated as an X-independent ordinary debit oracle.
+\[
+2^{71}<X<\frac43 2^{71}+0.478\,2^{33}
+\]
 
-## D11 — Local Route-B closure before global claims
+and the pre-defect debit corridor
+
+\[
+75\,2^{33}<L_-<112\,2^{33}.
+\]
+
+Rule: the later defect-derived refined X upper bound is not a dependency of this checkpoint-exposure theorem.
+
+This preserves the earlier proof order and prevents circular strengthening.
+
+## D11 — Debit reconstruction without circularity
+
+`L_-=3X-Z` couples X, Z, and debit.
+
+Rule: after checkpoint exposure, compatibility must still be tested with the actual joined source X state. Terminal debit data are not treated as an X-independent oracle.
+
+## D12 — Local Route-B closure before global claims
 
 Even complete closure of all 14 A0 `s=1` Route-B roots would close only that module.
 
@@ -98,9 +116,9 @@ Required later dependencies:
 
 ## Change-control rule
 
-Whenever a new theorem shortens the dependency chain:
+Whenever a new theorem shortens the chain:
 
-1. state exactly which previous dependency becomes redundant;
-2. keep the old record as historical evidence;
-3. update `PROOF_MAP.md`, `CANONICAL_PROOF_STACK.md`, and `OPEN_GATES.md` in the same maintenance cycle;
-4. do not silently reinterpret old finite results under the new assumptions.
+1. state exactly which prior obligation is discharged;
+2. preserve old chronological evidence;
+3. update `CANONICAL_PROOF_STACK.md`, `OPEN_GATES.md`, and the active frontier in the same maintenance cycle;
+4. do not silently reinterpret old finite results under new assumptions.
