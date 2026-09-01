@@ -2,7 +2,7 @@
 
 Status: **ACTIVE**
 
-This is the canonical resume point for current computation.  Chronological notes remain evidence/history; new calculation should start from this file.
+This is the canonical resume point for current computation. Chronological notes remain evidence/history; new calculation should start from this file.
 
 ## Input family
 
@@ -20,23 +20,44 @@ Each root is an exact source cylinder
 
 with a finite integer parameter interval and exact parity-bit refinement.
 
-## Active state philosophy
+## Active two-front architecture
 
-Carry only the coordinates queried by an unresolved predicate.
+### Forward front
 
-Base active state for the next scan:
+Carry only
 
-`source transition control × interval payload × minimum physical-risk/defect label`.
+`source future control × exact interval payload × P_min`
 
-Candidate additional coordinates are activated lazily:
+for the directed physical gate.
 
-- ballot state if not already discharged by target dominance;
-- checkpoint dyadic/ternary observation;
-- ternary suffix carry/projective cylinder;
-- tail first-passage state;
-- renewal/C4F/global formation state only after an explicit invariant theorem.
+The scalar physical score is
 
-Transition control must not be discarded merely because one observation predicate has been discharged.
+`P = mW_lo*N + delta_lo*3^q*X_lo`,
+
+with exact whole-family rejection when
+
+`P > (L_MAX*QFP+cW_hi)*3^q`.
+
+Do not restore `(r,N)` as separate state coordinates unless a later predicate separately queries them.
+
+### Backward right front
+
+A terminal correction/defect predicate modulo `3^L` is completely right-local at the existing critical cut for `L=24,28,47` because the right H block contains `397,573,380` one-events.
+
+Start from the actual required right-block residue and propagate it through the compressed H/projective suffix language.
+
+For a fixed one-event/cylinder transition:
+
+- the predecessor residue is empty or singleton;
+- raw carry residues should not be enumerated;
+- use displacement/slack projective coordinates;
+- for `m>=23`, each specified exponent cylinder is empty or singleton inside the complete legal dominance interval.
+
+### Join
+
+When both fronts have exact export states, join them at an exact block boundary.
+
+No independence assumption and no multiplication of marginal survival ratios is allowed.
 
 ## Current closed primitives to use
 
@@ -61,50 +82,109 @@ Transition control must not be discarded merely because one observation predicat
 - dyadic prefix localization;
 - ternary suffix locality and carry recurrence;
 - projective block carry law;
-- projective successor carry → exponent/displacement cylinder.
+- one-step carry bijection;
+- general suffix-gate displacement isometry;
+- normalized suffix slack partition;
+- projective successor carry → exponent/displacement cylinder;
+- lazy terminal-ternary observation theorem;
+- critical-cut ternary shielding theorem;
+- projective-cylinder singleton threshold `m>=23`.
 
-### Membership-relevant defect
+### Membership-relevant defect / physical gate
 
 - monotone normalized defect;
 - exact projective-cylinder defect floor;
 - fixed-cylinder ordering-aware minimum;
 - displaced-rank / phase-weighted lower bounds;
 - normalized-defect semiring;
+- integer defect numerator `N=3^q eta`;
 - inverse physical defect budget;
-- integer/min-plus physical-risk reductions from the latest frontier work.
+- exact scalar physical danger score `P` and one-label Bellman reduction.
 
-## Next executable objective
+## Current G1 objective — forward scan
 
 For each of the 14 roots:
 
-1. initialize the exact source/control state and finite parameter interval;
-2. attach the minimum admissible physical-risk/defect label;
+1. initialize exact source/control and finite parameter interval;
+2. initialize `P_min`;
 3. refine by exact source parameter bits;
-4. merge histories only under the certified exact future-control equivalence;
-5. close any entire node whose certified defect/physical inequality excludes its full X interval;
-6. for unresolved nodes, identify which additional predicate actually blocks closure;
-7. activate only that predicate and continue;
-8. record exact closed/unresolved family counts and state counts by depth.
+4. merge histories only under certified exact future-control + payload equivalence;
+5. close nodes whose minimum score already exceeds the physical barrier;
+6. retain unresolved export families for the future cut join.
 
-Do not report marginal survival ratios as probabilities.
+Terminal ternary residue is not carried before it becomes observable.
 
-## Success criteria for this frontier
+## Current G2 objective — backward right-H filter
 
-The first root-scan milestone is complete when there is a reproducible table for all 14 roots showing:
+The next mathematical task is to close the multi-gate composition problem left open by the local displacement-isometry theorem.
 
-- initial integer count;
-- explored/merged exact family-state counts;
-- families closed by physical defect;
-- families requiring checkpoint/projective/tail state;
-- deepest unresolved depth;
-- no use of singleton enumeration except where mathematically unavoidable and explicitly recorded.
+Desired state must represent, without flat carry enumeration:
 
-This milestone is not yet C5 closure.  It is the audited execution of the C4 family-closure engine.
+1. the current projective carry/residue cylinder;
+2. the current target capacity/slack ordering cap;
+3. exact existence of legal suffix completions;
+4. eventually an exact cut-boundary export coordinate.
+
+Useful exact coordinates:
+
+Right-indexed target/candidate positions
+
+`A_t, B_t`,
+
+capacity/slack
+
+`D_t = A_t-(q-t-1)`,
+
+`s_t = B_t-(q-t-1)`,
+
+with
+
+`0 <= s_t <= D_t`,
+
+`s_(t+1) <= s_t`,
+
+and displacement
+
+`delta_t = D_t-s_t`.
+
+At one gate, after required parity is fixed, write
+
+`delta_t = epsilon_t + 2 d_t`.
+
+The carry map is a 3-adic isometry in `d_t`:
+
+`v3(Phi(d)-Phi(e)) = v3(d-e)`.
+
+Hence a prescribed successor carry cylinder corresponds exactly to one arithmetic progression in `d_t`, equivalently one arithmetic progression in `s_t`.
+
+The open issue is how these progression cylinders compose under the monotone slack constraint across multiple gates.
+
+## Immediate theorem target
+
+Seek an exact **backward slack-cylinder quotient**:
+
+- for one specified projective state, intersect its slack residue class with the legal interval;
+- when multiple histories reach the same outgoing projective state, determine whether keeping only the largest reachable slack is exact for suffix-existence, because larger slack weakly relaxes all remaining leftward ordering caps;
+- separate this feasibility quotient from defect minimization;
+- if exact, lift it to block/H grammar transitions.
+
+Do not claim physical-cost dominance from slack dominance alone; right-factor defect cost may trade off against earlier choices unless separately proved.
+
+## Success criteria for the next milestone
+
+A G2 milestone is complete when there is an exact certificate showing either:
+
+- a compact multi-gate backward slack/projective state and its merge theorem; or
+- a counterexample proving that the proposed quotient loses a feasible suffix.
+
+Then record state counts on finite exact suffix regressions and proceed to the right-H block recursion.
 
 ## Known failure modes to avoid
 
 - local carry greedy before a cylinder sequence is fixed;
+- treating singleton exponent cylinder as singleton carry path;
 - target-collision mismatch treated as rejection;
+- carrying terminal ternary residues through the left root forest while shielded/dormant;
 - use of exact completion-defect DP as an uncompressed binary-tree search engine;
 - forgetting source transition coordinates after an observation is discharged;
 - double counting local defect floors;
@@ -112,10 +192,10 @@ This milestone is not yet C5 closure.  It is the audited execution of the C4 fam
 
 ## Frontier output
 
-When the root scan is completed, update in the same cycle:
+When a new G2 theorem is closed, update in the same cycle:
 
 - `../status/CURRENT_STATUS.md`;
 - `../status/OPEN_GATES.md`;
 - `../CANONICAL_PROOF_STACK.md`;
 - this file;
-- relevant certificate/audit indexes.
+- relevant theorem/certificate/audit indexes.
