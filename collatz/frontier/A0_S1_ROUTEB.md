@@ -14,132 +14,170 @@ Primary input certificate:
 
 - `../src/A0_s1_14root_long_membership_forest_certificate.py`
 
-Each root is an exact source cylinder `X=r+2^h m` with a finite integer parameter interval and exact bit refinement.
-
-## Forward front
-
-Carry
-
-`source future control × exact interval payload × P_min`
-
-for the directed physical gate, with
+Each root is an exact source cylinder
 
 \[
-P=m_{W,lo}N+\delta_{lo}3^qX_{lo}.
+X=r+2^h m
 \]
 
-Whole-family rejection occurs when
+with a finite integer parameter interval and exact bit refinement.
+
+## Closed tools relevant to the join
+
+### Forward/source side
+
+- exact source cylinder and parameter-bit refinement;
+- finite interval payload compression;
+- target ballot/dominance control;
+- scalar physical score `P` and one `P_min` label per exact active source/payload key.
+
+### Right-H/checkpoint side
+
+- terminal ternary predicates `L=24,28,47` are right-local at the critical cut;
+- one-dimensional projective interval payload;
+- prescribed right-H cylinders are empty/singleton for `m>=18`;
+- right-H observation is affine in the ordinary checkpoint;
+- synchronized `2^27 × 3^28` CRT exposure gives at most one ordinary `Z` in the SAFE checkpoint corridor.
+
+### New source-fiber bridge
+
+For a supplied ordinary checkpoint `Z`, the independent debit corridor
 
 \[
-P>(L_{max}QFP+c_{W,hi})3^q.
+75\,2^{33}<3X-Z<112\,2^{33}
 \]
 
-Do not restore separate `(r,N)` coordinates unless a later active predicate queries them.
+turns each source root into an exact `m` interval.
 
-## Backward right front
-
-The current critical-cut right H factor has
+For root depth `h`, the number of compatible integer parameters is at most
 
 \[
-h_R=630{,}138{,}897,\qquad q_R=397{,}573{,}380.
+K_h=\left\lceil\frac{37\,2^{33}}{3\,2^h}\right\rceil.
 \]
 
-Terminal precisions `L=24,28,47` are right-local.
+Current caps:
 
-Current closed projective tools include:
+| `f` | `h=f+1` | `K_h` |
+|---:|---:|---:|
+| 2 | 3 | 13,242,815,830 |
+| 5 | 6 | 1,655,351,979 |
+| 8 | 9 | 206,918,998 |
+| 10 | 11 | 51,729,750 |
+| 13 | 14 | 6,466,219 |
+| 16 | 17 | 808,278 |
+| 18 | 19 | 202,070 |
+| 21 | 22 | 25,259 |
+| 24 | 25 | 3,158 |
+| 27 | 28 | 395 |
+| 29 | 30 | 99 |
+| 32 | 33 | 13 |
+| 35 | 36 | 2 |
+| 37 | 38 | 1 |
 
-- one-step carry bijection and displacement isometry;
-- projective interval payload `Pi3_k` for one fixed displacement family;
-- backward exponential carry chart;
-- prescribed-cylinder right-H singleton threshold `m>=18`;
-- max-slack formation quotient under its stated fixed-carry scope.
+Deep-root totals per exposed checkpoint:
 
-The remaining right-H task is only the compressed export of distinct carry/cylinder states that can actually participate in the synchronized join. Do not enumerate a flat `3^28` carry space.
+`f>=24 -> 3,668`
 
-## Closed checkpoint seam
+`f>=27 -> 510`
 
-The previous checkpoint-exposure blocker is now CLOSED.
+`f>=29 -> 115`
 
-Independent pre-defect inputs imply
+`f>=32 -> 16`
 
-\[
-Z_{min}=7{,}083{,}549{,}723{,}342{,}395{,}146{,}241,
-\]
+`f>=35 -> 3`
 
-\[
-Z_{max}=9{,}444{,}732{,}965{,}107{,}363{,}299{,}196.
-\]
-
-For the right H factor
-
-\[
-z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}},
-\]
-
-while the dyadic checkpoint channel supplies
-
-\[
-Z\equiv z_2\pmod{2^{27}}.
-\]
-
-The joint CRT modulus is
-
-\[
-2^{27}3^{28}=3{,}070{,}471{,}107{,}232{,}407{,}748{,}608,
-\]
-
-larger than the entire certified `Z` corridor span. Therefore every coherent pair `(z2,z_H)` supplies at most one ordinary checkpoint `Z`.
+`f>=37 -> 1`.
 
 Use:
 
-- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`;
-- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
+- `../theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`;
+- `../src/A0_s1_routeB_synchronized_checkpoint_source_fiber_certificate.py`.
 
-This is synchronized arithmetic on one `Z`, not an independence/density argument.
+## Active architecture — hybrid synchronized join
 
-## Immediate computation target — synchronized 14-root join
+The old plan of forcing every source root toward ordinary-X singleton depth before checkpoint synchronization is no longer canonical.
 
-For each of the 14 roots:
+### Phase A — compressed right-H export
 
-1. execute/refine the exact forward source state with `P_min`;
-2. export only unresolved forward boundary states;
-3. generate the compatible compressed right-H observation/export states;
-4. form the coherent pair `(z2,z_H)` only when both sides refer to the same boundary/checkpoint coordinates;
-5. reconstruct the unique candidate `Z` when the CRT corridor admits one;
-6. test exact source/checkpoint/debit compatibility;
-7. close a family if the physical score or a certified membership predicate rejects the whole family;
-8. retain only unresolved exact families for the next pre-bridge/tail gate.
+Construct only right-H projective/carry export states that can supply the actual synchronized observation required by the checkpoint join.
+
+Do not enumerate a flat `3^28` carry space.
+
+### Phase B — checkpoint exposure
+
+For each coherent pair
+
+`(Z mod 2^27, z_H mod 3^28)`,
+
+use the closed CRT seam to obtain zero or one ordinary `Z` in the SAFE corridor.
+
+### Phase C — checkpoint-conditioned source fiber
+
+For every exposed `Z`, intersect each relevant root's original `[m_lo,m_hi]` with
+
+\[
+\frac{Z+75\,2^{33}-3r}{3\,2^h}<m<
+\frac{Z+112\,2^{33}-3r}{3\,2^h}.
+\]
+
+Deep roots may then be enumerated exactly because their fibers are tiny.
+
+Shallow roots remain compressed and continue with `P_min`/source refinement.
+
+### Phase D — exact membership handoff
+
+For every surviving `(source fiber, Z, right-H state)`, preserve the exact long pre-bridge correction-language obligation. A small fiber or singleton `(X,Z)` is not yet a membership theorem.
+
+## Immediate computation target
+
+The current principal target is the **compressed right-H synchronized export state**.
+
+Required output:
+
+1. exact state coordinates sufficient to produce `z_H mod 3^28` and the boundary/control data used by the join;
+2. exact merge rule across multiple right-H histories;
+3. no flat carry enumeration;
+4. exact finite state counts clearly labeled as execution evidence;
+5. exported synchronized observations fed immediately into the source-fiber intersection above.
+
+## Forward execution policy
+
+Forward `P_min` scans remain valid and useful, especially for shallow roots. They are now predicate-driven rather than an obligatory full precomputation for all roots.
+
+A preliminary exact scan on the deepest root `f=37` showed strong Bellman merging but no physical-score closure through the tested ordinary-X exposure horizon. This finite observation is diagnostic execution evidence only and is not promoted to a theorem.
 
 ## Merge rules
 
 Allowed:
 
-- one `P_min` per exact future-control + payload state for the directed physical gate;
-- one-dimensional `Pi3_k` quotient under its finite-horizon carry-cylinder scope;
-- max-slack merge only for the certified formation-existence predicate at fixed carry.
+- one `P_min` per exact future-control + source payload state for the directed physical gate;
+- one-dimensional `Pi3_k` quotient under its certified carry-cylinder scope;
+- max-slack merge only for the stated fixed-carry formation-existence predicate;
+- direct source-fiber intersection after an ordinary `Z` is actually exposed.
 
 Not allowed:
 
 - merge histories with different future controls;
 - discard carry base solely because interval payloads match;
 - infer whole-path injectivity from one-step injectivity;
-- treat prescribed-cylinder singleton as unique carry path;
-- multiply dyadic and ternary marginal survival ratios;
+- singleton prescribed cylinder -> unique carry path;
+- small source fiber -> membership;
+- one `(X,Z)` pair -> same orbit without pre-bridge language verification;
+- multiply marginal dyadic/ternary/source survival ratios;
 - use later refined bounds retroactively.
 
-## Success criterion for the next milestone
+## Next milestone success criterion
 
-Produce a reproducible 14-root table containing, per root and explored exact state depth:
+Produce a reproducible table of **actual right-H export states** and, for each exported synchronized observation that exposes a checkpoint, report:
 
-- forward states created/merged/physically closed;
-- right-H export states queried;
-- synchronized CRT pairs with zero or one corridor checkpoint;
-- exact joined survivors;
-- reason for every whole-family closure;
-- unresolved families and the next predicate each requires.
+- the ordinary `Z` or no-corridor result;
+- root-wise exact source-fiber counts;
+- exact deep-root candidates when the fiber is small enough to enumerate;
+- shallow-root compressed states retained;
+- closure reason or next unresolved predicate for every joined family.
 
-Finite counts are evidence about that execution only, not a universal theorem unless separately proved.
+Finite counts remain execution evidence unless a separate general theorem proves them.
 
-## Remaining global warning
+## Global warning
 
-Even closure of all 14 current Route-B roots would not prove Collatz. Route-A, `s>=2`, the remaining formation sectors, and global branch completeness remain separate obligations.
+Even complete closure of all current 14 Route-B roots would not prove Collatz. Route-A, `s>=2`, remaining formation sectors, and global branch completeness remain separate obligations.
