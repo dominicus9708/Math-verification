@@ -1,4 +1,4 @@
-# A0 s=1 Route-B — ballot future cone for family closure
+# A0 s=1 Route-B — exact ballot future cone for family closure
 
 Date: 2026-09-01  
 Branch: `collatz-stage4-window-threshold`
@@ -17,7 +17,7 @@ Fix any real slope
 0<\alpha<1.
 \]
 
-For a binary word \(W\), let \(q_W(u)\) be the number of ones in its prefix of length \(u\), and define
+For a binary word \(W\) of length \(h\), let \(q_W(u)\) be the number of ones in its prefix of length \(u\), and define
 
 \[
 d_W(u)=q_W(u)-\lfloor \alpha u\rfloor.
@@ -26,13 +26,13 @@ d_W(u)=q_W(u)-\lfloor \alpha u\rfloor.
 Let
 
 \[
-\boxed{b(W)=\min_{0\le u\le |W|}d_W(u)}
+\boxed{b(W)=\min_{0\le u\le h}d_W(u)}
 \]
 
 and the endpoint discrepancy
 
 \[
-\boxed{e(W)=q(W)-\lfloor\alpha |W|\rfloor.}
+\boxed{e(W)=q(W)-\lfloor\alpha h\rfloor.}
 \]
 
 Let \(V\) be an arbitrary future suffix with
@@ -41,69 +41,91 @@ Let \(V\) be an arbitrary future suffix with
 |V|\le\ell.
 \]
 
-## 3. Universal finite-horizon future cone
+Define the exact floor increase over the remaining horizon
+
+\[
+\boxed{
+\Delta_\alpha(h,\ell)
+=\lfloor\alpha(h+\ell)\rfloor-\lfloor\alpha h\rfloor.
+}
+\]
+
+## 3. Exact universal finite-horizon future cone
 
 For a suffix prefix of relative length \(u\), with \(j(u)\ge0\) ones,
 
 \[
-d_{WV}(|W|+u)
-=
-q(W)+j(u)-\lfloor\alpha(|W|+u)\rfloor.
+\begin{aligned}
+d_{WV}(h+u)
+&=q(W)+j(u)-\lfloor\alpha(h+u)\rfloor\\
+&=e(W)+j(u)-\bigl(\lfloor\alpha(h+u)\rfloor-\lfloor\alpha h\rfloor\bigr).
+\end{aligned}
 \]
 
-Using
+Because \(0\le u\le\ell\), monotonicity of the floor function gives
 
 \[
-\lfloor a+b\rfloor
+\lfloor\alpha(h+u)\rfloor-\lfloor\alpha h\rfloor
 \le
-\lfloor a\rfloor+\lfloor b\rfloor+1,
+\Delta_\alpha(h,\ell),
 \]
 
-we obtain
+and therefore
 
 \[
-d_{WV}(|W|+u)
+d_{WV}(h+u)
 \ge
-e(W)-\lfloor\alpha u\rfloor-1
-\ge
-e(W)-\lfloor\alpha\ell\rfloor-1.
+e(W)-\Delta_\alpha(h,\ell).
 \]
 
-All prefixes lying wholly inside \(W\) retain minimum \(b(W)\).  Hence
+All old prefixes remain present, so
 
 \[
 \boxed{
 b(WV)
 \ge
-\min\left(
-b(W),
-e(W)-\lfloor\alpha\ell\rfloor-1
-\right).
+\min\bigl(b(W),e(W)-\Delta_\alpha(h,\ell)\bigr).
 }
 \]
 
-Conversely the old minimum remains present, and the full endpoint of \(W\) is also a prefix of \(WV\), so
+This bound is not merely sufficient.  Take the full-length all-zero suffix
 
 \[
-\boxed{
-b(WV)\le\min(b(W),e(W)).}
+V=0^\ell.
 \]
 
-Therefore every suffix of length at most \(\ell\) lies in the exact safe enclosure
+Its endpoint has no additional ones, hence
+
+\[
+d_{W0^\ell}(h+\ell)
+=e(W)-\Delta_\alpha(h,\ell).
+\]
+
+Together with the inherited old minimum \(b(W)\), this yields
 
 \[
 \boxed{
-\min\left(b,e-\lfloor\alpha\ell\rfloor-1\right)
-\le b(WV)\le
-\min(b,e).
+b(W0^\ell)
+=
+\min\bigl(b(W),e(W)-\Delta_\alpha(h,\ell)\bigr).
 }
 \]
 
-The lower bound is a universal guarantee; it need not be the exact attainable minimum for a restricted admissible suffix family.
+Therefore the exact worst-case envelope over **all** binary suffixes of length at most \(\ell\) is
 
-## 4. Threshold-gate closure
+\[
+\boxed{
+\min_{|V|\le\ell} b(WV)
+=
+\min\bigl(b(W),e(W)-\Delta_\alpha(h,\ell)\bigr).
+}
+\]
 
-Consider any gate
+This improves the earlier generic carry estimate: there is no extra \(-1\) once the absolute prefix length \(h\) is retained.
+
+## 4. Exact threshold-gate closure
+
+Consider any ballot-minimum gate
 
 \[
 \boxed{b(W)\ge\beta.}
@@ -126,83 +148,63 @@ b(WV)<\beta\quad\text{for every }V.}
 
 This is an exact absorbing rejection condition.
 
-### B — guaranteed finite-horizon acceptance
+### B — all-suffix finite-horizon acceptance
 
-If
+Because the worst-case suffix is known exactly, **every** binary suffix \(|V|\le\ell\) satisfies the gate if and only if
 
 \[
-b(W)\ge\beta
+\boxed{
+b(W)\ge\beta}
 \]
 
 and
 
 \[
-e(W)-\lfloor\alpha\ell\rfloor-1\ge\beta,
+\boxed{
+e(W)-\Delta_\alpha(h,\ell)\ge\beta.}
 \]
 
-then
+Thus
 
 \[
 \boxed{
-b(WV)\ge\beta}
+\forall |V|\le\ell:\ b(WV)\ge\beta
+\iff
+\min\bigl(b(W),e(W)-\Delta_\alpha(h,\ell)\bigr)\ge\beta.
+}
 \]
 
-for every suffix \(|V|\le\ell\).
-
-Thus the minimum-coordinate gate can be discharged for the entire remaining horizon without enumerating suffixes.
+This is an exact finite-horizon acceptance criterion for the minimum coordinate, not merely a sufficient condition.
 
 ## 5. Restricted-family sharpening
 
-Suppose an admissible suffix family \(\mathcal V\) has a stronger certified lower bound
+If future admissibility rules exclude the all-zero suffix or otherwise impose positive-one constraints, the unrestricted worst case above may be too pessimistic.
 
-\[
-b(V)\ge\underline b
-\]
+Suppose an admissible suffix family \(\mathcal V\) has an independently proved lower bound on its internal ballot deviations.  The exact compositional ballot state can then replace the unrestricted zero-suffix envelope by a stronger family-specific envelope.
 
-for every \(V\in\mathcal V\).
-
-Using the exact compositional ballot state, the suffix contribution is bounded below by
-
-\[
-e(W)+\underline b-1,
-\]
-
-so
-
-\[
-\boxed{
-b(WV)
-\ge
-\min\bigl(b(W),e(W)+\underline b-1\bigr).}
-\]
-
-Hence any independently proved structural restriction on future admissible blocks immediately strengthens the family-acceptance cone.
-
-This is the intended point of contact with the existing correction-language, lazy-frontier, and Christoffel/run restrictions.  Such restrictions must be proved before they are used; they are not assumed globally here.
+This is the intended point of contact with correction-language restrictions, lazy-boundary localization, and any subsequently proved Christoffel/run-family coverage.  Such structural restrictions must be proved before they are used; they are not assumed globally here.
 
 ## 6. Interaction with source-cylinder boundary closure
 
-At a source-family node there are now at least two exact predicate-relative early-termination mechanisms:
+At a source-family node there are now two exact predicate-relative early-termination mechanisms:
 
-1. boundary cylinder gate:
+1. boundary cylinder gate: once \(h\ge K\) and \(q\ge L\), the requested dyadic start and ternary endpoint residues are constant over the entire source interval;
+2. ballot-minimum gate: failure is absorbing, and finite-horizon all-suffix acceptance has the exact criterion
    \[
-   h\ge K,\ q\ge L
+   \min\bigl(b,e-\Delta_\alpha(h,\ell)\bigr)\ge\beta.
    \]
-   freezes start/end boundary residues on the entire interval;
-2. ballot-minimum future cone:
-   an already failed minimum is permanently rejected, while a sufficiently high pair \((b,e)\) guarantees the minimum gate through the remaining horizon.
 
-This suggests the following non-singleton family recursion:
+This gives the family recursion
 
 \[
 \boxed{
-\text{A: reject by frozen boundary or absorbing ballot failure}
+\text{A: reject by frozen boundary mismatch or absorbing ballot failure}
 }
 \]
 
 \[
 \boxed{
-\text{B: discharge frozen boundary and/or guaranteed ballot coordinate}
+\text{B: discharge frozen boundary and/or exact finite-horizon ballot minimum}
 }
 \]
 
@@ -212,31 +214,42 @@ This suggests the following non-singleton family recursion:
 }
 \]
 
-The earlier interval rank proves that repeated C-refinement is well founded in the finite SAFE-pruned forest.
+The previously proved interval rank makes repeated C-refinement well founded inside the finite SAFE-pruned 14-root forest.
 
 ## 7. DSD audit
 
 ### Exact / closed
 
 - ballot minimum can never recover from an already violated threshold;
-- the displayed finite-horizon lower enclosure follows from the floor inequality and nonnegative suffix one-count;
-- the sufficient acceptance cone is valid for every binary suffix of the stated maximum length;
-- restricted admissible-family lower bounds can only improve the cone.
+- the exact worst-case future minimum over all suffixes of length at most \(\ell\) is
+  \[
+  \min\bigl(b,e-\Delta_\alpha(h,\ell)\bigr);
+  \]
+- the all-zero suffix of full remaining length attains that worst case;
+- therefore all-suffix finite-horizon acceptance of a threshold gate is characterized by an iff condition, not just a sufficient bound.
 
 ### Regression only
 
 `collatz/src/A0_s1_routeB_ballot_future_cone_certificate.py`
-contains finite rational-slope checks as an implementation guard.  The proof does not depend on those checks.
+contains finite rational-slope checks as an implementation guard.  The algebraic proof above is independent of those checks.  The script has been written to the repository but has not been executed in the current connector environment.
 
 ### Not inferred
 
-- the repository does not currently define universal Route-B membership solely by a condition `base_min >= beta`;
-- therefore this theorem is a reusable coordinate-level closure theorem, not by itself a universal Route-B recognizer;
+- the repository does not define universal Route-B membership solely by `base_min >= beta`;
+- this is therefore a coordinate-level closure theorem, not a universal Route-B recognizer;
 - critical-prefix/critical-phase conditions remain separate whenever queried;
-- Collatz remains open.
+- universal correction-language membership and the Collatz conjecture remain open.
 
 ## 8. Updated bottleneck
 
-The next strongest target is now to identify the actual unresolved interior predicate as a conjunction of monotone/frozen coordinates and to derive a **predicate-status automaton** whose states forget a coordinate immediately after that coordinate has been discharged.
+For unrestricted future binary suffixes, the ballot-minimum coordinate is now completely characterized at finite horizon.
 
-If successful, state growth will be governed by the active frontier of unresolved gates rather than by the full future source precision.
+The next unresolved question is narrower:
+
+\[
+\boxed{
+\text{Which remaining Route-B interior predicates still query correction residues or critical-prefix data after the boundary and minimum coordinates are discharged?}
+}
+\]
+
+The next useful construction is a predicate-status automaton that forgets each coordinate immediately after an exact A/B decision, so state growth follows only the active unresolved frontier.
