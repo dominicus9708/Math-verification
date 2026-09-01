@@ -2,11 +2,11 @@
 
 Status: **ACTIVE**
 
-This is the canonical resume point for current computation. Chronological notes remain evidence/history; new calculation should start from this file.
+This is the canonical resume point for current computation.
 
 ## Input family
 
-Exact retained first-defect roots:
+Exact retained roots:
 
 `{2,5,8,10,13,16,18,21,24,27,29,32,35,37}`.
 
@@ -14,188 +14,132 @@ Primary input certificate:
 
 - `../src/A0_s1_14root_long_membership_forest_certificate.py`
 
-Each root is an exact source cylinder
+Each root is an exact source cylinder `X=r+2^h m` with a finite integer parameter interval and exact bit refinement.
 
-`X = r + 2^h m`
+## Forward front
 
-with a finite integer parameter interval and exact parity-bit refinement.
-
-## Active two-front architecture
-
-### Forward front
-
-Carry only
+Carry
 
 `source future control × exact interval payload × P_min`
 
-for the directed physical gate.
+for the directed physical gate, with
 
-The scalar physical score is
+\[
+P=m_{W,lo}N+\delta_{lo}3^qX_{lo}.
+\]
 
-`P = mW_lo*N + delta_lo*3^q*X_lo`,
+Whole-family rejection occurs when
 
-with exact whole-family rejection when
+\[
+P>(L_{max}QFP+c_{W,hi})3^q.
+\]
 
-`P > (L_MAX*QFP+cW_hi)*3^q`.
+Do not restore separate `(r,N)` coordinates unless a later active predicate queries them.
 
-Do not restore `(r,N)` as separate state coordinates unless a later predicate separately queries them.
+## Backward right front
 
-### Backward right front
+The current critical-cut right H factor has
 
-A terminal correction/defect predicate modulo `3^L` is completely right-local at the existing critical cut for `L=24,28,47` because the right H block contains `397,573,380` one-events.
+\[
+h_R=630{,}138{,}897,\qquad q_R=397{,}573{,}380.
+\]
 
-Start from the actual required right-block residue and propagate it through the compressed H/projective suffix language.
+Terminal precisions `L=24,28,47` are right-local.
 
-For a fixed one-event/cylinder transition:
+Current closed projective tools include:
 
-- the predecessor residue is empty or singleton;
-- raw carry residues should not be enumerated;
-- use displacement/slack projective coordinates;
-- for `m>=23`, each specified exponent cylinder is empty or singleton inside the complete legal dominance interval.
+- one-step carry bijection and displacement isometry;
+- projective interval payload `Pi3_k` for one fixed displacement family;
+- backward exponential carry chart;
+- prescribed-cylinder right-H singleton threshold `m>=18`;
+- max-slack formation quotient under its stated fixed-carry scope.
 
-### Join
+The remaining right-H task is only the compressed export of distinct carry/cylinder states that can actually participate in the synchronized join. Do not enumerate a flat `3^28` carry space.
 
-When both fronts have exact export states, join them at an exact block boundary.
+## Closed checkpoint seam
 
-No independence assumption and no multiplication of marginal survival ratios is allowed.
+The previous checkpoint-exposure blocker is now CLOSED.
 
-## Current closed primitives to use
+Independent pre-defect inputs imply
 
-### Source / interval
+\[
+Z_{min}=7{,}083{,}549{,}723{,}342{,}395{,}146{,}241,
+\]
 
-- exact affine source-cylinder transducer;
-- exact bit refinement `m = m0 + 2k`;
-- finite interval payload compression / four-state cylinder theorem;
-- reduced source+ballot control where its hypotheses apply.
+\[
+Z_{max}=9{,}444{,}732{,}965{,}107{,}363{,}299{,}196.
+\]
 
-### Ballot / grammar
+For the right H factor
 
-- fixed-count ballot future cone;
-- target strict-prefix dominance / surplus representation;
-- exact dual H/L canonical grammar;
-- target-only H/L–Stern-Brocot hierarchy alignment;
-- critical-cut product factorization.
+\[
+z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}},
+\]
 
-### Correction / projective
+while the dyadic checkpoint channel supplies
 
-- fixed `(h,q)` correction injectivity;
-- dyadic prefix localization;
-- ternary suffix locality and carry recurrence;
-- projective block carry law;
-- one-step carry bijection;
-- general suffix-gate displacement isometry;
-- normalized suffix slack partition;
-- projective successor carry → exponent/displacement cylinder;
-- lazy terminal-ternary observation theorem;
-- critical-cut ternary shielding theorem;
-- projective-cylinder singleton threshold `m>=23`.
+\[
+Z\equiv z_2\pmod{2^{27}}.
+\]
 
-### Membership-relevant defect / physical gate
+The joint CRT modulus is
 
-- monotone normalized defect;
-- exact projective-cylinder defect floor;
-- fixed-cylinder ordering-aware minimum;
-- displaced-rank / phase-weighted lower bounds;
-- normalized-defect semiring;
-- integer defect numerator `N=3^q eta`;
-- inverse physical defect budget;
-- exact scalar physical danger score `P` and one-label Bellman reduction.
+\[
+2^{27}3^{28}=3{,}070{,}471{,}107{,}232{,}407{,}748{,}608,
+\]
 
-## Current G1 objective — forward scan
+larger than the entire certified `Z` corridor span. Therefore every coherent pair `(z2,z_H)` supplies at most one ordinary checkpoint `Z`.
+
+Use:
+
+- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`;
+- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
+
+This is synchronized arithmetic on one `Z`, not an independence/density argument.
+
+## Immediate computation target — synchronized 14-root join
 
 For each of the 14 roots:
 
-1. initialize exact source/control and finite parameter interval;
-2. initialize `P_min`;
-3. refine by exact source parameter bits;
-4. merge histories only under certified exact future-control + payload equivalence;
-5. close nodes whose minimum score already exceeds the physical barrier;
-6. retain unresolved export families for the future cut join.
+1. execute/refine the exact forward source state with `P_min`;
+2. export only unresolved forward boundary states;
+3. generate the compatible compressed right-H observation/export states;
+4. form the coherent pair `(z2,z_H)` only when both sides refer to the same boundary/checkpoint coordinates;
+5. reconstruct the unique candidate `Z` when the CRT corridor admits one;
+6. test exact source/checkpoint/debit compatibility;
+7. close a family if the physical score or a certified membership predicate rejects the whole family;
+8. retain only unresolved exact families for the next pre-bridge/tail gate.
 
-Terminal ternary residue is not carried before it becomes observable.
+## Merge rules
 
-## Current G2 objective — backward right-H filter
+Allowed:
 
-The next mathematical task is to close the multi-gate composition problem left open by the local displacement-isometry theorem.
+- one `P_min` per exact future-control + payload state for the directed physical gate;
+- one-dimensional `Pi3_k` quotient under its finite-horizon carry-cylinder scope;
+- max-slack merge only for the certified formation-existence predicate at fixed carry.
 
-Desired state must represent, without flat carry enumeration:
+Not allowed:
 
-1. the current projective carry/residue cylinder;
-2. the current target capacity/slack ordering cap;
-3. exact existence of legal suffix completions;
-4. eventually an exact cut-boundary export coordinate.
+- merge histories with different future controls;
+- discard carry base solely because interval payloads match;
+- infer whole-path injectivity from one-step injectivity;
+- treat prescribed-cylinder singleton as unique carry path;
+- multiply dyadic and ternary marginal survival ratios;
+- use later refined bounds retroactively.
 
-Useful exact coordinates:
+## Success criterion for the next milestone
 
-Right-indexed target/candidate positions
+Produce a reproducible 14-root table containing, per root and explored exact state depth:
 
-`A_t, B_t`,
+- forward states created/merged/physically closed;
+- right-H export states queried;
+- synchronized CRT pairs with zero or one corridor checkpoint;
+- exact joined survivors;
+- reason for every whole-family closure;
+- unresolved families and the next predicate each requires.
 
-capacity/slack
+Finite counts are evidence about that execution only, not a universal theorem unless separately proved.
 
-`D_t = A_t-(q-t-1)`,
+## Remaining global warning
 
-`s_t = B_t-(q-t-1)`,
-
-with
-
-`0 <= s_t <= D_t`,
-
-`s_(t+1) <= s_t`,
-
-and displacement
-
-`delta_t = D_t-s_t`.
-
-At one gate, after required parity is fixed, write
-
-`delta_t = epsilon_t + 2 d_t`.
-
-The carry map is a 3-adic isometry in `d_t`:
-
-`v3(Phi(d)-Phi(e)) = v3(d-e)`.
-
-Hence a prescribed successor carry cylinder corresponds exactly to one arithmetic progression in `d_t`, equivalently one arithmetic progression in `s_t`.
-
-The open issue is how these progression cylinders compose under the monotone slack constraint across multiple gates.
-
-## Immediate theorem target
-
-Seek an exact **backward slack-cylinder quotient**:
-
-- for one specified projective state, intersect its slack residue class with the legal interval;
-- when multiple histories reach the same outgoing projective state, determine whether keeping only the largest reachable slack is exact for suffix-existence, because larger slack weakly relaxes all remaining leftward ordering caps;
-- separate this feasibility quotient from defect minimization;
-- if exact, lift it to block/H grammar transitions.
-
-Do not claim physical-cost dominance from slack dominance alone; right-factor defect cost may trade off against earlier choices unless separately proved.
-
-## Success criteria for the next milestone
-
-A G2 milestone is complete when there is an exact certificate showing either:
-
-- a compact multi-gate backward slack/projective state and its merge theorem; or
-- a counterexample proving that the proposed quotient loses a feasible suffix.
-
-Then record state counts on finite exact suffix regressions and proceed to the right-H block recursion.
-
-## Known failure modes to avoid
-
-- local carry greedy before a cylinder sequence is fixed;
-- treating singleton exponent cylinder as singleton carry path;
-- target-collision mismatch treated as rejection;
-- carrying terminal ternary residues through the left root forest while shielded/dormant;
-- use of exact completion-defect DP as an uncompressed binary-tree search engine;
-- forgetting source transition coordinates after an observation is discharged;
-- double counting local defect floors;
-- using later refined bounds retroactively.
-
-## Frontier output
-
-When a new G2 theorem is closed, update in the same cycle:
-
-- `../status/CURRENT_STATUS.md`;
-- `../status/OPEN_GATES.md`;
-- `../CANONICAL_PROOF_STACK.md`;
-- this file;
-- relevant theorem/certificate/audit indexes.
+Even closure of all 14 current Route-B roots would not prove Collatz. Route-A, `s>=2`, the remaining formation sectors, and global branch completeness remain separate obligations.
