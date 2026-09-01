@@ -95,7 +95,7 @@ Since
 \lambda_{18}=2\cdot3^{17}=258{,}280{,}326,
 \]
 
-every **prescribed** projective cylinder is empty or singleton for `m>=18`.
+every prescribed projective cylinder is empty or singleton for `m>=18`.
 
 Status: **EXACT / CLOSED for prescribed cylinders; distinct carry-path multiplicity remains OPEN**.
 
@@ -146,33 +146,69 @@ Therefore a coherent pair
 
 determines at most one ordinary checkpoint `Z` in the SAFE corridor.
 
-Canonical object:
-
-- `theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`.
-
 Status: **EXACT / CLOSED for checkpoint exposure**.
 
-## S10 — Current two-front execution
+## S10 — Checkpoint-conditioned source-fiber bound
 
-Forward:
+For one retained source root
 
-`14-root source/control × interval payload × P_min`.
+\[
+X=r+2^h m
+\]
 
-Backward:
+and one exposed ordinary checkpoint `Z`, the independent debit corridor gives
 
-compressed right-H projective/carry export synchronized to the checkpoint observation.
+\[
+\frac{Z+75\,2^{33}-3r}{3\,2^h}<m<
+\frac{Z+112\,2^{33}-3r}{3\,2^h}.
+\]
 
-The immediate computation is the exact synchronized 14-root join. No marginal-count multiplication is permitted.
+Therefore the compatible source fiber has cardinality at most
+
+\[
+K_h=\left\lceil\frac{37\,2^{33}}{3\,2^h}\right\rceil.
+\]
+
+For the deepest current roots, per exposed checkpoint:
+
+- `f>=24`: at most 3,668 source parameters;
+- `f>=27`: at most 510;
+- `f>=29`: at most 115;
+- `f>=32`: at most 16;
+- `f>=35`: at most 3;
+- `f=37`: at most 1.
+
+Canonical object:
+
+- `theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`.
+
+Status: **EXACT / CLOSED for source-fiber cardinality after checkpoint exposure**.
+
+## S11 — Current hybrid synchronized join
+
+Backward first:
+
+compressed right-H projective/carry export -> synchronized checkpoint observation -> zero or one ordinary `Z`.
+
+Then source conditioning:
+
+ordinary `Z` -> exact 14-root debit-compatible source fibers.
+
+Only shallow fibers that remain large continue under compressed `source/control × interval payload × P_min`; deep fibers may be handled directly once genuinely small.
+
+This avoids mandatory full source singleton expansion before checkpoint data are available.
 
 Status: **ACTIVE**.
 
-## S11 — Full Route-B local closure
+## S12 — Full Route-B local closure
 
 For every joined survivor, discharge exact pre-bridge correction-language membership, ordinary checkpoint/debit coherence, tail first-passage, and any required renewal/C4F condition.
 
+A small source fiber or one exposed `(X,Z)` pair is not itself membership.
+
 Status: **OPEN**.
 
-## S12 — Global completion
+## S13 — Global completion
 
 Route-A, `s>=2`, remaining formation branches, and branch completeness must be separately closed before any Collatz conclusion.
 
@@ -185,9 +221,11 @@ Status: **OPEN**.
 - adic mismatch -> membership rejection;
 - interval inclusion -> correction-language membership;
 - endpoint/checkpoint exposure -> same orbit or full membership;
+- small checkpoint-conditioned source fiber -> membership;
+- one exposed `(X,Z)` pair -> same orbit without the long pre-bridge language check;
 - local carry greedy -> global optimum before a cylinder sequence is fixed;
 - singleton prescribed cylinder -> singleton carry path;
-- marginal dyadic/ternary survival-ratio multiplication;
+- marginal dyadic/ternary/source survival-ratio multiplication;
 - later refined bound used retroactively;
-- finite regression -> universal theorem;
+- finite execution -> universal theorem;
 - A0 `s=1` Route-B closure -> Collatz without remaining modules.
