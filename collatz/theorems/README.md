@@ -89,6 +89,30 @@ Certificate:
 
 - `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
 
+## T9 — Checkpoint-conditioned source fibers
+
+Canonical object:
+
+- [`SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`](SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md).
+
+Role:
+
+- substitute the exact source cylinder `X=r+2^h m` into the independent ordinary debit corridor after one checkpoint `Z` has been exposed;
+- obtain the exact open interval of admissible source parameters `m`;
+- prove the universal root-depth cap
+
+  `K_h = ceil(37*2^33/(3*2^h))`;
+
+- justify direct deep-root source contraction before full long-word membership testing.
+
+Current deep-root caps per exposed checkpoint include `f>=32 -> 16`, `f>=35 -> 3`, and `f=37 -> 1`.
+
+Scope warning: a small source fiber is not proof of correction-language membership or same-orbit connectivity.
+
+Certificate:
+
+- `../src/A0_s1_routeB_synchronized_checkpoint_source_fiber_certificate.py`.
+
 ---
 
 # Promotion policy
