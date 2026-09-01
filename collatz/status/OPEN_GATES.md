@@ -2,86 +2,97 @@
 
 This register contains unresolved obligations only. Closed lemmas belong in the proof map / theorem index rather than being mixed into this list.
 
-## G1 — 14-root forward family execution
+## G1 — Predicate-driven source/Bellman execution
 
 **Module:** C4
 
-Run the exact forward family state on all 14 source roots with
+The forward exact state
 
 `source/control × interval payload × P_min`
 
-and quantify where whole-family physical closure occurs before singleton expansion.
+remains valid for the directed physical gate.
 
-Required output:
+It is no longer necessary to force all 14 roots to ordinary-X singleton depth before checkpoint synchronization. The new checkpoint-conditioned source-fiber theorem permits immediate source contraction after one ordinary `Z` is exposed.
 
-- exact node state and merge rule;
-- reproducible root-level certificate;
-- closed/unresolved counts without probability language;
-- exact export families for the synchronized join.
+Required output now:
 
-Status: **ACTIVE**.
+- use forward `P_min` refinement where the active source fiber is still too large;
+- preserve exact export coordinates queried by the synchronized join;
+- report finite state counts as execution evidence only.
 
-## G2 — Backward right-H projective/export filter
+Status: **ACTIVE, predicate-driven rather than mandatory full expansion**.
+
+## G2 — Compressed right-H synchronized export
 
 **Module:** C4/C5
 
-Several former G2 subgates are now CLOSED:
+Closed subgates:
 
 - lazy terminal-ternary observation;
 - critical-cut right localization for `L=24,28,47`;
 - one-dimensional projective interval payload;
-- prescribed-cylinder singleton threshold sharpened to `m>=18` for the current right H block;
-- exact affine synchronization
-  `z_H = 2^s Z-C(H_s^*) mod 3^28`;
+- prescribed-cylinder singleton threshold `m>=18` for the current right H block;
+- exact affine synchronization `z_H = 2^s Z-C(H_s^*) mod 3^28`;
 - synchronized `2^27 × 3^28` CRT checkpoint singleton exposure.
 
-The remaining G2 obligation is not checkpoint exposure itself. It is to export only those compressed right-H projective/carry states that can supply the synchronized observation required by the join, without flat enumeration of all carry residues.
+Remaining obligation:
+
+construct only those compressed right-H projective/carry states that can supply the synchronized observation and required boundary/control coordinates, without flat carry enumeration.
 
 Required output:
 
-- compact multi-gate right-H state where more than one prescribed carry/cylinder remains possible;
-- exact export coordinates queried by G3;
-- state counts / exact finite execution evidence clearly separated from theorem claims.
+- compact multi-gate right-H state;
+- exact merge rule;
+- exported `z_H mod 3^28` plus any join coordinates;
+- exact finite state counts clearly separated from theorem claims.
 
-Known constraints:
+Known restrictions:
 
-- prescribed cylinders are empty/singleton for `m>=18`;
-- singleton prescribed cylinder does not imply singleton carry path;
+- a prescribed cylinder may be empty/singleton without implying a unique carry path;
 - carry base cannot generally be discarded;
 - one-layer injectivity does not imply whole-path injectivity;
 - local carry greedy remains forbidden.
 
-Status: **ACTIVE, narrowed**.
+Status: **ACTIVE — principal current structural gate**.
 
-## G3 — Exact synchronized 14-root forward/backward join
+## G3 — Hybrid synchronized 14-root join
 
 **Module:** C4/C5
 
-Join
+The checkpoint exposure seam and the checkpoint-conditioned source-fiber cardinality seam are now CLOSED.
 
-`14-root source/control × interval payload × P_min`
+For each coherent synchronized observation:
 
-with the right-H synchronized observation/export state at an exact boundary.
+1. expose zero or one ordinary `Z` in the SAFE corridor;
+2. intersect each relevant source root with the exact debit-compatible parameter interval;
+3. enumerate deep fibers when small;
+4. continue compressed source/Bellman refinement for shallow fibers;
+5. preserve every boundary/control coordinate required for the full pre-bridge membership test.
 
-The checkpoint part of the join is now deterministic: each coherent pair
+Per exposed `Z`, exact deep-root caps include:
 
-`(Z mod 2^27, z_H mod 3^28)`
+- `f>=24`: at most 3,668 source parameters;
+- `f>=27`: at most 510;
+- `f>=29`: at most 115;
+- `f>=32`: at most 16;
+- `f>=35`: at most 3;
+- `f=37`: at most 1.
 
-admits at most one ordinary checkpoint `Z` in the certified SAFE corridor.
+Canonical new theorem:
 
-The join must still prove that a given source/right-H state actually supplies a coherent pair and must preserve every boundary/control coordinate queried later.
+- `../theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`.
 
-Do not multiply marginal counts or assume left/right independence.
+Do not multiply marginal counts or infer membership from a small fiber.
 
-Status: **OPEN after G1/G2 export states are explicit; next principal join**.
+Status: **OPEN after G2 export; principal join immediately following G2**.
 
 ## G4 — Full pre-bridge correction-language membership
 
 **Module:** C5
 
-For every remaining joined family, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
+For every remaining joined `(source fiber, Z, right-H state)`, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
 
-Checkpoint/boundary exposure alone is insufficient.
+Checkpoint/source exposure alone is insufficient.
 
 Status: **OPEN after G3**.
 
@@ -89,14 +100,16 @@ Status: **OPEN after G3**.
 
 **Module:** C5
 
-The synchronized checkpoint singleton **exposure subgate is CLOSED** by
+Closed pieces:
 
-- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`;
-- `../src/A0_s1_routeB_synchronized_checkpoint_CRT_singleton_certificate.py`.
+- synchronized checkpoint singleton exposure;
+- exact source-fiber interval/cardinality after one exposed `Z`.
 
-Remaining obligation: for a joined source/right-H family that supplies the synchronized observation, verify compatibility of the reconstructed ordinary checkpoint with the required source `X`, debit `L_-=3X-Z`, and any later ordinary renewal predicate without circularity.
+Remaining obligation:
 
-Status: **OPEN after G3; exposure itself CLOSED**.
+verify the actual joined `X`, `Z`, debit `L_-=3X-Z`, and any later renewal condition without circularity.
+
+Status: **OPEN after G3; exposure/fiber subgates CLOSED**.
 
 ## G6 — Tail first-passage / post-checkpoint compatibility
 
@@ -144,6 +157,6 @@ Status: **OPEN**.
 
 Current priority is
 
-`G1 || narrowed G2 -> G3 -> G4/G5/G6/G7 -> G8/G9 -> G10`.
+`G2 -> G3, with G1 activated only where the checkpoint-conditioned source fiber remains too large -> G4/G5/G6/G7 -> G8/G9 -> G10`.
 
-The synchronized checkpoint CRT seam is no longer a blocker and should not be recomputed unless an upstream hypothesis changes.
+The synchronized checkpoint CRT seam and source-fiber cardinality seam are closed and should not be recomputed unless an upstream hypothesis changes.
