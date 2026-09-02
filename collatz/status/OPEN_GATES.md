@@ -6,91 +6,71 @@ This register contains unresolved obligations only. Closed lemmas belong in the 
 
 **Module:** C4
 
-The forward exact state
+The forward exact state `source/control × interval payload × P_min` remains valid for the directed physical gate.
 
-`source/control × interval payload × P_min`
+Use it only where a checkpoint-conditioned source fiber remains too large for direct exact handling.
 
-remains valid for the directed physical gate.
+Status: **ACTIVE, predicate-driven**.
 
-It is no longer necessary to force all 14 roots to ordinary-X singleton depth before checkpoint synchronization. The checkpoint-conditioned source-fiber theorem permits immediate source contraction after one ordinary `Z` is exposed.
-
-Required output now:
-
-- use forward `P_min` refinement where the active source fiber is still too large;
-- preserve exact export coordinates queried by the synchronized join;
-- report finite state counts as execution evidence only.
-
-Status: **ACTIVE, predicate-driven rather than mandatory full expansion**.
-
-## G2 — Compressed right-H acceptance over prescribed synchronized observations
+## G2 — Actual 28-gate right-H synchronized acceptance
 
 **Module:** C4/C5
 
-Closed subgates:
+Closed subgates now include:
 
 - lazy terminal-ternary observation;
 - critical-cut right localization for `L=24,28,47`;
+- max-slack quotient at fixed projective carry;
 - one-dimensional projective interval payload;
 - prescribed-cylinder singleton threshold `m>=18` for the current right H block;
 - exact affine synchronization `z_H = 2^s Z-C(H_s^*) mod 3^28`;
-- synchronized `2^27 × 3^28` CRT checkpoint singleton exposure;
-- **critical-cut terminal precision absorption**: the right H block has `q_R=397,573,380`, so the active 24-, 28-, and 47-trit predicates export zero ternary digits across the cut.
+- synchronized CRT checkpoint singleton exposure;
+- terminal precision absorption: zero checkpoint ternary digits cross the critical cut;
+- terminal ranked-one window theorem: modulo `3^L`, only the final `L` ranked one-events are observable;
+- packed-prefix target-dominance completion of every locally legal terminal suffix.
 
-Consequently, the checkpoint `z_H mod 3^28` is an input observation to be accepted or rejected inside the right H factor. Its projective residue coordinate is fully consumed before the cut and is not part of the left/source join key.
+Therefore the current pure target-dominance checkpoint acceptance problem is exactly a **28-gate** ordered-slack/projective problem, not a `397,573,380`-gate problem.
+
+The omitted `397,573,352` earlier one-events need not be enumerated for this residue-existence predicate.
 
 Remaining obligation:
 
-construct a compact exact representation of which prescribed `z_H mod 3^28` observations are feasible in the right-H language, together with only the exact boundary/grammar control coordinates needed after the observation is discharged.
+execute the exact 28-gate quotient on the actual last-28 target capacities and obtain either:
 
-Required output:
+1. a compact accepted set of prescribed `z_H mod 3^28` observations, with exact gate-by-gate state counts; or
+2. a certified obstruction showing what additional quotient coordinate is required.
 
-- compact multi-gate right-H acceptance state;
-- exact merge rule within identical boundary/control classes;
-- accepted/rejected prescribed `z_H` observations or an equivalent symbolic cylinder representation;
-- boundary/control export with **no residual checkpoint ternary carry coordinate**;
-- exact finite state counts clearly separated from theorem claims.
+For the first 11 gates (`m=28..18`), each prescribed projective cylinder is empty or singleton. Lower precisions remain potentially multi-valued and must use exact quotienting rather than raw slack enumeration.
 
-Known restrictions:
+If the full H/L join asks for an additional boundary/grammar label beyond target dominance, attach that finite control to the quotient key and intersect it separately. Do not re-expand the unobservable earlier ranked ones merely to recover it.
 
-- zero residual precision does not imply a unique right-H path;
-- a prescribed cylinder may be empty/singleton without implying a unique carry path;
-- different boundary/grammar controls remain distinct;
-- physical defect/cost data may be forgotten only under a separate theorem;
-- local carry greedy remains forbidden.
-
-Canonical new theorem:
-
-- `../theorems/CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md`.
-
-Status: **ACTIVE — principal current structural gate, reduced state dimension**.
+Status: **ACTIVE — principal current executable gate, finite 28-gate form**.
 
 ## G3 — Hybrid synchronized 14-root join
 
 **Module:** C4/C5
 
-The checkpoint exposure seam, terminal precision-absorption seam, and checkpoint-conditioned source-fiber cardinality seam are CLOSED.
+The checkpoint exposure seam, precision-absorption seam, terminal rank-window seam, and checkpoint-conditioned source-fiber seam are CLOSED.
 
-For each right-H accepted synchronized observation and compatible dyadic observation:
+For each G2-accepted synchronized observation:
 
 1. expose zero or one ordinary `Z` in the SAFE corridor;
 2. intersect each relevant source root with the exact debit-compatible parameter interval;
 3. enumerate deep fibers when small;
 4. continue compressed source/Bellman refinement for shallow fibers;
-5. join only the surviving boundary/control coordinates — the consumed checkpoint ternary carry is not reintroduced;
+5. join only surviving boundary/control coordinates;
 6. preserve every coordinate required for the full pre-bridge membership test.
 
-Per exposed `Z`, exact deep-root caps include:
+Per exposed `Z`, exact cumulative deep-root caps remain:
 
-- `f>=24`: at most 3,668 source parameters;
-- `f>=27`: at most 510;
-- `f>=29`: at most 115;
-- `f>=32`: at most 16;
-- `f>=35`: at most 3;
-- `f=37`: at most 1.
+- `f>=24`: 3,668;
+- `f>=27`: 510;
+- `f>=29`: 115;
+- `f>=32`: 16;
+- `f>=35`: 3;
+- `f=37`: 1.
 
-Do not multiply marginal counts or infer membership from a small fiber.
-
-Status: **OPEN after G2 accepted-observation representation; principal join immediately following G2**.
+Status: **OPEN immediately after G2 accepted-observation execution**.
 
 ## G4 — Full pre-bridge correction-language membership
 
@@ -98,22 +78,13 @@ Status: **OPEN after G2 accepted-observation representation; principal join imme
 
 For every remaining joined `(source fiber, Z, right-H boundary/control state)`, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
 
-Checkpoint/source exposure alone is insufficient.
-
 Status: **OPEN after G3**.
 
 ## G5 — Ordinary checkpoint/debit coherence after exposure
 
 **Module:** C5
 
-Closed pieces:
-
-- synchronized checkpoint singleton exposure;
-- exact source-fiber interval/cardinality after one exposed `Z`.
-
-Remaining obligation:
-
-verify the actual joined `X`, `Z`, debit `L_-=3X-Z`, and any later renewal condition without circularity.
+Verify actual joined `X`, `Z`, debit `L_-=3X-Z`, and any later renewal condition without circularity.
 
 Status: **OPEN after G3; exposure/fiber subgates CLOSED**.
 
@@ -129,7 +100,7 @@ Status: **OPEN**.
 
 **Module:** C5
 
-Provide an explicit invariant/state theorem if these predicates are needed. Do not assume a local pure-ballot/projective quotient preserves a complete C4F Boolean state.
+Provide an explicit invariant/state theorem if these predicates are needed.
 
 Status: **OPEN**.
 
@@ -145,7 +116,7 @@ Status: **OPEN**.
 
 **Module:** C6
 
-Generalize or separately close the surplus sectors not covered by the current `s=1` factorization.
+Generalize or separately close surplus sectors not covered by the current `s=1` factorization.
 
 Status: **OPEN**.
 
@@ -153,7 +124,7 @@ Status: **OPEN**.
 
 **Module:** C0/C6
 
-Prove that all counterexample classes are covered by the final branch partition and that closure of every module implies the ordinary Collatz conjecture.
+Prove all counterexample classes are covered by the final branch partition and that closure of every module implies ordinary Collatz.
 
 Status: **OPEN**.
 
@@ -161,8 +132,6 @@ Status: **OPEN**.
 
 # Priority order
 
-Current priority is
+`G2 28-gate execution -> G3, with G1 only on large conditioned fibers -> G4/G5/G6/G7 -> G8/G9 -> G10`.
 
-`G2 accepted-observation compression -> G3, with G1 activated only where the checkpoint-conditioned source fiber remains too large -> G4/G5/G6/G7 -> G8/G9 -> G10`.
-
-The synchronized checkpoint CRT seam, critical-cut precision-absorption seam, and source-fiber cardinality seam are closed and should not be recomputed unless an upstream hypothesis changes.
+Closed synchronized seams should not be recomputed unless an upstream hypothesis changes.
