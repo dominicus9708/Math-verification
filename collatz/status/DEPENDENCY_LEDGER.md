@@ -6,42 +6,27 @@ This file records dependency order that must not be silently reversed.
 
 Required order:
 
-`old X bound`
-→ `finite radius 0..7 closure`
-→ `d75 >= 8`
-→ `first-75 defect floor`
-→ `Christoffel real-envelope conversion`
-→ `refined X upper bound`.
+`old X bound` -> `finite radius 0..7 closure` -> `d75 >= 8` -> `first-75 defect floor` -> `Christoffel real-envelope conversion` -> `refined X upper bound`.
 
-Rule: the refined X bound is not used retroactively to justify radius-seven closure unless a separate certificate reruns that closure.
+Rule: the refined X bound is not used retroactively to justify radius-seven closure unless separately rerun.
 
 ## D2 — Refined X bound before shell-conditioned pruning
 
-Shell-specific physical restrictions that were derived from the refined interval remain downstream of that interval.
-
-Rule: any later stronger shell bound must declare whether it is independent or downstream.
+Shell-specific physical restrictions derived from the refined interval remain downstream of that interval.
 
 ## D3 — 14-root forest after late-shell elimination
 
 The 14-root forest is retained only after certified late-shell elimination.
 
-Rule: do not present the 14 roots as an unconditional partition of every possible threshold deviation.
-
 ## D4 — H/L grammar before target specialization
 
-Universal dual H/L grammar is established before target Christoffel/Stern-Brocot specialization.
-
-Rule: arbitrary H/L candidates are not Christoffel words merely because the target is.
+Universal dual H/L grammar precedes target Christoffel/Stern-Brocot specialization.
 
 ## D5 — Projective observation before membership use
 
 Required interface:
 
-`projective observation`
-→ `formation/order restriction`
-→ `ordinary displacement/defect`
-→ `eta floor`
-→ `physical pruning`.
+`projective observation` -> `formation/order restriction` -> `ordinary displacement/defect` -> `eta floor` -> `physical pruning`.
 
 Rejected shortcut: `adic mismatch -> membership rejection`.
 
@@ -59,55 +44,25 @@ One `P_min` label is legal only when histories share the exact future control/pa
 
 ## D9 — Synchronized checkpoint reconstruction
 
-The checkpoint dyadic and ternary observations are residues of the **same** ordinary checkpoint `Z`.
+The checkpoint dyadic and ternary observations are residues of the same ordinary checkpoint `Z`.
 
-The exposure chain is CLOSED in this order:
+Closed order:
 
-`independent pre-defect X/L_- corridor`
-→ `SAFE ordinary Z corridor`
-→ `right-H affine z_H <-> Z mod 3^28`
-→ `Z mod 2^27`
-→ `coprime CRT class mod 2^27*3^28`
-→ `corridor span < CRT modulus`
-→ `at most one ordinary Z`.
+`independent pre-defect X/L_- corridor` -> `SAFE Z corridor` -> `right-H affine z_H <-> Z mod 3^28` -> `Z mod 2^27` -> `coprime CRT` -> `corridor span < CRT modulus` -> `at most one ordinary Z`.
 
-Canonical theorem:
-
-- `../theorems/SYNCHRONIZED_CHECKPOINT_CRT_SINGLETON.md`.
-
-Rules:
-
-- do not multiply marginal dyadic/ternary densities;
-- do not assume independence;
-- checkpoint singleton exposure does not itself prove orbit/membership compatibility.
+No marginal-density multiplication or independence assumption is permitted.
 
 ## D10 — No retroactive defect bound in checkpoint CRT seam
 
-The synchronized checkpoint singleton certificate intentionally uses only
-
-\[
-2^{71}<X<\frac43 2^{71}+0.478\,2^{33}
-\]
-
-and
-
-\[
-75\,2^{33}<L_-<112\,2^{33}.
-\]
-
-Rule: the later defect-derived refined X upper bound is not a dependency of the checkpoint-exposure theorem.
+The checkpoint singleton theorem uses only the independent pre-defect `X` and debit corridors, not the later defect-derived refined X upper bound.
 
 ## D11 — Checkpoint exposure before checkpoint-conditioned source fiber
 
-Only after a coherent synchronized observation has exposed one ordinary checkpoint `Z` may the source fiber be conditioned on that `Z`.
+Only after one ordinary `Z` is independently exposed may the root cylinder `X=r+2^h m` be intersected with
 
-Required chain:
-
-`synchronized observation`
-→ `zero/one ordinary Z in SAFE corridor`
-→ `substitute X=r+2^h m into 75*2^33 < 3X-Z < 112*2^33`
-→ `exact open m interval`
-→ `source-fiber intersection/cardinality`.
+\[
+75\,2^{33}<3X-Z<112\,2^{33}.
+\]
 
 The exact root-depth cap is
 
@@ -115,50 +70,59 @@ The exact root-depth cap is
 K_h=\left\lceil\frac{37\,2^{33}}{3\,2^h}\right\rceil.
 \]
 
-Canonical theorem:
-
-- `../theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`.
-
-Rules:
-
-- the source-fiber theorem uses the independent debit corridor, not the later defect-derived refined X bound;
-- small fiber cardinality is not membership;
-- one candidate `(X,Z)` is not automatically same-orbit connectivity;
-- do not multiply source-fiber counts by marginal dyadic/ternary ratios.
+Small fiber cardinality is not membership.
 
 ## D12 — Debit reconstruction without circularity
 
-`L_-=3X-Z` couples X, Z, and debit.
-
-The source-fiber theorem uses this identity only after `Z` is independently exposed and `X` remains in its independently defined source cylinder.
-
-Rule: later ordinary debit/renewal compatibility must still be checked on the actual joined source/checkpoint state. Terminal debit data are not treated as an X-independent oracle.
+`L_-=3X-Z` is used only after `Z` is independently exposed and `X` remains in its independently defined source cylinder.
 
 ## D13 — Hybrid join before singleton expansion
 
-Full source singleton expansion is not a required dependency of checkpoint synchronization.
+Full source singleton expansion is not a prerequisite of checkpoint synchronization.
 
 Allowed order:
 
-`compressed right-H export`
-→ `checkpoint exposure`
-→ `checkpoint-conditioned source fiber`
-→ `direct deep-fiber enumeration or shallow compressed Bellman refinement`.
+`compressed right-H acceptance` -> `checkpoint exposure` -> `checkpoint-conditioned source fiber` -> `deep direct enumeration or shallow Bellman refinement`.
 
-Rule: choose direct enumeration only after the exact fiber is actually small. Shallow roots remain compressed when their checkpoint-conditioned fiber is still large.
+## D14 — Terminal precision must be consumed before cut-state design
 
-This changes the computational order, not the mathematical membership obligation.
+For a terminal `3^L` predicate crossing a processed right block with `q_B` one-events, the exact exported precision is
 
-## D14 — Local Route-B closure before global claims
+\[
+L_{cut}=\max(0,L-q_B).
+\]
+
+At the current cut `q_B=397,573,380`, so `L=24,28,47` all export zero ternary digits.
+
+Rule: once this predicate is discharged inside the right H block, do not carry its ternary residue across the cut as an active state coordinate merely because it existed at the terminal boundary.
+
+Zero residual precision is not path uniqueness and does not authorize merging different boundary/grammar controls.
+
+Canonical theorem:
+
+- `../theorems/CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md`.
+
+## D15 — Terminal ranked-one window before full right-H traversal
+
+For equal-count target/candidate correction difference modulo `3^L`, all ranks earlier than the final `L` one-events vanish because their coefficients contain `3^L`.
+
+Under target dominance, every locally legal final-rank suffix extends by the packed prefix `b_r=r-1`.
+
+Therefore for the current checkpoint precision `L=28`, pure target-dominance residue existence is a 28-gate problem and does not depend on enumerating the preceding `397,573,352` right-H one-events.
+
+Rule: do not rebuild a full 397M-one traversal to answer this terminal residue-existence predicate. If an additional H/L boundary/control label is required, derive and attach that control separately.
+
+Canonical theorem:
+
+- `../theorems/TERMINAL_RANK_WINDOW_DOMINANCE_COMPLETION.md`.
+
+## D16 — Local Route-B closure before global claims
 
 Even complete closure of all 14 A0 `s=1` Route-B roots would close only that module.
 
 Required later dependencies:
 
-`Route-B local closure`
-→ `Route-A + s>=2 + remaining branches`
-→ `global branch completeness`
-→ `Collatz conclusion`.
+`Route-B local closure` -> `Route-A + s>=2 + remaining branches` -> `global branch completeness` -> `Collatz conclusion`.
 
 ## Change-control rule
 
