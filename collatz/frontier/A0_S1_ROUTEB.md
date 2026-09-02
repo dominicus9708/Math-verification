@@ -22,161 +22,162 @@ X=r+2^h m
 
 with a finite integer parameter interval and exact bit refinement.
 
-## Closed tools relevant to the join
+## Closed synchronized seams
 
-### Forward/source side
+The following no longer need to be rediscovered:
 
-- exact source cylinder and parameter-bit refinement;
-- finite interval payload compression;
-- target ballot/dominance control;
-- scalar physical score `P` and one `P_min` label per exact active source/payload key.
+1. synchronized `2^27 × 3^28` observations expose at most one ordinary checkpoint `Z` in the SAFE corridor;
+2. one exposed `Z` contracts every root to an exact debit-compatible source fiber;
+3. the checkpoint terminal ternary precision is fully consumed inside the right H block, so no checkpoint carry residue crosses the critical cut;
+4. modulo `3^L`, only the final `L` ranked one-events affect the target-relative correction residue;
+5. under equal-count target dominance, every locally legal final-rank suffix extends to a full dominant candidate by the packed prefix `b_r=r-1`.
 
-### Right-H/checkpoint side
+Canonical new objects:
 
-- terminal ternary predicates `L=24,28,47` are right-local at the critical cut;
-- one-dimensional projective interval payload;
-- prescribed right-H cylinders are empty/singleton for `m>=18`;
-- right-H observation is affine in the ordinary checkpoint;
-- synchronized `2^27 × 3^28` CRT exposure gives at most one ordinary `Z` in the SAFE checkpoint corridor.
+- `../theorems/CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md`;
+- `../theorems/TERMINAL_RANK_WINDOW_DOMINANCE_COMPLETION.md`.
 
-### New source-fiber bridge
+## Current right-H checkpoint reduction
 
-For a supplied ordinary checkpoint `Z`, the independent debit corridor
+For the current right H target
 
 \[
-75\,2^{33}<3X-Z<112\,2^{33}
+q_H=397{,}573{,}380
 \]
 
-turns each source root into an exact `m` interval.
-
-For root depth `h`, the number of compatible integer parameters is at most
+and synchronized ternary precision
 
 \[
-K_h=\left\lceil\frac{37\,2^{33}}{3\,2^h}\right\rceil.
+L=28,
 \]
 
-Current caps:
+pure target-dominance acceptance of a prescribed `z_H mod 3^28` is exactly a finite **28-gate ordered-slack/projective problem**.
 
-| `f` | `h=f+1` | `K_h` |
-|---:|---:|---:|
-| 2 | 3 | 13,242,815,830 |
-| 5 | 6 | 1,655,351,979 |
-| 8 | 9 | 206,918,998 |
-| 10 | 11 | 51,729,750 |
-| 13 | 14 | 6,466,219 |
-| 16 | 17 | 808,278 |
-| 18 | 19 | 202,070 |
-| 21 | 22 | 25,259 |
-| 24 | 25 | 3,158 |
-| 27 | 28 | 395 |
-| 29 | 30 | 99 |
-| 32 | 33 | 13 |
-| 35 | 36 | 2 |
-| 37 | 38 | 1 |
+The earlier
 
-Deep-root totals per exposed checkpoint:
+\[
+397{,}573{,}352
+\]
 
-`f>=24 -> 3,668`
+one-events are invisible to this terminal residue and need not be enumerated for dominance existence.
 
-`f>=27 -> 510`
+The exact target position formula is
 
-`f>=29 -> 115`
+\[
+a_r=\left\lceil\frac{(r-1)J_0}{R_0}\right\rceil-1
+\]
 
-`f>=32 -> 16`
+for `r>=2`.
 
-`f>=35 -> 3`
+For the final 28 ranked ones, right-indexed capacities satisfy approximately
 
-`f>=37 -> 1`.
+\[
+232{,}565{,}502\le D_t\le232{,}565{,}517.
+\]
 
-Use:
+At precision
 
-- `../theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`;
-- `../src/A0_s1_routeB_synchronized_checkpoint_source_fiber_certificate.py`.
+\[
+m=28,27,\ldots,18,
+\]
 
-## Active architecture — hybrid synchronized join
+the projective cylinder period `2*3^(m-1)` exceeds the relevant capacity, so each prescribed cylinder is empty or singleton for the first 11 gates.
 
-The old plan of forcing every source root toward ordinary-X singleton depth before checkpoint synchronization is no longer canonical.
+This still does not imply a unique complete 28-gate path.
 
-### Phase A — compressed right-H export
+## Active G2 computation — actual 28-gate acceptance DP
 
-Construct only right-H projective/carry export states that can supply the actual synchronized observation required by the checkpoint join.
+Use the already certified max-slack quotient.
 
-Do not enumerate a flat `3^28` carry space.
+For a prescribed initial terminal carry/observation `z_0 mod 3^28`, at right-index `t` carry
 
-### Phase B — checkpoint exposure
+`z_t -> S_max(z_t)`
 
-For each coherent pair
+where only the largest reachable ordering slack is retained for suffix-existence.
 
-`(Z mod 2^27, z_H mod 3^28)`,
+At gate `t`:
 
-use the closed CRT seam to obtain zero or one ordinary `Z` in the SAFE corridor.
+- `m=28-t`;
+- target exponent `A_t=a_(q_H-t)`;
+- base `q_H-t-1`;
+- capacity `D_t=A_t-base`;
+- legal slack interval `0 <= s_t <= min(D_t,S_previous)`;
+- successor carry is
 
-### Phase C — checkpoint-conditioned source fiber
+\[
+z_{t+1}=
+\frac{z_t+2^{A_t}-2^{B_t}}{3}
+\pmod{3^{m-1}},
+\qquad B_t=base+s_t.
+\]
 
-For every exposed `Z`, intersect each relevant root's original `[m_lo,m_hi]` with
+Histories reaching the same successor carry merge by maximum slack exactly for dominance existence.
+
+After gate 28, ternary precision is zero. A nonempty quotient state means the prescribed terminal observation has a target-dominant completion; the packed-prefix theorem supplies the omitted earlier one-events.
+
+## Boundary-control caveat
+
+The 28-gate theorem closes target-dominance residue existence only.
+
+If the full H/L grammar join requires a boundary/control label beyond dominance, attach that finite control to the quotient key:
+
+`(projective carry, boundary/control) -> S_max`.
+
+Do not expand the omitted 397,573,352 one-events merely to recover a control coordinate; derive the minimal boundary-control transition separately from the H/L grammar.
+
+## Checkpoint-conditioned source join
+
+For every right-H accepted synchronized observation:
+
+1. combine `z_H` with the exact compatible dyadic checkpoint observation;
+2. use the closed CRT seam to expose zero or one ordinary `Z`;
+3. intersect each root with the exact source fiber
 
 \[
 \frac{Z+75\,2^{33}-3r}{3\,2^h}<m<
-\frac{Z+112\,2^{33}-3r}{3\,2^h}.
+\frac{Z+112\,2^{33}-3r}{3\,2^h};
 \]
 
-Deep roots may then be enumerated exactly because their fibers are tiny.
+4. enumerate deep fibers when small;
+5. use `P_min` refinement on shallow large fibers;
+6. preserve the full pre-bridge membership obligation.
 
-Shallow roots remain compressed and continue with `P_min`/source refinement.
+Per exposed `Z` the cumulative deep caps remain:
 
-### Phase D — exact membership handoff
+- `f>=24`: 3,668;
+- `f>=27`: 510;
+- `f>=29`: 115;
+- `f>=32`: 16;
+- `f>=35`: 3;
+- `f=37`: 1.
 
-For every surviving `(source fiber, Z, right-H state)`, preserve the exact long pre-bridge correction-language obligation. A small fiber or singleton `(X,Z)` is not yet a membership theorem.
+## Immediate executable milestone
 
-## Immediate computation target
+Build a certificate implementing the exact 28-gate quotient on the **actual last-28 target capacities**, with one of two outcomes:
 
-The current principal target is the **compressed right-H synchronized export state**.
+1. a compact symbolic/finite representation of the accepted `z_H mod 3^28` set and exact state counts by gate; or
+2. a certified state-growth obstruction showing which additional quotient coordinate is still needed.
 
-Required output:
+Then intersect any accepted synchronized observations immediately with the checkpoint/source seams above.
 
-1. exact state coordinates sufficient to produce `z_H mod 3^28` and the boundary/control data used by the join;
-2. exact merge rule across multiple right-H histories;
-3. no flat carry enumeration;
-4. exact finite state counts clearly labeled as execution evidence;
-5. exported synchronized observations fed immediately into the source-fiber intersection above.
-
-## Forward execution policy
-
-Forward `P_min` scans remain valid and useful, especially for shallow roots. They are now predicate-driven rather than an obligatory full precomputation for all roots.
-
-A preliminary exact scan on the deepest root `f=37` showed strong Bellman merging but no physical-score closure through the tested ordinary-X exposure horizon. This finite observation is diagnostic execution evidence only and is not promoted to a theorem.
-
-## Merge rules
+## DSD audit rules
 
 Allowed:
 
-- one `P_min` per exact future-control + source payload state for the directed physical gate;
-- one-dimensional `Pi3_k` quotient under its certified carry-cylinder scope;
-- max-slack merge only for the stated fixed-carry formation-existence predicate;
-- direct source-fiber intersection after an ordinary `Z` is actually exposed.
+- max-slack merge at identical carry + identical boundary/control for suffix existence;
+- forgetting checkpoint ternary residue after its precision is consumed;
+- packed-prefix completion for target dominance;
+- exact finite 28-gate execution reported as execution evidence.
 
-Not allowed:
+Forbidden:
 
-- merge histories with different future controls;
-- discard carry base solely because interval payloads match;
-- infer whole-path injectivity from one-step injectivity;
-- singleton prescribed cylinder -> unique carry path;
+- zero residual precision -> unique right-H history;
+- packed-prefix dominance completion -> full H/L grammar membership without checking extra control;
+- singleton prescribed cylinder -> singleton complete path;
+- marginal density multiplication;
 - small source fiber -> membership;
-- one `(X,Z)` pair -> same orbit without pre-bridge language verification;
-- multiply marginal dyadic/ternary/source survival ratios;
-- use later refined bounds retroactively.
-
-## Next milestone success criterion
-
-Produce a reproducible table of **actual right-H export states** and, for each exported synchronized observation that exposes a checkpoint, report:
-
-- the ordinary `Z` or no-corridor result;
-- root-wise exact source-fiber counts;
-- exact deep-root candidates when the fiber is small enough to enumerate;
-- shallow-root compressed states retained;
-- closure reason or next unresolved predicate for every joined family.
-
-Finite counts remain execution evidence unless a separate general theorem proves them.
+- one `(X,Z)` pair -> same orbit/full pre-bridge membership;
+- finite state counts -> universal theorem.
 
 ## Global warning
 
