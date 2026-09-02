@@ -12,7 +12,7 @@ The forward exact state
 
 remains valid for the directed physical gate.
 
-It is no longer necessary to force all 14 roots to ordinary-X singleton depth before checkpoint synchronization. The new checkpoint-conditioned source-fiber theorem permits immediate source contraction after one ordinary `Z` is exposed.
+It is no longer necessary to force all 14 roots to ordinary-X singleton depth before checkpoint synchronization. The checkpoint-conditioned source-fiber theorem permits immediate source contraction after one ordinary `Z` is exposed.
 
 Required output now:
 
@@ -22,7 +22,7 @@ Required output now:
 
 Status: **ACTIVE, predicate-driven rather than mandatory full expansion**.
 
-## G2 — Compressed right-H synchronized export
+## G2 — Compressed right-H acceptance over prescribed synchronized observations
 
 **Module:** C4/C5
 
@@ -33,41 +33,51 @@ Closed subgates:
 - one-dimensional projective interval payload;
 - prescribed-cylinder singleton threshold `m>=18` for the current right H block;
 - exact affine synchronization `z_H = 2^s Z-C(H_s^*) mod 3^28`;
-- synchronized `2^27 × 3^28` CRT checkpoint singleton exposure.
+- synchronized `2^27 × 3^28` CRT checkpoint singleton exposure;
+- **critical-cut terminal precision absorption**: the right H block has `q_R=397,573,380`, so the active 24-, 28-, and 47-trit predicates export zero ternary digits across the cut.
+
+Consequently, the checkpoint `z_H mod 3^28` is an input observation to be accepted or rejected inside the right H factor. Its projective residue coordinate is fully consumed before the cut and is not part of the left/source join key.
 
 Remaining obligation:
 
-construct only those compressed right-H projective/carry states that can supply the synchronized observation and required boundary/control coordinates, without flat carry enumeration.
+construct a compact exact representation of which prescribed `z_H mod 3^28` observations are feasible in the right-H language, together with only the exact boundary/grammar control coordinates needed after the observation is discharged.
 
 Required output:
 
-- compact multi-gate right-H state;
-- exact merge rule;
-- exported `z_H mod 3^28` plus any join coordinates;
+- compact multi-gate right-H acceptance state;
+- exact merge rule within identical boundary/control classes;
+- accepted/rejected prescribed `z_H` observations or an equivalent symbolic cylinder representation;
+- boundary/control export with **no residual checkpoint ternary carry coordinate**;
 - exact finite state counts clearly separated from theorem claims.
 
 Known restrictions:
 
+- zero residual precision does not imply a unique right-H path;
 - a prescribed cylinder may be empty/singleton without implying a unique carry path;
-- carry base cannot generally be discarded;
-- one-layer injectivity does not imply whole-path injectivity;
+- different boundary/grammar controls remain distinct;
+- physical defect/cost data may be forgotten only under a separate theorem;
 - local carry greedy remains forbidden.
 
-Status: **ACTIVE — principal current structural gate**.
+Canonical new theorem:
+
+- `../theorems/CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md`.
+
+Status: **ACTIVE — principal current structural gate, reduced state dimension**.
 
 ## G3 — Hybrid synchronized 14-root join
 
 **Module:** C4/C5
 
-The checkpoint exposure seam and the checkpoint-conditioned source-fiber cardinality seam are now CLOSED.
+The checkpoint exposure seam, terminal precision-absorption seam, and checkpoint-conditioned source-fiber cardinality seam are CLOSED.
 
-For each coherent synchronized observation:
+For each right-H accepted synchronized observation and compatible dyadic observation:
 
 1. expose zero or one ordinary `Z` in the SAFE corridor;
 2. intersect each relevant source root with the exact debit-compatible parameter interval;
 3. enumerate deep fibers when small;
 4. continue compressed source/Bellman refinement for shallow fibers;
-5. preserve every boundary/control coordinate required for the full pre-bridge membership test.
+5. join only the surviving boundary/control coordinates — the consumed checkpoint ternary carry is not reintroduced;
+6. preserve every coordinate required for the full pre-bridge membership test.
 
 Per exposed `Z`, exact deep-root caps include:
 
@@ -78,19 +88,15 @@ Per exposed `Z`, exact deep-root caps include:
 - `f>=35`: at most 3;
 - `f=37`: at most 1.
 
-Canonical new theorem:
-
-- `../theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`.
-
 Do not multiply marginal counts or infer membership from a small fiber.
 
-Status: **OPEN after G2 export; principal join immediately following G2**.
+Status: **OPEN after G2 accepted-observation representation; principal join immediately following G2**.
 
 ## G4 — Full pre-bridge correction-language membership
 
 **Module:** C5
 
-For every remaining joined `(source fiber, Z, right-H state)`, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
+For every remaining joined `(source fiber, Z, right-H boundary/control state)`, prove membership or nonmembership in the exact long pre-bridge formation/correction language.
 
 Checkpoint/source exposure alone is insufficient.
 
@@ -157,6 +163,6 @@ Status: **OPEN**.
 
 Current priority is
 
-`G2 -> G3, with G1 activated only where the checkpoint-conditioned source fiber remains too large -> G4/G5/G6/G7 -> G8/G9 -> G10`.
+`G2 accepted-observation compression -> G3, with G1 activated only where the checkpoint-conditioned source fiber remains too large -> G4/G5/G6/G7 -> G8/G9 -> G10`.
 
-The synchronized checkpoint CRT seam and source-fiber cardinality seam are closed and should not be recomputed unless an upstream hypothesis changes.
+The synchronized checkpoint CRT seam, critical-cut precision-absorption seam, and source-fiber cardinality seam are closed and should not be recomputed unless an upstream hypothesis changes.
