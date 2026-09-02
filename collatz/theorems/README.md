@@ -12,7 +12,10 @@ This directory indexes reusable exact mathematical statements. Finite regression
 
 - pure-ballot one-position inequalities;
 - fixed-count future cone;
-- target prefix-dominance and surplus coordinates.
+- target prefix-dominance and surplus coordinates;
+- [`TERMINAL_RANK_WINDOW_DOMINANCE_COMPLETION.md`](TERMINAL_RANK_WINDOW_DOMINANCE_COMPLETION.md): a terminal `3^L` correction residue depends only on the final `L` ranked one-events, and every locally legal final-rank suffix extends by a packed dominant prefix.
+
+For the current right H checkpoint predicate this reduces pure dominance residue existence from `397,573,380` ranked ones to an exact 28-gate problem.
 
 ## T2 — Dual H/L grammar
 
@@ -24,9 +27,12 @@ This directory indexes reusable exact mathematical statements. Finite regression
 Canonical objects include:
 
 - [`LAZY_TERNARY_OBSERVATION.md`](LAZY_TERNARY_OBSERVATION.md);
-- [`CRITICAL_CUT_TERNARY_SHIELDING.md`](CRITICAL_CUT_TERNARY_SHIELDING.md).
+- [`CRITICAL_CUT_TERNARY_SHIELDING.md`](CRITICAL_CUT_TERNARY_SHIELDING.md);
+- [`CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md`](CRITICAL_CUT_TERMINAL_PRECISION_ABSORPTION.md).
 
-Role: dyadic left localization, ternary right locality, block correction factorization, and minimal terminal observation.
+Role: dyadic left localization, ternary right locality, block correction factorization, minimal terminal observation, and predicate-relative forgetting after a right block has consumed all requested ternary precision.
+
+At the current cut the active `L=24,28,47` terminal predicates export zero ternary digits across the cut.
 
 ## T4 — Projective ternary carry / formation
 
@@ -99,19 +105,12 @@ Role:
 
 - substitute the exact source cylinder `X=r+2^h m` into the independent ordinary debit corridor after one checkpoint `Z` has been exposed;
 - obtain the exact open interval of admissible source parameters `m`;
-- prove the universal root-depth cap
-
-  `K_h = ceil(37*2^33/(3*2^h))`;
-
+- prove the universal root-depth cap `K_h = ceil(37*2^33/(3*2^h))`;
 - justify direct deep-root source contraction before full long-word membership testing.
 
 Current deep-root caps per exposed checkpoint include `f>=32 -> 16`, `f>=35 -> 3`, and `f=37 -> 1`.
 
 Scope warning: a small source fiber is not proof of correction-language membership or same-orbit connectivity.
-
-Certificate:
-
-- `../src/A0_s1_routeB_synchronized_checkpoint_source_fiber_certificate.py`.
 
 ---
 
