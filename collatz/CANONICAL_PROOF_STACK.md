@@ -36,15 +36,7 @@ Status: **EXACT search-family representation after SAFE inputs**.
 
 ## S4 — Exact structural compression
 
-Available exact representations include:
-
-- affine source cylinders and bit refinement;
-- fixed-count ballot / target dominance;
-- dual H/L grammar;
-- correction front localization;
-- projective carry/displacement cylinders;
-- finite source interval payloads;
-- one-dimensional ternary projective interval payloads.
+Available exact representations include affine source cylinders, fixed-count ballot / target dominance, dual H/L grammar, correction-front localization, projective carry/displacement cylinders, finite source interval payloads, and one-dimensional ternary projective interval payloads.
 
 Status: **EXACT structural lemmas**.
 
@@ -107,44 +99,17 @@ For terminal precision 28,
 z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}},
 \]
 
-where
-
-\[
-2^s\equiv12{,}596{,}342{,}295{,}887,
-\]
-
-\[
-C(H_s^*)\equiv2{,}677{,}095{,}985{,}033
-\pmod{3^{28}}.
-\]
-
-Thus `z_H` is exactly equivalent to one residue `Z mod 3^28`.
+so `z_H` is exactly equivalent to one residue `Z mod 3^28`.
 
 Status: **EXACT / CLOSED**.
 
 ## S9 — Synchronized checkpoint CRT singleton
 
-Using only the independent pre-defect corridor chain,
-
-\[
-Z_{min}=7{,}083{,}549{,}723{,}342{,}395{,}146{,}241,
-\]
-
-\[
-Z_{max}=9{,}444{,}732{,}965{,}107{,}363{,}299{,}196.
-\]
-
-Its span is smaller than
-
-\[
-2^{27}3^{28}=3{,}070{,}471{,}107{,}232{,}407{,}748{,}608.
-\]
-
-Therefore a coherent pair
+A coherent pair
 
 `Z mod 2^27 × z_H mod 3^28`
 
-determines at most one ordinary checkpoint `Z` in the SAFE corridor.
+determines at most one ordinary checkpoint `Z` in the independently certified SAFE corridor because the corridor span is smaller than `2^27 3^28`.
 
 Status: **EXACT / CLOSED for checkpoint exposure**.
 
@@ -156,14 +121,7 @@ For one retained source root
 X=r+2^h m
 \]
 
-and one exposed ordinary checkpoint `Z`, the independent debit corridor gives
-
-\[
-\frac{Z+75\,2^{33}-3r}{3\,2^h}<m<
-\frac{Z+112\,2^{33}-3r}{3\,2^h}.
-\]
-
-Therefore the compatible source fiber has cardinality at most
+and one exposed ordinary checkpoint `Z`, the independent debit corridor gives a compatible source-fiber cardinality at most
 
 \[
 K_h=\left\lceil\frac{37\,2^{33}}{3\,2^h}\right\rceil.
@@ -178,29 +136,51 @@ For the deepest current roots, per exposed checkpoint:
 - `f>=35`: at most 3;
 - `f=37`: at most 1.
 
-Canonical object:
-
-- `theorems/SYNCHRONIZED_CHECKPOINT_SOURCE_FIBER_BOUND.md`.
-
 Status: **EXACT / CLOSED for source-fiber cardinality after checkpoint exposure**.
 
-## S11 — Current hybrid synchronized join
+## S11 — Critical-cut terminal precision absorption
 
-Backward first:
+The projective block-carry law consumes exactly `q_B` ternary digits in a processed right block. Therefore a terminal precision `L` exports only
 
-compressed right-H projective/carry export -> synchronized checkpoint observation -> zero or one ordinary `Z`.
+\[
+L_{cut}=\max(0,L-q_B)
+\]
 
-Then source conditioning:
+digits across the cut.
 
-ordinary `Z` -> exact 14-root debit-compatible source fibers.
+At the current cut
+
+\[
+q_B=397{,}573{,}380,
+\]
+
+hence
+
+\[
+L_{cut}=0
+\]
+
+for `L=24,28,47`.
+
+Thus the synchronized checkpoint `z_H mod 3^28` is accepted/rejected wholly inside the right H factor; its ternary carry coordinate is **not** part of the left/source join key after that predicate is discharged.
+
+Status: **EXACT / CLOSED for the stated terminal predicates**.
+
+## S12 — Current reduced hybrid synchronized join
+
+Right-H side:
+
+prescribed `z_H mod 3^28` -> exact right-H acceptance/feasibility + surviving boundary/grammar controls, with no residual checkpoint ternary carry at the cut.
+
+Checkpoint/source side:
+
+accepted synchronized observation -> zero/one ordinary `Z` -> exact 14-root debit-compatible source fibers.
 
 Only shallow fibers that remain large continue under compressed `source/control × interval payload × P_min`; deep fibers may be handled directly once genuinely small.
 
-This avoids mandatory full source singleton expansion before checkpoint data are available.
-
 Status: **ACTIVE**.
 
-## S12 — Full Route-B local closure
+## S13 — Full Route-B local closure
 
 For every joined survivor, discharge exact pre-bridge correction-language membership, ordinary checkpoint/debit coherence, tail first-passage, and any required renewal/C4F condition.
 
@@ -208,7 +188,7 @@ A small source fiber or one exposed `(X,Z)` pair is not itself membership.
 
 Status: **OPEN**.
 
-## S13 — Global completion
+## S14 — Global completion
 
 Route-A, `s>=2`, remaining formation branches, and branch completeness must be separately closed before any Collatz conclusion.
 
@@ -221,6 +201,7 @@ Status: **OPEN**.
 - adic mismatch -> membership rejection;
 - interval inclusion -> correction-language membership;
 - endpoint/checkpoint exposure -> same orbit or full membership;
+- zero cut residue precision -> unique right-H history;
 - small checkpoint-conditioned source fiber -> membership;
 - one exposed `(X,Z)` pair -> same orbit without the long pre-bridge language check;
 - local carry greedy -> global optimum before a cylinder sequence is fixed;
