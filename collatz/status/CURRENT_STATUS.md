@@ -14,166 +14,205 @@ Every current Route-B survivor lies in the exact 14-root arithmetic forest
 
 after the stated SAFE upstream pruning.
 
-## Closed synchronized interfaces
+The forest remains a search-family representation, not a membership theorem.
 
-The following are now canonical closed seams:
+## Closed synchronized seams
+
+The following exact interfaces remain available:
 
 1. right-H affine checkpoint observation
    \[
    z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}};
    \]
-2. synchronized `Z mod 2^27 × z_H mod 3^28` CRT singleton exposure in the independent SAFE `Z` corridor;
-3. exposed checkpoint `Z` -> exact root-wise debit-compatible source fibers;
-4. critical-cut terminal precision absorption;
-5. terminal ranked-one window reduction and packed-prefix target-dominance completion.
+2. a **full** coherent pair `Z mod 2^27 × z_H mod 3^28` exposes at most one ordinary checkpoint `Z` in the independent SAFE corridor;
+3. one exposed ordinary `Z` contracts every source root to an exact debit-compatible parameter fiber;
+4. the checkpoint terminal ternary precision is fully consumed inside the right H block and exports zero ternary digits across the critical cut;
+5. modulo `3^L`, only the final `L` ranked one-events affect the target-relative correction residue.
 
-## New exact right-H reduction
+The full CRT singleton seam is conditional: it becomes useful only when an independent stronger predicate supplies a full `z_H mod 3^28` value.
 
-The current right H factor has
+## Terminal-28 target-dominance gate — CLOSED but REDUNDANT for pruning
 
-\[
-q_H=397{,}573{,}380
-\]
+The nominal 28-gate right-H target-dominance suffix problem admits a stronger exact reduction.
 
-ranked one-events.
-
-For a terminal correction predicate modulo `3^L`, only the final `L` ranked one-events survive because the earlier terms carry a factor `3^L`.
-
-For the synchronized checkpoint precision
+For one gate, local carry admissibility is
 
 \[
-L=28,
+G(A)=\begin{cases}
+\{0,1\}, & A\text{ even},\\
+\{0,2\}, & A\text{ odd}.
+\end{cases}
 \]
 
-only the final 28 ranked one-events are residue-observable.
-
-Moreover, if those final 28 candidate one positions satisfy the exact target-dominance/order slack conditions, they extend to a full equal-count dominant candidate by taking the omitted prefix
+A complete finite residue lemma modulo 6/9 proves that if the next suffix needs slack cap at least `T`, one of the four consecutive values
 
 \[
-b_r=r-1.
+T,T+1,T+2,T+3
 \]
 
-Therefore pure target-dominance acceptance of a prescribed
+always passes the current mod-3 gate and lands in the next admissible carry class.
 
-`z_H mod 3^28`
-
-is exactly a **28-gate ordered-slack/projective existence problem**.
-
-The earlier
+Thus for 28 gates
 
 \[
-397{,}573{,}352
+T_{27}=1,\qquad T_t=T_{t+1}+3,
 \]
 
-one-events are not enumerated for this predicate.
-
-Canonical theorem/certificate:
-
-- `../theorems/TERMINAL_RANK_WINDOW_DOMINANCE_COMPLETION.md`;
-- `../src/A0_s1_routeB_terminal_rank_window_dominance_completion_certificate.py`.
-
-The exact target formula is
+so
 
 \[
-a_r=\left\lceil\frac{(r-1)J_0}{R_0}\right\rceil-1.
+T_0=82.
 \]
 
-For the actual final-28 target ranks the right-indexed capacities range from
+The actual minimum target capacity is
 
 \[
-D_0=232{,}565{,}517
+232{,}565{,}502\gg82,
 \]
 
-to
+therefore the entire terminal target-dominance suffix exists iff the **first** local class is admissible.
+
+The current rightmost target exponent is even, so
 
 \[
-D_{27}=232{,}565{,}502.
+\boxed{z_H\bmod3\in\{0,1\}}.
 \]
 
-At precisions `m=28..18` the period
+Using the synchronized affine observation, this is equivalent to
 
 \[
-\lambda_m=2\cdot3^{m-1}
+\boxed{Z\bmod3\in\{1,2\}},
 \]
 
-exceeds the current legal capacity, so all first 11 prescribed cylinders are empty or singleton.
+i.e. `3` does not divide `Z`.
 
-The companion arithmetic guards were independently checked locally on 2026-09-02. GitHub Actions execution is not claimed unless separately recorded.
-
-## Critical-cut state after observation discharge
-
-The right H block has
+However, every genuine positive-one-count checkpoint identity
 
 \[
-q_R=397{,}573{,}380>L
+2^hZ=3^qX+C(W),\qquad q\ge1,
 \]
 
-for `L=24,28,47`.
-
-Thus the exported ternary precision is
+already satisfies `3∤Z`, because
 
 \[
-L_{cut}=\max(0,L-q_R)=0.
+C(W)\equiv2^{a_q}\not\equiv0\pmod3.
 \]
 
-A checkpoint `z_H` is an input observation to the right-H acceptance calculation, but no checkpoint ternary carry coordinate remains at the source-side cut join after acceptance/rejection.
+Therefore the terminal target-dominance ternary gate removes **zero genuine candidates**.
 
-Zero residual precision is not path uniqueness.
+Canonical theorem/audit:
 
-## Checkpoint-conditioned source caps
+- `../theorems/TERMINAL_28GATE_DOMINANCE_SATURATION.md`;
+- `../audits/TERMINAL_DOMINANCE_GATE_REDUNDANCY.md`;
+- `../src/A0_s1_routeB_terminal_dominance_gate_redundancy_certificate.py`.
 
-Per exposed ordinary checkpoint `Z`, the exact cumulative caps remain:
+Continuing to refine the dominance-only terminal carry family as a pruning engine is now a rejected search strategy.
 
-- `f>=24`: 3,668;
-- `f>=27`: 510;
-- `f>=29`: 115;
-- `f>=32`: 16;
-- `f>=35`: 3;
-- `f=37`: 1.
+## Weak synchronized channel is not checkpoint isolation
 
-Shallow roots remain compressed and may use the exact `P_min` Bellman score where necessary.
+Dominance-only acceptance supplies only
 
-## Current principal executable gate
+\[
+Z\bmod3\in\{1,2\}.
+\]
 
-Implement the actual **28-gate max-slack/projective DP** on the current target capacities.
+Together with a fixed `Z mod 2^27`, this gives two classes modulo
 
-For a prescribed terminal observation, at gate `t` retain
+\[
+3\cdot2^{27}=402{,}653{,}184.
+\]
 
-`(projective carry, required boundary/control) -> S_max`,
+For fixed `X`, the independent debit-compatible open checkpoint interval has width
 
-where `S_max` is exact for target-dominance suffix existence.
+\[
+37\cdot2^{33}=317{,}827{,}579{,}904
+=789(3\cdot2^{27})+2^{27}.
+\]
 
-Required next result:
+Hence each accepted weak CRT class occurs at least 789 times in such an interval; the two classes contribute at least 1,578 ordinary checkpoint integers before other constraints.
 
-- exact state count by each of the 28 gates;
-- compact accepted `z_H mod 3^28` representation, or a certified state-growth obstruction identifying the next missing quotient;
-- any extra H/L boundary/control coordinate isolated from the already-closed dominance residue predicate.
+So dominance-only `mod 3` information cannot trigger the full checkpoint-singleton seam.
 
-Then feed accepted observations immediately through the CRT and source-fiber seams.
+## Physical Bellman execution evidence
+
+The exact scalar physical score `P` remains valid for its directed rejection predicate.
+
+Finite exact scans of the deepest completed roots to ordinary-X exposure depth `h=72` produced:
+
+| `f` | maximum Bellman states | states at `h=72` | physical-score closed children |
+|---:|---:|---:|---:|
+| 29 | 1,080,374 | 16 | 0 |
+| 32 | 419,510 | 16 | 0 |
+| 35 | 167,507 | 14 | 0 |
+| 37 | 81,519 | 13 | 0 |
+
+These are **finite execution data only**. They do not prove non-closure later or for other roots.
+
+Execution record:
+
+- `../experiments/2026-09-02-deep-root-Pmin-to72.md`.
+
+The `f=27` attempt did not complete within the execution limit; no partial count is retained.
+
+After `h=72`, the existing `P_min` merge key must not be treated as a universal future-membership state without restoring whatever exact future-control coordinates the next predicate queries.
+
+## Current principal bottleneck
+
+Two standalone pruning ideas are now insufficient:
+
+1. terminal right-H target-dominance ternary filtering is exactly redundant on genuine checkpoints;
+2. deep-root directed `P_min` scans produced no whole-family closure through `h=72` in the completed finite runs.
+
+The principal mathematical gate is therefore
+
+\[
+\boxed{\text{source-controlled exact full correction/checkpoint membership}.}
+\]
+
+For a proposed ordinary pair `(X,Z)`, the required full correction is
+
+\[
+C_{req}=2^{t_0}Z-3^{j_0}X.
+\]
+
+At fixed `(t_0,j_0)`, the correction map from a parity word to `C(W)` is injective, but existence/inversion in the exact formation language remains open.
+
+The next state must exploit the source prefix/control together with exact correction localization, rather than treating terminal target dominance as an independent sparse filter.
+
+## Still useful secondary tools
+
+- `P_min` physical pruning on large source-controlled families;
+- full synchronized CRT singleton when a stronger predicate actually determines `z_H mod 3^28`;
+- checkpoint-conditioned source fibers after ordinary `Z` exposure;
+- dyadic prefix and ternary suffix correction localization;
+- fixed-`(h,q)` correction injectivity;
+- exact H/L grammar / block correction laws.
 
 ## What remains OPEN
 
-- execution/compression of the actual 28-gate accepted `z_H` set;
-- any additional H/L boundary/control intersection required beyond target dominance;
-- actual synchronized 14-root joins;
-- full pre-bridge correction-language membership;
-- checkpoint/debit/tail/renewal compatibility after joining;
+- compact exact inverse/join for source-controlled full correction-language membership;
+- actual 14-root source/checkpoint/correction joins;
+- ordinary checkpoint/debit/tail/renewal compatibility after membership exposure;
 - Route-A;
-- `s>=2`;
+- all `s>=2` sectors;
 - global branch completeness;
 - Collatz.
 
 ## Forbidden shortcuts
 
-- zero residual precision -> unique right-H path;
-- target-dominance packed-prefix completion -> full H/L membership without extra-control audit;
-- singleton prescribed cylinder -> unique complete path;
-- marginal density multiplication;
+- terminal dominance acceptance -> useful independent pruning;
+- terminal dominance acceptance -> full `z_H mod 3^28`;
+- dominance-only `mod3` + dyadic residue -> checkpoint singleton;
+- adic mismatch -> membership rejection;
+- exposed `(X,Z)` -> same orbit without exact pre-bridge language membership;
 - small source fiber -> membership;
-- exposed `(X,Z)` -> same orbit without the pre-bridge language check;
-- later bound used retroactively;
-- finite execution counts -> universal theorem.
+- finite `P_min` non-closure -> universal no-go theorem;
+- continue a merged `P_min` state past `h=72` for arbitrary predicates without an exact future-control theorem;
+- marginal density multiplication;
+- later refined bound used retroactively.
 
 ## Resume instruction
 
-Resume from `../frontier/A0_S1_ROUTEB.md` and execute the finite 28-gate right-H acceptance problem before expanding any large source family.
+Resume from `../frontier/A0_S1_ROUTEB.md`.
+
+Do **not** restart the terminal 28-gate dominance carry enumeration. The next principal calculation is the source-controlled exact correction/checkpoint membership interface.
