@@ -164,7 +164,7 @@ for A in range(6):
                     assert found
                     local_checks += 1
 
-assert local_checks == 1_728
+assert local_checks == 2_592
 
 # Span 2 is not universally sufficient; this guards that +3 is not silently
 # replaced by a stronger unproved claim.
