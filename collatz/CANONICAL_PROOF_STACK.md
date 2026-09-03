@@ -1,10 +1,10 @@
 # Canonical live proof stack
 
-This file records the shortest current live implication chain.  A listed implication is exact or explicitly SAFE only in its stated domain.  Global Collatz closure remains OPEN.
+This file records the shortest current live implication chain. A listed implication is exact or explicitly SAFE only in its stated domain. Global Collatz closure remains OPEN.
 
 ## S0 — Physical A0 domain
 
-Work in the certified `A0, s=1` Route-B formation with the fixed long target parameters
+Work in the certified `A0, s=1` Route-B formation with fixed long target parameters
 
 \[
 t_0=104{,}398{,}605{,}910,
@@ -109,7 +109,7 @@ and let `D_r` count displaced ranks among the first `r` future one-events.
 
 Let `H_c` be the longest exact source-preserving pure-ballot horizon achievable with `D_r<=c`.
 
-Current certified table:
+Certified exact equalities through budget four are
 
 \[
 \boxed{
@@ -121,17 +121,25 @@ H_0=40,
 }
 \]
 
-For `c=4`, exactly two horizon-49 source parents remain: one in shard 3 and one in shard 24.  Shard 3 is empty at 50; shard 24 is live at 50 and empty at 51.  All other shards are empty already at 49.
-
-Hence
+For budget five, a 64-shard exact horizon-51 decision over all `14,224` current `>=5/12` source parents gives
 
 \[
-\boxed{D_{51}\ge5}.
+\boxed{\#\{D_{51}\le5\text{ paths}\}=0}.
 \]
+
+Therefore
+
+\[
+\boxed{H_5\le50},
+\qquad
+\boxed{D_{51}\ge6}.
+\]
+
+`H_5=50` is not inferred from this upper-bound computation.
 
 No source merging or horizon extrapolation is used.
 
-Status: **EXACT / CLOSED through budget 4 on the current finite frontier**.
+Status: **EXACT / CLOSED horizon-51 non-reachability for budget five; exact H5 equality OPEN**.
 
 ## S7 — Cumulative future-defect floor
 
@@ -144,33 +152,33 @@ Each displaced rank contributes normalized future defect
 Therefore S6 gives
 
 \[
-\boxed{\eta_{future}>\frac5{12}}.
+\boxed{\eta_{future}>\frac12}.
 \]
 
 For monotone endpoint rejection this is safely weakened to
 
 \[
-\eta_{future}\ge\frac5{12}.
+\eta_{future}\ge\frac12.
 \]
 
-The older `>=1/4` and `>=1/3` floors are superseded, not added.
+The older `>=1/4`, `>=1/3`, and `>=5/12` floors are superseded, not added.
 
-Status: **SAFE consequence of exact finite horizon theorem**.
+Status: **SAFE consequence of exact finite horizon-51 theorem**.
 
 ## S8 — Current canonical population
 
-Applying the `>=5/12` endpoint floor to the first-75-tightened source intervals gives
+Applying the `>=1/2` endpoint floor to the first-75-tightened source intervals gives
 
 \[
-\boxed{26{,}859{,}837{,}368{,}480{,}843{,}030}
+\boxed{26{,}859{,}837{,}368{,}455{,}538{,}464}
 \]
 
 source integers.
 
-The incremental `>=1/3 -> >=5/12` rejection is
+The incremental `>=5/12 -> >=1/2` rejection is
 
 \[
-\boxed{25{,}290{,}635}.
+\boxed{25{,}304{,}566}.
 \]
 
 All `14,224` source intervals remain nonempty.
@@ -185,7 +193,7 @@ Status: **EXACT endpoint arithmetic / zero whole-cylinder closures**.
 
 The exact directed `P_min` predicate remains valid, but a global future-reachability cutoff shows that roughly `82.095%` of the first-75-tightened source population can never be rejected by `P_min`, even with all remaining target-correction budget.
 
-Therefore cumulative displacement is not a complete membership mechanism.  The lower sector requires an independent source-sensitive obstruction.
+Therefore cumulative displacement is not a complete membership mechanism. The lower sector requires an independent source-sensitive obstruction.
 
 Status: **EXACT predicate localization; insufficient for closure**.
 
@@ -209,7 +217,7 @@ The final 28 one-events determine the required ternary observation
 Z\bmod3^{28}.
 \]
 
-Only then may the synchronized CRT seam be used.  A coherent CRT pair exposes at most one ordinary checkpoint `Z` in the certified corridor.
+Only then may the synchronized CRT seam be used. A coherent CRT pair exposes at most one ordinary checkpoint `Z` in the certified corridor.
 
 Status: **EXACT observation/localization interface**.
 
@@ -247,18 +255,20 @@ Status: **OPEN**.
 
 # Immediate next work
 
-1. Compute `H_5` from the current `>=5/12` canonical frontier using sparse source-preserving decision recursion.
-2. Compare its incremental endpoint gain with execution cost before pushing to much larger `c`.
-3. In parallel, construct the exact source/checkpoint join
+1. Treat source/checkpoint same-orbit realization as the principal route:
    \[
    \text{source family}\leftrightarrow(z_2,z_H)\leftrightarrow\text{right-H/checkpoint family}.
    \]
-4. Do not carry checkpoint observations before their activation boundary.
+2. Recover the exact export schemas carrying source provenance, late `z_H`, right-H/checkpoint provenance, and post-checkpoint `z_2`.
+3. Form CRT candidates only after both observation boundaries activate.
+4. Test corridor uniqueness, source/debit compatibility, and exact same-orbit provenance separately.
+5. Keep further bounded-displacement budgets secondary unless they supply a structural gain or favorable pruning/cost ratio.
 
 # Forbidden shortcuts
 
-- extrapolating `H_0..H_4` to an asymptotic displacement law;
-- adding the `1/4`, `1/3`, and `5/12` floors as independent quantities;
+- extrapolating finite `H_c` data to an asymptotic displacement law;
+- `H_5<=50 -> H_5=50` without a horizon-50 witness;
+- adding the `1/4`, `1/3`, `5/12`, and `1/2` floors as independent quantities;
 - exact-pair uniqueness -> family uniqueness;
 - equal control/template state -> equal source payload;
 - dropping source residue `r` early;
