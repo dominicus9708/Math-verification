@@ -112,6 +112,31 @@ Current deep-root caps per exposed checkpoint include `f>=32 -> 16`, `f>=35 -> 3
 
 Scope warning: a small source fiber is not proof of correction-language membership or same-orbit connectivity.
 
+## T10 — Residual decoding and source-preserving valuation jumps
+
+Canonical objects:
+
+- [`SOURCE_CONTROLLED_RESIDUAL_CORRECTION_RECURSION.md`](SOURCE_CONTROLLED_RESIDUAL_CORRECTION_RECURSION.md);
+- [`RESIDUAL_VALUATION_JUMP_DECODER.md`](RESIDUAL_VALUATION_JUMP_DECODER.md);
+- [`AFFINE_VALUATION_CYLINDER_JUMP.md`](AFFINE_VALUATION_CYLINDER_JUMP.md);
+- [`VALUATION_JUMP_BALLOT_CONTROL.md`](VALUATION_JUMP_BALLOT_CONTROL.md);
+- [`SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`](SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md);
+- [`FINITE_HORIZON_BALLOT_CONTROL_SIGNATURE.md`](FINITE_HORIZON_BALLOT_CONTROL_SIGNATURE.md).
+
+Role:
+
+- exact prefix discharge restarts the same correction equation on the suffix;
+- exact `(Y,Z,n,q)` correction inversion is zero-or-one via repeated 2-adic valuation;
+- before endpoint depth the next odd-event location is determined by the current source state;
+- an affine source family partitions into exact valuation residue cylinders and jumps whole blocks `0^a1`;
+- source residue `r` is retained for source-sensitive predicates while `A=3^q` is derived from `(h,S)`;
+- pure-ballot control transition factors from source arithmetic payload;
+- equal finite-horizon ballot-control signatures permit transition-template reuse only, not source-family merging.
+
+Current eight-jump frontier under pure-ballot valuation jumping has `14,224` source cylinders, `90` exact `(h,S)` controls, and `13` four-jump control-signature classes.
+
+Scope warning: H/L, renewal/C4F, checkpoint/debit, tail, and source-sensitive future-equivalence remain separate obligations.
+
 ---
 
 # Promotion policy
