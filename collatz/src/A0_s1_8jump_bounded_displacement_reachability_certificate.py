@@ -17,6 +17,9 @@ first-75-tightened frontier.
 The reachability search intentionally omits later first-75/Hamming tightening
 after its input frontier.  It is therefore a relaxed superset search; emptiness
 of this larger class is safe for the stricter canonical class.
+
+The resulting exact pruned source intervals are exported as `pruned_states`
+for downstream S10 work.
 """
 
 from fractions import Fraction
@@ -174,11 +177,9 @@ assert rows2[46] == (0, 0, 0)
 max_q = max(st.q for st in tail.states) + 46
 for rank in range(2, max_q + 1):
     t = defect.TPOS[rank - 1]
-    # One-position displacement d=1 is the smallest positive atom.
     atom = Fraction(1 << (t - 1), 3 ** rank)
     assert atom > Fraction(1, 12)
 
-# Hence every horizon-46 survivor has future eta > 3/12 = 1/4.
 ETA_FLOOR = Fraction(1, 4)
 
 
@@ -189,21 +190,39 @@ def count_gt_cut(st, cut: Fraction) -> int:
     return max(0, st.hi - lo2 + 1)
 
 
+def retained_hi(st, cut: Fraction) -> int:
+    z = (cut - st.r) / (1 << st.h)
+    floorz = z.numerator // z.denominator
+    return min(st.hi, floorz)
+
+
 pruned = 0
 affected = 0
 whole = 0
+pruned_states = []
+
 for st in tail.states:
     cut = (
         Fraction(BARRIER, 1) - M_LO * (st.eta + ETA_FLOOR)
     ) / DELTA_LO
     n = count_gt_cut(st, cut)
+    hi2 = retained_hi(st, cut)
+
     pruned += n
     affected += (n > 0)
     whole += (n == st.count)
 
+    if hi2 >= st.lo:
+        pruned_states.append(tail.State(
+            st.r, st.y, st.lo, hi2, st.h, st.S,
+            st.D, st.eta, st.root_f,
+        ))
+
 assert pruned == NEW_PRUNED
 assert affected == AFFECTED_PARENTS
 assert whole == 0
+assert len(pruned_states) == 14_224
+assert sum(st.count for st in pruned_states) == NEW_TOTAL
 assert TIGHT_TOTAL - pruned == NEW_TOTAL
 
 print("PASS A0 s=1 jump8 bounded-displacement reachability certificate")
@@ -216,6 +235,7 @@ print("incremental_pruned_after_first75_tightening", NEW_PRUNED)
 print("affected_parent_intervals", AFFECTED_PARENTS)
 print("whole_parent_intervals_removed", whole)
 print("new_tightened_population", NEW_TOTAL)
+print("exported_pruned_states", len(pruned_states))
 print("source_payload_merging_used", False)
 print("later_first75_constraints_used_in_reachability", False)
 print("status", "EXACT finite relaxed-reachability emptiness + exact incremental source-tail pruning")
