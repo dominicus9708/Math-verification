@@ -1,39 +1,37 @@
 # S10 audit — finite-horizon forced future defect min-plus gate
 
-Status: **theorem CLOSED / finite frontier execution PENDING / universal closure OPEN**
+Status: **theorem CLOSED / horizons 1–4 EXECUTED / zero-path extension to 41 EXECUTED / stronger cumulative floor OPEN**
 
 ## Audited question
 
-Can the active source state support a defect lower bound that is genuinely new relative to the already-realized prefix defect `N`?
+Can the active exact source state support a defect lower bound that is genuinely new relative to the already-realized prefix defect `N`?
 
-Yes, at any fixed future one-event horizon, by minimizing the exact transported additional defect over all nonempty source-preserving pure-ballot descendants.
-
-The resulting quantity is
+Yes.  For fixed future one-event horizon `r`, define
 
 \[
 F_r^{min}(s)
 =
 \min_{d\in\mathcal D_r(s)}
-\bigl(N(d)-3^rN(s)\bigr),
+\bigl(N(d)-3^rN(s)\bigr)
 \]
 
-when the depth-`r` descendant set is nonempty.
+when the nonempty source-preserving pure-ballot descendant set `D_r(s)` exists.
+
+Branches that lose pure ballot before the horizon are recorded as closed, not as zero-defect descendants.
 
 ---
 
 ## D — Domain
 
-The domain is one exact active source cylinder with the current S10 state
+One exact active source cylinder with persistent payload
 
 \[
 (r,y,m_{lo},m_{hi},h,S)
 \]
 
-plus the exact defect scalar `N` used by the directed physical audit reconstruction.
+plus the exact directed-physical defect scalar `N`.
 
-Future transitions are only certified nonempty source-preserving valuation children that remain pure-ballot legal.
-
-A branch that loses pure ballot is closed and removed from the future-survivor set; it is not assigned an artificial defect value.
+Transitions are exact source-preserving valuation children only.
 
 **Status: EXACT.**
 
@@ -44,24 +42,19 @@ A branch that loses pure ballot is closed and removed from the future-survivor s
 At one future one-event,
 
 \[
-\Delta=N'-3N=2^{t_q}-2^a\ge0.
+\Delta=N'-3N=2^{t_q}-2^u\ge0.
 \]
 
 At horizon `r`,
 
 \[
 N_r=3^rN_0+F_r,
+\qquad
+F_r=
+\sum_{k=0}^{r-1}3^{r-1-k}\Delta_k.
 \]
 
-with
-
-\[
-F_r=\sum_{k=0}^{r-1}3^{r-1-k}\Delta_k.
-\]
-
-Therefore all quantities are exact integers at one common descendant normalization.
-
-No floating-point phase or asymptotic approximation is used.
+Everything is an exact integer in descendant odd-count normalization.
 
 **Status: EXACT / CLOSED.**
 
@@ -69,35 +62,35 @@ No floating-point phase or asymptotic approximation is used.
 
 ## S — State sufficiency
 
-The current source state plus `N` is sufficient to enumerate each exact valuation child and to compute the next target-displacement atom.
+The source payload plus `N` determines every exact valuation child and every next defect atom.
 
-No historical H/L label, formation rank, correction word, or checkpoint residue is needed for this finite-horizon calculation.
+No persistent H/L label, formation rank, checkpoint residue, or historical correction word is required.
 
-However source payload cannot be discarded: the positivity of `F_r^{min}` can depend on whether the live parameter interval intersects the unique all-zero-displacement dyadic residue class.
+Source payload may not be discarded because zero-floor versus positive-floor can depend on whether the live parameter interval meets one required dyadic residue.
 
-**Status: SUFFICIENT with source payload retained; control-only quotient REJECTED.**
+**Status: SUFFICIENT with source payload retained.**
 
 ---
 
 ## E — Equivalence
 
-For a nonempty depth-`r` descendant set,
+For a nonempty horizon-r survivor set,
 
 \[
 F_r^{min}=0
 \]
 
-if and only if at least one exact descendant path realizes zero new displacement at every one-event in the horizon.
+if and only if the unique target-exact future path is nonempty.
 
-Hence
+Thus target-exact residue exclusion gives the exact disjunction
 
 \[
-F_r^{min}>0
+\boxed{
+\text{ballot closure before horizon }r
+\quad\text{or}\quad
+F_r^{min}>0.
+}
 \]
-
-is equivalent to exclusion of every exact all-target-position continuation through the audited horizon, while at least one legal descendant remains.
-
-This is stronger than merely observing that some branches incur displacement.
 
 **Status: EXACT / CLOSED.**
 
@@ -105,66 +98,121 @@ This is stronger than merely observing that some branches incur displacement.
 
 ## T — Transition
 
-The min-plus recursion is
+The exact Bellman recursion is
 
 \[
 F_r^{min}(s)
 =
 \min_c
-\left(3^{r-1}\Delta(s,c)+F_{r-1}^{min}(c)\right),
+\left(
+3^{r-1}\Delta(s,c)+F_{r-1}^{min}(c)
+\right),
 \]
 
-where the minimum ranges only over children that possess a surviving depth-`r-1` continuation.
+where only children with a surviving depth-`r-1` continuation contribute.
 
-This exactly transports defect to the final odd-count normalization.
+The zero-floor case has a stronger shortcut: follow only the unique valuation that places each future one exactly at its target position.
 
 **Status: EXACT / CLOSED.**
 
 ---
 
-## C — Closure
+## C — Closure and finite execution
 
-The algebraic finite-horizon gate is closed.
+### Horizons 1–4
 
-The newly added certificate
+The current 14,224 jump-8 source cylinders were independently reconstructed from the exact GitHub certificates and executed in the chat Python environment.
 
-- reconstructs the certified jump-8 parent set;
-- expands four additional exact valuation jumps;
-- asserts the previously reconstructed j9–j12 raw layer totals as regression targets;
-- classifies each jump-8 parent at each horizon into ballot-dead, zero-floor, positive-floor, and whole-parent physical-closure states.
+The previously exploratory global layers are reproduced exactly:
 
-In the present chat environment that Python certificate has not been executed, and the branch has no automatic workflow run attached to the commit.
+| future one horizon | cylinders | population |
+|---:|---:|---:|
+| 1 | 34,318 | 23,697,743,382,405,825,230 |
+| 2 | 93,000 | 21,589,704,816,219,050,321 |
+| 3 | 209,784 | 18,423,678,262,570,974,925 |
+| 4 | 609,808 | 16,690,807,021,040,991,694 |
 
-Therefore its printed future-floor counts are **not yet promoted to certified numerical results** in this audit.
+For every one of the 14,224 parents and every horizon `r=1..4`, the unique target-exact source descendant is nonempty.
+Therefore
 
-**Status: theorem CLOSED; frontier execution PENDING.**
+\[
+\boxed{F_r^{min}=0\quad(r=1,2,3,4)}
+\]
+
+for every parent.
+
+The target-exact descendants themselves also fail the directed physical rejection gate, so no parent can have all horizon survivors physically rejected.
+
+Hence:
+
+- parent ballot closures through these horizons: `0`;
+- positive future floors through these horizons: `0`;
+- whole-parent physical closures: `0`.
+
+### Zero-path extension through horizon 41
+
+The target-exact path can be tested without positive-defect tree expansion.
+The new certificate
+
+- `../src/A0_s1_8jump_zero_future_defect_residue_exclusion_certificate.py`
+
+follows that unique residue path through 41 future one-events.
+
+Exact finite result:
+
+- horizons 1–11: all 14,224 parents retain it;
+- horizon 12: exclusions begin;
+- horizon 40: one parent retains it;
+- horizon 41: zero parents retain it.
+
+Therefore every jump-8 parent is, by horizon 41, either already ballot-closed or forced to have positive future defect.
+
+However the universal one-displacement lower floor obtained from this fact produces **zero** whole-parent physical closures.
+
+At horizon 41, for every parent the additional future defect required by the parent-level physical barrier is more than `10^12` times the weak guaranteed one-displacement floor.  Exact quotient range:
+
+\[
+1{,}049{,}362{,}201{,}040
+\le
+\left\lfloor F_{required}/L_{41}\right\rfloor
+\le
+1{,}049{,}364{,}901{,}399.
+\]
+
+**Status: finite execution CLOSED; yield negative for the one-displacement floor.**
 
 ---
 
 ## N — Non-independence
 
-`F_r` is independent of the already-realized prefix defect only in the precise additive sense
+`F_r` is separated from realized prefix defect only by the exact transport identity
 
 \[
 N_r=3^rN_0+F_r.
 \]
 
-It must not be confused with historical prefix-defect bounds already contained in `N_0`.
+It is not a probability factor and cannot be multiplied by an empirical survival rate.
+Historical realized-prefix displacement bounds cannot be added to exact current `N`.
 
-It is also not an independent probability factor: it is deterministically derived from exact source descendants.
-
-**Status: exact additive separation; probabilistic multiplication REJECTED.**
+**Status: exact additive separation / probabilistic independence claim REJECTED.**
 
 ---
 
 ## O — Outstanding
 
-1. execute the four-horizon certificate in a repository-capable Python environment;
-2. record the exact counts/populations with `F_r^{min}>0`;
-3. identify parents for which all horizon survivors are physically rejected;
-4. if whole-parent closures occur, write them as exact finite source-fiber closures and update the canonical counts;
-5. if no closures occur, inspect the minimum positive floors and determine whether a larger horizon or direct zero-path residue exclusion is the better next axis;
-6. seek an analytic source-universal rule forcing zero-path exclusion without raw descendant expansion.
+The remaining useful problem is no longer to prove that **some** future displacement occurs; horizon 41 already does that for every current parent unless it ballot-closes earlier.
+
+The open target is a source-sensitive lower bound on the **amount** of unavoidable future displacement, for example:
+
+1. minimum number of displaced future one-events;
+2. minimum weighted displacement sum;
+3. exact or certified lower envelope for
+   \[
+   \sum_k3^{r-1-k}(2^{t_{q+k}}-2^{u_k});
+   \]
+4. a branch-and-bound/min-plus method that proves this floor without enumerating the full source tree.
+
+Only such a cumulative floor has a realistic chance of strengthening the current directed physical gate.
 
 ---
 
@@ -172,29 +220,38 @@ It is also not an independent probability factor: it is deterministically derive
 
 | Dimension | Result |
 |---|---|
-| D — domain | exact source-preserving pure-ballot descendants |
-| R — resolution | exact integer descendant normalization |
-| S — sufficiency | source state + N sufficient; source payload retained |
-| E — equivalence | positive floor iff no zero-defect depth-r survivor |
-| T — transition | exact min-plus transport |
-| C — closure | theorem CLOSED; frontier execution PENDING |
-| N — non-independence | separated from current N by exact transport; no probability factor |
-| O — outstanding | execute, measure, then test physical whole-parent closure |
+| D | exact source-preserving pure-ballot descendants |
+| R | exact integer descendant normalization |
+| S | source payload + `N` sufficient |
+| E | zero floor iff target-exact source path exists |
+| T | exact min-plus transport; zero-path shortcut exact |
+| C | r=1..4 executed; zero-path to r=41 executed; weak-floor closures 0 |
+| N | no double count; no probability multiplication |
+| O | cumulative/weighted unavoidable displacement floor |
 
 ## Dependencies
 
 - `../theorems/TARGET_DISPLACEMENT_DEFECT_EXACT_DECOMPOSITION.md`
 - `../theorems/FINITE_HORIZON_FORCED_FUTURE_DEFECT_MINPLUS.md`
+- `../theorems/ZERO_FUTURE_DEFECT_RESIDUE_EXCLUSION.md`
 - `../src/A0_s1_8jump_forced_future_defect_minplus_certificate.py`
+- `../src/A0_s1_8jump_zero_future_defect_residue_exclusion_certificate.py`
 - `../src/A0_s1_14root_8jump_Pmin_recheck_certificate.py`
-- `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`
 
 ## Final verdict
 
 \[
 \boxed{
-\text{A genuinely future, source-sensitive additive defect is now defined exactly at finite horizon.}
+\text{Existence of future defect is now finite-certified on every jump-8 parent by horizon 41,}
 }
 \]
 
-What remains is no longer a definition gap.  It is an execution/yield question and, beyond finite horizons, an analytic compression question.
+but
+
+\[
+\boxed{
+\text{the present lower bound on its magnitude is far too weak for physical whole-fiber closure.}
+}
+\]
+
+The next frontier is therefore **cumulative source-sensitive displacement**, not deeper confirmation of mere positivity.
