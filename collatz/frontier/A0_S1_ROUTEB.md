@@ -119,12 +119,13 @@ Successive cumulative future-displacement floors, always **replacing rather than
 |---|---|---:|---:|
 | `eta_future >= 1/4` | `D_46 >= 3` | 26,859,837,368,531,301,450 | 56,968,804 |
 | `eta_future >= 1/3` | `D_49 >= 4` | 26,859,837,368,506,133,665 | 25,167,785 |
-| `eta_future >= 5/12` | `D_51 >= 5` | **26,859,837,368,480,843,030** | **25,290,635** |
+| `eta_future >= 5/12` | `D_51 >= 5` | 26,859,837,368,480,843,030 | 25,290,635 |
+| `eta_future >= 1/2` | `D_51 >= 6` on the current `>=5/12` frontier | **26,859,837,368,455,538,464** | **25,304,566** |
 
 Thus the current canonical population is
 
 \[
-\boxed{26{,}859{,}837{,}368{,}480{,}843{,}030}.
+\boxed{26{,}859{,}837{,}368{,}455{,}538{,}464}.
 \]
 
 The source-cylinder count is still `14,224`; no whole interval has closed.
@@ -133,9 +134,9 @@ Current downstream export:
 
 - `../src/A0_s1_8jump_cumulative_pruned_frontier_export.py::pruned_states`.
 
-Downstream S10 calculations must import this export, not an older `1/4` or `1/3` frontier.
+Downstream S10 calculations must import this export, not an older `1/4`, `1/3`, or `5/12` frontier.
 
-## 5. Bounded future displacement — CLOSED through budget 4
+## 5. Bounded future displacement — exact through the c=5 horizon-51 decision
 
 For future one-ranks write
 
@@ -148,7 +149,7 @@ and let `D_r` count ranks with `d_k>0` among the first `r` future one-events.
 
 Define `H_c` as the maximum horizon reachable by an exact source-preserving pure-ballot path with at most `c` displaced ranks.
 
-Certified values:
+Certified exact equalities through budget four are
 
 \[
 \boxed{
@@ -165,17 +166,23 @@ For `c=4`, the horizon-49 exact 32-shard scan leaves only two source parents:
 - shard 3: live at 49, empty at 50;
 - shard 24: live at 49 and 50, empty at 51.
 
-All other shards are already empty at horizon 49. Therefore
+Therefore `H_4=50` exactly.
+
+For budget five, the exact 64-shard horizon-51 decision on all `14,224` current `>=5/12` source parents reports
 
 \[
-\boxed{H_4=50}
+\boxed{\#\{D_{51}\le5\text{ paths}\}=0}.
 \]
 
-and every horizon-51 survivor satisfies
+Hence
 
 \[
-\boxed{D_{51}\ge5}.
+\boxed{H_5\le50},
+\qquad
+\boxed{D_{51}\ge6}.
 \]
+
+`H_5=50` is **not** claimed: equality would require a horizon-50 `D<=5` witness on the relevant pre-cut frontier.
 
 Since every displaced rank contributes
 
@@ -186,22 +193,22 @@ Since every displaced rank contributes
 we obtain
 
 \[
-\boxed{\eta_{future}>\frac5{12}},
+\boxed{\eta_{future}>\frac12},
 \]
 
-safely weakened to `>=5/12` for endpoint pruning.
+safely weakened to `>=1/2` for endpoint pruning.
 
 Canonical dependencies:
 
 - `../theorems/BOUNDED_DISPLACEMENT_SOURCE_REACHABILITY.md`;
-- `../theorems/FOUR_DISPLACEMENT_HORIZON_PRUNING.md`;
 - `../theorems/FIVE_DISPLACEMENT_HORIZON_PRUNING.md`;
-- `../src/A0_s1_8jump_c4_h49_shard_certificate.py`;
-- `../src/A0_s1_8jump_c4_exception_horizon_certificate.py`;
-- `../src/A0_s1_8jump_five_displacement_eta_pruning_certificate.py`;
-- `../audits/S10_FIVE_DISPLACEMENT_HORIZON_PRUNING_AUDIT.md`.
+- `../theorems/SIX_DISPLACEMENT_HORIZON_PRUNING.md`;
+- `../src/A0_s1_8jump_c5_h51_shard_probe.py`;
+- `../src/A0_s1_8jump_six_displacement_eta_half_pruning_certificate.py`;
+- `../audits/S10_SIX_DISPLACEMENT_HORIZON_PRUNING_AUDIT.md`;
+- GitHub Actions run `33756884264`.
 
-**Do not extrapolate** the sequence `40,44,45,48,50` into a density or asymptotic law.
+**Do not extrapolate** the finite `H_c` data into a density or asymptotic law.
 
 ## 6. Directed `P_min` split
 
@@ -210,9 +217,9 @@ The established global future-reachability cutoff still splits the first-75-tigh
 - `82.095%`: permanently `P_min`-unreachable;
 - `17.905%`: future `P_min` activation remains possible.
 
-Future-defect accumulation is therefore only a direct `P_min` pruning mechanism in the upper sector.  The lower sector requires a genuinely independent source-sensitive membership obstruction.
+Future-defect accumulation is therefore only a direct `P_min` pruning mechanism in the upper sector. The lower sector requires a genuinely independent source-sensitive membership obstruction.
 
-The present `5/12` cut is an exact sequential source-tail cut; it does not imply that displacement work alone can close Route-B.
+The present `1/2` cut is an exact sequential source-tail cut; it does not imply that displacement work alone can close Route-B.
 
 ## 7. Checkpoint activation remains late
 
@@ -256,46 +263,51 @@ Do not restart or use the following as independent proof steps:
 8. source interval exposure -> membership;
 9. multiplying marginal survival fractions without independence;
 10. extrapolating finite `H_c` values;
-11. finite Route-B progress -> global Collatz.
+11. `H_5<=50` -> `H_5=50` without a horizon-50 witness;
+12. finite Route-B progress -> global Collatz.
 
 ## 9. Principal next calculations
 
-### A. Bounded displacement
+### A. Independent membership obstruction — principal
 
-The next finite object is
-
-\[
-H_5.
-\]
-
-Use the current `>=5/12` `pruned_states`.  Preserve exact source payloads and use sparse decision recursion/sharding rather than unrestricted raw-tree expansion.
-
-Before proceeding far beyond `c=5`, compare the added endpoint pruning with execution cost; the last two increments were only about 25 million integers each and closed zero whole interval.
-
-### B. Independent membership obstruction
-
-In parallel, continue the more important lower-sector problem:
+Continue the lower-sector problem
 
 \[
 \boxed{\text{source-controlled exact correction/checkpoint membership}}.
 \]
 
-Priority interfaces:
+Priority interface:
+
+\[
+\boxed{\text{source family}\leftrightarrow(z_2,z_H)\leftrightarrow\text{right-H/checkpoint family}}.
+\]
+
+Required stages:
 
 1. source family -> late `z_H=Z mod 3^28` observation;
-2. post-checkpoint -> `z_2=Z mod2^27`;
-3. synchronized CRT candidate -> source/debit compatibility;
-4. exact same-orbit provenance, not mere residue compatibility.
+2. post-checkpoint/right-H family -> `z_2=Z mod2^27`;
+3. synchronized CRT pair -> at most one corridor checkpoint candidate;
+4. source/debit compatibility;
+5. exact same-orbit provenance.
+
+### B. Further bounded displacement — secondary
+
+Further `c` expansion remains available, but the last three floor improvements removed only about 25 million integers each and closed zero whole intervals. Any `c=6` work should therefore be justified by computational cost or by a new structural theorem rather than automatic continuation.
+
+If the exact value `H_5` becomes useful, first search for a horizon-50 `D<=5` witness; otherwise the current upper bound `H_5<=50` is sufficient for the `D_51>=6` cut already obtained.
 
 ## 10. DSD status
 
 - exact source representation: **CLOSED**;
 - persistent S10 state minimization: **CLOSED**;
-- `H_4=50`: **EXACT / CLOSED on current finite frontier**;
-- `D_51>=5`: **EXACT / CLOSED**;
-- `eta_future>5/12`: **SAFE consequence**;
-- `>=5/12` endpoint population: **EXACT finite arithmetic**;
-- whole-source-cylinder closure from this step: **0**;
+- `H_4=50`: **EXACT / CLOSED**;
+- horizon-51 `c=5` non-reachability: **EXACT / CLOSED finite frontier**;
+- `H_5<=50`: **EXACT**;
+- `H_5=50`: **OPEN / not claimed**;
+- `D_51>=6`: **EXACT / CLOSED**;
+- `eta_future>1/2`: **SAFE consequence**;
+- `>=1/2` endpoint population: **EXACT finite arithmetic**;
+- whole-source-cylinder closure from this chain: **0**;
 - source-controlled full long membership: **OPEN**;
 - `A0,s=1,Route-B` closure: **OPEN**;
 - Collatz: **OPEN**.
