@@ -46,37 +46,41 @@ After first-75 tail-defect tightening:
 26{,}859{,}837{,}368{,}588{,}270{,}254.
 \]
 
-Cumulative bounded-displacement endpoint floors now reach
+The exact `c=5`, horizon-51, 64-shard decision on the current `>=5/12` frontier gives
 
 \[
-\boxed{H_4=50}.
+\boxed{\#\{D_{51}\le5\text{ paths}\}=0}.
 \]
 
-Therefore horizon 51 forces
+Therefore
 
 \[
-\boxed{D_{51}\ge5}
+\boxed{H_5\le50},
+\qquad
+\boxed{D_{51}\ge6},
 \]
 
 and hence
 
 \[
-\boxed{\eta_{future}>\frac5{12}}.
+\boxed{\eta_{future}>\frac12}.
 \]
 
-Using the safe endpoint weakening `>=5/12`, the current population is
+Using the safe endpoint weakening `>=1/2`, the current canonical population is
 
 \[
-\boxed{26{,}859{,}837{,}368{,}480{,}843{,}030}.
+\boxed{26{,}859{,}837{,}368{,}455{,}538{,}464}.
 \]
 
-The current source-cylinder count remains `14,224`; no whole interval is closed by this chain.
+The source-cylinder count remains `14,224`; no whole interval is closed by this chain.
 
 Downstream source export:
 
 - `../src/A0_s1_8jump_cumulative_pruned_frontier_export.py::pruned_states`.
 
-## Exact bounded-displacement horizon table
+## Exact bounded-displacement status
+
+Certified exact equalities through budget four:
 
 \[
 \boxed{
@@ -88,21 +92,24 @@ H_0=40,
 }
 \]
 
-The `c=4` exceptional structure is exact:
+For budget five, the new exact result is only
 
-- at horizon 49, only shard 3 and shard 24 have one live parent each;
-- shard 3 is empty at horizon 50;
-- shard 24 is still live at horizon 50 and empty at horizon 51.
+\[
+\boxed{H_5\le50}.
+\]
 
-Thus the finite global maximum is exactly 50.  No extrapolation is used.
+`H_5=50` is not claimed because the horizon-51 emptiness test does not itself supply a horizon-50 `D<=5` witness.
+
+Reachability evidence:
+
+- GitHub Actions run `33756884264`;
+- `../src/A0_s1_8jump_c5_h51_shard_probe.py`.
 
 Canonical files:
 
-- `../theorems/FIVE_DISPLACEMENT_HORIZON_PRUNING.md`;
-- `../src/A0_s1_8jump_c4_h49_shard_certificate.py`;
-- `../src/A0_s1_8jump_c4_exception_horizon_certificate.py`;
-- `../src/A0_s1_8jump_five_displacement_eta_pruning_certificate.py`;
-- `../audits/S10_FIVE_DISPLACEMENT_HORIZON_PRUNING_AUDIT.md`.
+- `../theorems/SIX_DISPLACEMENT_HORIZON_PRUNING.md`;
+- `../src/A0_s1_8jump_six_displacement_eta_half_pruning_certificate.py`;
+- `../audits/S10_SIX_DISPLACEMENT_HORIZON_PRUNING_AUDIT.md`.
 
 ## Sequential pruning audit
 
@@ -110,23 +117,30 @@ The future-defect floors are nested bounds on the same quantity and must not be 
 
 - `>=1/4` from `D_46>=3`;
 - `>=1/3` from `D_49>=4`;
-- `>=5/12` from `D_51>=5`.
+- `>=5/12` from `D_51>=5`;
+- `>=1/2` from `D_51>=6` on the current `>=5/12` frontier.
 
-The latest `5/12` floor supersedes the older two.
+The latest `1/2` floor supersedes the older floors.
 
-The exact incremental `1/3 -> 5/12` rejection is
+The exact incremental `5/12 -> 1/2` rejection is
 
 \[
-25{,}290{,}635.
+\boxed{25{,}304{,}566}.
+\]
+
+The cumulative `>=1/2` removal from the first-75-tightened source set is
+
+\[
+132{,}731{,}790.
 \]
 
 No marginal survival fractions are multiplied.
 
 ## Principal bottleneck
 
-Bounded-displacement pruning remains valid but has so far shortened only upper tails of existing intervals.  It has not closed a source cylinder.
+Bounded-displacement pruning remains valid but has so far shortened only upper tails of existing intervals. It has not closed a source cylinder.
 
-The more important unresolved mathematical interface is still
+The more important unresolved mathematical interface is
 
 \[
 \boxed{\text{source-controlled exact correction/checkpoint membership}}.
@@ -134,7 +148,7 @@ The more important unresolved mathematical interface is still
 
 The lower approximately `82.095%` `P_min`-unreachable sector especially requires a predicate independent of the directed `P_min` defect mechanism.
 
-Late checkpoint observations remain:
+Late checkpoint observations remain
 
 \[
 z_2=Z\bmod2^{27},
@@ -146,18 +160,19 @@ A coherent CRT pair exposes at most one ordinary `Z` in the certified corridor, 
 
 ## Immediate next work
 
-1. Compute `H_5` from the new `>=5/12` canonical frontier using sparse source-preserving recursion.
-2. Compare the additional pruning gain with its computational cost before continuing to much larger `c`.
-3. In parallel, build the exact source/checkpoint join:
+1. Make the source/checkpoint join the principal path:
    \[
    \text{source family}\leftrightarrow(z_2,z_H)\leftrightarrow\text{checkpoint/right-H family}.
    \]
-4. Require source/debit compatibility and same-orbit provenance after CRT exposure.
-5. Keep checkpoint observations late-activated and keep source residue `r` until source-sensitive obligations are discharged.
+2. Locate and normalize the exact export schemas for the left source family, `z_H`, checkpoint/right-H family, and `z_2`.
+3. Form a synchronized CRT candidate only after both residues activate.
+4. Require source/debit compatibility and exact same-orbit provenance after CRT exposure.
+5. Keep source residue `r` until all source-sensitive obligations are discharged.
+6. Treat higher bounded-displacement budgets as secondary unless they yield a structural gain or favorable cost/benefit.
 
 ## Still OPEN
 
-- `H_5` and any higher bounded-displacement horizons;
+- exact `H_5` equality (only `H_5<=50` is known);
 - compact source-controlled full correction-language membership;
 - exact 14-root source/checkpoint/correction joins;
 - checkpoint/debit/tail realization;
@@ -169,8 +184,9 @@ A coherent CRT pair exposes at most one ordinary `Z` in the certified corridor, 
 
 ## Forbidden shortcuts
 
-- extrapolating `H_0..H_4` to an asymptotic law;
-- adding `1/4`, `1/3`, and `5/12` floors;
+- extrapolating finite `H_c` values to an asymptotic law;
+- `H_5<=50 -> H_5=50` without a horizon-50 witness;
+- adding `1/4`, `1/3`, `5/12`, and `1/2` floors;
 - equal control state -> equal source payload;
 - exact-pair uniqueness -> family uniqueness;
 - CRT compatibility -> same orbit;
