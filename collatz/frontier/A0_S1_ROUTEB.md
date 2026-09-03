@@ -6,7 +6,7 @@ This is the canonical resume point for current computation.
 
 ## Input family
 
-Exact retained roots:
+Exact retained first-defect roots:
 
 `{2,5,8,10,13,16,18,21,24,27,29,32,35,37}`.
 
@@ -14,71 +14,55 @@ Primary source certificate:
 
 - `../src/A0_s1_14root_long_membership_forest_certificate.py`.
 
-Each root is an exact affine source cylinder
+Every active family is represented exactly as
 
 \[
-X=r+2^h m
+X=r+2^h m,
+\qquad
+T^h(X)=y+3^q m,
 \]
 
-with a finite integer parameter interval and exact parity refinement.
+with a finite integer parameter interval.
 
 ## Closed/rejected routes that must not be restarted
 
-### Terminal right-H target-dominance ternary filter
+### Terminal target-dominance as a pruning engine
 
-The terminal 28-gate dominance problem is solved exactly.
-Its complete existence condition reduces to
-
-\[
-z_H\bmod3\in\{0,1\}
-\iff
-Z\bmod3\in\{1,2\}.
-\]
-
-Every genuine positive-one-count checkpoint already satisfies `3∤Z`, so this gate is redundant for pruning.
-
-Canonical objects:
-
-- `../theorems/TERMINAL_28GATE_DOMINANCE_SATURATION.md`;
-- `../audits/TERMINAL_DOMINANCE_GATE_REDUNDANCY.md`.
-
-### Dominance-only weak CRT channel
-
-`Z mod2^27` plus the automatic `Z mod3 in {1,2}` condition does not isolate a checkpoint. Each accepted weak CRT class occurs many times in the debit-compatible corridor.
-
-### `P_min` as a sole deep-root strategy
-
-Finite exact scans through ordinary-X exposure depth `h=72` found no physical-score whole-family closures for completed roots `f=29,32,35,37`.
-
-This is execution evidence only, not a theorem. `P_min` remains a secondary predicate.
-
-## Closed synchronized seams retained for later use
-
-1. A full coherent pair `Z mod2^27 × z_H mod3^28` exposes at most one ordinary checkpoint `Z` in the independent SAFE corridor.
-2. An exposed ordinary `Z` contracts every source root to an exact debit-compatible parameter fiber.
-3. Terminal ternary precision is absorbed inside the current right-H block after its predicate is discharged.
-4. Fixed-`(h,q)` correction is injective.
-5. Dyadic prefix and ternary suffix correction localization and exact block correction composition are available.
-6. Exact prefix discharge restarts the same correction equation on the residual suffix.
-7. For an exact `(Y,Z,n,q)` residual instance, valuation decoding gives zero or one realizing parity word.
-
-The full CRT seam remains conditional on a stronger exact state actually supplying a full `z_H mod3^28` observation.
-
-## Exact-pair correction inversion — CLOSED
-
-For a proposed source/checkpoint pair,
+The terminal 28-gate target-dominance existence condition reduces to
 
 \[
-C_{req}=2^{t_0}Z-3^{j_0}X.
+Z\bmod3\in\{1,2\},
 \]
 
-After an exact prefix is discharged, the suffix problem is again
+but every genuine positive-one-count checkpoint already satisfies `3∤Z`.
 
-\[
-C(B)=2^{|B|}Z-3^{q(B)}Y.
-\]
+Therefore terminal target dominance is exact but redundant for independent pruning.
 
-For
+### Dominance-only weak CRT
+
+`Z mod2^27` plus only the automatic mod-3 condition does not isolate an ordinary checkpoint in the debit corridor.
+
+### `P_min` alone
+
+The directed physical Bellman score is exact in its stated active class, but finite deep-root execution did not close the tested families. It remains a secondary predicate.
+
+## Closed structural interfaces retained
+
+1. exact affine source cylinders and source-preserving bit/block refinement;
+2. pure-ballot/target-dominance control;
+3. fixed-`(h,q)` correction injectivity and valuation decoding;
+4. correction composition and exact residual recursion;
+5. affine valuation-cylinder `0^a1` jumps;
+6. source-payload / ballot-control factorization;
+7. certified multibit block transduction;
+8. terminal ternary locality and critical-cut precision absorption;
+9. synchronized `Z mod2^27 × Z mod3^28` CRT singleton exposure when both coherent observations exist;
+10. checkpoint-conditioned source fibers;
+11. local CRT/positivity splice giving an actual local accelerated-Collatz orbit segment.
+
+## Exact-pair inversion — CLOSED
+
+For an exact residual instance
 
 \[
 R=2^nZ-3^qY,
@@ -87,7 +71,7 @@ R=2^nZ-3^qY,
 the next one-position is forced by
 
 \[
-\boxed{a=v_2(R)}.
+a=v_2(R).
 \]
 
 Before endpoint depth,
@@ -96,7 +80,9 @@ Before endpoint depth,
 v_2(R)=v_2(Y),
 \]
 
-so the next odd event can be decoded without checkpoint information.
+so repeated exact `0^a1` discharge either rejects or reconstructs the unique possible parity word.
+
+The unresolved difficulty is therefore family-scale execution, not inversion of one exact source/checkpoint pair.
 
 Canonical objects:
 
@@ -104,41 +90,63 @@ Canonical objects:
 - `../theorems/RESIDUAL_VALUATION_JUMP_DECODER.md`;
 - `../theorems/AFFINE_VALUATION_CYLINDER_JUMP.md`.
 
-## Source-preserving valuation state — CLOSED
+## Persistent source state — MINIMIZED / CLOSED
 
-At current depth `h`, retain
-
-\[
-X=r+2^h m,
-\qquad
-T^h(X)=y+3^q m,
-\qquad
-m_{lo}\le m\le m_{hi}.
-\]
-
-With pure-ballot surplus
+Let
 
 \[
 S=q-Q(h),
-\]
-
-we have
-
-\[
-q=Q(h)+S,
 \qquad
-3^q=3^{Q(h)+S}.
+Q(h)=\lceil h\log_3 2\rceil.
 \]
 
-Thus stored affine coefficient `A=3^q` is redundant, while the exact source residue `r` is required by later source-sensitive predicates.
-
-The reusable state is
+Then
 
 \[
-\boxed{(r,y,m_{lo},m_{hi},h,S;\text{future-predicate labels}).}
+q=Q(h)+S.
 \]
 
-For a valuation branch `a`,
+Because the total Route-B target parameters are fixed,
+
+\[
+t_0=104{,}398{,}605{,}910,
+\qquad
+j_0=65{,}868{,}186{,}701,
+\]
+
+the remaining counters are also derived:
+
+\[
+n_{rem}=t_0-h,
+\]
+
+\[
+q_{rem}=j_0-Q(h)-S.
+\]
+
+Thus the currently justified persistent early/middle S10 core is
+
+\[
+\boxed{
+(r,y,m_{lo},m_{hi},h,S).
+}
+\]
+
+Derived rather than stored:
+
+- `q=Q(h)+S`;
+- `3^q`;
+- `n_rem=t0-h`;
+- `q_rem=j0-Q(h)-S`.
+
+Canonical objects:
+
+- `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`;
+- `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`.
+
+## Valuation jump / ballot factor — CLOSED
+
+For a next-one valuation branch `a`,
 
 \[
 \rho_a
@@ -147,13 +155,13 @@ For a valuation branch `a`,
 \pmod{2^{a+1}},
 \]
 
-and writing
+and
 
 \[
 m=\rho_a+2^{a+1}k
 \]
 
-gives exact child channels
+produces exact child channels
 
 \[
 X=r'+2^{h'}k,
@@ -161,110 +169,113 @@ X=r'+2^{h'}k,
 T^{h'}(X)=y'+3^{q+1}k.
 \]
 
-Canonical objects:
-
-- `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`;
-- `../src/A0_s1_source_payload_control_factorization_certificate.py`.
-
-## Pure-ballot control factor — CLOSED
-
-The legality and outgoing surplus of `0^a1` depend only on `(h,S,a)`.
-Therefore the transition separates into
+The legality and outgoing surplus of the forced `0^a1` depend only on `(h,S,a)`, so the computation factors as
 
 \[
 \boxed{
-\text{ballot control template}
+\text{shared ballot-control template}
 \otimes
-\text{source arithmetic payload}.
+\text{distinct source payload}.
 }
 \]
 
 At the certified eight-jump frontier:
 
+- source cylinders: `14,224`;
+- pure-ballot survivors: `26,859,837,368,845,079,186`;
+- distinct exact `(h,S)` controls: `90`;
+- distinct four-future-jump ballot-control signatures: `13`.
+
+This allows control-code reuse but does **not** prove source-payload merging.
+
+Secondary accumulated-defect + first-75 tail tightening removes only `256,808,932` more integers and closes no additional cylinder, so it is not the principal engine.
+
+## Predicate activation schedule — CLOSED
+
+The remaining state must follow actual observation time rather than carry every later predicate globally.
+
+### H/L / block grammar
+
+A certified block with
+
 \[
-14\text{ roots}
-\to
-14{,}224\text{ source cylinders}.
+(|B|,q(B),C(B))=(b,p,\gamma)
 \]
 
-The pure-ballot surviving population is
+is consumed exactly by the existing multibit source-channel transducer.
+
+Therefore H/L or Christoffel structure is treated as **transient block-computation grammar** unless a separate theorem proves that an unresolved later predicate depends on the grammar-history label itself.
+
+Do not count H/L as an independent probabilistic pruning factor when it represents the same formation language.
+
+### Terminal ternary checkpoint observation
+
+If the pre-checkpoint word is `W=AB` and `B` contains exactly the final `K` one-events, then
 
 \[
-\boxed{26{,}859{,}837{,}368{,}845{,}079{,}186}.
+\boxed{
+Z\equiv2^{-|B|}C(B)\pmod{3^K}.
+}
 \]
 
-Those 14,224 payloads occupy only `90` distinct exact `(h,S)` controls.
-A four-future-odd-event ballot-control signature has only `13` classes on this frontier.
+For the current `K=28`, `Z mod3^28` activates only when the remaining pre-checkpoint one-count reaches
 
-This permits transition-skeleton reuse but **not** source-payload merging.
+\[
+\boxed{q_{rem}=28.}
+\]
+
+Equivalently,
+
+\[
+Q(h)+S=j_0-28=65{,}868{,}186{,}673.
+\]
+
+This activation boundary is detected from `(h,S)` alone.
+
+### Post-checkpoint dyadic observation
+
+`Z mod2^27` is determined by the first 27 post-checkpoint parity bits. It is therefore an S11/tail coordinate, not an early S10 coordinate.
+
+### Local same-orbit provenance
+
+Once coherent terminal ternary and post-checkpoint dyadic observations exist, invoke the certified CRT/debit/local-splice interfaces. A permanent pre-bridge same-orbit flag is unnecessary.
+
+### `C4F`
+
+The working label `C4F` is **not** admitted as a state coordinate until its exact Route-B predicate and state requirement are formally identified. An undefined name cannot justify state growth, merging, or rejection.
 
 Canonical objects:
 
-- `../theorems/VALUATION_JUMP_BALLOT_CONTROL.md`;
-- `../theorems/FINITE_HORIZON_BALLOT_CONTROL_SIGNATURE.md`;
-- `../src/A0_s1_14root_8jump_ballot_pruning_certificate.py`;
-- `../src/A0_s1_finite_horizon_ballot_control_signature_certificate.py`.
+- `../theorems/PREDICATE_ACTIVATION_SCHEDULE.md`;
+- `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`;
+- `../audits/S10_PREDICATE_ACTIVATION_AUDIT.md`;
+- `../src/A0_s1_checkpoint_late_activation_certificate.py`;
+- `../src/A0_s1_fixed_target_counter_derivation_certificate.py`.
 
-## Secondary defect tightening — SAFE / LOW YIELD
+## Principal active object — source-family block realization
 
-Combining the exact accumulated prefix defect with an exact tail DP for the minimum further first-75 defect needed to satisfy the already-certified `d_75>=8` condition gives
+The S10 state should **not** now be enlarged with speculative H/L, checkpoint, or C4F coordinates.
 
-\[
-26{,}859{,}837{,}368{,}588{,}270{,}254
-\]
+The active computation is:
 
-survivors after eight jumps.
+> propagate the minimized exact source state through certified valuation or larger block transitions, reject only by active exact predicates, and seek source-sensitive future equivalence only where every remaining predicate is defined at the same resolution.
 
-The additional rejection is only
+One transition engine may use either:
 
-\[
-\boxed{256{,}808{,}932},
-\]
+1. valuation-cylinder `0^a1` jumps; or
+2. a certified larger block `(b,p,\gamma)` supplied by an exact grammar/DAG and consumed by the multibit source transducer.
 
-about `9.56e-12` of the pure-ballot eight-jump population, and it closes no additional cylinder.
+The principal unresolved mathematical question is whether a larger certified block language can suppress the cylinder explosion without losing source payload information.
 
-Therefore this combination remains a secondary pruning label, not the principal S10 engine.
+## Immediate computation targets
 
-Canonical object:
-
-- `../src/A0_s1_14root_8jump_tail_defect_tightening_certificate.py`.
-
-## Principal active object — source-sensitive future-language quotient
-
-The remaining S10 problem is no longer exact-pair correction inversion and no longer pure-ballot control.
-
-The next state extension must add the source-sensitive controls that still distinguish future realizability:
-
-1. exact H/L or equivalent pre-bridge formation control;
-2. the precise renewal/C4F state still required by Route-B;
-3. checkpoint/debit information only when its certified observation resolution becomes active;
-4. optional `P_min` or defect labels only inside an already identical future-control class.
-
-A legal merge theorem must answer:
-
-> When do two distinct source payloads have exactly the same future realization set under every still-active predicate?
-
-Equality of `(h,S)`, valuation, residual, population size, or physical score alone is not sufficient.
-
-## Immediate theorem / algorithm target
-
-Construct an exact **source-sensitive valuation-cylinder transducer** by extending
-
-\[
-(r,y,m_{lo},m_{hi},h,S)
-\]
-
-with the minimal H/L/pre-bridge and renewal/C4F coordinates.
-
-One transition should:
-
-1. use the shared `(h,S)` control template to list ballot-legal `a`;
-2. partition each source payload by the exact valuation residue;
-3. jump the forced block `0^a1` while preserving `r` and `y`;
-4. update H/L and renewal/C4F state exactly;
-5. consume/forget a predicate coordinate only after its observation has been discharged;
-6. reject children violating an active exact predicate;
-7. merge only under a proved source-sensitive future-equivalence theorem.
+1. identify the strongest already-certified large blocks whose admissibility applies to the active Route-B family, not only to the threshold reference word;
+2. feed only such blocks into the multibit source-channel transducer;
+3. compare resulting family-width/state-count contraction against valuation-only jumps;
+4. retain `(r,y,m_lo,m_hi,h,S)` exactly;
+5. activate `Z mod3^28` only at `q_rem=28`;
+6. move `Z mod2^27`, CRT, debit and local splice to S11;
+7. keep `C4F` OPEN until its precise predicate is recovered or defined.
 
 ## DSD audit rules
 
@@ -272,26 +283,27 @@ Allowed:
 
 - exact correction composition and residual recursion;
 - exact-pair valuation decoding;
-- affine valuation-cylinder partition and forced zero-run jump;
+- source-preserving valuation or certified multibit block transitions;
 - source-payload / control factorization;
-- finite-horizon ballot-control signature reuse;
-- exact source residue retention for source-sensitive predicates;
-- predicate-relative forgetting after discharge;
-- secondary `P_min`/defect pruning inside exact future-control classes.
+- finite-horizon control-template reuse;
+- derivation rather than storage of redundant counters;
+- predicate-relative activation and forgetting;
+- secondary physical/defect pruning inside valid active classes.
 
 Forbidden:
 
 - exact-pair uniqueness -> family-level uniqueness;
-- equal ballot-control signature -> equal source family;
-- equal valuation/residual -> legal merge when future controls differ;
-- dropping source residue `r` before all source-sensitive predicates are discharged;
-- terminal target-dominance existence -> full correction membership;
-- terminal dominance -> full `z_H mod3^28`;
-- checkpoint/source exposure -> same orbit automatically;
-- finite transducer regression -> universal Route-B closure;
+- equal control signature -> equal source family;
+- equal valuation/residual -> legal source merge;
+- dropping source residue `r` before source-sensitive predicates are discharged;
+- treating H/L representation as independent pruning information without a new predicate;
+- inventing a `C4F` state before defining its predicate;
+- carrying checkpoint residues before their local observations exist;
+- checkpoint exposure -> same orbit without certified splice hypotheses;
+- finite regression -> universal Route-B closure;
 - marginal density multiplication;
 - later refined bounds used retroactively.
 
 ## Global warning
 
-Even complete closure of all 14 current Route-B roots would close only `A0, s=1, Route-B`. Route-A, `s>=2`, remaining formation sectors, and global branch completeness remain separate obligations.
+Even complete closure of all 14 current Route-B roots would close only `A0, s=1, Route-B`. Route-A, `s>=2`, remaining formation sectors, and global branch completeness remain separate obligations before any Collatz conclusion.
