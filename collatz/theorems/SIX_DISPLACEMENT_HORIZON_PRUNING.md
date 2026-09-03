@@ -104,7 +104,7 @@ The cumulative removal from the first-75-tightened frontier is
 132{,}731{,}790.
 \]
 
-The `>=1/2` cut affects `7,985` source intervals relative to the uncut first-75 set, but all `14,224` source intervals remain nonempty.
+The `>=1/2` cut affects `7,299` source intervals relative to the uncut first-75 set, but all `14,224` source intervals remain nonempty.
 
 ## 4. Scope and direction
 
