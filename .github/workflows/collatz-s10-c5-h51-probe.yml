@@ -1,0 +1,59 @@
+name: Collatz S10 c5 h51 probe
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_8jump_c5_h51_shard_probe.py'
+      - '.github/workflows/collatz-s10-c5-h51-probe.yml'
+  workflow_dispatch:
+
+jobs:
+  shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe c5 horizon 51
+        working-directory: collatz/src
+        env:
+          SHARD_ID: ${{ matrix.shard }}
+          SHARD_COUNT: '64'
+          OUTPUT_PATH: c5-h51-${{ matrix.shard }}.txt
+        run: python A0_s1_8jump_c5_h51_shard_probe.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c5-h51-${{ matrix.shard }}
+          path: collatz/src/c5-h51-${{ matrix.shard }}.txt
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c5-h51-*
+          path: results
+          merge-multiple: true
+      - name: Aggregate c5 horizon 51 decisions
+        run: |
+          cat results/*.txt | sort -n > all.txt
+          shards=$(wc -l < all.txt)
+          parents=$(awk '{s+=$2} END {print s+0}' all.txt)
+          live=$(awk '{s+=$3} END {print s+0}' all.txt)
+          live_shards=$(awk '$3 != 0 {n++} END {print n+0}' all.txt)
+          echo "shard_count $shards"
+          echo "parent_count $parents"
+          echo "parents_with_c5_path_h51 $live"
+          echo "live_shard_count $live_shards"
+          test "$shards" -eq 64
+          test "$parents" -eq 14224
+          echo 'PASS global c5 horizon51 probe'
