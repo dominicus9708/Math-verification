@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Lightweight export of the canonical jump-8 frontier after cumulative pruning.
 
-This module intentionally does NOT rerun the c=0,1,2 bounded-displacement
-breadth-first audits on import.  It imports the certified first-75-tightened
-states, reapplies only the already-certified horizon-46 eta>1/4 source-tail
-cut, and exports the resulting exact 14,224 intervals plus the exact future
-source-child map used by sparse reachability calculations.
+This module intentionally does NOT rerun the bounded-displacement searches on
+import.  It imports the certified first-75-tightened states, applies the latest
+certified cumulative future-defect floor
 
-The constants and resulting population are regression-checked against
-A0_s1_8jump_bounded_displacement_reachability_certificate.py.
+    horizon 49 survivor => at least 4 displaced target ranks
+                        => eta_future > 1/3,
+
+and safely weakens this to eta_future>=1/3 for endpoint pruning.
+
+The older eta_future>=1/4 cut is superseded by this stronger floor; the two
+floors are not added.
 """
 
 from fractions import Fraction
@@ -21,9 +24,9 @@ defect = tail.defect
 M_LO = defect.mW_lo
 DELTA_LO = defect.delta_lo
 BARRIER = defect.L_MAX * defect.QFP + defect.cW_hi
-ETA_FLOOR = Fraction(1, 4)
-EXPECTED_TOTAL = 26_859_837_368_531_301_450
-EXPECTED_PRUNED = 56_968_804
+ETA_FLOOR = Fraction(1, 3)
+EXPECTED_TOTAL = 26_859_837_368_506_133_665
+EXPECTED_PRUNED = 82_136_589
 
 
 def retained_hi(st, cut: Fraction) -> int:
@@ -90,6 +93,7 @@ def source_child(st, d: int):
 
 if __name__ == "__main__":
     print("PASS lightweight cumulative-pruned jump8 frontier export")
+    print("future_eta_floor", ">1/3 weakened to >=1/3")
     print("states", len(pruned_states))
     print("population", sum(st.count for st in pruned_states))
-    print("incremental_pruned", pruned)
+    print("pruned_from_first75_tightened", pruned)
