@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 """Exact decision scan for the c=3 bounded-displacement horizon.
 
-The full sparse H_c maximization may explore many irrelevant alternatives.  To
-locate the first horizon at which all canonical parents require at least four
-displaced ranks, this certificate asks only the decision question
+Uses the lightweight canonical pruned jump-8 frontier export, so previous
+c=0,1,2 breadth-first audits are not rerun on import.
 
-    R(s,c,r) = does one exact source path of r future one-events exist
-               with at most c displaced ranks?
-
-and memoizes it.  It scans horizons upward and stops at the first globally
-empty horizon.  This is exactly equivalent to r > max_s H_c(s).
+R(s,c,r) asks whether one exact source path of r future one-events exists with
+at most c displaced target ranks.  The scan stops at the first globally empty
+horizon, which is exactly max_s H_c(s)+1.
 """
 
 from functools import lru_cache
 
-import A0_s1_8jump_bounded_displacement_reachability_certificate as bd
+import A0_s1_8jump_cumulative_pruned_frontier_export as src
 
 START_HORIZON = 46
 MAX_SCAN_HORIZON = 60
@@ -30,10 +27,7 @@ def reachable(st, c: int, r: int) -> bool:
     if r == 0:
         return True
 
-    # Prefer the unique zero-displacement continuation.  Early success avoids
-    # enumerating positive-displacement alternatives that are irrelevant to
-    # the existence question.
-    z = bd.source_child(st, 0)
+    z = src.source_child(st, 0)
     if z is not None and reachable(z, c, r - 1):
         return True
 
@@ -41,21 +35,22 @@ def reachable(st, c: int, r: int) -> bool:
         return False
 
     y, lo, hi, h, q = st
-    target = bd.defect.TPOS[q]
+    target = src.defect.TPOS[q]
     max_d = target - h
     assert max_d >= 0
     for d in range(1, max_d + 1):
-        ch = bd.source_child(st, d)
+        ch = src.source_child(st, d)
         if ch is not None and reachable(ch, c - 1, r - 1):
             return True
     return False
 
 
-parents = tuple(lite(st) for st in bd.pruned_states)
+parents = tuple(lite(st) for st in src.pruned_states)
 assert len(parents) == 14_224
+assert sum(st.count for st in src.pruned_states) == src.EXPECTED_TOTAL
 
-# Regression: at horizon 46 no path with <=2 displacements survives on the
-# larger pre-pruning frontier, hence none can survive on this subset either.
+# Certified c<=2 result on the larger pre-pruning frontier implies emptiness
+# here as well at horizon 46.
 assert not any(reachable(st, 2, 46) for st in parents)
 
 rows = []
@@ -69,7 +64,8 @@ for r in range(START_HORIZON, MAX_SCAN_HORIZON + 1):
         break
 
 assert first_empty is not None, "c3 remains nonempty through scan cap; extend MAX_SCAN_HORIZON"
-assert rows[-2][1] > 0 if len(rows) >= 2 else first_empty == START_HORIZON
+if len(rows) >= 2:
+    assert rows[-2][1] > 0
 
 print("PASS A0 s=1 c3 displacement horizon decision scan")
 print("first_globally_empty_horizon", first_empty)
