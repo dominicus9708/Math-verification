@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Measure the prospective eta_future>=5/12 source-tail cut.
+"""Historical endpoint measurement for eta_future>=5/12.
 
-This file performs only exact endpoint arithmetic.  Its interpretation as a
-valid pruning theorem is conditional on the independent c=4 horizon-49
-certificate proving H_4=48, which would force at least five displaced ranks
-at horizon 49.  The current >=1/3 floor is replaced by >=5/12; the two are not
-added.
+The first run of this file was intentionally conditional while H_4 was still
+being resolved.  Subsequent exact c=4 scans established global H_4=50, so a
+horizon-51 survivor must use at least five displaced target ranks and the
+5/12 endpoint floor is now formalized in
+A0_s1_8jump_five_displacement_eta_pruning_certificate.py.
+
+This file is retained only as a lightweight arithmetic regression.  The old
+>=1/3 floor is replaced by >=5/12; the floors are not added.
 """
 
 from fractions import Fraction
@@ -21,6 +24,8 @@ BARRIER = defect.L_MAX * defect.QFP + defect.cW_hi
 ETA_THIRD = Fraction(1, 3)
 ETA_FIVE_TWELFTHS = Fraction(5, 12)
 EXPECTED_THIRD_TOTAL = 26_859_837_368_506_133_665
+EXPECTED_FIVE_TWELFTHS_TOTAL = 26_859_837_368_480_843_030
+EXPECTED_INCREMENTAL = 25_290_635
 
 
 def retained_hi(st, eta_future: Fraction) -> int:
@@ -53,21 +58,24 @@ five_states, five_pruned, five_affected, five_whole = cut_states(ETA_FIVE_TWELFT
 
 assert third_whole == 0
 assert sum(st.count for st in third_states) == EXPECTED_THIRD_TOTAL
-assert ETA_FIVE_TWELFHS if False else True
+assert ETA_FIVE_TWELFTHS > ETA_THIRD
 
-incremental = EXPECTED_THIRD_TOTAL - sum(st.count for st in five_states)
+new_population = sum(st.count for st in five_states)
+incremental = EXPECTED_THIRD_TOTAL - new_population
 assert incremental == five_pruned - third_pruned
-assert incremental >= 0
-assert five_whole >= third_whole
+assert incremental == EXPECTED_INCREMENTAL
+assert new_population == EXPECTED_FIVE_TWELFTHS_TOTAL
 
-print("PASS prospective five-displacement eta 5/12 endpoint measurement")
-print("interpretation_requires_global_H4_48", True)
+print("PASS five-displacement eta 5/12 endpoint regression")
+print("global_H4", 50)
+print("forced_horizon", 51)
 print("previous_floor", ">1/3, endpoint >=1/3")
-print("prospective_floor", ">5/12, endpoint >=5/12")
+print("current_floor", ">5/12, endpoint >=5/12")
 print("before_population", EXPECTED_THIRD_TOTAL)
 print("additional_pruned", incremental)
 print("affected_intervals_under_5_12", five_affected)
 print("whole_intervals_removed", five_whole)
 print("remaining_intervals", len(five_states))
-print("new_population", sum(st.count for st in five_states))
+print("new_population", new_population)
 print("double_counted_old_third_floor", False)
+print("formal_certificate", "A0_s1_8jump_five_displacement_eta_pruning_certificate.py")
