@@ -2,16 +2,17 @@
 """Lightweight export of the canonical jump-8 frontier after cumulative pruning.
 
 This module intentionally does NOT rerun the bounded-displacement searches on
-import.  It imports the certified first-75-tightened states, applies the latest
-certified cumulative future-defect floor
+import.  It imports the certified first-75-tightened states and applies the
+latest certified cumulative future-defect floor
 
-    horizon 49 survivor => at least 4 displaced target ranks
-                        => eta_future > 1/3,
+    global H_4 = 50,
+    horizon 51 survivor => at least 5 displaced target ranks
+                        => eta_future > 5/12,
 
-and safely weakens this to eta_future>=1/3 for endpoint pruning.
+safely weakened to eta_future>=5/12 for endpoint pruning.
 
-The older eta_future>=1/4 cut is superseded by this stronger floor; the two
-floors are not added.
+The older >=1/4 and >=1/3 cuts are superseded by this stronger floor.  These
+floors are not added to one another.
 """
 
 from fractions import Fraction
@@ -24,9 +25,9 @@ defect = tail.defect
 M_LO = defect.mW_lo
 DELTA_LO = defect.delta_lo
 BARRIER = defect.L_MAX * defect.QFP + defect.cW_hi
-ETA_FLOOR = Fraction(1, 3)
-EXPECTED_TOTAL = 26_859_837_368_506_133_665
-EXPECTED_PRUNED = 82_136_589
+ETA_FLOOR = Fraction(5, 12)
+EXPECTED_TOTAL = 26_859_837_368_480_843_030
+EXPECTED_PRUNED = 107_427_224
 
 
 def retained_hi(st, cut: Fraction) -> int:
@@ -93,7 +94,9 @@ def source_child(st, d: int):
 
 if __name__ == "__main__":
     print("PASS lightweight cumulative-pruned jump8 frontier export")
-    print("future_eta_floor", ">1/3 weakened to >=1/3")
+    print("global_H4", 50)
+    print("forced_horizon", 51)
+    print("future_eta_floor", ">5/12 weakened to >=5/12")
     print("states", len(pruned_states))
     print("population", sum(st.count for st in pruned_states))
     print("pruned_from_first75_tightened", pruned)
