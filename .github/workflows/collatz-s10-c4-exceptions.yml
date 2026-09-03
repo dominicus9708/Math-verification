@@ -1,0 +1,29 @@
+name: Collatz S10 c4 exception horizons
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_8jump_c4_exception_horizon_certificate.py'
+      - '.github/workflows/collatz-s10-c4-exceptions.yml'
+  workflow_dispatch:
+
+jobs:
+  exception:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [3,24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Certify exceptional horizon
+        working-directory: collatz/src
+        env:
+          SHARD_ID: ${{ matrix.shard }}
+        run: python A0_s1_8jump_c4_exception_horizon_certificate.py
