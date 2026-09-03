@@ -30,7 +30,7 @@ Initial 14-root population:
 125{,}072{,}439{,}875{,}999{,}947{,}649.
 \]
 
-## 2. Current persistent S10 state — MINIMIZED / CLOSED
+## 2. Persistent S10 state — MINIMIZED / CLOSED
 
 Let
 
@@ -46,7 +46,7 @@ Then
 q=Q(h)+S.
 \]
 
-The currently justified persistent state is
+The persistent early/middle S10 state remains
 
 \[
 \boxed{(r,y,m_{lo},m_{hi},h,S).}
@@ -72,27 +72,9 @@ Canonical dependencies:
 - `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`;
 - `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`.
 
-## 3. Exact-pair inversion and valuation source refinement — CLOSED
+## 3. Exact valuation/source transition stack — CLOSED
 
-For an exact residual pair
-
-\[
-R=2^nZ-3^qY,
-\]
-
-the next one-position is forced by
-
-\[
-a=v_2(R).
-\]
-
-Before endpoint depth,
-
-\[
-v_2(R)=v_2(Y).
-\]
-
-For a source family the next `0^a1` branch selects the exact parameter residue
+For a source family the next `0^a1` branch selects
 
 \[
 \rho_a\equiv(2^a-y)3^{-q}\pmod{2^{a+1}},
@@ -106,12 +88,12 @@ m=\rho_a+2^{a+1}k
 
 produces another exact affine source cylinder.
 
-Pure-ballot legality and outgoing surplus depend only on `(h,S,a)`.
-
-Thus computation factors as
+Exact-pair residual inversion is also closed:
 
 \[
-\boxed{\text{shared control template}\otimes\text{distinct source payload}.}
+a=v_2(R),
+\qquad
+R=2^nZ-3^qY.
 \]
 
 Canonical dependencies:
@@ -121,72 +103,233 @@ Canonical dependencies:
 - `../theorems/AFFINE_VALUATION_CYLINDER_JUMP.md`;
 - `../theorems/VALUATION_MACROBLOCK_COMPILATION.md`.
 
-## 4. Certified eight-jump frontier — SAFE finite execution
+## 4. Eight-jump source frontier and sequential pruning
 
-Exact pure-ballot counts:
-
-| jump | cylinders | population |
-|---:|---:|---:|
-| 0 | 14 | 125,072,439,875,999,947,649 |
-| 1 | 32 | 94,018,492,189,951,139,878 |
-| 2 | 74 | 78,277,356,063,975,556,852 |
-| 3 | 174 | 59,912,679,889,581,873,141 |
-| 4 | 374 | 50,489,422,254,631,626,671 |
-| 5 | 986 | 44,710,237,164,104,400,785 |
-| 6 | 2,192 | 36,555,835,392,716,456,688 |
-| 7 | 5,752 | 32,306,978,271,327,268,319 |
-| 8 | 14,224 | 26,859,837,368,845,079,186 |
-
-Eight-jump survival:
+Pure-ballot jump-8 frontier:
 
 \[
-0.214754244784\ldots
+14{,}224\text{ source cylinders},
 \]
 
-The first-75 defect-tail tightening removes only
+\[
+26{,}859{,}837{,}368{,}845{,}079{,}186
+\]
+
+source integers.
+
+The first-75 tail-defect tightening removes
 
 \[
 256{,}808{,}932
 \]
 
-additional integers and closes no whole cylinder.
-
-The exact directed `P_min` recheck also closes zero whole cylinders through jump 8.
-
-These are finite exact execution results, not universal theorems.
-
-## 5. Finite-horizon transition templates — CLOSED / execution reuse only
-
-For raw-bit horizon `d`, the product template
+and leaves
 
 \[
-P_d=(B_d,Q_d^{src})
+26{,}859{,}837{,}368{,}588{,}270{,}254.
 \]
 
-combines ballot-control and low-dyadic source information.
-
-At the current 14,224-cylinder frontier:
-
-- `d=4`: 583 templates;
-- `d=8`: 8,372;
-- `d=12`: 13,923;
-- `d=16`: 14,209;
-- `d=17`: 14,213;
-- `d=18`: 14,224.
-
-This allows DAG/code reuse only.  Equal finite templates are not a source-payload merge theorem.
-
-## 6. Predicate activation schedule — CLOSED
-
-### Terminal ternary observation
-
-For `W=AB`, with suffix `B` containing the final `K` one-events,
+The bounded-displacement horizon-46 gate then removes an additional, non-overlapping
 
 \[
-Z\equiv2^{-|B|}C(B)\pmod{3^K}.
+\boxed{56{,}968{,}804}
 \]
 
-For `K=28`, activate only at
+source integers.
+
+Therefore the current canonical jump-8 population is
+
+\[
+\boxed{
+26{,}859{,}837{,}368{,}531{,}301{,}450
+}.
+\]
+
+The source-cylinder count remains `14,224`; only upper parameter tails are shortened.
+
+The current export object is
+
+- `../src/A0_s1_8jump_bounded_displacement_reachability_certificate.py::pruned_states`.
+
+This is the source set that downstream S10 work should import.
+
+## 5. Bounded future displacement — CLOSED through budget 2
+
+For future target ranks write
+
+\[
+u_k=t_{q+k}-d_k,
+\qquad d_k\ge0,
+\]
+
+and let `D_r` be the number of ranks with `d_k>0` among the first `r` future one-events.
+
+Exact relaxed source+pure-ballot reachability gives:
+
+- `D_r<=0`: last nonempty horizon `40`, empty at `41`;
+- `D_r<=1`: last nonempty horizon `44`, empty at `45`;
+- `D_r<=2`: last nonempty horizon `45`, empty at `46`.
+
+Hence
+
+\[
+\boxed{D_{46}\ge3}
+\]
+
+for every horizon-46 survivor.
+
+Every displaced target rank contributes normalized defect
+
+\[
+\epsilon_r>\frac1{12},
+\]
+
+so every horizon-46 survivor has
+
+\[
+\boxed{
+\eta_{future}>\frac14.
+}
+\]
+
+If a source value fails to reach horizon 46, it is already closed by the relaxed ballot condition.  Therefore the `>1/4` floor can be used as a parent-level source-tail rejection oracle.
+
+Canonical dependencies:
+
+- `../theorems/BOUNDED_DISPLACEMENT_SOURCE_REACHABILITY.md`;
+- `../src/A0_s1_8jump_bounded_displacement_reachability_certificate.py`;
+- `../audits/S10_BOUNDED_DISPLACEMENT_REACHABILITY_AUDIT.md`.
+
+Do **not** extrapolate the observed horizons into an asymptotic displacement density without a separate theorem.
+
+## 6. First zero-path failure and exact finite min-plus results — retained but no longer principal
+
+For every original jump-8 parent, the all-target-position zero-future-defect path disappears by horizon `41`.
+
+Exact first-failure minima were certified for all 14,224 parents.  Their minimum paths use:
+
+- 1 displaced rank: 13,354 parents;
+- 2 displaced ranks: 724;
+- 3 displaced ranks: 124;
+- 4 displaced ranks: 21;
+- 5 displaced ranks: 1.
+
+Those exact first-failure minima alone produce zero whole-parent physical closures.
+
+They remain useful audit data, but the stronger cumulative statement `D_46>=3` is now the active finite-horizon result.
+
+Canonical dependencies:
+
+- `../theorems/FINITE_HORIZON_FORCED_FUTURE_DEFECT_MINPLUS.md`;
+- `../src/A0_s1_8jump_zero_future_defect_residue_exclusion_certificate.py`;
+- `../src/A0_s1_8jump_first_zero_failure_ordered_displacement_minimum_certificate.py`;
+- `../audits/S10_FIRST_ZERO_FAILURE_ORDERED_DISPLACEMENT_AUDIT.md`.
+
+## 7. Directed `P_min` predicate — globally localized by source value
+
+The current exact realized defect is
+
+\[
+\eta_q=\frac{N_q}{3^q}.
+\]
+
+Using the full threshold correction and Christoffel fixed-point envelope,
+
+\[
+\frac{C_T}{3^{j_0}}
+\le
+\frac{cW_{hi}}{mW_{lo}}.
+\]
+
+This yields a source-value cutoff `X_noP` below which **no possible future defect can ever make the directed `P_min` gate fire**.
+
+On the first-75-tightened jump-8 source set:
+
+\[
+\boxed{22{,}050{,}571{,}214{,}544{,}220{,}515}
+\]
+
+source integers lie in the permanently `P_min`-unreachable lower region, and
+
+\[
+\boxed{4{,}809{,}266{,}154{,}044{,}049{,}739}
+\]
+
+lie in the upper region where future `P_min` activation remains possible.
+
+Thus approximately
+
+\[
+82.095\%\text{ no-P}
+\qquad\text{vs.}\qquad
+17.905\%\text{ P-reachable}.
+\]
+
+All `256,808,932` integers removed by first-75 tightening came from the upper P-reachable region; the permanently no-P lower population is unchanged.  Therefore these two effects are not independent.
+
+The exact current `P` score itself adds zero further pruning after first-75 tightening.
+
+Canonical dependencies:
+
+- `../theorems/PMIN_GLOBAL_FUTURE_REACHABILITY_CUTOFF.md`;
+- `../src/A0_s1_8jump_Pmin_global_future_reachability_cutoff_certificate.py`;
+- `../audits/S10_PMIN_GLOBAL_FUTURE_REACHABILITY_AUDIT.md`.
+
+Interpretation:
+
+- future-defect work intended solely to trigger `P_min` belongs only to the upper ~17.905% region;
+- the lower ~82.095% requires a different independent source-sensitive predicate.
+
+## 8. Realized displacement defect — CLOSED / no double counting
+
+For realized one-positions `a_j` and target positions `t_j`, with `s_j=t_j-a_j`,
+
+\[
+\boxed{
+N=C_T-C_W
+=\sum_{j=0}^{q-1}3^{q-1-j}2^{a_j}(2^{s_j}-1).
+}
+\]
+
+Thus all displacement already realized in the prefix is already contained in current `N`.
+
+If `N>0` and `j_*` is the earliest displaced rank,
+
+\[
+\boxed{v_2(N)=a_{j_*}.}
+\]
+
+Historical phase/displacement/skew lower bounds may not be added again when they describe the same realized prefix.
+
+Canonical dependencies:
+
+- `../theorems/TARGET_DISPLACEMENT_DEFECT_EXACT_DECOMPOSITION.md`;
+- `../src/A0_s1_target_displacement_defect_decomposition_certificate.py`;
+- `../audits/S10_TARGET_DISPLACEMENT_DEFECT_AUDIT.md`.
+
+## 9. Formation, correction-language, and finite-template status
+
+### Formation
+
+The minimized source state is sufficient to partition a live interval exactly by the next maximal macroblock descriptor `(b,H,D)`, but one wide source cylinder does not carry one common formation label.
+
+Local formation entry is therefore an exact transient partition, not an independent pruning factor.
+
+Direct local slack/carry recurrence cannot be globalized into one formation-rank path without an explicit bridge theorem.
+
+### Correction language
+
+Pure-ballot correction-language recursion is exact, but its first branch is the same `v2` information already used by the residual/valuation decoder.  It is not an independent pruning engine.
+
+### Finite templates
+
+Short-horizon source/ballot product templates are useful for execution reuse only.  At future raw-bit horizon `18`, all 14,224 current payloads are already separated.
+
+Do not infer source merge from equal control, finite template, correction, or local formation labels.
+
+## 10. Predicate activation schedule — CLOSED
+
+Terminal ternary checkpoint observation activates only at
 
 \[
 q_{rem}=28,
@@ -198,215 +341,78 @@ equivalently
 Q(h)+S=65{,}868{,}186{,}673.
 \]
 
-### Post-checkpoint dyadic observation
+Post-checkpoint `Z mod2^27` belongs to S11/tail processing.
 
-`Z mod2^27` is determined by the first 27 post-checkpoint parity bits and belongs to S11/tail processing.
+`C4F` remains OPEN and is not admitted as a state coordinate until its exact Route-B predicate is recovered or defined.
 
-### `C4F`
+Checkpoint/debit/CRT state must not be carried early.
 
-`C4F` is not admitted as a state coordinate until its exact Route-B predicate is recovered or defined.
+## 11. Closed/rejected routes that must not be restarted
 
-Canonical dependencies:
-
-- `../theorems/PREDICATE_ACTIVATION_SCHEDULE.md`;
-- `../audits/S10_PREDICATE_ACTIVATION_AUDIT.md`.
-
-## 7. Local maximal-macroblock formation entry — CLOSED as partition / NON-INDEPENDENT
-
-For
-
-\[
-Y(m)=y+3^q m,
-\]
-
-define
-
-\[
-b=v_2(Y),
-\quad
-O=Y/2^b,
-\quad
-H=v_2(O+1),
-\quad
-D=v_2\!\left(3^H\frac{O+1}{2^H}-1\right).
-\]
-
-The exact local entry descriptor is
-
-\[
-E(m)=(b,H,D).
-\]
-
-For each prescribed descriptor there is one exact parameter residue
-
-\[
-\boxed{
-m\equiv\rho_{b,H,D}\pmod{2^{b+H+D+1}}.
-}
-\]
-
-Therefore the minimized source state already suffices to partition a live interval exactly by next maximal macroblock type.
-
-However a live interval containing consecutive `m` values cannot carry one common descriptor because the affine coefficient `3^q` is odd, so consecutive endpoints have opposite parity.
-
-Hence:
-
-\[
-\boxed{\text{source state sufficient for local partition}}
-\]
-
-but
-
-\[
-\boxed{\text{one persistent formation label for a wide cylinder is REJECTED}.}
-\]
-
-This partition is a dyadic future-parity compilation, not an independent pruning factor.
-
-It also does not repair the known global stitching obstruction between local slack/carry recurrence and the separate bounded-rank formation-subtraction path.
-
-Canonical dependencies:
-
-- `../theorems/SOURCE_TO_MACROBLOCK_FORMATION_ENTRY_PARTITION.md`;
-- `../src/A0_s1_source_to_macroblock_formation_entry_partition_certificate.py`;
-- `../audits/S10_SOURCE_TO_FORMATION_ENTRY_AUDIT.md`;
-- `../theorems/SLACK_FORMATION_LOCAL_CONJUGACY_STITCHING_OBSTRUCTION.md`.
-
-## 8. Realized target-displacement defect — CLOSED / NON-INDEPENDENT
-
-Let the realized prefix have one-positions
-
-\[
-a_0<\cdots<a_{q-1}
-\]
-
-and target one-positions
-
-\[
-t_0<\cdots<t_{q-1},
-\qquad a_j\le t_j.
-\]
-
-Put
-
-\[
-s_j=t_j-a_j.
-\]
-
-The exact defect numerator already carried by the `P_min` reconstruction is
-
-\[
-\boxed{
-N=C_T-C_W
-=\sum_{j=0}^{q-1}3^{q-1-j}2^{a_j}(2^{s_j}-1).
-}
-\]
-
-Therefore all displacement already realized in the prefix is already contained in current `N`.
-
-If `N>0` and `j_*` is the earliest displaced rank, then
-
-\[
-\boxed{v_2(N)=a_{j_*}.}
-\]
-
-The recursive update
-
-\[
-N'=3N+2^{t_q}-2^{a_q}
-\]
-
-is exactly the same displacement accounting.
-
-Consequently historical prefix phase/displacement/skew lower bounds cannot be **added** to exact current `N` when they quantify the same realized prefix.  That would double-count the defect.
-
-Canonical dependencies:
-
-- `../theorems/TARGET_DISPLACEMENT_DEFECT_EXACT_DECOMPOSITION.md`;
-- `../src/A0_s1_target_displacement_defect_decomposition_certificate.py`;
-- `../audits/S10_TARGET_DISPLACEMENT_DEFECT_AUDIT.md`;
-- `../src/A0_s1_14root_8jump_Pmin_recheck_certificate.py`.
-
-## 9. Closed/rejected routes that must not be restarted
-
-1. terminal target-dominance mod-3 gate as independent pruning — **REJECTED / redundant**;
+1. terminal target-dominance mod-3 as independent pruning — **REJECTED / redundant**;
 2. dominance-only weak CRT — **insufficient**;
-3. `P_min` alone through the certified finite horizon — **zero whole-fiber closures**;
+3. `P_min` whole-cylinder check at raw jump-8 — **zero whole cylinders**;
 4. contracting ceiling inside active pure-ballot S10 — **redundant**;
 5. correction-language recursion as independent pruning — **REJECTED / same valuation information**;
 6. H/L or local maximal-macroblock labels as independent pruning — **NON-INDEPENDENT** unless a new predicate uses them;
 7. direct local slack/carry -> one global formation-rank path — **REJECTED without explicit bridge**;
 8. adding historical realized-prefix displacement bounds to exact current `N` — **REJECTED / double count**;
 9. dropping source residue `r` before source-sensitive predicates are discharged — **REJECTED**;
-10. equal finite control/template signatures -> source merge — **REJECTED without right-congruence**.
+10. equal finite control/template signatures -> source merge — **REJECTED without right-congruence**;
+11. using future-defect work to claim progress on the permanently no-P lower 82.095% — **REJECTED unless a different predicate consumes that defect information**.
 
-## 10. Principal active object — genuinely future source-sensitive defect
+## 12. Principal active object
 
-The search has now narrowed to a stricter object.
+The frontier is now split by predicate availability.
 
-Current `N` contains the entire already-realized target displacement.  Therefore a stronger physical whole-fiber gate must force a **new** displacement in the unresolved suffix.
+### Upper P-reachable sector (~17.905%)
 
-The desired chain is
+Continue cumulative source-sensitive displacement/defect lower bounds, but only if they can materially strengthen the directed physical cut.
 
-\[
-\boxed{
-\text{exact source/control cylinder}
-\Longrightarrow
-\text{forced future }a_j<t_j
-\Longrightarrow
-N_{future,min}>0
-\Longrightarrow
-\text{exact transported physical lower bound}.
-}
-\]
-
-A future contribution must be transported through the correction recurrence with the correct power of 3.  It may not be inserted by mixing normalizations.
-
-The next computational primitive should therefore be a finite-horizon min-plus recursion over exact valuation children:
+The next useful object is a scalable bound for
 
 \[
-F_0=0,
+D_r^{min}(s)
 \]
+
+or an equivalent normalized defect floor beyond the current exact result
 
 \[
-F_{r+1}=3F_r+2^{t_{q+r}}-2^{a_{q+r}},
+D_{46}\ge3.
 \]
 
-with the minimum taken over all nonempty legal source-preserving descendants of the current cylinder.
+A sparse low-displacement symbolic cover is preferable to unrestricted valuation-tree expansion.
 
-If
+### Lower permanently no-P sector (~82.095%)
 
-\[
-\boxed{F_r^{min}>0}
-\]
+`P_min` cannot ever reject these values, even with the full remaining target-correction budget.
 
-for a parent cylinder, then every legal `r`-one continuation accumulates a genuinely new future defect relative to the parent's current `N`.
+Therefore the principal research task here is a **different independent source-sensitive membership obstruction**.  Preferred candidates are:
 
-This is the next object to certify and test on the 14,224 jump-8 cylinders.
+1. exact long-range correction/checkpoint membership incompatible with the source interval;
+2. a source-sensitive right-congruence or whole-fiber rejection not reducible to the existing valuation/correction representation;
+3. a recovered, precisely defined `C4F` predicate if it genuinely supplies independent information;
+4. terminal/checkpoint predicates only at their certified activation boundaries.
 
-## 11. Immediate computation targets
+## 13. Immediate computation targets
 
-1. implement the exact source-sensitive finite-horizon future-defect min-plus recursion;
-2. distinguish `no legal descendant` from `legal descendants with positive forced defect`;
-3. transport `F_r^{min}` exactly into descendant `N` via
-   \[
-   N_{q+r}=3^rN_q+F_r;
-   \]
-4. test whether any jump-8 source cylinder has `F_r^{min}>0` for a small certified horizon;
-5. test whether the transported floor makes every legal descendant of any parent pass the physical rejection barrier;
-6. retain the full source payload whenever no right-congruence/rejection theorem applies;
-7. activate checkpoint residues only at their certified local observation times.
+1. import `pruned_states` from the bounded-displacement certificate as the canonical source set;
+2. derive an efficient sparse representation for paths with at most `c` displaced ranks and test `c=3,4,...` without raw full-tree expansion;
+3. measure whether additional cumulative displacement pruning is worthwhile inside the upper P-reachable sector only;
+4. in parallel, search the lower no-P sector for a genuinely independent long-membership obstruction;
+5. keep all source payload coordinates exact until a valid whole-fiber rejection or right-congruence applies;
+6. keep checkpoint observations late-activated.
 
-## 12. DSD audit rules
+## 14. DSD audit rules
 
 Allowed:
 
 - exact source-preserving valuation or certified multibit transitions;
 - exact correction/residual recursion;
-- finite-horizon control/template reuse;
-- local formation partition as transient grammar;
-- exact current displacement scalar `N`;
-- future defect only when it is forced by all legal descendants of the audited source cylinder and transported exactly.
+- exact sequential interval pruning;
+- finite-horizon relaxed-class emptiness when used only as a safe lower bound for a stricter class;
+- normalized future defect when derived from forced displaced ranks;
+- predicate-availability partitioning by a rigorous global upper bound.
 
 Forbidden:
 
@@ -414,12 +420,12 @@ Forbidden:
 - equal control/template/formation label -> equal source payload;
 - local recurrence equality -> global formation path;
 - correction/formation/displacement re-expression -> independent pruning;
-- adding a lower bound on already-realized defect to exact current `N`;
-- mixing defect normalizations across different odd counts;
+- double counting already-realized defect;
+- mixing defect normalizations;
+- adding overlapping pruning fractions without interval intersection;
+- extrapolating finite `c<=2` displacement data to asymptotic density;
 - carrying checkpoint observations before they exist;
-- finite regression -> universal Route-B closure;
-- marginal density multiplication;
-- retroactive use of later refined bounds.
+- finite Route-B results -> global Collatz closure.
 
 ## Global warning
 
