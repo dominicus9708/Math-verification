@@ -2,11 +2,11 @@
 
 Status: **ACTIVE**
 
-This is the canonical resume point for current computation.
+This is the canonical resume point for the current computation.
 
-## Input family
+## 1. Exact input family
 
-Exact retained first-defect roots:
+Retained first-defect roots:
 
 `{2,5,8,10,13,16,18,21,24,27,29,32,35,37}`.
 
@@ -24,76 +24,57 @@ T^h(X)=y+3^q m,
 
 with a finite integer parameter interval.
 
-## Closed/rejected routes that must not be restarted
-
-### Terminal target-dominance as a pruning engine
-
-The terminal 28-gate target-dominance existence condition reduces to
+Initial 14-root population:
 
 \[
-Z\bmod3\in\{1,2\},
+125{,}072{,}439{,}875{,}999{,}947{,}649.
 \]
 
-but every genuine positive-one-count checkpoint already satisfies `3∤Z`.
+## 2. Current persistent S10 state — MINIMIZED / CLOSED
 
-Therefore terminal target dominance is exact but redundant for independent pruning.
-
-### Dominance-only weak CRT
-
-`Z mod2^27` plus only the automatic mod-3 condition does not isolate an ordinary checkpoint in the debit corridor.
-
-### `P_min` alone
-
-The directed physical Bellman score is exact in its stated active class, but finite deep-root execution did not close the tested families. It remains a secondary predicate.
-
-### Direct slack-carry -> one formation-rank-path identification
-
-The normalized suffix carry has the local projective recurrence
+Let
 
 \[
-c_{t+1}
-=
-\frac{2c_t+2(2^{D_t}-2^{s_t})}{3},
+S=q-Q(h),
+\qquad
+Q(h)=\min\{q:3^q>2^h\}.
 \]
 
-which is algebraically identical to one formation transition with local ranks `(D_t,s_t)`.
-
-However consecutive local pairs form one ordinary formation rank path only if
+Then
 
 \[
-s_t=D_{t+1}
-\iff
-B_t=A_{t+1}+1.
+q=Q(h)+S.
 \]
 
-General dominance does not imply this, and finite regression finds failures even for candidate=target. A rank-increase reset is illegal; a descending connector is carry-changing and therefore not a free relabel.
+The currently justified persistent state is
 
-Hence local recurrence equality must **not** be globalized into formation membership without a separate explicit bridge theorem.
+\[
+\boxed{(r,y,m_{lo},m_{hi},h,S).}
+\]
 
-Canonical objects:
+Derived rather than stored:
 
-- `../theorems/SLACK_FORMATION_LOCAL_CONJUGACY_STITCHING_OBSTRUCTION.md`;
-- `../src/A0_s1_routeB_slack_formation_local_conjugacy_stitching_certificate.py`;
-- `../audits/S10_LOCAL_CONJUGACY_AND_FINITE_TEMPLATE_QUOTIENT_AUDIT.md`.
+- `q=Q(h)+S`;
+- `3^q`;
+- `n_rem=t0-h`;
+- `q_rem=j0-Q(h)-S`.
 
-## Closed structural interfaces retained
+Fixed target parameters:
 
-1. exact affine source cylinders and source-preserving bit/block refinement;
-2. pure-ballot/target-dominance control;
-3. fixed-`(h,q)` correction injectivity and valuation decoding;
-4. correction composition and exact residual recursion;
-5. affine valuation-cylinder `0^a1` jumps;
-6. source-payload / ballot-control factorization;
-7. certified multibit block transduction;
-8. terminal ternary locality and critical-cut precision absorption;
-9. synchronized `Z mod2^27 × Z mod3^28` CRT singleton exposure when both coherent observations exist;
-10. checkpoint-conditioned source fibers;
-11. local CRT/positivity splice giving an actual local accelerated-Collatz orbit segment;
-12. finite-horizon source/ballot product-template quotient for transition-DAG reuse.
+\[
+t_0=104{,}398{,}605{,}910,
+\qquad
+j_0=65{,}868{,}186{,}701.
+\]
 
-## Exact-pair inversion — CLOSED
+Canonical dependencies:
 
-For an exact residual instance
+- `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`;
+- `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`.
+
+## 3. Exact-pair inversion and valuation source refinement — CLOSED
+
+For an exact residual pair
 
 \[
 R=2^nZ-3^qY,
@@ -108,294 +89,338 @@ a=v_2(R).
 Before endpoint depth,
 
 \[
-v_2(R)=v_2(Y),
+v_2(R)=v_2(Y).
 \]
 
-so repeated exact `0^a1` discharge either rejects or reconstructs the unique possible parity word.
-
-The unresolved difficulty is therefore family-scale execution, not inversion of one exact source/checkpoint pair.
-
-Canonical objects:
-
-- `../theorems/SOURCE_CONTROLLED_RESIDUAL_CORRECTION_RECURSION.md`;
-- `../theorems/RESIDUAL_VALUATION_JUMP_DECODER.md`;
-- `../theorems/AFFINE_VALUATION_CYLINDER_JUMP.md`.
-
-## Persistent source state — MINIMIZED / CLOSED
-
-Let
+For a source family the next `0^a1` branch selects the exact parameter residue
 
 \[
-S=q-Q(h),
-\qquad
-Q(h)=\lceil h\log_3 2\rceil.
+\rho_a\equiv(2^a-y)3^{-q}\pmod{2^{a+1}},
 \]
 
-Then
-
-\[
-q=Q(h)+S.
-\]
-
-Because the total Route-B target parameters are fixed,
-
-\[
-t_0=104{,}398{,}605{,}910,
-\qquad
-j_0=65{,}868{,}186{,}701,
-\]
-
-the remaining counters are also derived:
-
-\[
-n_{rem}=t_0-h,
-\]
-
-\[
-q_{rem}=j_0-Q(h)-S.
-\]
-
-Thus the currently justified persistent early/middle S10 core is
-
-\[
-\boxed{
-(r,y,m_{lo},m_{hi},h,S).
-}
-\]
-
-Derived rather than stored:
-
-- `q=Q(h)+S`;
-- `3^q`;
-- `n_rem=t0-h`;
-- `q_rem=j0-Q(h)-S`.
-
-Canonical objects:
-
-- `../theorems/SOURCE_PAYLOAD_CONTROL_FACTORIZATION.md`;
-- `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`.
-
-## Valuation jump / ballot factor — CLOSED
-
-For a next-one valuation branch `a`,
-
-\[
-\rho_a
-\equiv
-(2^a-y)3^{-q}
-\pmod{2^{a+1}},
-\]
-
-and
+and writing
 
 \[
 m=\rho_a+2^{a+1}k
 \]
 
-produces exact child channels
+produces another exact affine source cylinder.
+
+Pure-ballot legality and outgoing surplus depend only on `(h,S,a)`.
+
+Thus computation factors as
 
 \[
-X=r'+2^{h'}k,
-\qquad
-T^{h'}(X)=y'+3^{q+1}k.
+\boxed{\text{shared control template}\otimes\text{distinct source payload}.}
 \]
 
-The legality and outgoing surplus of the forced `0^a1` depend only on `(h,S,a)`, so the computation factors as
+Canonical dependencies:
+
+- `../theorems/SOURCE_CONTROLLED_RESIDUAL_CORRECTION_RECURSION.md`;
+- `../theorems/RESIDUAL_VALUATION_JUMP_DECODER.md`;
+- `../theorems/AFFINE_VALUATION_CYLINDER_JUMP.md`;
+- `../theorems/VALUATION_MACROBLOCK_COMPILATION.md`.
+
+## 4. Certified eight-jump frontier — SAFE finite execution
+
+Exact pure-ballot counts:
+
+| jump | cylinders | population |
+|---:|---:|---:|
+| 0 | 14 | 125,072,439,875,999,947,649 |
+| 1 | 32 | 94,018,492,189,951,139,878 |
+| 2 | 74 | 78,277,356,063,975,556,852 |
+| 3 | 174 | 59,912,679,889,581,873,141 |
+| 4 | 374 | 50,489,422,254,631,626,671 |
+| 5 | 986 | 44,710,237,164,104,400,785 |
+| 6 | 2,192 | 36,555,835,392,716,456,688 |
+| 7 | 5,752 | 32,306,978,271,327,268,319 |
+| 8 | 14,224 | 26,859,837,368,845,079,186 |
+
+Eight-jump survival:
 
 \[
-\boxed{
-\text{shared ballot-control template}
-\otimes
-\text{distinct source payload}.
-}
+0.214754244784\ldots
 \]
 
-At the certified eight-jump frontier:
-
-- source cylinders: `14,224`;
-- pure-ballot survivors: `26,859,837,368,845,079,186`;
-- distinct exact `(h,S)` controls: `90`;
-- distinct four-future-jump ballot-control signatures: `13`.
-
-This allows control-code reuse but does **not** prove source-payload merging.
-
-Secondary accumulated-defect + first-75 tail tightening removes only `256,808,932` more integers and closes no additional cylinder, so it is not the principal engine.
-
-## Finite-horizon source/ballot product templates — CLOSED / EXECUTION ONLY
-
-For future raw-bit horizon `d`, define
+The first-75 defect-tail tightening removes only
 
 \[
-Q_d^{src}
-=
-(y\bmod2^d,3^q\bmod2^d)
+256{,}808{,}932
 \]
 
-and
+additional integers and closes no whole cylinder.
+
+The exact directed `P_min` recheck also closes zero whole cylinders through jump 8.
+
+These are finite exact execution results, not universal theorems.
+
+## 5. Finite-horizon transition templates — CLOSED / execution reuse only
+
+For raw-bit horizon `d`, the product template
 
 \[
-B_d(h,S)
-=
-(S,\Delta_1,\ldots,\Delta_d),
-\qquad
-\Delta_i=Q(h+i)-Q(h+i-1).
-\]
-
-Then
-
-\[
-\boxed{
 P_d=(B_d,Q_d^{src})
-}
 \]
 
-is an exact next-`d`-bit transition template: equal `P_d` gives the same low-parameter-residue -> parity map and the same pure-ballot verdicts through that finite horizon.
+combines ballot-control and low-dyadic source information.
 
 At the current 14,224-cylinder frontier:
 
-- `d=4`: `583` templates;
-- `d=8`: `8,372` templates;
-- `d=12`: `13,923` templates;
-- `d=16`: `14,209` templates;
-- `d=17`: `14,213` templates;
-- `d=18`: `14,224` templates.
+- `d=4`: 583 templates;
+- `d=8`: 8,372;
+- `d=12`: 13,923;
+- `d=16`: 14,209;
+- `d=17`: 14,213;
+- `d=18`: 14,224.
 
-Thus short-horizon transition logic is highly reusable, but this particular quotient completely separates the current payloads by 18 future raw bits.
+This allows DAG/code reuse only.  Equal finite templates are not a source-payload merge theorem.
 
-Consequences:
+## 6. Predicate activation schedule — CLOSED
 
-- use `P_d` to share computation/DAG nodes;
-- do not merge exact source payloads on `P_d` alone;
-- do not infer a horizon-independent finite-state closure from low-`d` reuse;
-- a stronger source-sensitive invariant is still required for proof-level contraction.
+### Terminal ternary observation
 
-Canonical objects:
-
-- `../theorems/FINITE_HORIZON_SOURCE_BALLOT_PRODUCT_TEMPLATE_QUOTIENT.md`;
-- `../src/A0_s1_routeB_8jump_source_ballot_product_template_quotient_certificate.py`;
-- `../audits/S10_LOCAL_CONJUGACY_AND_FINITE_TEMPLATE_QUOTIENT_AUDIT.md`.
-
-## Predicate activation schedule — CLOSED
-
-The remaining state must follow actual observation time rather than carry every later predicate globally.
-
-### H/L / block grammar
-
-A certified block with
+For `W=AB`, with suffix `B` containing the final `K` one-events,
 
 \[
-(|B|,q(B),C(B))=(b,p,\gamma)
-\]
-
-is consumed exactly by the existing multibit source-channel transducer.
-
-Therefore H/L or Christoffel structure is treated as **transient block-computation grammar** unless a separate theorem proves that an unresolved later predicate depends on the grammar-history label itself.
-
-Do not count H/L as an independent probabilistic pruning factor when it represents the same formation language.
-
-### Terminal ternary checkpoint observation
-
-If the pre-checkpoint word is `W=AB` and `B` contains exactly the final `K` one-events, then
-
-\[
-\boxed{
 Z\equiv2^{-|B|}C(B)\pmod{3^K}.
-}
 \]
 
-For the current `K=28`, `Z mod3^28` activates only when the remaining pre-checkpoint one-count reaches
+For `K=28`, activate only at
 
 \[
-\boxed{q_{rem}=28.}
+q_{rem}=28,
 \]
 
-Equivalently,
+equivalently
 
 \[
-Q(h)+S=j_0-28=65{,}868{,}186{,}673.
+Q(h)+S=65{,}868{,}186{,}673.
 \]
-
-This activation boundary is detected from `(h,S)` alone.
 
 ### Post-checkpoint dyadic observation
 
-`Z mod2^27` is determined by the first 27 post-checkpoint parity bits. It is therefore an S11/tail coordinate, not an early S10 coordinate.
-
-### Local same-orbit provenance
-
-Once coherent terminal ternary and post-checkpoint dyadic observations exist, invoke the certified CRT/debit/local-splice interfaces. A permanent pre-bridge same-orbit flag is unnecessary.
+`Z mod2^27` is determined by the first 27 post-checkpoint parity bits and belongs to S11/tail processing.
 
 ### `C4F`
 
-The working label `C4F` is **not** admitted as a state coordinate until its exact Route-B predicate and state requirement are formally identified. An undefined name cannot justify state growth, merging, or rejection.
+`C4F` is not admitted as a state coordinate until its exact Route-B predicate is recovered or defined.
 
-Canonical objects:
+Canonical dependencies:
 
 - `../theorems/PREDICATE_ACTIVATION_SCHEDULE.md`;
-- `../theorems/FIXED_TARGET_COUNTER_DERIVATION.md`;
-- `../audits/S10_PREDICATE_ACTIVATION_AUDIT.md`;
-- `../src/A0_s1_checkpoint_late_activation_certificate.py`;
-- `../src/A0_s1_fixed_target_counter_derivation_certificate.py`.
+- `../audits/S10_PREDICATE_ACTIVATION_AUDIT.md`.
 
-## Principal active object — source-sensitive family contraction
+## 7. Local maximal-macroblock formation entry — CLOSED as partition / NON-INDEPENDENT
 
-The S10 state should **not** now be enlarged with speculative H/L, checkpoint, C4F, or formation-rank coordinates.
+For
 
-The active computation is:
+\[
+Y(m)=y+3^q m,
+\]
 
-> propagate the minimized exact source state through certified valuation or larger block transitions, share finite-horizon transition logic through exact product templates, reject only by active exact predicates, and seek a stronger source-sensitive invariant that contracts or bounds payload complexity without losing any later predicate.
+define
 
-One transition engine may use either:
+\[
+b=v_2(Y),
+\quad
+O=Y/2^b,
+\quad
+H=v_2(O+1),
+\quad
+D=v_2\!\left(3^H\frac{O+1}{2^H}-1\right).
+\]
 
-1. valuation-cylinder `0^a1` jumps; or
-2. a certified larger block `(b,p,\gamma)` supplied by an exact grammar/DAG and consumed by the multibit source transducer.
+The exact local entry descriptor is
 
-The current results separate three notions:
+\[
+E(m)=(b,H,D).
+\]
 
-- **block compilation** can reduce execution work without reducing exact leaf count;
-- **finite source/ballot templates** can share short-horizon transition DAGs without merging payloads;
-- **proof-level contraction** still requires a new source-sensitive invariant, whole-payload rejection predicate, or certified global quotient.
+For each prescribed descriptor there is one exact parameter residue
 
-## Immediate computation targets
+\[
+\boxed{
+m\equiv\rho_{b,H,D}\pmod{2^{b+H+D+1}}.
+}
+\]
 
-1. use `P_d` only as a shared execution template over short horizons;
-2. search existing source-sensitive predicates/invariants for one that is invariant under continuation and can reject or merge whole payload pieces;
-3. prefer exact whole-cylinder/fiber rejection over deeper raw valuation expansion;
-4. retain `(r,y,m_lo,m_hi,h,S)` exactly whenever source payload remains live;
-5. do not pursue direct slack-carry -> formation-rank-path globalization without a new bridge theorem;
-6. activate `Z mod3^28` only at `q_rem=28`;
-7. move `Z mod2^27`, CRT, debit and local splice to S11;
-8. keep `C4F` OPEN until its precise predicate is recovered or defined.
+Therefore the minimized source state already suffices to partition a live interval exactly by next maximal macroblock type.
 
-## DSD audit rules
+However a live interval containing consecutive `m` values cannot carry one common descriptor because the affine coefficient `3^q` is odd, so consecutive endpoints have opposite parity.
+
+Hence:
+
+\[
+\boxed{\text{source state sufficient for local partition}}
+\]
+
+but
+
+\[
+\boxed{\text{one persistent formation label for a wide cylinder is REJECTED}.}
+\]
+
+This partition is a dyadic future-parity compilation, not an independent pruning factor.
+
+It also does not repair the known global stitching obstruction between local slack/carry recurrence and the separate bounded-rank formation-subtraction path.
+
+Canonical dependencies:
+
+- `../theorems/SOURCE_TO_MACROBLOCK_FORMATION_ENTRY_PARTITION.md`;
+- `../src/A0_s1_source_to_macroblock_formation_entry_partition_certificate.py`;
+- `../audits/S10_SOURCE_TO_FORMATION_ENTRY_AUDIT.md`;
+- `../theorems/SLACK_FORMATION_LOCAL_CONJUGACY_STITCHING_OBSTRUCTION.md`.
+
+## 8. Realized target-displacement defect — CLOSED / NON-INDEPENDENT
+
+Let the realized prefix have one-positions
+
+\[
+a_0<\cdots<a_{q-1}
+\]
+
+and target one-positions
+
+\[
+t_0<\cdots<t_{q-1},
+\qquad a_j\le t_j.
+\]
+
+Put
+
+\[
+s_j=t_j-a_j.
+\]
+
+The exact defect numerator already carried by the `P_min` reconstruction is
+
+\[
+\boxed{
+N=C_T-C_W
+=\sum_{j=0}^{q-1}3^{q-1-j}2^{a_j}(2^{s_j}-1).
+}
+\]
+
+Therefore all displacement already realized in the prefix is already contained in current `N`.
+
+If `N>0` and `j_*` is the earliest displaced rank, then
+
+\[
+\boxed{v_2(N)=a_{j_*}.}
+\]
+
+The recursive update
+
+\[
+N'=3N+2^{t_q}-2^{a_q}
+\]
+
+is exactly the same displacement accounting.
+
+Consequently historical prefix phase/displacement/skew lower bounds cannot be **added** to exact current `N` when they quantify the same realized prefix.  That would double-count the defect.
+
+Canonical dependencies:
+
+- `../theorems/TARGET_DISPLACEMENT_DEFECT_EXACT_DECOMPOSITION.md`;
+- `../src/A0_s1_target_displacement_defect_decomposition_certificate.py`;
+- `../audits/S10_TARGET_DISPLACEMENT_DEFECT_AUDIT.md`;
+- `../src/A0_s1_14root_8jump_Pmin_recheck_certificate.py`.
+
+## 9. Closed/rejected routes that must not be restarted
+
+1. terminal target-dominance mod-3 gate as independent pruning — **REJECTED / redundant**;
+2. dominance-only weak CRT — **insufficient**;
+3. `P_min` alone through the certified finite horizon — **zero whole-fiber closures**;
+4. contracting ceiling inside active pure-ballot S10 — **redundant**;
+5. correction-language recursion as independent pruning — **REJECTED / same valuation information**;
+6. H/L or local maximal-macroblock labels as independent pruning — **NON-INDEPENDENT** unless a new predicate uses them;
+7. direct local slack/carry -> one global formation-rank path — **REJECTED without explicit bridge**;
+8. adding historical realized-prefix displacement bounds to exact current `N` — **REJECTED / double count**;
+9. dropping source residue `r` before source-sensitive predicates are discharged — **REJECTED**;
+10. equal finite control/template signatures -> source merge — **REJECTED without right-congruence**.
+
+## 10. Principal active object — genuinely future source-sensitive defect
+
+The search has now narrowed to a stricter object.
+
+Current `N` contains the entire already-realized target displacement.  Therefore a stronger physical whole-fiber gate must force a **new** displacement in the unresolved suffix.
+
+The desired chain is
+
+\[
+\boxed{
+\text{exact source/control cylinder}
+\Longrightarrow
+\text{forced future }a_j<t_j
+\Longrightarrow
+N_{future,min}>0
+\Longrightarrow
+\text{exact transported physical lower bound}.
+}
+\]
+
+A future contribution must be transported through the correction recurrence with the correct power of 3.  It may not be inserted by mixing normalizations.
+
+The next computational primitive should therefore be a finite-horizon min-plus recursion over exact valuation children:
+
+\[
+F_0=0,
+\]
+
+\[
+F_{r+1}=3F_r+2^{t_{q+r}}-2^{a_{q+r}},
+\]
+
+with the minimum taken over all nonempty legal source-preserving descendants of the current cylinder.
+
+If
+
+\[
+\boxed{F_r^{min}>0}
+\]
+
+for a parent cylinder, then every legal `r`-one continuation accumulates a genuinely new future defect relative to the parent's current `N`.
+
+This is the next object to certify and test on the 14,224 jump-8 cylinders.
+
+## 11. Immediate computation targets
+
+1. implement the exact source-sensitive finite-horizon future-defect min-plus recursion;
+2. distinguish `no legal descendant` from `legal descendants with positive forced defect`;
+3. transport `F_r^{min}` exactly into descendant `N` via
+   \[
+   N_{q+r}=3^rN_q+F_r;
+   \]
+4. test whether any jump-8 source cylinder has `F_r^{min}>0` for a small certified horizon;
+5. test whether the transported floor makes every legal descendant of any parent pass the physical rejection barrier;
+6. retain the full source payload whenever no right-congruence/rejection theorem applies;
+7. activate checkpoint residues only at their certified local observation times.
+
+## 12. DSD audit rules
 
 Allowed:
 
-- exact correction composition and residual recursion;
-- exact-pair valuation decoding;
-- source-preserving valuation or certified multibit block transitions;
-- source-payload / control factorization;
+- exact source-preserving valuation or certified multibit transitions;
+- exact correction/residual recursion;
 - finite-horizon control/template reuse;
-- derivation rather than storage of redundant counters;
-- predicate-relative activation and forgetting;
-- secondary physical/defect pruning inside valid active classes.
+- local formation partition as transient grammar;
+- exact current displacement scalar `N`;
+- future defect only when it is forced by all legal descendants of the audited source cylinder and transported exactly.
 
 Forbidden:
 
-- exact-pair uniqueness -> family-level uniqueness;
-- equal control signature -> equal source family;
-- equal finite product template -> equal source payload;
-- equal valuation/residual -> legal source merge;
-- dropping source residue `r` before source-sensitive predicates are discharged;
-- local recurrence equality -> one global formation rank path;
-- treating H/L representation as independent pruning information without a new predicate;
-- inventing a `C4F` state before defining its predicate;
-- carrying checkpoint residues before their local observations exist;
-- checkpoint exposure -> same orbit without certified splice hypotheses;
+- exact-pair uniqueness -> family uniqueness;
+- equal control/template/formation label -> equal source payload;
+- local recurrence equality -> global formation path;
+- correction/formation/displacement re-expression -> independent pruning;
+- adding a lower bound on already-realized defect to exact current `N`;
+- mixing defect normalizations across different odd counts;
+- carrying checkpoint observations before they exist;
 - finite regression -> universal Route-B closure;
 - marginal density multiplication;
-- later refined bounds used retroactively.
+- retroactive use of later refined bounds.
 
 ## Global warning
 
-Even complete closure of all 14 current Route-B roots would close only `A0, s=1, Route-B`. Route-A, `s>=2`, remaining formation sectors, and global branch completeness remain separate obligations before any Collatz conclusion.
+Even complete closure of all 14 current Route-B roots would close only `A0, s=1, Route-B`.  Route-A, `s>=2`, remaining sectors, and global branch completeness remain separate obligations before any Collatz conclusion.
