@@ -1,9 +1,7 @@
 name: Collatz S10 sparse horizon
 
 on:
-  push:
-    branches:
-      - collatz-stage4-window-threshold
+  workflow_dispatch:
 
 jobs:
   sparse-horizon:

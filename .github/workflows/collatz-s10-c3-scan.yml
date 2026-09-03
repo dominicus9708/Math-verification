@@ -1,9 +1,7 @@
 name: Collatz S10 c3 horizon scan
 
 on:
-  push:
-    branches:
-      - collatz-stage4-window-threshold
+  workflow_dispatch:
 
 jobs:
   c3-scan:

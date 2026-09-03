@@ -1,0 +1,24 @@
+name: Collatz S10 eta one-third prune
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_8jump_four_displacement_eta_pruning_measurement.py'
+      - 'collatz/src/A0_s1_8jump_cumulative_pruned_frontier_export.py'
+      - '.github/workflows/collatz-s10-eta-third-prune.yml'
+  workflow_dispatch:
+
+jobs:
+  eta-third-prune:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Measure strengthened eta floor pruning
+        working-directory: collatz/src
+        run: python A0_s1_8jump_four_displacement_eta_pruning_measurement.py
