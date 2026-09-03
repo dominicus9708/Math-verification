@@ -20,7 +20,7 @@ Status: **CERTIFIED ARITHMETIC -> SAFE**.
 
 ## S2 — Monotone defect and physical pruning
 
-Target dominance makes the threshold correction maximal. Normalized defect is nonnegative and irreversible under continuation. Together with the directed real envelope this yields the certified physical pruning bound.
+Target dominance makes the threshold correction maximal. Normalized defect is nonnegative and irreversible under continuation. Together with the directed real envelope this yields certified physical pruning.
 
 Status: **EXACT + CERTIFIED arithmetic -> SAFE pruning**.
 
@@ -38,13 +38,14 @@ Status: **EXACT search-family representation after SAFE inputs**.
 
 Available exact tools include:
 
-- affine source cylinders and bit refinement;
+- affine source cylinders and source-preserving refinement;
 - fixed-count ballot / target dominance;
-- exact H/L grammar;
 - fixed-`(h,q)` correction injectivity and valuation decoding;
 - correction block composition and residual recursion;
 - affine valuation-cylinder odd-event jumps;
 - source-payload / ballot-control factorization;
+- certified multibit block transduction;
+- H/L / Christoffel representations as block-computation grammar in their proved scopes;
 - dyadic prefix and ternary suffix localization;
 - projective carry/displacement states;
 - finite interval quotients.
@@ -63,45 +64,32 @@ P=m_{W,lo}N+\delta_{lo}3^qX_{lo},
 
 one `P_min` label per exact active source/control + payload class is sufficient for the directed physical rejection predicate.
 
-Status: **EXACT / CLOSED for this predicate**.
+Finite deep-root executions through `h=72` on `f=29,32,35,37` produced zero whole-family physical closures. This is execution evidence only.
 
-Finite deep-root executions through `h=72` on `f=29,32,35,37` produced zero whole-family physical closures. This is execution evidence only and does not alter the theorem.
+Status: **EXACT / CLOSED for this predicate; secondary in the current search**.
 
 ## S6 — Terminal localization and checkpoint seams
 
-Exact closed interfaces:
+Exact closed interfaces include:
 
 - lazy terminal-ternary observation;
-- critical-cut shielding;
-- terminal precision absorption;
+- critical-cut shielding and terminal precision absorption;
 - terminal ranked-one window locality;
-- full synchronized `Z mod2^27 × z_H mod3^28` CRT singleton exposure, conditional on a full `z_H` observation;
-- exposed ordinary `Z` -> exact checkpoint-conditioned source fibers.
+- synchronized `Z mod2^27 × Z mod3^28` CRT singleton exposure, conditional on both coherent observations;
+- exposed ordinary `Z` -> exact checkpoint-conditioned source fibers;
+- local CRT/positivity splice -> actual local accelerated-Collatz orbit segment.
 
 Status: **EXACT / CLOSED in their stated scopes**.
 
 ## S7 — Terminal target-dominance saturation
 
-For the current terminal 28-rank right-H window, a finite mod-6/mod-9 lifting lemma yields sufficient slack thresholds
+For the current terminal 28-rank right-H window, the complete target-dominance suffix existence condition reduces to
 
 \[
-T_{27}=1,
-\qquad T_t=T_{t+1}+3,
+z_H\bmod3\in\{0,1\}
 \]
 
-and therefore
-
-\[
-T_0=82.
-\]
-
-The actual target capacities exceed `232,565,502`, so the complete target-dominance suffix existence condition reduces to the first local gate:
-
-\[
-z_H\bmod3\in\{0,1\}.
-\]
-
-Equivalently
+or equivalently
 
 \[
 Z\bmod3\in\{1,2\}.
@@ -111,63 +99,47 @@ Status: **EXACT / CLOSED for target-dominance suffix existence**.
 
 ## S8 — Terminal dominance gate redundancy
 
-Every genuine checkpoint with positive one-count satisfies
-
-\[
-2^hZ=3^qX+C(W),\qquad q\ge1.
-\]
-
-Modulo 3,
-
-\[
-C(W)\equiv2^{a_q}\not\equiv0,
-\]
-
-so necessarily
+Every genuine positive-one-count checkpoint already satisfies
 
 \[
 3\nmid Z.
 \]
 
-This is exactly the terminal target-dominance condition from S7.
-
-Therefore the standalone terminal target-dominance ternary gate removes zero genuine candidates.
+This is exactly the S7 terminal condition. Therefore standalone terminal target-dominance filtering removes zero genuine candidates.
 
 Status: **EXACT redundancy theorem / REJECTED as an independent pruning engine**.
 
 ## S9 — Residual correction and exact-pair decoding
 
-For a proposed source/checkpoint pair, the required full pre-bridge correction is
+For a proposed source/checkpoint pair,
 
 \[
-\boxed{C_{req}=2^{t_0}Z-3^{j_0}X.}
+C_{req}=2^{t_0}Z-3^{j_0}X.
 \]
 
-For an exact realized prefix `A`, with current state `Y`, the correction equation restarts exactly on the remaining suffix `B`:
+After an exact realized prefix is discharged, the correction equation restarts on the remaining suffix:
 
 \[
-\boxed{C(B)=2^{|B|}Z-3^{q(B)}Y.}
+C(B)=2^{|B|}Z-3^{q(B)}Y.
 \]
 
-For a fully specified remaining instance `(Y,Z,n,q)`, define
+For a fully specified residual instance `(Y,Z,n,q)`, define
 
 \[
 R=2^nZ-3^qY.
 \]
 
-If `q>0`, the next 1-position is forced by
+If `q>0`, the next one-position is forced by
 
 \[
-\boxed{a=v_2(R)}
+a=v_2(R).
 \]
 
-and the forced block `0^a1` may be discharged exactly. Repetition either rejects or reconstructs the unique realizing word.
-
-Thus exact-pair correction inversion is zero-or-one and algorithmically closed.
+Repeated exact discharge of `0^a1` either rejects or reconstructs the unique realizing parity word.
 
 Status: **EXACT / CLOSED at exact-pair resolution**.
 
-## S10 — Active source-preserving valuation-family realization
+## S10 — Active source-preserving family realization with late predicate activation
 
 For an exact source cylinder
 
@@ -191,57 +163,74 @@ q=Q(h)+S,
 3^q=3^{Q(h)+S},
 \]
 
-so the affine coefficient is derived from `(h,S)` and need not be stored.
-
-For a next-one valuation branch `a=v2(T^h(X))`, the source parameter lies in the unique residue
+so `q` and `3^q` are derived. The justified persistent core is
 
 \[
-\boxed{
-m\equiv(2^a-y)3^{-q}\pmod{2^{a+1}}.
-}
+\boxed{(r,y,m_{lo},m_{hi},h,S)}.
 \]
 
-Writing `m=rho_a+2^(a+1)k`, the forced block `0^a1` preserves both exact affine channels:
+For the next-one valuation branch `a`,
 
 \[
-\boxed{
-X=r'+2^{h'}k,
-\qquad
-T^{h'}(X)=y'+3^{q+1}k.
-}
+m\equiv(2^a-y)3^{-q}\pmod{2^{a+1}},
 \]
 
-The reusable source-sensitive state is therefore
+and writing `m=rho_a+2^(a+1)k` preserves both exact source and current-state affine channels across the forced block `0^a1`.
 
-\[
-\boxed{(r,y,m_{lo},m_{hi},h,S;\text{future-predicate labels}).}
-\]
-
-Pure-ballot jump legality factors through the source-independent control `(h,S)`. At the certified eight-jump frontier:
+At the certified eight-jump frontier:
 
 - source cylinders: `14,224`;
 - pure-ballot surviving integers: `26,859,837,368,845,079,186`;
 - distinct exact `(h,S)` controls: `90`;
 - distinct four-future-jump ballot-control signatures: `13`.
 
-Thus control transition skeletons can be shared, but source payloads are not merged.
+Thus control skeletons may be shared, but source payloads are not merged.
 
-Combining exact accumulated defect with a first-75 conditional tail-defect DP gives only `256,808,932` additional integer rejections and closes no additional cylinder. This predicate remains SAFE but secondary at the current frontier.
+The state is further minimized by the exact predicate-activation schedule:
 
-The active task is now to attach the remaining **source-sensitive future-language controls** to the source-preserving valuation jump:
+### Early / middle pre-bridge
 
-- exact H/L or equivalent pre-bridge control;
-- the precise renewal/C4F control still required by the branch;
-- predicate-relative checkpoint/debit state when it becomes active;
-- optional `P_min` only inside an identical future-control class.
+Persist only the source core and any already-defined active predicate labels.
 
-A legal family quotient must identify source payloads only after proving that every remaining predicate has the same future realization set on the proposed class.
+- H/L or equivalent grammar is **transient block-computation metadata** unless a separate theorem proves that later predicates inspect its history.
+- a certified block `(b,p,gamma=C(B))` is consumed by the existing multibit source-channel transducer;
+- historical correction information is discarded after exact residual discharge.
 
-Status: **ACTIVE principal family-compression / future-equivalence gate**.
+### Final-28-one pre-checkpoint suffix
+
+If `B` contains exactly the final `K` one-events,
+
+\[
+Z\equiv2^{-|B|}C(B)\pmod{3^K}.
+\]
+
+For the current `K=28`, `Z mod3^28` therefore activates only on the suffix containing the final 28 one-events. Earlier pre-bridge history exports zero required ternary checkpoint digits.
+
+### Checkpoint / S11 tail entrance
+
+The first 27 post-checkpoint parity bits determine `Z mod2^27`. Only then is the synchronized CRT checkpoint seam activated. A coherent CRT result plus the certified positivity/local-splice hypotheses supplies local same-orbit provenance; no permanent pre-bridge provenance flag is needed.
+
+### Undefined obligation rule
+
+The working label `C4F` is not admitted as a persistent coordinate until its exact Route-B predicate/state requirement is formally identified. An undefined name cannot justify state growth or pruning.
+
+The accumulated-defect + first-75 tail DP remains SAFE but low-yield: it rejects only `256,808,932` additional integers at the eight-jump frontier and closes no additional cylinder.
+
+The active S10 task is now **source-family block realization under this minimized activation schedule**: use valuation jumps or certified larger blocks while preserving the source payload, and search for a genuine source-sensitive future-equivalence only under predicates whose definitions and observation resolutions are fixed.
+
+Status: **ACTIVE principal family-compression / block-realization gate**.
 
 ## S11 — Checkpoint/debit/tail realization
 
-For every S10-realized or still-possible pre-bridge state, discharge ordinary checkpoint/debit coherence, tail first-passage, and any required renewal/C4F obligation.
+For every S10-realized or still-possible pre-bridge state:
+
+1. activate `Z mod3^28` at the terminal 28-one suffix;
+2. obtain `Z mod2^27` from the post-checkpoint 27-bit prefix;
+3. synchronize the certified CRT/debit corridor;
+4. check local-splice positivity/coherence;
+5. discharge tail first-passage and every separately defined renewal obligation.
+
+Any still-undefined `C4F` obligation must be defined before it can be claimed closed.
 
 Status: **OPEN**.
 
@@ -263,17 +252,17 @@ Status: **OPEN**.
 
 - exact-pair uniqueness -> family-level uniqueness;
 - equal ballot-control signature -> equal source family;
-- equal valuation/residual -> legal merge when future controls differ;
-- omitting the current source residue `r` when later predicates need ordinary-source information;
+- equal valuation/residual -> legal merge when future predicates differ;
+- dropping source residue `r` before all source-sensitive predicates are discharged;
+- treating H/L representation as an independent probabilistic pruning factor;
+- inventing a `C4F` state or rejection rule before its exact predicate is defined;
+- carrying `Z mod3^28` as a global early-S10 coordinate despite terminal locality;
+- carrying `Z mod2^27` before the post-checkpoint observation exists;
 - terminal target-dominance filtering as an independent pruning engine after its redundancy theorem;
-- target-dominance acceptance -> full `z_H mod3^28`;
-- dominance-only mod3 + dyadic residue -> checkpoint singleton;
-- adic mismatch -> membership rejection outside an explicit equality predicate;
-- endpoint/checkpoint exposure -> same orbit/full membership;
+- target-dominance acceptance -> full checkpoint membership;
+- endpoint/checkpoint exposure -> same orbit without the certified splice hypotheses;
 - small source fiber -> membership;
 - finite `P_min` non-closure -> universal theorem;
-- continue a merged physical state beyond its certified future-predicate scope;
-- local carry greedy -> global optimum before a cylinder sequence is fixed;
 - marginal survival-ratio multiplication without independence;
 - later refined bounds used retroactively;
 - A0 `s=1` Route-B closure -> Collatz without the remaining modules.
