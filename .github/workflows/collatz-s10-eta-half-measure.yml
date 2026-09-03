@@ -1,0 +1,23 @@
+name: Collatz S10 eta half conditional measure
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_8jump_six_displacement_eta_half_measurement.py'
+      - '.github/workflows/collatz-s10-eta-half-measure.yml'
+  workflow_dispatch:
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Measure conditional eta half endpoint cut
+        working-directory: collatz/src
+        run: python A0_s1_8jump_six_displacement_eta_half_measurement.py
