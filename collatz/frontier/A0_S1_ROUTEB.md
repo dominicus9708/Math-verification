@@ -77,10 +77,12 @@ This is execution evidence only, not a theorem. Record:
 3. Terminal ternary precision is fully absorbed inside the current right-H block, so no checkpoint ternary residue must cross the critical cut after that predicate is discharged.
 4. Fixed-`(h,q)` correction is injective.
 5. Dyadic prefix and ternary suffix correction localization and exact block correction composition are available.
+6. Exact prefix discharge restarts the same correction equation on the residual suffix.
+7. For an exact `(Y,Z,n,q)` residual instance, valuation decoding gives zero or one realizing parity word.
 
 The full CRT seam is **conditional**: use it only if a stronger exact state really supplies a full `z_H mod3^28` observation.
 
-## Principal active object — source-controlled full correction membership
+## Principal active object — source-family correction realization
 
 For a candidate ordinary source/checkpoint pair, define the required correction
 
@@ -98,11 +100,18 @@ q(W)=j_0,
 C(W)=C_{req},
 \]
 
-and belong to the exact Route-B formation language induced by the source/control constraints.
+and the exact Route-B formation/source-control obligations.
 
-Fixed-`(t_0,j_0)` correction injectivity means that **if** such a word exists it is unique. It does not provide existence or an inverse algorithm by itself.
+The exact-pair inversion problem is now closed: fixed-`(t_0,j_0)` correction injectivity plus the residual valuation decoder reconstructs the unique possible word, or rejects.
 
-The next computation must therefore solve a constrained correction-language inversion/join problem rather than a free target-dominance residue problem.
+The unresolved S10 problem is therefore **not** free correction-language inversion for one exact pair. It is compressed execution over the enormous affine source/checkpoint families while preserving every future formation predicate.
+
+Canonical objects:
+
+- `../theorems/SOURCE_CONTROLLED_RESIDUAL_CORRECTION_RECURSION.md`;
+- `../theorems/RESIDUAL_VALUATION_JUMP_DECODER.md`;
+- `../theorems/AFFINE_VALUATION_CYLINDER_JUMP.md`;
+- `../audits/S10_EXACT_PAIR_INVERSION_HANDOFF_AUDIT.md`.
 
 ## Exact source-controlled interfaces to exploit
 
@@ -122,86 +131,135 @@ X=r+2^h m.
 
 Refining the next parity bit is an exact affine child transformation.
 
-### 2. Required correction modulo powers of two
+### 2. Source dyadic correction observation is redundant
 
-For any `K<=t_0`, because `2^{t_0}Z` vanishes modulo `2^K`,
-
-\[
-\boxed{C_{req}\equiv-3^{j_0}X\pmod{2^K}.}
-\]
-
-Thus the source cylinder directly supplies a dyadic correction target without requiring `Z`.
-
-This is a source-controlled observation, not an independent membership theorem.
-
-### 3. Correction composition
-
-For a split `W=AB` with right block one-count `q_B`,
+For any `K<=t_0`,
 
 \[
-C(AB)=3^{q_B}C(A)+2^{|A|}C(B).
+C_{req}\equiv-3^{j_0}X\pmod{2^K}.
 \]
 
-This exact law permits meet/join or grammar-recursive inversion while retaining only the residues and controls queried by the current block.
+When the exact source parity prefix/control through depth `K` is already present, this is the same information and must not be counted as an independent pruning coordinate.
 
-### 4. H/L grammar
+### 3. Residual correction recursion
 
-The exact H/L grammar represents the same target-dominance formation language. It may be used as a block recursion for correction realization; do not treat it as an independent probabilistic sparsity factor.
+For an exact realized prefix `A` with state `Y=T^{|A|}(X)`, the full correction equation restarts exactly on the suffix:
 
-### 5. Physical score
+\[
+C(B)=2^{|B|}Z-3^{q(B)}Y.
+\]
 
-When a source-controlled block family remains large, attach the exact directed `P_min` label for whole-family physical rejection. Do not merge different future-control classes merely because their physical labels agree.
+Historical prefix correction may then be forgotten if all remaining source/formation controls are preserved.
+
+### 4. Residual valuation decoder
+
+For an exact remaining instance
+
+\[
+R=2^nZ-3^qY,
+\]
+
+with `q>0`, the next 1-position is forced by
+
+\[
+\boxed{a=v_2(R).}
+\]
+
+The forced prefix `0^a1` is discharged exactly and the same residual problem restarts.
+
+### 5. Endpoint-free affine valuation jump
+
+Before the remaining endpoint depth is reached,
+
+\[
+v_2(R)=v_2(Y).
+\]
+
+For an affine current-state family
+
+\[
+Y=y+A m,
+\qquad A\text{ odd},
+\]
+
+the branch `v2(Y)=a` is exactly one parameter residue
+
+\[
+\boxed{
+m\equiv(2^a-y)A^{-1}\pmod{2^{a+1}}.
+}
+\]
+
+Writing `m=rho_a+2^(a+1)k`, the complete forced block `0^a1` jumps to another exact affine cylinder
+
+\[
+Y'=y'_a+3A k.
+\]
+
+Thus source-family refinement can operate by odd-event jumps rather than one parity bit at a time.
+
+### 6. H/L grammar and physical score
+
+H/L/pre-bridge controls remain separate exact future-language coordinates. They must be updated across every valuation jump before histories may merge.
+
+`P_min` remains an optional secondary label only within an exact future-control class.
 
 ## Immediate theorem / algorithm target
 
-Construct an exact **source-controlled correction inverse quotient**.
+Construct an exact **valuation-cylinder formation transducer** over the retained roots.
 
-A useful state should answer:
+A useful state should contain:
 
-> Given a source prefix/control class and a required correction observation, can any legal H/L/pre-bridge completion realize that correction?
+1. affine current-state cylinder `(y,A,[m_lo,m_hi])`;
+2. remaining length and one-count controls;
+3. exact H/L/pre-bridge future-control state;
+4. any active checkpoint/debit state at its certified resolution;
+5. optional `P_min` only inside the same exact future-control class.
 
-Minimum desired properties:
+One transition should:
 
-1. exact prefix control sufficient for future parity/source refinement;
-2. predicate-relative correction residue, activated only at the precision the current block can observe;
-3. exact block/grammar transition using correction composition;
-4. legal merge theorem showing when two histories have identical future realization sets;
-5. ability to emit either exact rejection or a smaller family requiring another predicate;
-6. optional `P_min` secondary label only inside an exact future-control class.
+1. partition the parameter interval by `v2(y+A m)=a`;
+2. jump the forced block `0^a1` exactly;
+3. update remaining counters and formation controls;
+4. reject any child violating an active exact predicate;
+5. merge children only under a proved future-realizability equivalence.
 
 ## First practical milestone
 
-Before attempting all `t_0` steps, build and certify the inverse quotient on finite block depths and compare against direct correction-language enumeration.
+Build and certify the valuation-cylinder transducer at finite depths and compare it against the existing bitwise source-channel transducer.
 
 The regression must separately test:
 
-- same source/control + same quotient -> same future correction realizability;
-- different source controls are not silently merged;
-- fixed-`(h,q)` injectivity is respected;
-- dyadic observation is not promoted to full membership;
-- block composition reproduces direct correction exactly.
+- exact partition of the parent parameter interval;
+- identical parity words/end states to bitwise refinement;
+- exact update of ballot/H-L control across `0^a1`;
+- no merge across distinct future controls;
+- residual correction recursion agrees with direct correction composition;
+- endpoint information is not used before its actual resolution is required.
 
-Once the quotient is certified, apply it first to the deep retained roots where ordinary-X exposure and checkpoint-conditioned fibers are smallest.
+Then apply the jump transducer first to the deepest retained roots, where the source parameter intervals are smallest, before widening to all 14 roots.
 
 ## DSD audit rules
 
 Allowed:
 
-- exact correction composition;
+- exact correction composition and residual recursion;
+- exact-pair valuation decoding;
+- affine valuation-cylinder partition and forced zero-run jump;
 - source prefix/control as an active state coordinate;
-- predicate-relative residue forgetting after a block has discharged it;
-- fixed-`(h,q)` injectivity after existence is established;
-- finite inverse-quotient regressions as implementation evidence;
+- predicate-relative forgetting after a block has discharged it;
+- finite transducer regressions as implementation evidence;
 - secondary `P_min` pruning within exact future-control classes.
 
 Forbidden:
 
+- exact-pair uniqueness -> family-level uniqueness;
+- equal valuation/residual -> legal merge when future controls differ;
 - `adic mismatch -> membership rejection` unless the exact active language gate requires that equality;
 - terminal target-dominance existence -> full correction membership;
 - terminal dominance -> full `z_H mod3^28`;
 - checkpoint/source exposure -> same orbit automatically;
-- correction injectivity -> existence;
-- finite inverse regression -> universal theorem;
+- finite transducer regression -> universal Route-B closure;
 - `P_min` finite non-closure -> proof that physical pruning can never work;
 - marginal density multiplication;
 - later refined bounds used retroactively.
