@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Exact shard certificate: horizon 49 has no path with <=4 displaced ranks.
+"""Exact c=4 horizon-49 shard certificate on the canonical >=1/3 frontier.
 
-This is the decision-only form of the c=4 scan.  Since the already-certified
-c=3 result gives H_3=48, proving emptiness for c=4 at horizon 49 is sufficient
-to conclude H_4=48 exactly.
+The exploratory all-zero hypothesis was false.  Exact execution found one
+horizon-49 <=4-displacement source parent in shard 3 and one in shard 24;
+every other shard has zero.  This certificate fixes that discovered finite
+result and exports one summary row per shard for aggregate verification.
 """
 
 import os
@@ -16,6 +17,7 @@ SHARD_COUNT = int(os.environ.get("SHARD_COUNT", "32"))
 HORIZON = 49
 C = 4
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH")
+EXPECTED_LIVE = 1 if SHARD_ID in (3, 24) else 0
 
 assert 0 <= SHARD_ID < SHARD_COUNT
 
@@ -53,9 +55,12 @@ parents = all_parents[SHARD_ID::SHARD_COUNT]
 assert parents
 
 live = sum(reachable(st, C, HORIZON) for st in parents)
+assert live == EXPECTED_LIVE
+
 print("PASS c4 horizon49 shard", SHARD_ID)
 print("shard_parent_count", len(parents))
 print("parents_with_c4_path_h49", live)
+print("expected_live", EXPECTED_LIVE)
 print("reachable_cache", reachable.cache_info())
 print("source_payload_merging_used", False)
 print("linear_extrapolation_used", False)
@@ -63,5 +68,3 @@ print("linear_extrapolation_used", False)
 if OUTPUT_PATH:
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(f"{SHARD_ID} {len(parents)} {live}\n")
-
-assert live == 0
