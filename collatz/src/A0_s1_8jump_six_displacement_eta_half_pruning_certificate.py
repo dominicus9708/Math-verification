@@ -12,15 +12,15 @@ Its aggregate result is:
 
 Therefore, on the canonical >=5/12 jump-8 source frontier, no exact
 source-preserving pure-ballot path reaches horizon 51 with <=5 displaced
-ranks.  Hence every horizon-51 survivor has D_51>=6.  Since every displaced
-rank contributes normalized future defect >1/12, eta_future>1/2.  For the
+ranks. Hence every horizon-51 survivor has D_51>=6. Since every displaced
+rank contributes normalized future defect >1/12, eta_future>1/2. For the
 monotone endpoint cut we safely weaken this to eta_future>=1/2.
 
 This file recomputes the old >=5/12 and new >=1/2 cuts from the SAME
-first-75-tightened source intervals.  The floors are nested descriptions of
+first-75-tightened source intervals. The floors are nested descriptions of
 the same future defect and are never added.
 
-Important: h51 emptiness proves H_5<=50 on this current frontier.  It does not
+Important: h51 emptiness proves H_5<=50 on this current frontier. It does not
 by itself prove H_5=50; no exact H_5 equality is claimed here.
 """
 
@@ -95,7 +95,6 @@ assert sum(st.count for st in tail.states) == FIRST75_TOTAL
 five_states, five_pruned, _, five_whole = cut_states(ETA_5_12)
 half_states, half_pruned, half_affected, half_whole = cut_states(ETA_HALF)
 
-assert five_pruned == FIVE_TWELFHS_PRUNED_FROM_FIRST75 if False else True
 assert five_pruned == FIVE_TWELFTHS_PRUNED_FROM_FIRST75
 assert sum(st.count for st in five_states) == FIVE_TWELFTHS_TOTAL
 assert five_whole == 0
