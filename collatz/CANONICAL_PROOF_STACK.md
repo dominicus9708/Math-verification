@@ -41,8 +41,10 @@ Available exact tools include:
 - affine source cylinders and bit refinement;
 - fixed-count ballot / target dominance;
 - exact H/L grammar;
-- fixed-`(h,q)` correction injectivity;
-- correction block composition;
+- fixed-`(h,q)` correction injectivity and valuation decoding;
+- correction block composition and residual recursion;
+- affine valuation-cylinder odd-event jumps;
+- source-payload / ballot-control factorization;
 - dyadic prefix and ternary suffix localization;
 - projective carry/displacement states;
 - finite interval quotients.
@@ -165,42 +167,77 @@ Thus exact-pair correction inversion is zero-or-one and algorithmically closed.
 
 Status: **EXACT / CLOSED at exact-pair resolution**.
 
-## S10 — Active valuation-cylinder family realization
+## S10 — Active source-preserving valuation-family realization
 
-The unresolved problem is the enormous source/checkpoint family, not the existence of an inverse for one exact pair.
-
-For an affine current-state cylinder
+For an exact source cylinder
 
 \[
-Y=y+A m,
-\qquad A\text{ odd},
+X=r+2^h m,
+\qquad
+T^h(X)=y+3^q m,
 \]
 
-the next-one valuation branch `a=v2(Y)` is exactly
+write pure-ballot surplus
+
+\[
+S=q-Q(h).
+\]
+
+Then
+
+\[
+q=Q(h)+S,
+\qquad
+3^q=3^{Q(h)+S},
+\]
+
+so the affine coefficient is derived from `(h,S)` and need not be stored.
+
+For a next-one valuation branch `a=v2(T^h(X))`, the source parameter lies in the unique residue
 
 \[
 \boxed{
-m\equiv(2^a-y)A^{-1}\pmod{2^{a+1}}.
+m\equiv(2^a-y)3^{-q}\pmod{2^{a+1}}.
 }
 \]
 
-Writing `m=rho_a+2^(a+1)k`, the complete forced block `0^a1` jumps to another affine cylinder
+Writing `m=rho_a+2^(a+1)k`, the forced block `0^a1` preserves both exact affine channels:
 
 \[
-Y'=y'_a+3A k.
+\boxed{
+X=r'+2^{h'}k,
+\qquad
+T^{h'}(X)=y'+3^{q+1}k.
+}
 \]
 
-The active task is to combine this exact valuation-cylinder jump with:
+The reusable source-sensitive state is therefore
 
-- remaining length/one-count controls;
-- H/L or equivalent pre-bridge future-formation control;
-- predicate-relative checkpoint/debit state;
-- optional `P_min` only inside exact future-control classes;
-- legal merge criteria based on identical future realization sets.
+\[
+\boxed{(r,y,m_{lo},m_{hi},h,S;\text{future-predicate labels}).}
+\]
 
-The first implementation obligation is a finite-depth valuation-cylinder transducer regression against the existing bitwise source-channel transducer, followed by application to the deepest retained roots.
+Pure-ballot jump legality factors through the source-independent control `(h,S)`. At the certified eight-jump frontier:
 
-Status: **ACTIVE principal family-compression gate**.
+- source cylinders: `14,224`;
+- pure-ballot surviving integers: `26,859,837,368,845,079,186`;
+- distinct exact `(h,S)` controls: `90`;
+- distinct four-future-jump ballot-control signatures: `13`.
+
+Thus control transition skeletons can be shared, but source payloads are not merged.
+
+Combining exact accumulated defect with a first-75 conditional tail-defect DP gives only `256,808,932` additional integer rejections and closes no additional cylinder. This predicate remains SAFE but secondary at the current frontier.
+
+The active task is now to attach the remaining **source-sensitive future-language controls** to the source-preserving valuation jump:
+
+- exact H/L or equivalent pre-bridge control;
+- the precise renewal/C4F control still required by the branch;
+- predicate-relative checkpoint/debit state when it becomes active;
+- optional `P_min` only inside an identical future-control class.
+
+A legal family quotient must identify source payloads only after proving that every remaining predicate has the same future realization set on the proposed class.
+
+Status: **ACTIVE principal family-compression / future-equivalence gate**.
 
 ## S11 — Checkpoint/debit/tail realization
 
@@ -225,7 +262,9 @@ Status: **OPEN**.
 # Forbidden shortcuts
 
 - exact-pair uniqueness -> family-level uniqueness;
+- equal ballot-control signature -> equal source family;
 - equal valuation/residual -> legal merge when future controls differ;
+- omitting the current source residue `r` when later predicates need ordinary-source information;
 - terminal target-dominance filtering as an independent pruning engine after its redundancy theorem;
 - target-dominance acceptance -> full `z_H mod3^28`;
 - dominance-only mod3 + dyadic residue -> checkpoint singleton;
