@@ -1,17 +1,17 @@
-# Finite-horizon source/ballot product-template quotient
+# Finite-horizon source/ballot quotients
 
 Status: **EXACT for a fixed future bit horizon / not a global source-payload merge**
 
 ## Purpose
 
-The 8-jump Route-B frontier contains many exact affine source cylinders.  Pure-ballot control is highly reusable, but equal ballot control alone does not justify merging different source payloads.
+The 8-jump Route-B frontier contains many exact affine source cylinders. Equal ballot control alone does not justify merging different source payloads, but short-horizon transition work can still be shared exactly.
 
-This theorem identifies a stronger, exact finite-horizon equivalence by combining:
+Two nested finite-horizon quotients are useful:
 
-1. the source-channel projective quotient; and
-2. the finite future pure-ballot control signature.
+1. a **full transition template** preserving the emitted parity map and ballot decisions;
+2. a coarser **predicate-relative acceptance signature** preserving only pure-ballot accept/reject behavior.
 
-It is useful for sharing transition DAGs without identifying distinct source families.
+Neither identifies distinct exact source families.
 
 ## 1. Source projective state
 
@@ -21,7 +21,7 @@ Let
 T^h(X)=y+3^q m.
 \]
 
-For a requested future raw-bit horizon \(d\), define
+For future raw-bit horizon \(d\), define
 
 \[
 \boxed{
@@ -37,32 +37,25 @@ The certified source-channel projective theorem implies that for every low param
 m\bmod2^d,
 \]
 
-this state determines the complete emitted parity prefix of length \(d\).  Equivalently, the online triangular parameter/parity transducer can be run using only this finite precision.
+this state determines the complete emitted parity prefix of length \(d\).
 
 ## 2. Ballot future signature
 
 Let
 
 \[
-Q(n)=\lceil n\log_3 2\rceil
-\]
-
-and current surplus
-
-\[
+Q(n)=\lceil n\log_3 2\rceil,
+\qquad
 S=q-Q(h)\ge0.
 \]
 
-For a future bit horizon \(d\), define
+Define
 
 \[
 \boxed{
 B_d(h,S)
 =
-\left(
-S,
-\Delta_1,\ldots,\Delta_d
-\right),
+(S,\Delta_1,\ldots,\Delta_d),
 }
 \]
 
@@ -72,7 +65,7 @@ where
 \Delta_i=Q(h+i)-Q(h+i-1)\in\{0,1\}.
 \]
 
-For any proposed future parity word \(w_1\cdots w_d\), the prefix ballot inequalities are obtained by comparing
+For any proposed future parity word \(w_1\cdots w_d\), every intermediate ballot inequality is determined by comparing
 
 \[
 S+\sum_{j=1}^i w_j
@@ -84,65 +77,82 @@ with
 \sum_{j=1}^i\Delta_j.
 \]
 
-Hence \(B_d\) determines all pure-ballot accept/reject decisions through the next \(d\) bits and the outgoing surplus for every accepted word.
+Hence \(B_d\) determines all pure-ballot verdicts through the horizon.
 
-## 3. Product-template theorem
+## 3. Full product-template theorem
 
 Define
 
 \[
 \boxed{
-P_d
-=
-\left(
-B_d(h,S),
-Q_d^{src}(y,q)
-\right).
+P_d=(B_d,Q_d^{src}).
 }
 \]
 
-If two exact source cylinders have the same \(P_d\), then for every low parameter residue
-
-\[
-e\in\mathbb Z/2^d\mathbb Z,
-\]
-
-they:
+If two exact source cylinders have the same \(P_d\), then for every low parameter residue modulo \(2^d\) they:
 
 1. emit the same parity word of length \(d\);
 2. receive the same pure-ballot accept/reject verdict at every intermediate prefix;
-3. have the same outgoing surplus relative to their corresponding end-of-horizon threshold phase.
+3. have the same outgoing surplus relative to the corresponding end-of-horizon threshold phase.
 
-Thus \(P_d\) is an exact **finite-horizon transition template**.
+Thus \(P_d\) is an exact finite-horizon transition template.
 
-## 4. What is shared and what is not
+## 4. Predicate-relative quotient
 
-Two source cylinders sharing \(P_d\) may reuse:
+For the active pure-ballot predicate, preserving rejected-path parity details is stronger than necessary.
+
+Define the depth-\(d\) binary decision tree \(\mathcal A_d\) over future parameter bits \(e\in\{0,1\}\):
+
+- follow the exact source/parity transition induced by the parameter bit;
+- mark a branch `REJECT` as soon as the ballot inequality fails;
+- otherwise recurse;
+- at depth \(d\), mark the surviving leaf `ACCEPT`.
+
+Two source states are **predicate-equivalent through depth \(d\)** when their interned decision trees are identical.
+
+Then they have exactly the same accepted low-parameter residues modulo \(2^d\) for the pure-ballot predicate, even if their rejected branches emit different parity words.
+
+Therefore
+
+\[
+\boxed{
+\mathcal A_d
+\text{ is a coarser exact predicate-relative quotient than }P_d.
+}
+\]
+
+It remains finite-horizon: after the requested depth, later source-sensitive predicates may distinguish the states.
+
+## 5. What may be shared
+
+Equal full templates may share:
 
 - parameter-bit to parity-bit transition code;
 - ballot decision logic;
-- the accepted low-residue mask modulo \(2^d\);
-- any computation whose predicate is proven to observe only these \(d\)-horizon coordinates.
+- accepted low-residue masks;
+- any computation proven to observe only these finite-horizon coordinates.
 
-They may **not** be identified as the same source family.
+Equal predicate-relative signatures may share pure-ballot pruning logic and accepted-residue masks, but not rejected-path parity details.
 
-The following remain payload data:
+The following remain exact payload data:
 
 \[
 r,\quad[m_{lo},m_{hi}],
 \]
 
-and any finer exact state needed after the selected horizon.
+and any finer source information needed after the horizon.
 
-After \(d\) bits have been consumed, \(Q_d^{src}\) has spent its precision.  Continuing beyond the horizon requires fresh exact source information.  Therefore
+Thus
 
 \[
 \boxed{
-P_d\text{ is not claimed to be a horizon-independent right congruence.}
+\text{finite-horizon quotient equality}
+\not\Rightarrow
+\text{source-family identity}.
 }
 \]
 
-## 5. Current 8-jump measurement
+## 6. Current 8-jump measurement — full templates
 
 At the certified 8-jump frontier there are
 
@@ -152,9 +162,7 @@ At the certified 8-jump frontier there are
 
 exact source cylinders.
 
-The number of distinct product templates is:
-
-| future raw bits \(d\) | distinct templates | reused payload instances |
+| future raw bits \(d\) | full templates | reused payload instances |
 |---:|---:|---:|
 | 1 | 18 | 14,206 |
 | 2 | 88 | 14,136 |
@@ -175,57 +183,55 @@ The number of distinct product templates is:
 | 17 | 14,213 | 11 |
 | 18 | **14,224** | **0** |
 
-Thus at \(d=4\) the transition logic can be shared across about
+At \(d=4\), about \(95.90\%\) of one-template-per-payload transition work is reusable. At \(d=8\), the corresponding figure is about \(41.14\%\).
 
-\[
-95.90\%
-\]
+## 7. Current 8-jump measurement — predicate-relative signatures
 
-of payload instances, and at \(d=8\) across about
+After forgetting all rejected-path parity information and retaining only the exact pure-ballot acceptance decision tree:
 
-\[
-41.14\%
-\]
+| future raw bits \(d\) | acceptance signatures | reused payload instances |
+|---:|---:|---:|
+| 4 | 169 | 14,055 |
+| 8 | 7,612 | 6,612 |
+| 12 | 13,786 | 438 |
+| 16 | 14,207 | 17 |
+| 18 | **14,224** | **0** |
 
-relative to one-template-per-cylinder execution.
+This is stronger evidence than the full-template table for the current finite frontier: even after predicate-relative forgetting, all 14,224 payloads are distinguished by their next-18-bit pure-ballot acceptance language.
 
-But by \(d=18\), all current payloads have distinct product templates.
+This does **not** prove that no stronger invariant or quotient exists.
 
-## 6. DSD interpretation
+## 8. DSD interpretation
 
-This separates three levels that must not be conflated.
+### Resolution
 
-### Control reuse
+Both quotients are explicitly indexed by finite horizon \(d\). Their source precision is consumed as bits are processed.
 
-\[
-\boxed{
-\text{same }P_d
-\Rightarrow
-\text{same next-}d\text{-bit transition problem}
-}
-\]
+### Predicate-relative forgetting
 
-is exact.
+Discarding rejected-path parity details is legal for the pure-ballot predicate and yields a strictly coarser quotient.
 
-### Payload identity
+### State sufficiency
 
-\[
-\text{same }P_d
-\not\Rightarrow
-\text{same source family}.
-\]
+The quotient is sufficient only for the selected horizon and predicate. It is not sufficient for indefinite source continuation, checkpoint realization, or later source-sensitive predicates.
 
-### Global future equivalence
+### Equivalence
 
-The observed loss of collisions as \(d\) increases shows that this particular quotient does not currently provide a stable horizon-independent compression of the 8-jump source payloads.
+Equal finite-horizon signature means equal finite-horizon problem, not equal mathematical source object.
 
-The finite result does not prove that no stronger global quotient exists.
+### Closure
 
-## 7. Consequence for S10
+The observed complete separation at \(d=18\) shows that neither the full product template nor the pure-ballot-only acceptance signature currently provides a stable horizon-independent compression of the 8-jump payloads.
 
-Use \(P_d\) as an **execution/DAG-sharing quotient**, not as a proof-level source merge.
+## 9. Consequence for S10
 
-The 8-jump state explosion can therefore be reduced computationally over short horizons without duplicating transition logic, while preserving every exact source payload.  However a new structural invariant is still required to make source-family complexity contract or remain bounded as the horizon grows.
+Use these quotients as **execution/DAG-sharing tools**.
+
+They reduce duplicated short-horizon computation while preserving every exact source payload. But proof-level contraction still requires at least one of:
+
+1. a stronger source-sensitive invariant whose future width stays bounded or contracts;
+2. an exact whole-payload rejection predicate;
+3. a later predicate whose activation makes previously distinct source information irrelevant and therefore legally forgettable.
 
 ## Certificate
 
