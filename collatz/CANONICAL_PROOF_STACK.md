@@ -133,7 +133,7 @@ Therefore the standalone terminal target-dominance ternary gate removes zero gen
 
 Status: **EXACT redundancy theorem / REJECTED as an independent pruning engine**.
 
-## S9 — Source-controlled required correction
+## S9 — Residual correction and exact-pair decoding
 
 For a proposed source/checkpoint pair, the required full pre-bridge correction is
 
@@ -141,45 +141,70 @@ For a proposed source/checkpoint pair, the required full pre-bridge correction i
 \boxed{C_{req}=2^{t_0}Z-3^{j_0}X.}
 \]
 
-Any valid word must satisfy
+For an exact realized prefix `A`, with current state `Y`, the correction equation restarts exactly on the remaining suffix `B`:
 
 \[
-|W|=t_0,
-\qquad q(W)=j_0,
-\qquad C(W)=C_{req},
+\boxed{C(B)=2^{|B|}Z-3^{q(B)}Y.}
 \]
 
-plus the exact Route-B formation/source-control obligations.
-
-For every `K<=t_0`, the source value alone gives the dyadic correction observation
+For a fully specified remaining instance `(Y,Z,n,q)`, define
 
 \[
-\boxed{C_{req}\equiv-3^{j_0}X\pmod{2^K}},
+R=2^nZ-3^qY.
 \]
 
-because `2^{t_0}Z` vanishes modulo `2^K`.
+If `q>0`, the next 1-position is forced by
 
-Fixed-`(t_0,j_0)` correction injectivity means a realizing word is unique **after existence is established**. It does not prove existence.
+\[
+\boxed{a=v_2(R)}
+\]
 
-Status: **EXACT interface; inversion/membership OPEN**.
+and the forced block `0^a1` may be discharged exactly. Repetition either rejects or reconstructs the unique realizing word.
 
-## S10 — Active source-controlled correction-language inversion
+Thus exact-pair correction inversion is zero-or-one and algorithmically closed.
 
-Construct an exact quotient/state that combines:
+Status: **EXACT / CLOSED at exact-pair resolution**.
 
-- source prefix/future control;
-- predicate-relative required correction information;
-- exact H/L or equivalent block formation control;
-- correction composition;
-- optional secondary `P_min` label inside exact future-control classes.
+## S10 — Active valuation-cylinder family realization
 
-The state must decide or contract full correction-language realizability without treating a mere residue mismatch as rejection outside an actual equality gate.
+The unresolved problem is the enormous source/checkpoint family, not the existence of an inverse for one exact pair.
 
-Status: **ACTIVE principal gate**.
+For an affine current-state cylinder
+
+\[
+Y=y+A m,
+\qquad A\text{ odd},
+\]
+
+the next-one valuation branch `a=v2(Y)` is exactly
+
+\[
+\boxed{
+m\equiv(2^a-y)A^{-1}\pmod{2^{a+1}}.
+}
+\]
+
+Writing `m=rho_a+2^(a+1)k`, the complete forced block `0^a1` jumps to another affine cylinder
+
+\[
+Y'=y'_a+3A k.
+\]
+
+The active task is to combine this exact valuation-cylinder jump with:
+
+- remaining length/one-count controls;
+- H/L or equivalent pre-bridge future-formation control;
+- predicate-relative checkpoint/debit state;
+- optional `P_min` only inside exact future-control classes;
+- legal merge criteria based on identical future realization sets.
+
+The first implementation obligation is a finite-depth valuation-cylinder transducer regression against the existing bitwise source-channel transducer, followed by application to the deepest retained roots.
+
+Status: **ACTIVE principal family-compression gate**.
 
 ## S11 — Checkpoint/debit/tail realization
 
-For every G3-realized or still-possible pre-bridge state, discharge ordinary checkpoint/debit coherence, tail first-passage, and any required renewal/C4F obligation.
+For every S10-realized or still-possible pre-bridge state, discharge ordinary checkpoint/debit coherence, tail first-passage, and any required renewal/C4F obligation.
 
 Status: **OPEN**.
 
@@ -199,10 +224,11 @@ Status: **OPEN**.
 
 # Forbidden shortcuts
 
+- exact-pair uniqueness -> family-level uniqueness;
+- equal valuation/residual -> legal merge when future controls differ;
 - terminal target-dominance filtering as an independent pruning engine after its redundancy theorem;
 - target-dominance acceptance -> full `z_H mod3^28`;
 - dominance-only mod3 + dyadic residue -> checkpoint singleton;
-- correction injectivity -> existence;
 - adic mismatch -> membership rejection outside an explicit equality predicate;
 - endpoint/checkpoint exposure -> same orbit/full membership;
 - small source fiber -> membership;
