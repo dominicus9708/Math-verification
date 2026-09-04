@@ -1,7 +1,7 @@
 # Active frontier — A0 `s=1` Route-B
 
 Status: **ACTIVE**  
-Last synchronized: **2026-09-04**
+Last synchronized: **2026-09-05**
 
 This is the canonical resume point for the current computation.
 
@@ -202,7 +202,7 @@ Dependencies:
 
 Status: **EXACT / CLOSED distinction**.
 
-## 7. Checkpoint observation arithmetic — CLOSED
+## 7. Checkpoint observation arithmetic and terminal defect projection — CLOSED
 
 The final 28 one-events determine `Z mod 3^28`; the first 27 post-checkpoint bits determine `Z mod 2^27`.
 
@@ -219,6 +219,38 @@ For the current terminal 28-gate **target-dominance existence** predicate,
 \[
 \boxed{\text{completion exists}\iff3\nmid Z}.
 \]
+
+The exact final-28 physical defect is not independent of this projective observation.  If the right-H block begins at
+
+\[
+p_R=t_0-s=103{,}768{,}467{,}013,
+\]
+
+then
+
+\[
+\boxed{z_H\equiv-2^{-p_R}F_{28}\pmod{3^{28}}}
+\]
+
+with
+
+\[
+2^{-p_R}\equiv1{,}051{,}701{,}240{,}047\pmod{3^{28}}.
+\]
+
+Hence a validated terminal descriptor `(n,C_B)` gives
+
+\[
+F_{28}=C_{T,tail}^{(28)}-2^{t_0-n}C_B
+\]
+
+and therefore determines the only compatible `z_H` exactly.
+
+Dependencies:
+
+- `../theorems/TERMINAL_DEFECT_PROJECTIVE_OBSERVATION_REDUNDANCY.md`;
+- `../src/A0_s1_routeB_terminal_defect_projective_observation_redundancy_certificate.py`;
+- `../audits/S10_TERMINAL_DEFECT_PROJECTIVE_OBSERVATION_REDUNDANCY_AUDIT.md`.
 
 CRT compatibility alone is not source realization.
 
@@ -278,7 +310,61 @@ Regression workflow run `33864578621` passed.
 
 Status: **EXACT / CLOSED join kernel**.
 
-## 9. State after provenanced checkpoint exposure — MINIMIZED / CLOSED
+## 9. Source-first terminal endpoint lattice — CLOSED
+
+The fixed terminal descriptor can be applied directly to the activation source parameter before an ordinary checkpoint is supplied from another interface.
+
+For a validated `(n,C_B)`, define the unique source residue
+
+\[
+\boxed{
+\kappa_B
+\equiv
+-\left(3^{28}y+C_B\right)(3^{j_0})^{-1}
+\pmod{2^n}.
+}
+\]
+
+Write
+
+\[
+k=\kappa_B+2^nt.
+\]
+
+Since
+
+\[
+h+n=t_0,
+\qquad
+q+28=j_0,
+\]
+
+the complete source/checkpoint endpoints satisfy
+
+\[
+\boxed{
+(X,Z)=(R_B,Z_B)+t(2^{t_0},3^{j_0}).
+}
+\]
+
+The certified physical source corridor lies below `2^72`, while `t_0>72`.  Therefore the source spacing `2^{t_0}` is larger than the complete physical source corridor and
+
+\[
+\boxed{\text{each fixed activation channel + validated }(n,C_B)\text{ has at most one physical source }X.}
+\]
+
+If that source exists, the same unique `t` directly determines its provenanced ordinary checkpoint `Z`.
+
+Thus when the terminal descriptor itself is generated with source provenance, CRT need not manufacture `Z`; the synchronized/right-H/dyadic interfaces become downstream consistency or membership checks on a source-derived checkpoint.
+
+Dependencies:
+
+- `../theorems/SOURCE_TERMINAL_DESCRIPTOR_ENDPOINT_LATTICE.md`;
+- `../src/A0_s1_source_terminal_descriptor_endpoint_lattice_certificate.py`.
+
+Status: **EXACT / CLOSED source-first endpoint theorem**.
+
+## 10. State after provenanced checkpoint exposure — MINIMIZED / CLOSED
 
 Once one ordinary `Z` is exposed **with provenance**,
 
@@ -296,7 +382,7 @@ Therefore after provenanced `Z` exposure, persistent checkpoint state should pre
 
 plus only genuinely independent later predicates, rather than retain a Cartesian `(z_2,z_H)` pair.
 
-Before exposure, the two directed observations may not be independently paired.
+Before exposure, independently generated directed observations may not be Cartesian-paired.  If `(n,C_B)` is already source-derived, `z_H` is derived from it even before `Z` exposure and must not be independently paired at that stage either.
 
 Dependencies:
 
@@ -305,7 +391,7 @@ Dependencies:
 
 Combined validation run `33865446235` passed.
 
-## 10. Per-checkpoint source localization — exact but not membership
+## 11. Per-checkpoint source localization — exact but not membership
 
 For one already-exposed ordinary checkpoint `Z`, the independent SAFE debit corridor restricts a current cylinder's source parameter to a window of width
 
@@ -340,35 +426,36 @@ Dependency:
 
 - `../src/A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py`.
 
-## 11. Principal OPEN gate — paired late-activation / ordinary-Z exporter
+## 12. Principal OPEN gate — source-preserving activation + terminal-descriptor language
 
-The local residue/CRT/same-orbit arithmetic is no longer the principal gap.
+The local residue/CRT/same-orbit arithmetic and source-first endpoint arithmetic are no longer the principal gaps.
 
-The current principal object is
+The current principal object is now
 
 \[
-\boxed{\text{source-preserving paired late-activation / ordinary-}Z\text{ exporter}}.
+\boxed{\text{source-preserving late-activation and exact terminal-descriptor exporter}.}
 \]
 
 It must:
 
 1. carry source provenance from the current 14,224 families to `q=j_0-28` without expanding the raw ~`10^11`-bit middle word;
-2. encode the final 28 one-events as valuation-gap/event variables;
-3. preserve enough information to expose ordinary checkpoint candidates `Z` with source provenance;
-4. apply the CLOSED activation/checkpoint join kernel;
-5. then derive `z_2`, `z_H`, and the 27-bit post-prefix from the provenanced `Z` rather than treating them as independent post-exposure coordinates.
+2. generate/validate the final 28 one-events as an exact valuation-gap or equivalent `(n,C_B)` descriptor language;
+3. intersect each descriptor with its exact source-parameter residue `kappa_B mod 2^n`;
+4. use the source-first endpoint lattice to expose the at-most-one provenanced `(X,Z)` pair per descriptor;
+5. derive `F_28`, `z_H`, `z_2`, and the actual post-checkpoint prefix rather than store them as independent marginals;
+6. test the remaining right-H formation/boundary and post-checkpoint predicates on that provenanced state.
 
-On the right-H side, the existing backward exponential carry chart is one-step injective for precision
+On the right-H side, the existing backward exponential carry chart remains one-step injective for precision
 
 \[
 m\ge18.
 \]
 
-Thus the important unresolved terminal export range is the **low-precision `m<=17` carry family**, coupled to source provenance.
+For `m<=17`, several slack representatives of one **prescribed** observation may remain possible.  After the terminal-defect audit this low-precision family is no longer a required independent checkpoint-output family.  It is a local right-H **acceptance/membership problem for the prescribed `z_H` derived from `(n,C_B)`**.
 
-The terminal 28-gate target-dominance existence test itself is already saturated to `3\nmid Z`; reconstructing the whole 28-gate tree merely for that predicate would be redundant.
+The terminal 28-gate target-dominance existence test itself is already saturated to `3\nmid Z`; reconstructing the whole 28-gate tree merely for that predicate is redundant.
 
-## 12. Rejected shortcuts
+## 13. Rejected shortcuts
 
 Do not restart or use the following as independent proof steps:
 
@@ -384,41 +471,38 @@ Do not restart or use the following as independent proof steps:
 10. extrapolating finite `H_c` values;
 11. `H_5<=50 -> H_5=50` without a witness;
 12. `q_rem=28 -> universal short raw bit shell`;
-13. dropping `(z_2,z_H)` before a unique/provenanced `Z` is exposed;
-14. finite Route-B progress -> global Collatz.
+13. treating exact `F_28` and its derived `z_H` as independent filters;
+14. Cartesian pairing of a source-derived `(n,C_B)` with an unrelated right-H `z_H` marginal;
+15. exporting the complete `m<=17` carry family merely to manufacture a checkpoint ternary observation;
+16. finite Route-B progress -> global Collatz.
 
-## 13. Immediate next calculations
+## 14. Immediate next calculations
 
-### A. Source-preserving ordinary-Z exporter — principal
+### A. Source-preserving late-activation bridge — principal
 
-1. derive the minimal event/valuation state required to carry current source provenance to `q=j_0-28`;
-2. compress the final 28 valuation gaps without enumerating raw zero-runs;
-3. close/export the low-precision `m<=17` right-H carry family;
-4. expose ordinary `Z` candidates with provenance;
-5. apply the CLOSED source/checkpoint same-orbit kernel;
-6. use the per-`Z` debit cap only to localize candidates.
+1. derive the minimal exact quotient that transports `(r,y,m_lo,m_hi,h,S)` from the current jump-8 frontier to `q=j_0-28`;
+2. use valuation/macroblock compilation only where it preserves the source payload exactly;
+3. reject any proposed quotient that merges distinct source payloads without a remaining-predicate right-congruence theorem.
 
-### B. Defect-coordinate interface — active audit candidate
+### B. Exact 28-event terminal descriptor language — principal after activation
 
-At activation, let `N_q` be exact realized prefix target-displacement defect and let `F_28` be the exact additional defect of the final 28 one-events. Then
+1. use `(n,C_B)` as the preferred exact descriptor interface, or prove an equivalent smaller valuation-gap quotient;
+2. compute the unique `kappa_B mod 2^n` source refinement lazily from the descriptor;
+3. apply the CLOSED source-first endpoint lattice immediately after a descriptor is validated;
+4. derive `F_28` and `z_H` rather than retain them as independent coordinates.
 
-\[
-N_{j_0}=3^{28}N_q+F_{28}
-\]
+### C. Right-H prescribed-observation membership — local
 
-and the full checkpoint identity suggests
+1. for a source-derived descriptor, query only its prescribed derived `z_H`;
+2. use the `m>=18` singleton theorem gate-by-gate where applicable;
+3. handle `m<=17` only as the residual formation/boundary acceptance problem;
+4. do not rebuild the low-precision carry tree for pure target-dominance existence alone.
 
-\[
-\boxed{3^{28}N_q+F_{28}=3^{j_0}X+C_T-2^{t_0}Z}.
-\]
-
-The next audit must prove this is exactly equivalent to the activation-fiber join, and determine whether it yields a smaller source-provenance state or merely re-encodes the same information.
-
-### C. Further bounded displacement — secondary
+### D. Further bounded displacement — secondary
 
 Further `c` expansion remains available but currently gives upper-tail endpoint cuts with zero whole-cylinder closures. Continue only if it yields a structural gain or is computationally cheap relative to the exporter work.
 
-## 14. DSD status
+## 15. DSD status
 
 - exact source representation: **CLOSED**;
 - persistent S10 state minimization: **CLOSED**;
@@ -431,10 +515,14 @@ Further `c` expansion remains available but currently gives upper-tail endpoint 
 - `>=1/2` endpoint population: **EXACT finite arithmetic**;
 - terminal 28-event locality distinction: **CLOSED**;
 - checkpoint CRT/right-H observation arithmetic: **CLOSED**;
+- exact terminal defect -> projective `z_H` projection: **CLOSED / state redundancy discharged**;
 - source/checkpoint same-orbit join kernel: **CLOSED**;
+- source-first terminal endpoint lattice: **CLOSED**;
 - post-exposure checkpoint state minimization: **CLOSED**;
 - per-`Z` source-fiber cap: **EXACT localization / membership implication REJECTED**;
-- paired late-activation / ordinary-Z exporter: **OPEN / principal**;
+- source-preserving late-activation bridge: **OPEN / principal**;
+- exact terminal descriptor language generation: **OPEN / principal**;
+- right-H prescribed-observation formation acceptance: **OPEN / local**;
 - `A0,s=1,Route-B` closure: **OPEN**;
 - Collatz: **OPEN**.
 
