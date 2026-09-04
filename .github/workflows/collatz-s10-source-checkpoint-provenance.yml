@@ -7,8 +7,10 @@ on:
     paths:
       - 'collatz/src/A0_s1_source_activation_checkpoint_provenance_join_certificate.py'
       - 'collatz/src/A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py'
+      - 'collatz/src/A0_s1_terminal_28_event_locality_not_time_locality_certificate.py'
       - 'collatz/src/A0_s1_8jump_cumulative_pruned_frontier_export.py'
       - 'collatz/theorems/SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN.md'
+      - 'collatz/theorems/TERMINAL_28_EVENT_LOCALITY_NOT_TIME_LOCALITY.md'
       - 'collatz/audits/S10_SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN_AUDIT.md'
       - '.github/workflows/collatz-s10-source-checkpoint-provenance.yml'
   workflow_dispatch:
@@ -28,3 +30,6 @@ jobs:
       - name: Profile canonical source fibers for one exposed checkpoint
         working-directory: collatz/src
         run: python A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py
+      - name: Verify terminal 28-event locality versus bit-time locality
+        working-directory: collatz/src
+        run: python A0_s1_terminal_28_event_locality_not_time_locality_certificate.py
