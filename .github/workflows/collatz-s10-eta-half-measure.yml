@@ -7,6 +7,7 @@ on:
     paths:
       - 'collatz/src/A0_s1_8jump_six_displacement_eta_half_measurement.py'
       - 'collatz/src/A0_s1_8jump_six_displacement_eta_half_pruning_certificate.py'
+      - 'collatz/src/A0_s1_8jump_cumulative_pruned_frontier_export.py'
       - '.github/workflows/collatz-s10-eta-half-measure.yml'
   workflow_dispatch:
 
@@ -25,3 +26,6 @@ jobs:
       - name: Verify formal six-displacement eta-half pruning certificate
         working-directory: collatz/src
         run: python A0_s1_8jump_six_displacement_eta_half_pruning_certificate.py
+      - name: Verify canonical cumulative frontier export
+        working-directory: collatz/src
+        run: python A0_s1_8jump_cumulative_pruned_frontier_export.py
