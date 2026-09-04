@@ -1,0 +1,25 @@
+name: Collatz S10 source-checkpoint provenance join
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_source_activation_checkpoint_provenance_join_certificate.py'
+      - 'collatz/theorems/SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN.md'
+      - 'collatz/audits/S10_SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN_AUDIT.md'
+      - '.github/workflows/collatz-s10-source-checkpoint-provenance.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source-activation checkpoint provenance kernel
+        working-directory: collatz/src
+        run: python A0_s1_source_activation_checkpoint_provenance_join_certificate.py
