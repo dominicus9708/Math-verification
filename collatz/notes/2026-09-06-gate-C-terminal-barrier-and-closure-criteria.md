@@ -2,33 +2,23 @@
 
 Date: 2026-09-06
 
-Status: **SAFE LOGICAL BARRIER + ZERO-TAIL LAW CLOSED + ORIENTATION/RECURRENCE OPEN.**
+Status: **SAFE LOGICAL BARRIER + ZERO-TAIL LAW CLOSED + DIRECT ORIENTATION ROUTE REJECTED.**
 
-This note audits the last step of the current Collatz proof program after the Beatty one-child / selector-repair route.
+This note records the current terminal status after the exact Beatty-parity / signed-skew coordinate audit.
 
 The central warning remains:
 
 \[
 \boxed{
-\text{polynomial normalized candidate-mass decay alone cannot exclude one integer path.}
+\text{normalized candidate-mass decay alone does not exclude one fixed integer path.}
 }
 \]
 
-However, the canonical finite-support formulas close one part that was initially left open: the eventual-zero tail transition itself is exactly the accelerated Collatz map.
+The earlier tentative idea of contradicting eventual canonical lift blocks `t_q=0` with the Beatty one-child appended bit `1` is now rejected: the two bits belong to different coordinate systems.
 
 ---
 
-## 1. Canonical integer condition
-
-The established canonical formation condition is
-
-\[
-\boxed{
-N\in\mathbb N_{>0}
-\iff
-(t_q)\text{ has finite support}.
-}
-\]
+## 1. `C_form` — canonical integer condition is closed
 
 The exact canonical lift is
 
@@ -40,357 +30,328 @@ The exact canonical lift is
 }
 \]
 
-Thus `t_q` is generally a `v_q`-bit block, not a single binary bit.  A fixed positive integer has some support endpoint `q_0` such that
+The `v_q` binary digits of `t_q` occupy the starting-residue bit interval
 
 \[
-\boxed{t_q=0\qquad(q\ge q_0).}
+A_q+1,\ldots,A_{q+1}.
 \]
 
-A hypothetical minimal Collatz counterexample must therefore determine an infinite surviving candidate path whose canonical lift blocks are eventually all zero.
+The established formation theorem gives
+
+\[
+\boxed{
+N\in\mathbb N_{>0}
+\iff
+(t_q)\text{ has finite support}.
+}
+\]
+
+Thus a fixed positive integer has a support endpoint `q_0` such that
+
+\[
+\boxed{t_q=0\quad(q\ge q_0).}
+\]
 
 Status: **CLOSED / SAFE.**
 
 ---
 
-## 2. Why `mu_L -> 0` is insufficient
+## 2. `C_tail` — zero-tail dynamics is closed
 
-Let `S_L` be the finite family of surviving depth-`L` candidate cylinders and let `w_L(C)>0` be the normalized weight of cylinder `C`.
-
-Then
-
-\[
-\mu_L=\sum_{C\in S_L}w_L(C).
-\]
-
-One exceptional nested path
-
-\[
-C_1\supset C_2\supset\cdots
-\]
-
-is compatible with `mu_L -> 0` because its own cylinder weight may also tend to zero.
-
-For example, a single depth-`L` cylinder may have weight `2^{-L}` while the total survivor mass decays only like `L^{-gamma}`.  Since
-
-\[
-2^{-L}\ll L^{-\gamma},
-\]
-
-polynomial normalized mass decay cannot by itself rule out even one surviving path.
-
-Status: **SAFE LOGICAL BARRIER.**
-
----
-
-## 3. General mass-to-emptiness transfer lemma
-
-Let `I_L subset S_L` be the cylinders that can still represent a finite prefix of an eventually-zero canonical lift, and define
-
-\[
-w_L^{\rm int}:=\inf_{C\in I_L}w_L(C)
-\]
-
-when `I_L` is nonempty.
-
-If `I_L` contains a survivor, then
-
-\[
-\mu_L\ge w_L^{\rm int}.
-\]
-
-Hence
-
-\[
-\boxed{
-\mu_L<w_L^{\rm int}
-\Longrightarrow
-I_L=\varnothing.
-}
-\]
-
-More generally,
-
-\[
-\boxed{
-\mu_L/w_L^{\rm int}\to0
-}
-\]
-
-would imply eventual emptiness of integer-compatible cylinders.
-
-Status: **SAFE LEMMA.**
-
-The present polynomial contraction does not supply this because a single compatible cylinder may be exponentially light.
-
----
-
-## 4. `C_tail` is closed: exact zero-tail dynamics
-
-The exact canonical carry recurrence is
+The exact canonical carry law is
 
 \[
 \boxed{
 2^{v_q}y_{q+1}
-=
-3y_q+1+2t_q3^{q+1}.
+=3y_q+1+2t_q3^{q+1}.
 }
 \]
 
-The factor `2` multiplying `t_q3^{q+1}` is essential in the general formation law.
+The factor `2` in the injection term is essential.
 
-Once the canonical lift has reached its support endpoint,
-
-\[
-t_q=0,
-\]
-
-so
-
-\[
-2^{v_q}y_{q+1}=3y_q+1.
-\]
-
-The exact digit theorem gives equivalently
+The exact digit theorem gives
 
 \[
 \boxed{t_q=0\iff v_q=v_2(3y_q+1).}
 \]
 
-Therefore
-
-\[
-\boxed{
-v_q=\nu(y_q):=v_2(3y_q+1),}
-\]
-
-and
+Hence after the support endpoint,
 
 \[
 \boxed{
 y_{q+1}
-=T(y_q)
-:=
-\frac{3y_q+1}{2^{v_2(3y_q+1)}}.}
+=\frac{3y_q+1}{2^{v_2(3y_q+1)}}.}
 \]
 
-So an eventually-zero canonical tail follows the ordinary accelerated Collatz map exactly.
+So the eventually-zero canonical tail is exactly the accelerated Collatz orbit.
 
-If the signed-skew variable is represented by
+With
 
 \[
-A_q=\lfloor q\log_2 3\rfloor-s_q,
+A_q=\lfloor q\log_2 3\rfloor-s_q
 \]
 
 and
 
 \[
-r_q=\lfloor(q+1)\log_2 3\rfloor-\lfloor q\log_2 3\rfloor\in\{1,2\},
+r_q
+=\lfloor(q+1)\log_2 3\rfloor
+-\lfloor q\log_2 3\rfloor,
 \]
 
-then
-
-\[
-\boxed{v_q=s_q+r_q-s_{q+1}.}
-\]
-
-Hence on the zero tail,
+we also have
 
 \[
 \boxed{
-s_{q+1}=s_q+r_q-\nu(y_q).}
+s_{q+1}=s_q+r_q-v_2(3y_q+1)}
 \]
 
-The exact zero-tail state update is therefore
+on the zero tail.
 
-\[
-\boxed{
-(y_{q+1},s_{q+1})
-=
-\left(
-\frac{3y_q+1}{2^{\nu(y_q)}},
-\ s_q+r_q-\nu(y_q)
-\right).
-}
-\]
+Status: **CLOSED / SAFE.**
 
-Status: **`C_tail` CLOSED / SAFE.**
-
-This closure does not solve Collatz: the zero-tail map is precisely the accelerated Collatz dynamics whose infinite non-descent must ultimately be excluded.
+This is not a simplification of Collatz itself; it is an exact coordinate description of the hard terminal case.
 
 ---
 
-## 5. Exact Beatty boundary orientation in coefficient slack coordinates
+## 3. Exact meaning of the Beatty binary child
 
-The Beatty one-child certificate uses the coefficient-survival slack DP.  At a rise,
-
-- appending coefficient bit `1` preserves the old slack;
-- appending coefficient bit `0` decreases the slack by one and is allowed only when the old slack is positive.
-
-Therefore at a rise with boundary slack `s=0`,
+The Beatty coefficient-survivor word is the parity word of the half-step map
 
 \[
-\boxed{
-\text{append }1\text{ survives},
-\qquad
-\text{append }0\text{ is killed}.
-}
+U(n)=
+\begin{cases}
+n/2,&n\text{ even},\\
+(3n+1)/2,&n\text{ odd}.
+\end{cases}
 \]
 
-This is an exact local orientation statement in the **coefficient-survival coordinate**.
+It is **not** the canonical lift-digit word.
 
-Status: **SAFE LEMMA.**
+An accelerated valuation block `v_q` expands exactly as
 
-It must not yet be identified with a canonical lift block or any one of its binary digits.
+\[
+\boxed{1\,0^{v_q-1}}
+\]
+
+in this parity word.
+
+Thus at accelerated binary time
+
+\[
+A_q=\sum_{i<q}v_i,
+\]
+
+the next parity bit is always `1` because the state `y_q` is odd.
+
+At a Beatty rise with boundary slack zero, the one-child DP also accepts only appended parity bit `1`.
+
+Therefore an accelerated checkpoint lying on that boundary is **consistent**, not contradictory, with an actual Collatz orbit.
+
+Status: **CLOSED COORDINATE FACT.**
 
 ---
 
-## 6. New Gate `C_orient`: coordinate identification
+## 4. Direct `t_q=0` versus Beatty-`1` contradiction is rejected
 
-A positive integer eventually has
+The canonical lift block `t_q` and the Beatty appended bit encode different objects:
 
-\[
-t_q=0,
-\]
+- `t_q`: starting-residue lift bits required to extend a prescribed accelerated valuation code;
+- Beatty appended bit: parity of one half-step orbit state.
 
-meaning that every binary bit in the entire variable-length lift block of length `v_q` is zero.
-
-The coefficient DP says that a rise-boundary parent with slack zero accepts only appended coefficient child `1`.
-
-A tempting contradiction would compare the eventual zero canonical lift with the forced coefficient child `1`.  But this is valid only if the two child coordinates are proved to coincide under the exact canonical fibre map.
-
-Thus define
+Consequently
 
 \[
 \boxed{
-C_{\rm orient}:
-\text{identify canonical lift-block coordinates with selector/Beatty coefficient child coordinates.}
+t_q=0
+\not\Rightarrow
+\text{Beatty append bit }0.}
+\]
+
+In fact, at every completed accelerated odd-event checkpoint, the next Beatty parity bit is `1` independently of `t_q`.
+
+Thus the earlier tentative gates `C_orient` and the associated `C_recur -> orientation conflict` route are removed as a valid proof architecture.
+
+Status: **DSD CORRECTION / REJECTED BRANCH.**
+
+---
+
+## 5. Exact coefficient-survivor / signed-skew identification
+
+The coordinate audit gives the useful positive result
+
+\[
+\boxed{
+q_L\ge b_L\quad\forall L
+\iff
+s_q\ge0\quad\forall q,
 }
 \]
 
-This is closely related to `F_map`, but it is the terminal pathwise form of that identification.
+where
 
-A valid theorem must explicitly map:
+\[
+b_L=\lceil L\log_3 2\rceil.
+\]
 
-1. canonical lift block `t_q` occupying binary positions `A_q+1,...,A_{q+1}`;
-2. parent modulus at the relevant coefficient scale;
-3. the two child lifts used by selector counts `C(r)` and `C(r+M)`;
-4. the appended bit used by the Beatty slack DP;
-5. the index conversion between odd-event index `q` and binary/coefficient scale `L`.
+At accelerated checkpoints,
+
+\[
+q_{A_q}=q,
+\]
+
+and
+
+\[
+q\ge b_{A_q}
+\iff
+3^q\ge2^{A_q}
+\iff
+A_q\le\lfloor q\log_2 3\rfloor
+\iff
+s_q\ge0.
+\]
+
+Intermediate half-step depths add no stronger constraint because `b_L` is nondecreasing and the parity word between checkpoints has the exact block form `1 0^(v_q-1)`.
+
+Status: **CLOSED / SAFE.**
+
+Therefore the symbolic Beatty survivor population is exactly the nonnegative signed-skew coefficient-survival population in accelerated coordinates.
+
+---
+
+## 6. Why mass decay still does not give emptiness
+
+Let `S_L` be surviving candidate cylinders and `w_L(C)>0` their normalized weights:
+
+\[
+\mu_L=\sum_{C\in S_L}w_L(C).
+\]
+
+One nested path
+
+\[
+C_1\supset C_2\supset\cdots
+\]
+
+may survive while
+
+\[
+\mu_L\to0
+\]
+
+if its individual cylinder weight also tends to zero.
+
+For the integer-compatible subfamily `I_L`, define
+
+\[
+w_L^{\rm int}:=
+\inf_{C\in I_L}w_L(C).
+\]
+
+Then the valid transfer criterion is
+
+\[
+\boxed{
+\mu_L<w_L^{\rm int}
+\Longrightarrow
+I_L=\varnothing,
+}
+\]
+
+or asymptotically
+
+\[
+\boxed{
+\mu_L/w_L^{\rm int}\to0.
+}
+\]
+
+A polynomial mass bound cannot beat an exponentially small individual cylinder scale.
+
+Even the stronger constant-boundary Gate-S route, if it yields exponential normalized mass decay, still needs a quantitative comparison with `w_L^int` before emptiness follows.
+
+Status: **SAFE LOGICAL BARRIER.**
+
+---
+
+## 7. Current valid Gate-C routes
+
+After rejecting the false orientation branch, three legitimate terminal routes remain.
+
+### Route C1 — finite-support lift-digit exclusion
+
+Prove directly that no infinite admissible nonnegative signed-skew hard-core path can have
+
+\[
+\boxed{t_q=0\text{ eventually}.}
+\]
+
+This is the exact canonical naturalness obstruction already identified by the formation theorem.
 
 Status: **OPEN.**
 
-### Audit prohibition
-
-Do **not** write
-
-\[
-t_q=0\Rightarrow\text{Beatty append-0}
-\]
-
-until `C_orient`/`F_map` proves the coordinate and index identification.
-
----
-
-## 7. New Gate `C_recur`: pathwise boundary recurrence
-
-Even if `C_orient` is proved, aggregate one-child exposure
-
-\[
-|D_L|/|R_L|>2/(5L)
-\]
-
-does not imply that one particular eventually-zero path ever belongs to `D_L`.
-
-Therefore a second deterministic statement is required.
-
-A direct target is
-
-\[
-\boxed{
-C_{\rm recur}:
-\text{every infinite integer-compatible zero-tail survivor reaches a rise scale with boundary slack }s=0.
-}
-\]
-
-More generally, it is enough to prove that every such path eventually reaches any exact one-child state whose surviving orientation conflicts with its canonical zero-tail orientation.
-
-Status: **OPEN.**
-
-This is the precise pathwise analogue of the aggregate Beatty-exposure theorem.
-
----
-
-## 8. Revised terminal contradiction route
-
-If both open terminal gates are closed, the final pathwise contradiction has the form
-
-\[
-\boxed{
-\begin{array}{c}
-N\in\mathbb N_{>0}\text{ counterexample}\\
-\Downarrow\\
-(t_q)\text{ finite support}\\
-\Downarrow\\
-t_q=0\text{ eventually}\\
-\Downarrow\\
-C_{\rm tail}:\text{ exact accelerated Collatz tail}\\
-\Downarrow\\
-C_{\rm recur}:\text{ future one-child boundary hit}\\
-\Downarrow\\
-C_{\rm orient}:\text{ canonical/Beatty child identification}\\
-\Downarrow\\
-\text{forced orientation conflict}\\
-\Downarrow\\
-\bot
-\end{array}
-}
-\]
-
-This would exclude a single integer path directly and would not rely on `mu_L -> 0 => emptiness`.
-
-Status: **VALID TARGET ARCHITECTURE / OPEN AT `C_orient`, `C_recur`.**
-
----
-
-## 9. Alternative Gate-C route: absolute integer-compatible count
+### Route C2 — absolute integer-compatible survivor count
 
 Let
 
 \[
 M_L
-:=
-\#\{\text{surviving depth-}L\text{ cylinders compatible with an eventually-zero integer tail}\}.
+=\#\{\text{surviving depth-}L\text{ cylinders compatible with eventual-zero lift}\}.
 \]
 
-If an exact argument yields
+Any exact estimate
 
 \[
 \boxed{M_L<1}
 \]
 
-for some large `L`, then `M_L=0` because it is an integer.
+forces `M_L=0`.
 
-A mass estimate could imply this only with a sufficiently strong absolute weight comparison.  The current polynomial normalized mass decay does not do so under exponentially small single-cylinder weights.
+This may be obtained from weighted mass only if an absolute weight/count transfer is strong enough.
 
-Status: **VALID ALTERNATIVE / OPEN.**
+Status: **OPEN.**
+
+### Route C3 — cross-base rigidity
+
+Prove a deterministic arithmetic incompatibility between
+
+1. the nonnegative signed-skew / coefficient-survivor hierarchy, and
+2. eventual stabilization of the dyadic canonical starting residue.
+
+Unlike the rejected orientation shortcut, this theorem must act on complete residue/fibre structure rather than identify unrelated individual bits.
+
+Status: **OPEN.**
 
 ---
 
-## 10. Interaction with Gates F and S
+## 8. Interaction with the strong Beatty-selector route
 
-The aggregate branch is
+The aggregate branch is now
 
 \[
 \boxed{
 F_{\rm map}+F_{\rm unif}
 \longrightarrow
-\text{Gate S harmonic contraction}
+\text{selector transfer}
+\longrightarrow
+\text{strong Gate S contraction}
 \longrightarrow
 \mu_L\to0.
 }
 \]
 
-The terminal branch is now
+The strong symbolic Beatty theorem supplies a constant boundary fraction `c_*>0`, so under selector ratio `rho_L` the rise loss is
+
+\[
+\boxed{
+\frac{c_*}{4}(3\rho_L-1)_+.
+}
+\]
+
+This is much stronger than the elementary harmonic fallback, but it remains an aggregate mass statement.
+
+The terminal branch is
 
 \[
 \boxed{
@@ -398,57 +359,75 @@ C_{\rm form}\;(\text{closed})
 \longrightarrow
 C_{\rm tail}\;(\text{closed})
 \longrightarrow
-C_{\rm orient}\;(\text{open})
-+ C_{\rm recur}\;(\text{open}).
+\{C1,C2,C3\}\;(\text{open}).
 }
 \]
 
-`F_map` and `C_orient` may ultimately be proved by one common exact coordinate-identification theorem.
-
-The two branches must not be merged merely through normalized mass decay.
+A complete proof must connect the aggregate branch to one of these legitimate terminal routes without using `mass zero => empty`.
 
 ---
 
-## 11. DSD audit
+## 9. DSD audit
 
 ### CLOSED / SAFE
 
 1. positive integer iff canonical lift blocks have finite support;
-2. zero-tail carry evolution equals the accelerated Collatz map;
-3. rise-boundary coefficient slack `s=0` has exactly one child: appended `1`;
-4. normalized mass tending to zero does not imply set emptiness;
-5. mass-to-emptiness requires an absolute atom/count transfer or a pathwise contradiction.
+2. eventual zero lift follows the accelerated Collatz map exactly;
+3. Beatty bits are half-step parity bits, not canonical lift bits;
+4. full coefficient survival iff `s_q>=0` at all accelerated checkpoints;
+5. constant symbolic Beatty-boundary fraction survives external-theorem audit;
+6. normalized mass decay alone does not imply absence of a fixed integer path.
 
-### OPEN
-
-1. `F_map / C_orient`: exact coordinate and index identification;
-2. `F_unif`: growing-Q moving-strip control;
-3. Gate S: harmonic abundance of good exact-selector rises;
-4. `C_recur`: deterministic boundary recurrence for every integer-compatible zero-tail survivor.
-
-### PROHIBITED UPGRADES
-
-1. Do not infer `C_recur` from positive aggregate one-child density/exposure.
-2. Do not equate canonical lift block zero with coefficient append-bit zero before the map is proved.
-3. Do not infer emptiness from polynomial normalized mass decay.
-4. Do not assume the accelerated zero-tail map is simpler than Collatz; it is the same orbit dynamics in odd-state form.
-
----
-
-## 12. Next terminal calculation
-
-The highest-value terminal target is now the exact coordinate map
+### REJECTED
 
 \[
 \boxed{
-\text{canonical lift block/bit}
-\leftrightarrow
-\text{selector child}
-\leftrightarrow
-\text{Beatty coefficient child}.
+\text{eventual }t_q=0
+\Rightarrow
+\text{Beatty append-0}
 }
 \]
 
-If this map identifies the eventually-zero canonical coordinate with the killed Beatty orientation at a rise boundary, then only `C_recur` remains for the pathwise terminal contradiction.
+and any direct `0 versus 1` orientation contradiction based on it.
 
-In parallel, the aggregate proof still requires the moving-strip `F_unif` condition and harmonic Gate-S estimate.
+### OPEN
+
+1. `F_map`: exact cross-base selector-to-parity-fibre transfer;
+2. `F_unif`: growing-Q compatibility where required;
+3. Gate S: enough positive selector margin on exact fibres;
+4. Gate C1/C2/C3 terminal closure.
+
+### PROHIBITED UPGRADES
+
+1. Do not infer a fixed path hits the aggregate Beatty boundary from positive boundary density.
+2. Do not identify starting-residue lift bits with orbit parity bits.
+3. Do not infer set emptiness from normalized density or mass decay.
+4. Do not treat the zero-tail accelerated map as already solved; it is the original arithmetic orbit problem in odd-state coordinates.
+
+---
+
+## 10. Next terminal target
+
+The highest-value next target is no longer a bit-orientation lemma.
+
+It is to exploit the exact identity
+
+\[
+\boxed{
+\text{coefficient survivor}\iff s_q\ge0
+}
+\]
+
+together with the canonical formation output `t_q` and the existing hard-core restrictions to search for a genuine theorem of the form
+
+\[
+\boxed{
+\text{admissible nonnegative signed-skew hard core}
+\Longrightarrow
+\text{infinitely many nonzero }t_q,
+}
+\]
+
+or an equivalent absolute-count/cross-base rigidity statement.
+
+That is the corrected Gate-C direction.
