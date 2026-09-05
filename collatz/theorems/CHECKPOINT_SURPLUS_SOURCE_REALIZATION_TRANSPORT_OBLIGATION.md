@@ -20,15 +20,21 @@ The directly recorded `s=1` checkpoint condition in the Xi/Minkowski note is
 \tau_{j_0}\le t_0<\tau_{j_0+1}.
 \]
 
-For the low-surplus certificate family, the control displacement is
+For the directly inspected low-surplus certificate family, the supported control displacement is
 
 \[
-r=s_{\mathrm{cp}}-1,
-\qquad
-q_\star=Q0-r,
+\boxed{r=s_{\mathrm{cp}}-1},
 \]
 
 where `r` is interpreted there as the number of extra odd ordinals crossed to the left of \(T_0\).
+
+A previously recorded relation
+
+\[
+q_\star=Q0-r
+\]
+
+was **not found in the directly inspected current canonical certificate files** and is therefore excluded from this theorem interface. It must not be used unless its exact provenance is independently recovered and audited.
 
 The sampled low-surplus certificate files also use the file-local constants
 
@@ -143,13 +149,15 @@ Whether a checkpoint predicate is applicable, prerequisite-satisfied, defined, a
 
 ### L2 — checkpoint-control representation
 
-Examples include
+Directly supported examples include
 
 \[
-s_{\mathrm{cp}},\quad r=s_{\mathrm{cp}}-1,\quad q_\star,
+s_{\mathrm{cp}},\quad r=s_{\mathrm{cp}}-1,
 \]
 
-and Hensel-budget or packed-suffix control coordinates.
+and the independently defined Hensel-budget or packed-suffix control coordinates in their own certificate domains.
+
+Unsupported or unrecovered coordinate relations are excluded from this layer until provenance is supplied.
 
 ### L3 — derived completion
 
@@ -219,6 +227,7 @@ Route-A still needs an exact entrance/source predicate. Named branches or contro
 - checkpoint-surplus provenance as a checkpoint-control notion: **ESTABLISHED LOCALLY**;
 - exact `s=1` checkpoint condition: **ESTABLISHED LOCALLY**;
 - \(r=s_{\mathrm{cp}}-1\) in the low-surplus certificate family: **ESTABLISHED LOCALLY**;
+- \(q_\star=Q0-r\): **NOT RECOVERED / EXCLUDED FROM CURRENT CANONICAL INTERFACE**;
 - identification \(s_{\mathrm{cp}}=A_0-j_\star\): **UNVERIFIED / SEPARATE OBLIGATION**;
 - all-\(s_{\mathrm{cp}}\ge2\) same-source realization transport: **OPEN**;
 - exact ordinary-source charts \(\mathcal D_s\): **OPEN**;
