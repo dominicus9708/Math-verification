@@ -2,103 +2,103 @@
 
 Date: **2026-09-05**
 
-Status: **SPECIFICATION GAP CONFIRMED / surplus coordinate recovered / principal global gate refined**
+Status: **SPECIFICATION GAP CONFIRMED / checkpoint-surplus provenance corrected / principal global gate refined**
 
 ## Purpose
 
-After the current `A0,s=1,Route-B` physical source corridor became closed on the
-accepted external finite-range proof path, the shortest remaining global path
-moves to C6:
+After the current `A0,s_cp=1,Route-B` physical source corridor became closed on the accepted external finite-range proof path, the shortest remaining global path moves to C6:
 
+- exact checkpoint-surplus provenance and source transport;
 - Route-A;
-- all surplus sectors `s>=2`;
+- all live `s_cp>=2` checkpoint-surplus sectors;
 - any other branch families required by the global decomposition;
 - final global branch completeness.
 
-This audit asks which of those objects are already mathematically specified and
-which remain only roadmap labels.
+This audit distinguishes what is directly defined at the checkpoint level from what has actually been transported to ordinary Collatz sources.
 
-## 1. Exact upstream surplus coordinate is already recovered
+## 1. Surplus provenance correction
 
-The canonical upstream proof map defines
+Earlier versions of this audit stated too strongly that the canonical global definition
 
 \[
-\gamma:=\log_2 3,
+s=A_0-j_\star
+\]
+
+had already been recovered upstream.
+
+That claim is **withdrawn as a canonical audit fact** until its ordinary-orbit provenance is independently re-established.
+
+The directly inspected checkpoint material supports the safer notation
+
+\[
+\boxed{s_{\mathrm{cp}}:=\text{tenth-checkpoint surplus}.}
+\]
+
+The local `s=1` Xi/checkpoint condition is explicitly recorded as
+
+\[
+\boxed{\tau_{j_0}\le t_0<\tau_{j_0+1}.}
+\]
+
+The low-surplus certificate family uses
+
+\[
+\boxed{r=s_{\mathrm{cp}}-1,}
+\]
+
+where `r` is interpreted there as the number of extra odd ordinals crossed to the left of `T0`. Some of those files also write
+
+\[
+q_\star=Q0-r.
+\]
+
+The sampled certificate files use file-local constants
+
+\[
+A0=114{,}208{,}327{,}604,
 \qquad
-A_0:=\lceil \gamma C\rceil,
+Q0=72{,}057{,}431{,}991.
 \]
 
-and the lower-case surplus coordinate by
+These are retained as **file-local certificate parameters** and are not promoted here to global canonical constants.
+
+### Provenance obligation
+
+If a later proof needs
 
 \[
-\boxed{
-s:=\lceil \gamma C\rceil-j_\star=A_0-j_\star.
-}
+s_{\mathrm{cp}}=A_0-j_\star
 \]
 
-Therefore
+or any equivalent global formula, that identity must be supplied as a separate theorem from the ordinary-orbit/checkpoint definitions.
 
-\[
-\boxed{j_\star=A_0-s.}
-\]
+Until then:
 
-The `s=0` sector is structurally eliminated upstream, and the live minimal
-surplus sector is therefore `s=1`, where
-
-\[
-A_0=j_\star+1.
-\]
-
-This corrects the earlier provisional wording of this audit: **the scalar
-surplus coordinate `s` is not undefined**.
-
-The remaining `s>=2` gap is instead the absence, at the current canonical live
-interface, of a complete theorem transporting those surplus values into exact
-ordinary-source domains, branch-local coordinates, and closure obligations.
+- checkpoint-local `s_cp` is valid where its prerequisites are satisfied;
+- `s_cp>=2` is a checkpoint-control condition, not yet an exact ordinary-source branch;
+- no Route-B source bound may be transferred merely from equality or inequality of surplus coordinates.
 
 ### Notation warning
 
-This lower-case surplus `s` is distinct from the persistent Route-B source
-control coordinate `S` occurring in relations such as
+The lower-case checkpoint surplus `s_cp` is distinct from the persistent Route-B source-control coordinate `S` occurring in relations such as
 
 \[
 q=Q(h)+S.
 \]
 
-They must not be identified.
+They must never be identified.
 
 ## 2. What is already specified for the current Route-B sector
 
-The active Route-B stack has an exact working domain with at least the following
-objects explicitly defined:
+The active Route-B stack has an exact working domain with explicitly defined source charts, finite parameter intervals, retained 14-root source families, transition rules, downstream predicates, and an explicit physical source corridor.
 
-1. fixed target data
-   \[
-   t_0=104{,}398{,}605{,}910,
-   \qquad
-   j_0=65{,}868{,}186{,}701;
-   \]
-2. exact source channels
-   \[
-   X=r+2^h m,
-   \qquad
-   T^h(X)=y+3^q m;
-   \]
-3. finite parameter intervals;
-4. the exact upstream surplus condition `s=1`;
-5. the retained 14-root source forest after stated SAFE cuts;
-6. exact transition rules and downstream predicates;
-7. an explicit physical source corridor;
-8. a dependency chain showing which bounds are available only after
-   Route-B-specific reductions.
+That is why individual Route-B implications can be stated and audited source-preservingly.
 
-This is sufficient to state and audit individual Route-B implications.
+This structure is branch-specific. It does not prove that Route-A or `s_cp>=2` checkpoint states admit the same source charts or the same source bounds.
 
 ## 3. Route-A remains an unresolved semantic branch label
 
-The live proof map and open-gate register name Route-A as a remaining global
-obligation. However, at the current canonical interface no exact predicate has
-yet been recovered of the form
+The live proof map and open-gate register name Route-A as a remaining global obligation. At the current canonical interface, however, no exact predicate has yet been recovered of the form
 
 \[
 \boxed{P_A(x,\mathcal O_x)}
@@ -110,248 +110,234 @@ such that
 x\in\mathrm{RouteA}\iff P_A(x,\mathcal O_x).
 \]
 
-The same repository also records an important correction: the older naive
-prefix interpretation based only on a sign condition such as `U_t>=0` is
-structurally invalid. Consequently Route-A must **not** be reconstructed by
-relabeling the rejected naive surplus-prefix branch.
+The older naive interpretation using only a sign condition such as `U_t>=0` remains rejected.
 
-Until its original exact entrance predicate is recovered or replaced by a newly
-proved equivalent predicate, `Route-A` is a roadmap/control label rather than a
-certified quotient coordinate.
+Until its entrance predicate is recovered or replaced by a newly proved equivalent predicate, `Route-A` is a roadmap/control label rather than a certified source branch.
 
-## 4. The remaining `s>=2` obligation is a transport/domain theorem
+## 4. The `s_cp>=2` obligation is now a source-realization transport theorem
 
-Because `s` itself is exact, the unresolved all-surplus task should be stated as:
+The live low-surplus calculations show how checkpoint-control quantities change when `s_cp` is increased. They do **not** yet prove the ordinary-source domain generated by those states.
 
-> Given the exact upstream condition `s>=2`, derive the complete ordinary-source
-> domain, any necessary subordinate route predicates, the branch-local source
-> charts, and the exact closure criterion without importing Route-B-only SAFE
-> reductions.
-
-At minimum this requires proving how
+The exact missing chain is
 
 \[
-s=A_0-j_\star\ge2
+\boxed{
+\text{checkpoint admissibility}
+\to
+\text{same-source realization}
+\to
+\text{exact ordinary-source charts}
+\to
+\text{branch closure}.
+}
 \]
 
-propagates into the later formation / first-failure / checkpoint variables used
-by the computation.
+The principal theorem obligation is recorded in
 
-It is not enough to substitute `s>=2` into formulas proved only after the
-`s=1,Route-B` specialization.
+`../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`.
 
-## 5. Required Branch Specification Theorem
+The DSD audit is recorded in
 
-For each live branch label `B_alpha`, the global proof needs an exact predicate
+`DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`.
+
+For checkpoint state \(\sigma\), ordinary source \(x\), and admissibility predicate \(A_s\), introduce the same-source/same-orbit relation
+
+\[
+R(x,\sigma).
+\]
+
+The required forward transport is
+
+\[
+A_s(\sigma)\land R(x,\sigma)
+\Longrightarrow
+x\in\mathcal D_s,
+\]
+
+where \(\mathcal D_s\) is an exact ordinary-source chart/domain.
+
+If \(\mathcal D_s\) is used as an exact branch description rather than an enclosure, reflection is also required:
+
+\[
+x\in\mathcal D_s
+\Longrightarrow
+\exists\sigma:\ A_s(\sigma)\land R(x,\sigma).
+\]
+
+Without these implications, `s_cp>=2` cannot be promoted from checkpoint control to an exhaustive source branch.
+
+## 5. Required branch specification theorem
+
+For each live branch `B_alpha`, the global proof needs an exact predicate
 
 \[
 \boxed{P_\alpha(x,\mathcal O_x)}
 \]
 
-on an ordinary positive start `x` and/or its deterministic Collatz orbit
-`\mathcal O_x`, such that branch membership means
+such that
 
 \[
-x\in B_\alpha
-\iff
-P_\alpha(x,\mathcal O_x).
+x\in B_\alpha\iff P_\alpha(x,\mathcal O_x).
 \]
-
-The theorem must then derive the branch-local coordinates actually used by the
-computation.
 
 At minimum each branch specification must state:
 
-1. **entrance condition** — the first orbit event/checkpoint at which the branch
-   is assigned;
-2. **control labels** — Route-A/Route-B and surplus `s`, with exact formulas;
-3. **source domain** — the allowed ordinary `X` values or a proved source chart;
-4. **target/checkpoint data** — fixed or variable quantities and their domain;
-5. **continuation obligations** — which formation/tail/renewal predicates remain;
-6. **exit/closure criterion** — what mathematical result eliminates or
-   discharges the branch.
+1. entrance condition;
+2. checkpoint/control labels and their prerequisites;
+3. same-source realization relation;
+4. ordinary-source domain/chart;
+5. target/checkpoint data;
+6. continuation obligations;
+7. exit/closure criterion.
 
-A branch name is not itself a predicate.
+A branch name or checkpoint coordinate is not itself a source predicate.
 
-## 6. Required Global Branch Completeness Theorem
+## 6. Required global branch completeness theorem
 
-Let `CE` denote the set of hypothetical positive Collatz counterexample starts.
-Let the completed branch family be
+Let `CE` denote the set of hypothetical positive Collatz counterexample starts and let
 
 \[
 \mathcal B=\{B_\alpha:\alpha\in A\}.
 \]
 
-The proof needs an exact covering statement
+The proof needs
 
 \[
-\boxed{
-CE\subseteq\bigcup_{\alpha\in A}B_\alpha.
-}
+\boxed{CE\subseteq\bigcup_{\alpha\in A}B_\alpha.}
 \]
 
-If the branch computation assumes a partition rather than a cover, it must also
-prove pairwise disjointness:
+If a partition is claimed, prove pairwise disjointness. If overlaps are allowed, state the overlap accounting explicitly.
 
-\[
-B_\alpha\cap B_\beta=\varnothing
-\qquad(\alpha\ne\beta).
-\]
-
-Disjointness is not mandatory if overlaps are explicitly allowed, but then the
-proof accounting must specify how overlapping branches are handled and must not
-multiply or add marginal counts as though they were disjoint.
-
-Finally, each branch closure theorem must have the implication
+Each branch closure must establish
 
 \[
 B_\alpha\cap CE=\varnothing.
 \]
 
-Only after every `alpha` is closed may one infer
+Only after every covered branch is closed may one infer
 
 \[
 CE=\varnothing.
 \]
 
-## 7. Route-B refined X bound is not currently transferable
+## 7. Route-B refined X bound is not transferable without source transport
 
-The current refined source corridor
+The current refined Route-B source corridor
 
 \[
 2^{71}<X<\frac43 2^{71}+0.478\,2^{33}
 \]
 
-is recorded downstream of the `A0,s=1,Route-B` near-threshold / radius-7 /
-defect reduction chain.
+is downstream of the `A0,s_cp=1,Route-B` near-threshold / radius-7 / defect reduction chain.
 
-Therefore the logical implication presently certified is of the form
-
-\[
-\boxed{
-P_{A0,s=1,RouteB}
-\Longrightarrow
-X\in I_B,
-}
-\]
-
-not
+The currently certified implication is branch-specific:
 
 \[
-\text{arbitrary remaining Collatz branch}
-\Longrightarrow X\in I_B.
+P_{A0,s_{cp}=1,RouteB}\Longrightarrow X\in I_B.
 \]
 
-Accordingly the external recursive-sufficiency closure of `I_B` cannot be
-transferred to Route-A or `s>=2` until a separate theorem proves that their
-source domains lie inside the same externally verified interval.
+It is not
 
-This is a dependency issue, not merely a missing numerical comparison.
+\[
+\text{arbitrary remaining checkpoint/source sector}\Longrightarrow X\in I_B.
+\]
+
+Therefore external recursive-sufficiency closure of `I_B` cannot be transferred to Route-A or `s_cp>=2` until a separate theorem proves their source-domain inclusion in the externally verified range.
 
 ## 8. DSD analysis
 
-### Surplus as a certified coordinate
-
-The lower-case surplus `s=A_0-j_*` is an exact integer observation derived from
-upstream data. It may be used as a genuine branch coordinate.
-
-### Route label as an uncertified coordinate until a predicate is recovered
-
-A Route-A/Route-B label is a **control coordinate** only after a mathematical
-predicate makes it observable from the underlying orbit state.
-
-### Source payload remains independent
-
-Even when two branches share a surplus value or target geometry, their ordinary
-source payloads cannot be merged unless every remaining predicate is invariant
-under that identification.
-
-### Resolution rule
-
-The correct DSD order is
+The safe audit order is
 
 ```text
-ordinary orbit
-  -> exact upstream surplus s
-  -> exact route/branch observation predicate
-  -> branch-specific source chart
-  -> branch-local compressed state
-  -> branch closure predicate.
+L0 ordinary source/orbit
+  -> L1 checkpoint applicability + same-source realization
+  -> L2 checkpoint/control representation
+  -> L3 derived completion
+  -> source-branch closure only after a proved transport back to L0.
 ```
 
-It is invalid to reverse the order by inventing a convenient compressed branch
-state first and then assuming every counterexample maps into it.
+Examples of L2 include `s_cp`, `r=s_cp-1`, `q_star`, Hensel budgets, and packed-suffix coordinates.
+
+Examples of L3 include terminal defects, projective observations, and endpoint-lattice data.
+
+A difference first appearing in L2 or L3 is not by itself a source-level branch difference.
+
+For a compression \(Q\), every remaining source-sensitive predicate \(P_i\) must factor through the compressed state whenever the proof uses that compression for exact branching:
+
+\[
+P_i(S)\iff\widehat P_i(Q(S)),
+\]
+
+or at minimum the required invariance must be proved.
 
 ## 9. Audit classification
 
 ### CONFIRMED / CLOSED AS AUDIT FINDINGS
 
-- lower-case surplus
-  \[
-  s=A_0-j_\star
-  \]
-  is already exactly defined upstream;
-- `s=0` is structurally eliminated in the upstream proof map;
-- `s=1` is therefore the minimal live surplus sector;
-- Route-A is named as an open C6 obligation but currently lacks a recovered
-  canonical exact entrance predicate/source specification;
-- `s>=2` has an exact scalar definition but lacks a complete all-surplus
-  source/domain/closure transport theorem;
-- global branch completeness remains explicitly open;
-- the Route-B refined `X` bound is downstream of Route-B-specific dependencies
-  and cannot presently be inherited by those sectors.
+- checkpoint-local surplus `s_cp` is a real control notion in the inspected checkpoint/certificate material;
+- the local `s=1` checkpoint condition \(\tau_{j_0}\le t_0<\tau_{j_0+1}\) is explicitly recorded;
+- `r=s_cp-1` is explicitly used in the low-surplus certificate family;
+- Route-A remains named but lacks a recovered exact source predicate;
+- `s_cp>=2` lacks a complete same-source realization/source-domain theorem;
+- global branch completeness remains open;
+- the Route-B refined `X` bound remains branch-specific.
 
-### PRINCIPAL GLOBAL OPEN GATE
+### NOT ESTABLISHED
 
-Construct and certify:
+- `s_cp=A0-j_*` as a canonical global identity;
+- file-local `A0`, `Q0` values as universal/canonical constants;
+- checkpoint-control difference alone as an exhaustive ordinary-source branch decomposition.
 
-1. the exact Route-A predicate/source domain;
-2. the exact transport theorem for every `s>=2` sector;
-3. any additional branch labels needed for exhaustiveness;
-4. the global cover/partition theorem mapping every hypothetical counterexample
-   into the completed branch family.
+### PRINCIPAL GLOBAL OPEN GATES
+
+1. prove checkpoint-surplus provenance at the ordinary-orbit level if a global formula is required;
+2. prove checkpoint-to-source realization transport for every live `s_cp>=2` sector;
+3. recover/prove the exact Route-A predicate and source domain;
+4. specify any additional branch labels required for exhaustiveness;
+5. prove the global cover/partition theorem.
 
 ### REJECTED
 
-- `Route-A` appearing in a roadmap -> Route-A mathematically specified;
-- naive `U_t>=0` prefix sign -> Route-A definition;
-- `s>=2` appearing in a roadmap -> all surplus source domains specified;
-- Route-B source bound -> same bound for Route-A;
-- `s=1` downstream formula -> unchanged all-surplus formula without proof;
-- Route-B external closure -> A0 closure;
-- A0 closure -> global Collatz;
-- finite branch names -> exhaustive counterexample partition.
+- roadmap Route-A label -> mathematical Route-A definition;
+- naive `U_t>=0` sign -> Route-A definition;
+- `s_cp>=2` checkpoint label -> exact ordinary-source domain;
+- historical `s=A0-j_*` notation -> canonical identity without provenance proof;
+- Route-B source bound -> same bound for Route-A or `s_cp>=2`;
+- `s_cp=1` downstream formula -> unchanged all-surplus formula without proof;
+- Route-B external closure -> A0/global closure;
+- finite branch names -> exhaustive counterexample partition;
+- equal compressed/derived state -> equal source payload.
 
 ## 10. Immediate next construction
 
-The next proof object remains
+The next branch table should be source-level and should leave unresolved rows explicitly unspecified.
 
-```text
-GLOBAL_BRANCH_SPECIFICATION.md
-```
+A machine-checkable specification should have the form
 
-or an equivalent theorem series, beginning upstream of all Route-B-specific
-SAFE cuts.
+| branch id | entrance predicate | checkpoint prerequisites | same-source realization | ordinary source domain | closure module |
+|---|---|---|---|---|---|
 
-Its first certified rows may already use the recovered surplus coordinate, but
-Route-A must remain explicitly `UNSPECIFIED` until its entrance predicate is
-recovered from history or replaced by a new proved equivalent definition.
+Current intended rows include:
 
-A machine-checkable table should have the form
+- current `s_cp=1,Route-B` sector — source domain specified, external-dependency closure closed;
+- `s_cp=1,Route-A` — entrance/source predicate UNSPECIFIED;
+- `s_cp>=2` sectors — checkpoint-control data exists, source transport OPEN;
+- any additional global branches — OPEN until coverage analysis proves whether they are needed.
 
-| branch id | entrance predicate | surplus domain | ordinary source domain | required closure module |
-|---|---|---|---|---|
+Only after a row is fully specified may external finite-range closure or Route-B structural theorems be inherited by that row.
 
-Only after a row is fully specified should external finite-range closure or
-Route-B structural theorems be inherited by that row.
+## Canonical dependencies
 
-## Canonical dependencies inspected
-
-- `../CANONICAL_PROOF_STACK.md`;
 - `../PROOF_MAP.md`;
+- `../CANONICAL_PROOF_STACK.md`;
 - `../status/OPEN_GATES.md`;
 - `../status/CURRENT_STATUS.md`;
 - `../status/DEPENDENCY_LEDGER.md`;
 - `../frontier/A0_S1_ROUTEB.md`;
 - `../frontier/A0_S1_ROUTEB_EXTERNAL_CLOSURE.md`;
-- `../notes/2026-08-27-A0-s1-Xi-Minkowski-factorization.md`.
+- `../notes/2026-08-27-A0-s1-Xi-Minkowski-factorization.md`;
+- `../src/A0_checkpoint_surplus_tax_certificate.py`;
+- `../src/A0_low_surplus_hensel_budget_bridge_certificate.py`;
+- `../src/A0_packed_suffix_surplus_envelope_certificate.py`;
+- `../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`;
+- `DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`.
