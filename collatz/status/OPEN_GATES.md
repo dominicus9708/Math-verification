@@ -93,7 +93,7 @@ The previously rejected naive prefix sign interpretation such as `U_t>=0` must n
 
 Status: **OPEN / UNSPECIFIED — principal global gate**.
 
-## G9 — Checkpoint-surplus provenance and source-realization transport
+## G9 — Exact surplus-sector predicates, parent source cover, and instantiated source charts
 
 **Module:** C1/C6.
 
@@ -109,7 +109,7 @@ Direct checkpoint material supports the local `s=1` condition
 \tau_{j_0}\le t_0<\tau_{j_0+1}
 \]
 
-and the low-surplus certificate relation
+and the inspected surplus-tax interface supports
 
 \[
 r=s_{\mathrm{cp}}-1.
@@ -121,24 +121,80 @@ The identity
 s_{\mathrm{cp}}=A_0-j_\star
 \]
 
-is **not currently a canonical established fact** and requires a separate provenance theorem if it is needed.
+is **not currently a canonical established fact** and is not required by the new finite transport theorem.
 
-For every live `s_cp>=2` checkpoint sector, prove
+### G9a — generic finite transport mechanism
+
+Status: **CLOSED**.
+
+`../theorems/FINITE_CHECKPOINT_PREDICATE_SOURCE_CYLINDER_TRANSPORT.md` proves that, inside any supplied exact finite parent source family, every exact finite checkpoint predicate has an exact source-disjoint cylinder decomposition with forward preservation and reflection:
 
 \[
-A_s(\sigma)\land R(x,\sigma)
-\Longrightarrow
-x\in\mathcal D_s,
+X\text{ satisfies }P
+\iff
+X\in\bigsqcup_{w\in\mathcal W_P}\Phi_w(I_w).
 \]
 
-with exact ordinary-source charts \(\mathcal D_s\), and reflection if those charts are used as exact branch definitions.
+Thus a generic checkpoint→source principle is no longer missing.
+
+### G9b — exact general `s_cp>=2` predicate
+
+Required output:
+
+\[
+\boxed{
+A_s(\sigma)
+\iff
+\text{explicit finite ordinary-orbit/checkpoint-prefix condition}.
+}
+\]
+
+Downstream tax, Hensel-budget, or defect values do not substitute for this definition.
+
+Status: **OPEN — principal global subgate**.
+
+### G9c — upstream parent source-family cover
+
+Specify exact parent source families `F_lambda` on which the surplus split acts and prove
+
+\[
+\boxed{
+CE_{\mathrm{surplus\ scope}}
+\subseteq
+\bigcup_\lambda F_\lambda.
+}
+\]
+
+The current Route-B physical source corridor is downstream and cannot be reused automatically.
+
+Status: **OPEN — principal global subgate**.
+
+### G9d — instantiated/compressed source domains
+
+Apply the closed finite transport theorem to obtain
+
+\[
+\mathcal D_s
+=
+\bigcup_\lambda\mathcal D_s(F_\lambda),
+\]
+
+then compress or bound this exact union while preserving every remaining source-sensitive predicate.
+
+If external finite-range closure is desired, additionally prove
+
+\[
+\mathcal D_s\subseteq[1,L_{RS}].
+\]
+
+Status: **OPEN**.
 
 Canonical references:
 
+- `../theorems/FINITE_CHECKPOINT_PREDICATE_SOURCE_CYLINDER_TRANSPORT.md`;
 - `../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`;
+- `../audits/DSD_FINITE_CHECKPOINT_SOURCE_CYLINDER_TRANSPORT_AUDIT.md`;
 - `../audits/DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`.
-
-Status: **OPEN — principal global gate**.
 
 ## G10 — Global branch specification and completeness
 
@@ -149,7 +205,7 @@ Use `../theorems/GLOBAL_BRANCH_SPECIFICATION.md` as the conservative source-leve
 Required output:
 
 1. exact source/orbit predicates for every live branch;
-2. checkpoint-to-source transport where checkpoint control is used;
+2. exact surplus-sector instantiation on proven parent source families;
 3. explicit overlap/disjointness accounting;
 4. cover theorem
    \[
@@ -166,10 +222,12 @@ Status: **OPEN — final principal global gate**.
 ## Principal global path
 
 \[
-\boxed{G8\ \text{and}\ G9\ \longrightarrow\ G10}
+\boxed{G8\ \text{and}\ (G9b\to G9c\to G9d)\ \longrightarrow\ G10}
 \]
 
 with G8 and G9 developed in parallel when their upstream definitions are independent.
+
+The generic finite source transport `G9a` is CLOSED and should be reused rather than reproved.
 
 If a new exact source domain from G8/G9 lies inside the externally verified range, external finite-range closure may be invoked **only after** that source-domain inclusion is proved.
 
