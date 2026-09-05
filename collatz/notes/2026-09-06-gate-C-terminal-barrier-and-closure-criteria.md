@@ -2,11 +2,11 @@
 
 Date: 2026-09-06
 
-Status: **SAFE LOGICAL BARRIER + TERMINAL TARGET REFINEMENT.**
+Status: **SAFE LOGICAL BARRIER + ZERO-TAIL LAW CLOSED + ORIENTATION/RECURRENCE OPEN.**
 
-This note audits the last step of the current Collatz proof program after the new Beatty one-child / selector-repair route.
+This note audits the last step of the current Collatz proof program after the Beatty one-child / selector-repair route.
 
-The central conclusion is negative but important:
+The central warning remains:
 
 \[
 \boxed{
@@ -14,7 +14,7 @@ The central conclusion is negative but important:
 }
 \]
 
-Therefore Gate C must contain an additional arithmetic/canonical-tail theorem.  It is not merely a formal consequence of Gate S.
+However, the canonical finite-support formulas close one part that was initially left open: the eventual-zero tail transition itself is exactly the accelerated Collatz map.
 
 ---
 
@@ -40,7 +40,7 @@ t_q=0\qquad(q\ge q_0).
 
 A hypothetical minimal Collatz counterexample must therefore determine an infinite surviving candidate path whose canonical lift is eventually zero.
 
-Status: **SAFE LEMMA already present in the terminal roadmap.**
+Status: **CLOSED / SAFE.**
 
 ---
 
@@ -51,50 +51,24 @@ Let `S_L` be the finite family of surviving depth-`L` candidate cylinders and le
 Then
 
 \[
-\mu_L
-=
-\sum_{C\in S_L}w_L(C).
+\mu_L=\sum_{C\in S_L}w_L(C).
 \]
 
-Suppose one exceptional nested path
+One exceptional nested path
 
 \[
 C_1\supset C_2\supset\cdots
 \]
 
-survives for all `L`.
+is compatible with `mu_L -> 0` because its own cylinder weight may also tend to zero.
 
-There is no contradiction with
-
-\[
-\mu_L\to0,
-\]
-
-because its own cylinder weight may also satisfy
-
-\[
-w_L(C_L)\to0.
-\]
-
-For example, under a dyadic-type normalization a single depth-`L` cylinder can have weight of order
-
-\[
-2^{-L},
-\]
-
-while the total candidate mass may decay only polynomially:
-
-\[
-\mu_L\asymp L^{-\gamma}.
-\]
-
-Then
+For example, a single depth-`L` cylinder may have weight `2^{-L}` while the total survivor mass decays only like `L^{-gamma}`.  Since
 
 \[
 2^{-L}\ll L^{-\gamma},
 \]
 
-so the total mass bound is compatible with many surviving cylinders, and certainly with one.
+polynomial normalized mass decay cannot by itself rule out even one surviving path.
 
 Status: **SAFE LOGICAL BARRIER.**
 
@@ -102,154 +76,268 @@ Status: **SAFE LOGICAL BARRIER.**
 
 ## 3. General mass-to-emptiness transfer lemma
 
-Let `I_L subset S_L` be the cylinders that can still represent the finite prefix of an eventually-zero canonical lift.
-
-Define
+Let `I_L subset S_L` be the cylinders that can still represent a finite prefix of an eventually-zero canonical lift, and define
 
 \[
-w_L^{\rm int}
-:=
-\inf_{C\in I_L}w_L(C)
+w_L^{\rm int}:=\inf_{C\in I_L}w_L(C)
 \]
 
 when `I_L` is nonempty.
 
-If `I_L` contains at least one survivor, then trivially
+If `I_L` contains a survivor, then
 
 \[
 \mu_L\ge w_L^{\rm int}.
 \]
 
-Therefore
+Hence
 
 \[
 \boxed{
 \mu_L<w_L^{\rm int}
-\quad\Longrightarrow\quad
+\Longrightarrow
 I_L=\varnothing.
 }
 \]
 
-More generally, if
+More generally,
 
 \[
 \boxed{
-\frac{\mu_L}{w_L^{\rm int}}\to0,
+\mu_L/w_L^{\rm int}\to0
 }
 \]
 
-then eventually no integer-compatible cylinder can remain.
+would imply eventual emptiness of integer-compatible cylinders.
 
 Status: **SAFE LEMMA.**
 
-This gives a valid measure-to-emptiness route, but it requires a sufficiently strong lower bound on the weight of every integer-compatible survivor.
+The present polynomial contraction does not supply this because a single compatible cylinder may be exponentially light.
 
 ---
 
-## 4. Why the current polynomial decay does not close this lemma
+## 4. `C_tail` is closed: exact zero-tail dynamics
 
-The Beatty one-child harmonic route presently gives, conditionally,
-
-\[
-\mu_L\le C L^{-\gamma}
-\]
-
-for some `gamma>0` once Gates F and S are closed.
-
-If the best available lower bound on a single compatible cylinder is exponential,
-
-\[
-w_L^{\rm int}\ge cB^{-L},
-\qquad B>1,
-\]
-
-then
-
-\[
-\frac{\mu_L}{w_L^{\rm int}}
-\le
-\frac Cc B^L L^{-\gamma},
-\]
-
-which does **not** tend to zero.
-
-Thus the current polynomial contraction cannot be promoted to emptiness by a naive atom-weight comparison.
-
-Even geometric mass decay would need its rate compared quantitatively with the compatible-cylinder weight scale.
-
-Status: **SAFE BARRIER.**
-
----
-
-## 5. Gate C must therefore split
-
-The terminal gate should now be decomposed as
+The canonical carry recursion already established in the formation layer is
 
 \[
 \boxed{
-C_{\rm form}
-+ C_{\rm tail}
-+ C_{\rm hit}
+2^{v_q}y_{q+1}
+=
+3y_q+1+3^{q+1}t_q.
 }
 \]
 
-or replaced by an absolute-counting theorem.
-
-### `C_form` — canonical integer characterization
+Once the canonical lift has reached its support endpoint,
 
 \[
-N\in\mathbb N_{>0}
-\iff
-(t_q)\text{ has finite support}.
+t_q=0,
 \]
 
-Status: **CLOSED / SAFE.**
-
-### `C_tail` — zero-tail state law
-
-After a support endpoint `q_0`, derive the exact state evolution forced by
+so
 
 \[
-t_q=0
-\quad(q\ge q_0)
+2^{v_q}y_{q+1}=3y_q+1.
 \]
 
-in the same variables used by the Beatty/selector proof: coefficient-surplus, selector residue, parent fibre, and any minimal-counterexample state required by the root-global filter.
-
-The important point is that this must be a **pathwise** law, not an average-measure statement.
-
-Status: **OPEN.**
-
-### `C_hit` — deterministic forbidden-hit theorem
-
-Prove that every infinite zero-tail state trajectory allowed by `C_tail` must eventually enter a configuration eliminated by an exact canonical/minimal-counterexample rule.
-
-A target form is
+The canonical odd-state normalization requires `y_{q+1}` to be odd.  Therefore the complete factor of `2` dividing `3y_q+1` must be removed:
 
 \[
 \boxed{
-\forall s_0\in\mathcal S_{\rm integer},
-\quad
-\exists r<\infty:
-T_0^r(s_0)\in\mathcal K,
+v_q=\nu(y_q):=v_2(3y_q+1).
 }
 \]
 
-where
+Thus
 
-- `T_0` is the exact eventually-zero tail transition;
-- `S_integer` is the set of states that can occur at a support endpoint of a positive integer candidate;
-- `K` is an exactly forbidden/killed state set.
+\[
+\boxed{
+y_{q+1}
+=
+T(y_q)
+:=
+\frac{3y_q+1}{2^{v_2(3y_q+1)}}.
+}
+\]
 
-Status: **OPEN.**
+So an eventually-zero canonical tail follows the ordinary accelerated Collatz map exactly.
 
-If proved, this directly excludes a fixed positive integer counterexample and avoids any density-zero/emptiness inference.
+If the signed skew variable is
+
+\[
+s_q=\lfloor q\log_2 3-A_q\rfloor,
+\]
+
+with Beatty/Sturmian increment
+
+\[
+r_q=d_{q+1}-d_q\in\{1,2\},
+\]
+
+then the already established update
+
+\[
+s_{q+1}=s_q+r_q-v_q
+\]
+
+becomes on the zero tail
+
+\[
+\boxed{
+(y_{q+1},s_{q+1})
+=
+\left(
+\frac{3y_q+1}{2^{\nu(y_q)}},
+\ s_q+r_q-\nu(y_q)
+\right).
+}
+\]
+
+Status: **`C_tail` CLOSED / SAFE.**
+
+This closure does not solve Collatz: the zero-tail map is precisely the accelerated Collatz dynamics whose infinite non-descent must ultimately be excluded.
 
 ---
 
-## 6. Alternative Gate-C route: absolute integer-compatible count
+## 5. Exact Beatty boundary orientation in coefficient slack coordinates
 
-Instead of a deterministic tail-hit theorem, one could prove an absolute counting estimate.
+The Beatty one-child certificate uses the coefficient-survival slack DP.  At a rise,
+
+- appending coefficient bit `1` preserves the old slack;
+- appending coefficient bit `0` decreases the slack by one and is allowed only when the old slack is positive.
+
+Therefore at a rise with boundary slack `s=0`,
+
+\[
+\boxed{
+\text{append }1\text{ survives},
+\qquad
+\text{append }0\text{ is killed}.
+}
+\]
+
+This is an exact local orientation statement in the **coefficient-survival coordinate**.
+
+Status: **SAFE LEMMA.**
+
+It must not yet be identified with a canonical lift digit.
+
+---
+
+## 6. New Gate `C_orient`: coordinate identification
+
+A positive integer eventually has
+
+\[
+t_q=0.
+\]
+
+The coefficient DP says that a rise-boundary parent with slack zero accepts only appended coefficient child `1`.
+
+A tempting contradiction would be
+
+\[
+\text{eventual canonical zero child}
+\quad\text{vs}\quad
+\text{forced coefficient child }1.
+\]
+
+But this is valid only if the two child coordinates are proved to be the same under the exact canonical fibre map.
+
+Thus define
+
+\[
+\boxed{
+C_{\rm orient}:
+\text{identify the canonical zero-tail child with the corresponding coefficient/selector child orientation.}
+}
+\]
+
+This is closely related to `F_map`, but it is the terminal pathwise form of that identification.
+
+A valid theorem must explicitly map:
+
+1. canonical lift coordinate `t_q` / its binary child choice;
+2. parent modulus at the relevant scale;
+3. the two child lifts used by selector counts `C(r)` and `C(r+M)`;
+4. the appended bit used by the Beatty slack DP.
+
+Status: **OPEN.**
+
+### Audit prohibition
+
+Do **not** write
+
+\[
+t_q=0\Rightarrow\text{Beatty append-0}
+\]
+
+until `C_orient`/`F_map` proves it.
+
+---
+
+## 7. New Gate `C_recur`: pathwise boundary recurrence
+
+Even if `C_orient` is proved, aggregate one-child exposure
+
+\[
+|D_L|/|R_L|>2/(5L)
+\]
+
+does not imply that one particular eventually-zero path ever belongs to `D_L`.
+
+Therefore a second deterministic statement is required.
+
+A direct target is
+
+\[
+\boxed{
+C_{\rm recur}:
+\text{every infinite integer-compatible zero-tail survivor reaches a rise scale with boundary slack }s=0.
+}
+\]
+
+More generally, it is enough to prove that every such path eventually reaches any exact one-child state whose surviving orientation conflicts with its canonical zero-tail orientation.
+
+Status: **OPEN.**
+
+This is the precise pathwise analogue of the aggregate Beatty-exposure theorem.
+
+---
+
+## 8. Revised terminal contradiction route
+
+If both open terminal gates are closed, the final pathwise contradiction has the form
+
+\[
+\boxed{
+\begin{array}{c}
+N\in\mathbb N_{>0}\text{ counterexample}\
+\Downarrow\\
+(t_q)\text{ finite support}\
+\Downarrow\\
+t_q=0\text{ eventually}\
+\Downarrow\\
+C_{\rm tail}:\text{ exact accelerated Collatz tail}\
+\Downarrow\\
+C_{\rm recur}:\text{ future rise-boundary hit}\
+\Downarrow\\
+C_{\rm orient}:\text{ canonical zero child identified}\
+\Downarrow\\
+\text{Beatty boundary accepts only opposite child}\
+\Downarrow\\
+\bot
+\end{array}
+}
+\]
+
+This would exclude a single integer path directly and would not rely on `mu_L -> 0 => emptiness`.
+
+Status: **VALID TARGET ARCHITECTURE / OPEN AT `C_orient`, `C_recur`.**
+
+---
+
+## 9. Alternative Gate-C route: absolute integer-compatible count
 
 Let
 
@@ -262,55 +350,20 @@ M_L
 If an exact argument yields
 
 \[
-\boxed{
-M_L<1
-}
+\boxed{M_L<1}
 \]
 
-for some sufficiently large `L`, then necessarily
+for some large `L`, then `M_L=0` because it is an integer.
 
-\[
-M_L=0.
-\]
+A mass estimate could imply this only with a sufficiently strong absolute weight comparison.  The current polynomial normalized mass decay does not do so under exponentially small single-cylinder weights.
 
-This is a valid terminal closure because `M_L` is an integer.
-
-A mass estimate can imply this only if it is converted into an **absolute** count with enough strength, for example
-
-\[
-M_L
-\le
-\frac{\mu_L}{w_L^{\rm int}}
-<1.
-\]
-
-The current polynomial mass decay does not provide such a bound under exponentially small cylinder weights.
-
-Status: **VALID ALTERNATIVE TARGET / OPEN.**
+Status: **VALID ALTERNATIVE / OPEN.**
 
 ---
 
-## 7. Interaction with the new Gate-S block theorem
+## 10. Interaction with Gates F and S
 
-The new Gate-S target
-
-\[
-\sum_{L\text{ rise}}
-\frac{(3\rho_L-1)_+}{L}
-=\infty
-\]
-
-is sufficient to prove
-
-\[
-\mu_L\to0
-\]
-
-once Gate F is closed.
-
-It is **not** sufficient to prove `C_hit`.
-
-Therefore the current dependency chain must be written as
+The aggregate branch is
 
 \[
 \boxed{
@@ -318,85 +371,69 @@ F_{\rm map}+F_{\rm unif}
 \longrightarrow
 \text{Gate S harmonic contraction}
 \longrightarrow
-\mu_L\to0
+\mu_L\to0.
 }
 \]
 
-and separately
+The terminal branch is now
 
 \[
 \boxed{
-C_{\rm form}
+C_{\rm form}\;(\text{closed})
 \longrightarrow
-C_{\rm tail}
+C_{\rm tail}\;(\text{closed})
 \longrightarrow
-C_{\rm hit}.
+C_{\rm orient}\;(\text{open})
++ C_{\rm recur}\;(\text{open}).
 }
 \]
 
-A final proof requires the two chains to meet through a genuine pathwise or absolute-counting bridge.
+`F_map` and `C_orient` may ultimately be proved by one common exact coordinate-identification theorem.
 
-This prevents the phrase “candidate mass tends to zero” from hiding the terminal logical gap.
-
----
-
-## 8. Minimal-counterexample information
-
-The minimal-counterexample assumption remains potentially useful because it can create exact forbidden states: any canonical/reverse configuration that certifies descent below the hypothetical minimal counterexample is incompatible with that counterexample.
-
-However, a positive *density* of such forbidden states among all residues is not enough.
-
-Gate C needs one of the following stronger statements:
-
-1. every eventually-zero tail is **forced** to hit such a state;
-2. the set of zero-tail states avoiding it is exactly empty;
-3. the number/weight of avoiding zero-tail states has an absolute bound strong enough to be `<1`.
-
-Status: **OPEN ARITHMETIC FORCING PROBLEM.**
+The two branches must not be merged merely through normalized mass decay.
 
 ---
 
-## 9. DSD audit
+## 11. DSD audit
 
-### SAFE
+### CLOSED / SAFE
 
-1. A positive integer gives an eventually-zero canonical lift.
-2. Normalized mass tending to zero does not imply emptiness.
-3. The ratio criterion `mu_L/w_L^int -> 0` is a valid sufficient transfer.
-4. Polynomial mass decay cannot beat an exponential single-cylinder scale.
-5. A deterministic zero-tail forbidden-hit theorem would close the singleton-path problem without a measure argument.
+1. positive integer iff canonical lift has finite support;
+2. zero-tail carry evolution equals the accelerated Collatz map;
+3. rise-boundary coefficient slack `s=0` has exactly one child: appended `1`;
+4. normalized mass tending to zero does not imply set emptiness;
+5. mass-to-emptiness requires an absolute atom/count transfer or a pathwise contradiction.
 
 ### OPEN
 
-- exact zero-tail transition in the final proof state variables;
-- deterministic forbidden-hit theorem;
-- or a strong absolute integer-compatible count theorem.
+1. `F_map / C_orient`: exact coordinate identification;
+2. `F_unif`: growing-Q moving-strip control;
+3. Gate S: harmonic abundance of good exact-selector rises;
+4. `C_recur`: deterministic boundary recurrence for every integer-compatible zero-tail survivor.
 
 ### PROHIBITED UPGRADES
 
-1. Never write `mu_L -> 0 => no counterexample` without an additional transfer theorem.
-2. Never use normalized survivor percentages as an absolute survivor count.
-3. Never assume eventual-zero digits force bounded surplus; the repository already contains a negative finite control against that shortcut.
-4. Never replace pathwise minimality by generic residue-density elimination.
+1. Do not infer `C_recur` from positive aggregate one-child density/exposure.
+2. Do not equate canonical lift digit `0` with coefficient append-bit `0` before the map is proved.
+3. Do not infer emptiness from polynomial normalized mass decay.
+4. Do not assume the accelerated zero-tail map is simpler than Collatz; it is the same orbit dynamics in odd-state form.
 
 ---
 
-## 10. Next terminal calculation
+## 12. Next terminal calculation
 
-The next Gate-C calculation should explicitly construct the state transition induced by
-
-\[
-t_q=0\quad\text{for all future }q
-\]
-
-and ask a deterministic question:
+The highest-value terminal target is now the exact coordinate map
 
 \[
 \boxed{
-\text{Can an eventually-zero canonical tail remain forever inside the exact survivor automaton?}
+\text{canonical child}
+\leftrightarrow
+\text{selector child}
+\leftrightarrow
+\text{Beatty coefficient child}.
 }
 \]
 
-If the answer can be reduced to a finite or monotone state problem, Gate C may become independently tractable.
+If this map identifies eventual canonical zero with the Beatty killed orientation at a rise boundary, then only `C_recur` remains for the pathwise terminal contradiction.
 
-If not, then the proof architecture must seek a quantitative lower bound `w_L^int` or an absolute-counting mechanism strong enough to connect Gate-S mass decay to integer nonexistence.
+In parallel, the aggregate proof still requires the moving-strip `F_unif` condition and harmonic Gate-S estimate.
