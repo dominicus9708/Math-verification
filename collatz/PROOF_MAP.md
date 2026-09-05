@@ -1,8 +1,8 @@
 # Collatz proof map
 
-This file is the module-level map for the Collatz proof attempt.  It is intentionally stricter than the chronological research notes: a module is closed only when its stated obligation is closed, not merely when supporting calculations exist.
+This file is the module-level map for the Collatz proof attempt. It is intentionally stricter than the chronological research notes: a module is closed only when its stated obligation is closed, not merely when supporting calculations exist.
 
-Two proof paths are now tracked separately where necessary:
+Two proof paths are tracked separately where necessary:
 
 - **internal/self-contained path** — uses only the repository's own DSD/source/formation machinery;
 - **external-dependency path** — may invoke audited published finite-range Collatz results as lemmas.
@@ -17,27 +17,75 @@ The two paths must not be conflated.
 
 Required closure:
 
-- exact branch partition;
-- no omitted surplus/formation class;
+- exact source-level branch predicates;
+- exact coverage of all candidate counterexamples;
+- overlap/disjointness accounting;
+- no omitted checkpoint-surplus/formation class;
 - translation from local branch closure to the ordinary Collatz conjecture.
 
-No `A0` calculation by itself closes C0.
+For every live branch `B_alpha`, the intended interface is
+
+\[
+x\in B_\alpha\iff P_\alpha(x,\mathcal O_x),
+\]
+
+followed by a cover theorem
+
+\[
+CE\subseteq\bigcup_\alpha B_\alpha.
+\]
+
+No `A0` calculation, checkpoint label, or compressed descriptor by itself closes C0.
 
 ---
 
-## C1 — A0 and minimal-surplus (`s=1`) formation
+## C1 — A0 and minimal checkpoint-surplus (`s_cp=1`) formation
 
-**Purpose:** define the A0 checkpoint, pre/tail split, minimal-surplus constraints, and the exact formation language used downstream.
+**Purpose:** define the A0 checkpoint, pre/tail split, minimal checkpoint-surplus constraints, and the exact formation language used downstream.
 
-**Status:** substantial exact structure CLOSED locally; global scope remains dependent on C0.
+**Status:** substantial exact structure CLOSED locally; global scope remains dependent on C0 and the checkpoint-to-source transport interface.
+
+To prevent symbol drift, canonical audit prose now writes
+
+\[
+s_{\mathrm{cp}}:=\text{tenth-checkpoint surplus},
+\]
+
+although historical certificate code commonly uses the bare variable `s`.
+
+The directly recorded local `s=1` checkpoint condition is
+
+\[
+\tau_{j_0}\le t_0<\tau_{j_0+1}.
+\]
+
+The low-surplus certificate family uses
+
+\[
+r=s_{\mathrm{cp}}-1,
+\]
+
+with `r` interpreted there as the number of extra odd ordinals crossed to the left of `T0`.
 
 Representative evidence:
 
 - `notes/2026-08-27-A0-s1-Xi-Minkowski-factorization.md`;
-- checkpoint / pre-tail formation certificates in `src/`;
-- exact cross-checkpoint ordering and `s=1` product factorization results.
+- `src/A0_checkpoint_surplus_tax_certificate.py`;
+- `src/A0_low_surplus_hensel_budget_bridge_certificate.py`;
+- `src/A0_packed_suffix_surplus_envelope_certificate.py`;
+- checkpoint / pre-tail formation certificates in `src/`.
 
-Important scope rule: `s=1` statements are not promoted to `s>=2`.
+### Provenance restriction
+
+An identity of the form
+
+\[
+s_{\mathrm{cp}}=A_0-j_\star
+\]
+
+is **not treated as a canonical global definition by this map** unless a separate ordinary-orbit provenance derivation is supplied. Historical notation that suggests such an identity must not be used to transport source bounds or define global branches without that theorem.
+
+Important scope rule: `s_cp=1` statements are not promoted to `s_cp>=2`.
 
 ---
 
@@ -45,7 +93,7 @@ Important scope rule: `s=1` statements are not promoted to `s>=2`.
 
 **Purpose:** replace the original physical A0 shell by a finite exact family of long-search source cylinders.
 
-**Status:** CLOSED as a SAFE reduction.
+**Status:** CLOSED as a SAFE reduction for the current Route-B sector.
 
 Established chain includes:
 
@@ -61,7 +109,7 @@ Canonical evidence includes:
 - `src/A0_s1_prefix_defect_membership_pruning_certificate.py`;
 - `src/A0_s1_14root_long_membership_forest_certificate.py`.
 
-C2 output is the input family for the internal C3–C5 path.
+C2 output is branch-specific. Its source bound must not be transferred to Route-A or `s_cp>=2` without an explicit source-realization transport theorem.
 
 ---
 
@@ -90,7 +138,8 @@ Scope restrictions:
 - arbitrary H/L members are not declared Christoffel;
 - target-collision coordinates are not membership rejection predicates;
 - fixed-resolution compactness is not automatically adaptive/global compactness;
-- derived `F_28` and `z_H` are not independent filters.
+- derived `F_28` and `z_H` are not independent filters;
+- equal compressed coordinates do not imply equal source payload unless every remaining source-sensitive predicate factors through the compression.
 
 ---
 
@@ -114,13 +163,13 @@ The internal path still lacks a complete family-level closure mechanism before s
 
 ---
 
-## C5 — A0 `s=1` Route-B long-membership closure
+## C5 — A0 `s_cp=1` Route-B long-membership closure
 
 **Purpose:** eliminate or exactly classify every candidate represented by the 14-root forest through the complete pre bridge and required tail/checkpoint conditions.
 
 ### External-dependency path
 
-**Status: CLOSED for counterexample-source rejection.**
+**Status: CLOSED for counterexample-source rejection in the current physical Route-B sector.**
 
 The internally certified source corridor is
 
@@ -137,7 +186,7 @@ Bařina's finite verification through `2^71`, combined with Ansari's 2025 recurs
 
 which strictly exceeds the current Route-B source upper bound.
 
-Therefore the current physical `A0,s=1,Route-B` source corridor contains no genuine Collatz counterexample source if those published finite-range results are accepted as lemmas.
+Therefore the current physical `A0,s_cp=1,Route-B` source corridor contains no genuine Collatz counterexample source if those published finite-range results are accepted as lemmas.
 
 Canonical dependencies:
 
@@ -156,20 +205,53 @@ This path remains useful as a DSD-method test and may yield reusable theorems fo
 
 ---
 
-## C6 — Route-A, `s>=2`, and remaining global branches
+## C6 — Route-A, `s_cp>=2`, and remaining global branches
 
-**Purpose:** close every branch not covered by the current A0 `s=1` Route-B analysis and reconnect the local results to C0.
+**Purpose:** close every source-level branch not covered by the current `A0,s_cp=1,Route-B` analysis and reconnect the local results to C0.
 
-**Status:** OPEN / now the principal global path after external Route-B closure.
+**Status:** OPEN / principal global path after external Route-B closure.
 
-Includes at minimum:
+### C6.1 — checkpoint-surplus provenance
 
-- Route-A independent lower-bound obligation;
-- all-surplus `s>=2` sectors;
-- any remaining A/non-A or formation branches required by C0;
-- final global completeness audit.
+Before using `s_cp` as a global branch coordinate, prove the exact ordinary-orbit definition and any claimed relation to upstream symbols such as `A0` or `j_*`.
 
-The next global-progress task is to recover the exact branch definitions and source domains for these sectors before transferring any Route-B theorem to them.
+Current direct source support establishes a checkpoint-surplus meaning and the local `r=s_cp-1` control relation; it does **not** yet establish a global identity `s_cp=A0-j_*`.
+
+### C6.2 — checkpoint-surplus source-realization transport
+
+Principal theorem obligation:
+
+`theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`
+
+Audit:
+
+`audits/DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`
+
+The required chain is
+
+\[
+\boxed{
+\text{checkpoint admissibility}
+\to
+\text{same-source realization}
+\to
+\text{exact ordinary-source charts}
+\to
+\text{branch closure}
+}
+\]
+
+For each live surplus sector, an admitted checkpoint state must be tied to an ordinary source through an explicit same-orbit relation before a source bound or external finite-range lemma can be applied.
+
+### C6.3 — Route-A
+
+Route-A remains a roadmap/control label until an exact entrance predicate and source domain are recovered or proved. The phrase "independent lower-bound obligation" is not itself a mathematical branch definition.
+
+### C6.4 — global cover
+
+After exact Route-A and surplus-sector predicates are available, prove the C0 cover theorem and account for overlaps or disjointness.
+
+No finite list of named branches is considered exhaustive without this theorem.
 
 ---
 
@@ -177,13 +259,13 @@ The next global-progress task is to recover the exact branch definitions and sou
 
 ## External-dependency path
 
-`C0 scope` → `C1 A0 s=1` → `C2 source corridor` → **`C5 Route-B externally CLOSED`** → **`C6 remaining branches`** → `C0 global closure`.
+`C0 source-level scope` → `C1 local s_cp=1 formation` → `C2 current Route-B source corridor` → **`C5 current Route-B externally CLOSED`** → **`C6 checkpoint→source transport + Route-A + remaining sectors`** → `C0 global cover`.
 
 This is now the shortest live route toward wider Collatz coverage.
 
 ## Internal/self-contained path
 
-`C0 scope` → `C1 A0 s=1` → `C2 14 roots` → `C3 compressed state` → `C4 defect/min-plus` → **`C5 internal Route-B membership OPEN`**.
+`C0 scope` → `C1 local s_cp=1` → `C2 14 roots` → `C3 compressed state` → `C4 defect/min-plus` → **`C5 internal Route-B membership OPEN`**.
 
 This remains a research/audit path, not the shortest closure path for the current finite Route-B source interval.
 
@@ -198,3 +280,6 @@ This remains a research/audit path, not the shortest closure path for the curren
 7. Dependency order is recorded in `status/DEPENDENCY_LEDGER.md`; later stronger bounds cannot be used retroactively to justify earlier computations unless a new certificate explicitly reruns that dependency.
 8. An external finite-range theorem may close a finite source corridor, but it is not relabeled as an internally derived DSD theorem.
 9. Local branch closure is never promoted to global Collatz while C0 or C6 remains open.
+10. Checkpoint-control differences are not source-branch differences until a same-source realization/source-chart theorem is proved.
+11. Historical bare `s` notation is read as checkpoint-local unless a file explicitly proves a different source-level definition.
+12. The lower-case checkpoint surplus `s_cp` and the upper-case Route-B persistent coordinate `S` are never identified.
