@@ -1,0 +1,40 @@
+name: Collatz S10 source-checkpoint provenance join
+
+on:
+  push:
+    branches:
+      - collatz-stage4-window-threshold
+    paths:
+      - 'collatz/src/A0_s1_source_activation_checkpoint_provenance_join_certificate.py'
+      - 'collatz/src/A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py'
+      - 'collatz/src/A0_s1_terminal_28_event_locality_not_time_locality_certificate.py'
+      - 'collatz/src/A0_s1_exposed_checkpoint_observation_state_minimization_certificate.py'
+      - 'collatz/src/A0_s1_8jump_cumulative_pruned_frontier_export.py'
+      - 'collatz/theorems/SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN.md'
+      - 'collatz/theorems/TERMINAL_28_EVENT_LOCALITY_NOT_TIME_LOCALITY.md'
+      - 'collatz/theorems/EXPOSED_CHECKPOINT_OBSERVATION_STATE_MINIMIZATION.md'
+      - 'collatz/audits/S10_SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN_AUDIT.md'
+      - '.github/workflows/collatz-s10-source-checkpoint-provenance.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source-activation checkpoint provenance kernel
+        working-directory: collatz/src
+        run: python A0_s1_source_activation_checkpoint_provenance_join_certificate.py
+      - name: Profile canonical source fibers for one exposed checkpoint
+        working-directory: collatz/src
+        run: python A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py
+      - name: Verify terminal 28-event locality versus bit-time locality
+        working-directory: collatz/src
+        run: python A0_s1_terminal_28_event_locality_not_time_locality_certificate.py
+      - name: Verify exposed-checkpoint observation state minimization
+        working-directory: collatz/src
+        run: python A0_s1_exposed_checkpoint_observation_state_minimization_certificate.py
