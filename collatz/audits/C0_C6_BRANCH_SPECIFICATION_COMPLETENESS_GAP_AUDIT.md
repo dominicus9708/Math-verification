@@ -40,17 +40,21 @@ The local `s=1` Xi/checkpoint condition is explicitly recorded as
 \boxed{\tau_{j_0}\le t_0<\tau_{j_0+1}.}
 \]
 
-The low-surplus certificate family uses
+The directly inspected low-surplus certificate family supports
 
 \[
 \boxed{r=s_{\mathrm{cp}}-1,}
 \]
 
-where `r` is interpreted there as the number of extra odd ordinals crossed to the left of `T0`. Some of those files also write
+where `r` is interpreted there as the number of extra odd ordinals crossed to the left of `T0`.
+
+A previously recorded relation
 
 \[
-q_\star=Q0-r.
+q_\star=Q0-r
 \]
+
+was not found in the directly inspected current canonical certificate files. It is therefore **removed from the canonical branch audit and must not be used without recovered provenance**.
 
 The sampled certificate files use file-local constants
 
@@ -256,7 +260,9 @@ L0 ordinary source/orbit
   -> source-branch closure only after a proved transport back to L0.
 ```
 
-Examples of L2 include `s_cp`, `r=s_cp-1`, `q_star`, Hensel budgets, and packed-suffix coordinates.
+Directly supported L2 examples include `s_cp`, `r=s_cp-1`, and independently defined Hensel-budget / packed-suffix coordinates in their own certificate domains.
+
+The unrecovered `q_star=Q0-r` relation is excluded.
 
 Examples of L3 include terminal defects, projective observations, and endpoint-lattice data.
 
@@ -282,9 +288,10 @@ or at minimum the required invariance must be proved.
 - global branch completeness remains open;
 - the Route-B refined `X` bound remains branch-specific.
 
-### NOT ESTABLISHED
+### NOT ESTABLISHED / DO NOT USE
 
 - `s_cp=A0-j_*` as a canonical global identity;
+- `q_star=Q0-r` as a canonical relation;
 - file-local `A0`, `Q0` values as universal/canonical constants;
 - checkpoint-control difference alone as an exhaustive ordinary-source branch decomposition.
 
@@ -302,6 +309,7 @@ or at minimum the required invariance must be proved.
 - naive `U_t>=0` sign -> Route-A definition;
 - `s_cp>=2` checkpoint label -> exact ordinary-source domain;
 - historical `s=A0-j_*` notation -> canonical identity without provenance proof;
+- unrecovered `q_star=Q0-r` -> canonical control relation;
 - Route-B source bound -> same bound for Route-A or `s_cp>=2`;
 - `s_cp=1` downstream formula -> unchanged all-surplus formula without proof;
 - Route-B external closure -> A0/global closure;
