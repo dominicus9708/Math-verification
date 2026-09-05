@@ -30,15 +30,23 @@ N\in\mathbb N_{>0}
 }
 \]
 
-Hence a fixed positive integer has some support endpoint `q_0` such that
+The exact canonical lift is
 
 \[
 \boxed{
-t_q=0\qquad(q\ge q_0).
+\rho_{q+1}=\rho_q+t_q2^{A_q+1},
+\qquad
+0\le t_q<2^{v_q}.
 }
 \]
 
-A hypothetical minimal Collatz counterexample must therefore determine an infinite surviving candidate path whose canonical lift is eventually zero.
+Thus `t_q` is generally a `v_q`-bit block, not a single binary bit.  A fixed positive integer has some support endpoint `q_0` such that
+
+\[
+\boxed{t_q=0\qquad(q\ge q_0).}
+\]
+
+A hypothetical minimal Collatz counterexample must therefore determine an infinite surviving candidate path whose canonical lift blocks are eventually all zero.
 
 Status: **CLOSED / SAFE.**
 
@@ -118,15 +126,17 @@ The present polynomial contraction does not supply this because a single compati
 
 ## 4. `C_tail` is closed: exact zero-tail dynamics
 
-The canonical carry recursion already established in the formation layer is
+The exact canonical carry recurrence is
 
 \[
 \boxed{
 2^{v_q}y_{q+1}
 =
-3y_q+1+3^{q+1}t_q.
+3y_q+1+2t_q3^{q+1}.
 }
 \]
+
+The factor `2` multiplying `t_q3^{q+1}` is essential in the general formation law.
 
 Once the canonical lift has reached its support endpoint,
 
@@ -140,47 +150,57 @@ so
 2^{v_q}y_{q+1}=3y_q+1.
 \]
 
-The canonical odd-state normalization requires `y_{q+1}` to be odd.  Therefore the complete factor of `2` dividing `3y_q+1` must be removed:
+The exact digit theorem gives equivalently
+
+\[
+\boxed{t_q=0\iff v_q=v_2(3y_q+1).}
+\]
+
+Therefore
 
 \[
 \boxed{
-v_q=\nu(y_q):=v_2(3y_q+1).
-}
+v_q=\nu(y_q):=v_2(3y_q+1),}
 \]
 
-Thus
+and
 
 \[
 \boxed{
 y_{q+1}
-=
-T(y_q)
+=T(y_q)
 :=
-\frac{3y_q+1}{2^{v_2(3y_q+1)}}.
-}
+\frac{3y_q+1}{2^{v_2(3y_q+1)}}.}
 \]
 
 So an eventually-zero canonical tail follows the ordinary accelerated Collatz map exactly.
 
-If the signed skew variable is
+If the signed-skew variable is represented by
 
 \[
-s_q=\lfloor q\log_2 3-A_q\rfloor,
+A_q=\lfloor q\log_2 3\rfloor-s_q,
 \]
 
-with Beatty/Sturmian increment
+and
 
 \[
-r_q=d_{q+1}-d_q\in\{1,2\},
+r_q=\lfloor(q+1)\log_2 3\rfloor-\lfloor q\log_2 3\rfloor\in\{1,2\},
 \]
 
-then the already established update
+then
 
 \[
-s_{q+1}=s_q+r_q-v_q
+\boxed{v_q=s_q+r_q-s_{q+1}.}
 \]
 
-becomes on the zero tail
+Hence on the zero tail,
+
+\[
+\boxed{
+s_{q+1}=s_q+r_q-\nu(y_q).}
+\]
+
+The exact zero-tail state update is therefore
 
 \[
 \boxed{
@@ -220,7 +240,7 @@ This is an exact local orientation statement in the **coefficient-survival coord
 
 Status: **SAFE LEMMA.**
 
-It must not yet be identified with a canonical lift digit.
+It must not yet be identified with a canonical lift block or any one of its binary digits.
 
 ---
 
@@ -229,27 +249,21 @@ It must not yet be identified with a canonical lift digit.
 A positive integer eventually has
 
 \[
-t_q=0.
+t_q=0,
 \]
+
+meaning that every binary bit in the entire variable-length lift block of length `v_q` is zero.
 
 The coefficient DP says that a rise-boundary parent with slack zero accepts only appended coefficient child `1`.
 
-A tempting contradiction would be
-
-\[
-\text{eventual canonical zero child}
-\quad\text{vs}\quad
-\text{forced coefficient child }1.
-\]
-
-But this is valid only if the two child coordinates are proved to be the same under the exact canonical fibre map.
+A tempting contradiction would compare the eventual zero canonical lift with the forced coefficient child `1`.  But this is valid only if the two child coordinates are proved to coincide under the exact canonical fibre map.
 
 Thus define
 
 \[
 \boxed{
 C_{\rm orient}:
-\text{identify the canonical zero-tail child with the corresponding coefficient/selector child orientation.}
+\text{identify canonical lift-block coordinates with selector/Beatty coefficient child coordinates.}
 }
 \]
 
@@ -257,10 +271,11 @@ This is closely related to `F_map`, but it is the terminal pathwise form of that
 
 A valid theorem must explicitly map:
 
-1. canonical lift coordinate `t_q` / its binary child choice;
-2. parent modulus at the relevant scale;
+1. canonical lift block `t_q` occupying binary positions `A_q+1,...,A_{q+1}`;
+2. parent modulus at the relevant coefficient scale;
 3. the two child lifts used by selector counts `C(r)` and `C(r+M)`;
-4. the appended bit used by the Beatty slack DP.
+4. the appended bit used by the Beatty slack DP;
+5. the index conversion between odd-event index `q` and binary/coefficient scale `L`.
 
 Status: **OPEN.**
 
@@ -272,7 +287,7 @@ Do **not** write
 t_q=0\Rightarrow\text{Beatty append-0}
 \]
 
-until `C_orient`/`F_map` proves it.
+until `C_orient`/`F_map` proves the coordinate and index identification.
 
 ---
 
@@ -312,19 +327,19 @@ If both open terminal gates are closed, the final pathwise contradiction has the
 \[
 \boxed{
 \begin{array}{c}
-N\in\mathbb N_{>0}\text{ counterexample}\
+N\in\mathbb N_{>0}\text{ counterexample}\\
 \Downarrow\\
-(t_q)\text{ finite support}\
+(t_q)\text{ finite support}\\
 \Downarrow\\
-t_q=0\text{ eventually}\
+t_q=0\text{ eventually}\\
 \Downarrow\\
-C_{\rm tail}:\text{ exact accelerated Collatz tail}\
+C_{\rm tail}:\text{ exact accelerated Collatz tail}\\
 \Downarrow\\
-C_{\rm recur}:\text{ future rise-boundary hit}\
+C_{\rm recur}:\text{ future one-child boundary hit}\\
 \Downarrow\\
-C_{\rm orient}:\text{ canonical zero child identified}\
+C_{\rm orient}:\text{ canonical/Beatty child identification}\\
 \Downarrow\\
-\text{Beatty boundary accepts only opposite child}\
+\text{forced orientation conflict}\\
 \Downarrow\\
 \bot
 \end{array}
@@ -398,7 +413,7 @@ The two branches must not be merged merely through normalized mass decay.
 
 ### CLOSED / SAFE
 
-1. positive integer iff canonical lift has finite support;
+1. positive integer iff canonical lift blocks have finite support;
 2. zero-tail carry evolution equals the accelerated Collatz map;
 3. rise-boundary coefficient slack `s=0` has exactly one child: appended `1`;
 4. normalized mass tending to zero does not imply set emptiness;
@@ -406,7 +421,7 @@ The two branches must not be merged merely through normalized mass decay.
 
 ### OPEN
 
-1. `F_map / C_orient`: exact coordinate identification;
+1. `F_map / C_orient`: exact coordinate and index identification;
 2. `F_unif`: growing-Q moving-strip control;
 3. Gate S: harmonic abundance of good exact-selector rises;
 4. `C_recur`: deterministic boundary recurrence for every integer-compatible zero-tail survivor.
@@ -414,7 +429,7 @@ The two branches must not be merged merely through normalized mass decay.
 ### PROHIBITED UPGRADES
 
 1. Do not infer `C_recur` from positive aggregate one-child density/exposure.
-2. Do not equate canonical lift digit `0` with coefficient append-bit `0` before the map is proved.
+2. Do not equate canonical lift block zero with coefficient append-bit zero before the map is proved.
 3. Do not infer emptiness from polynomial normalized mass decay.
 4. Do not assume the accelerated zero-tail map is simpler than Collatz; it is the same orbit dynamics in odd-state form.
 
@@ -426,7 +441,7 @@ The highest-value terminal target is now the exact coordinate map
 
 \[
 \boxed{
-\text{canonical child}
+\text{canonical lift block/bit}
 \leftrightarrow
 \text{selector child}
 \leftrightarrow
@@ -434,6 +449,6 @@ The highest-value terminal target is now the exact coordinate map
 }
 \]
 
-If this map identifies eventual canonical zero with the Beatty killed orientation at a rise boundary, then only `C_recur` remains for the pathwise terminal contradiction.
+If this map identifies the eventually-zero canonical coordinate with the killed Beatty orientation at a rise boundary, then only `C_recur` remains for the pathwise terminal contradiction.
 
 In parallel, the aggregate proof still requires the moving-strip `F_unif` condition and harmonic Gate-S estimate.
