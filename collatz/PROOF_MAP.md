@@ -43,9 +43,9 @@ No `A0` calculation, checkpoint label, or compressed descriptor by itself closes
 
 **Purpose:** define the A0 checkpoint, pre/tail split, minimal checkpoint-surplus constraints, and the exact formation language used downstream.
 
-**Status:** substantial exact structure CLOSED locally; global scope remains dependent on C0 and the checkpoint-to-source transport interface.
+**Status:** substantial exact structure CLOSED locally; global scope remains dependent on C0 and the surplus-sector specification/parent-cover interface.
 
-To prevent symbol drift, canonical audit prose now writes
+Canonical audit prose writes
 
 \[
 s_{\mathrm{cp}}:=\text{tenth-checkpoint surplus},
@@ -59,20 +59,23 @@ The directly recorded local `s=1` checkpoint condition is
 \tau_{j_0}\le t_0<\tau_{j_0+1}.
 \]
 
-The low-surplus certificate family uses
+The inspected surplus-tax interface uses
 
 \[
 r=s_{\mathrm{cp}}-1,
 \]
 
-with `r` interpreted there as the number of extra odd ordinals crossed to the left of `T0`.
+where `r` counts extra odd ordinals crossed to the left of `T0`, and for `r>=1` supplies the symbolic tax lower bound
+
+\[
+\operatorname{tax}(r)>\frac r6-\frac1{12}.
+\]
 
 Representative evidence:
 
 - `notes/2026-08-27-A0-s1-Xi-Minkowski-factorization.md`;
 - `src/A0_checkpoint_surplus_tax_certificate.py`;
 - `src/A0_low_surplus_hensel_budget_bridge_certificate.py`;
-- `src/A0_packed_suffix_surplus_envelope_certificate.py`;
 - checkpoint / pre-tail formation certificates in `src/`.
 
 ### Provenance restriction
@@ -85,7 +88,7 @@ s_{\mathrm{cp}}=A_0-j_\star
 
 is **not treated as a canonical global definition by this map** unless a separate ordinary-orbit provenance derivation is supplied. Historical notation that suggests such an identity must not be used to transport source bounds or define global branches without that theorem.
 
-Important scope rule: `s_cp=1` statements are not promoted to `s_cp>=2`.
+Important scope rule: `s_cp=1` statements are not promoted to `s_cp>=2` unless their hypotheses are re-established.
 
 ---
 
@@ -109,7 +112,7 @@ Canonical evidence includes:
 - `src/A0_s1_prefix_defect_membership_pruning_certificate.py`;
 - `src/A0_s1_14root_long_membership_forest_certificate.py`.
 
-C2 output is branch-specific. Its source bound must not be transferred to Route-A or `s_cp>=2` without an explicit source-realization transport theorem.
+C2 output is branch-specific. Its source bound must not be transferred to Route-A or `s_cp>=2` without an explicit source-domain theorem.
 
 ---
 
@@ -122,6 +125,7 @@ C2 output is branch-specific. Its source bound must not be transferred to Route-
 Closed structural components include:
 
 - exact source-cylinder affine transducer;
+- finite checkpoint-predicate -> exact source-cylinder transport inside an exact finite parent family;
 - fixed-count ballot/dominance reductions;
 - exact dual H/L canonical grammar;
 - target H/L–Stern-Brocot alignment only after target specialization;
@@ -133,13 +137,18 @@ Closed structural components include:
 - terminal defect → right-H projective observation state reduction;
 - source terminal-descriptor endpoint lattice.
 
+Canonical new transport theorem:
+
+- `theorems/FINITE_CHECKPOINT_PREDICATE_SOURCE_CYLINDER_TRANSPORT.md`.
+
 Scope restrictions:
 
 - arbitrary H/L members are not declared Christoffel;
 - target-collision coordinates are not membership rejection predicates;
 - fixed-resolution compactness is not automatically adaptive/global compactness;
 - derived `F_28` and `z_H` are not independent filters;
-- equal compressed coordinates do not imply equal source payload unless every remaining source-sensitive predicate factors through the compression.
+- equal compressed coordinates do not imply equal source payload unless every remaining source-sensitive predicate factors through the compression;
+- the finite transport theorem does not define the missing global `s_cp>=2` predicate or global parent source cover.
 
 ---
 
@@ -213,41 +222,77 @@ This path remains useful as a DSD-method test and may yield reusable theorems fo
 
 ### C6.1 — checkpoint-surplus provenance
 
-Before using `s_cp` as a global branch coordinate, prove the exact ordinary-orbit definition and any claimed relation to upstream symbols such as `A0` or `j_*`.
+Before using `s_cp` as a global branch coordinate, state the exact ordinary-orbit/checkpoint predicate for every live surplus sector.
 
-Current direct source support establishes a checkpoint-surplus meaning and the local `r=s_cp-1` control relation; it does **not** yet establish a global identity `s_cp=A0-j_*`.
+Current direct support establishes:
 
-### C6.2 — checkpoint-surplus source-realization transport
+- the local `s_cp=1` predicate
+  \[
+  \tau_{j_0}\le t_0<\tau_{j_0+1};
+  \]
+- the certificate-local control relation
+  \[
+  r=s_{\mathrm{cp}}-1;
+  \]
+- the surplus-tax lower bound for `r>=1` inside its companion structural interface.
 
-Principal theorem obligation:
+It does **not** yet supply one canonical exact orbit-prefix definition for all `s_cp>=2` sectors.
 
-`theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`
+A global identity `s_cp=A0-j_*` is not required for the finite source-transport theorem and remains unverified unless separately derived.
+
+### C6.2 — finite checkpoint predicate -> exact ordinary-source cylinders
+
+**Status: CLOSED as a generic finite-family theorem.**
+
+Canonical theorem:
+
+`theorems/FINITE_CHECKPOINT_PREDICATE_SOURCE_CYLINDER_TRANSPORT.md`
 
 Audit:
 
-`audits/DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`
+`audits/DSD_FINITE_CHECKPOINT_SOURCE_CYLINDER_TRANSPORT_AUDIT.md`
 
-The required chain is
+For an exact finite parent source family and an exact predicate `P` determined by finite checkpoint data,
 
 \[
 \boxed{
-\text{checkpoint admissibility}
-\to
-\text{same-source realization}
-\to
-\text{exact ordinary-source charts}
-\to
-\text{branch closure}
+X\text{ satisfies }P
+\iff
+X\in\bigsqcup_{w\in\mathcal W_P}\Phi_w(I_w).
 }
 \]
 
-For each live surplus sector, an admitted checkpoint state must be tied to an ordinary source through an explicit same-orbit relation before a source bound or external finite-range lemma can be applied.
+The transport is source-preserving and reflective.  Therefore the missing global work is no longer a generic checkpoint-to-source principle.
 
-### C6.3 — Route-A
+### C6.3 — instantiate the surplus sectors
+
+**Status: OPEN.**
+
+Required steps:
+
+1. prove the exact finite orbit-prefix predicate `A_s` for each live `s_cp>=2` sector;
+2. specify exact upstream parent source families `F_lambda`;
+3. prove those parents cover the intended counterexample scope;
+4. instantiate the finite source-cylinder theorem to obtain
+   \[
+   \mathcal D_s=\bigcup_\lambda\mathcal D_s(F_\lambda);
+   \]
+5. compress or bound the resulting exact cylinder union without losing source-sensitive predicates;
+6. if possible, prove
+   \[
+   \mathcal D_s\subseteq[1,L_{RS}]
+   \]
+   and invoke the external finite-range closure only then.
+
+Canonical obligation document:
+
+`theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`.
+
+### C6.4 — Route-A
 
 Route-A remains a roadmap/control label until an exact entrance predicate and source domain are recovered or proved. The phrase "independent lower-bound obligation" is not itself a mathematical branch definition.
 
-### C6.4 — global cover
+### C6.5 — global cover
 
 After exact Route-A and surplus-sector predicates are available, prove the C0 cover theorem and account for overlaps or disjointness.
 
@@ -259,9 +304,9 @@ No finite list of named branches is considered exhaustive without this theorem.
 
 ## External-dependency path
 
-`C0 source-level scope` → `C1 local s_cp=1 formation` → `C2 current Route-B source corridor` → **`C5 current Route-B externally CLOSED`** → **`C6 checkpoint→source transport + Route-A + remaining sectors`** → `C0 global cover`.
+`C0 source-level scope` → `C1 local s_cp=1 formation` → `C2 current Route-B source corridor` → **`C5 current Route-B externally CLOSED`** → **`C6 exact s_cp>=2 predicates + parent source cover + finite-cylinder instantiation + Route-A`** → `C0 global cover`.
 
-This is now the shortest live route toward wider Collatz coverage.
+The generic finite checkpoint→source transport theorem is no longer a missing link on this path.
 
 ## Internal/self-contained path
 
@@ -280,6 +325,7 @@ This remains a research/audit path, not the shortest closure path for the curren
 7. Dependency order is recorded in `status/DEPENDENCY_LEDGER.md`; later stronger bounds cannot be used retroactively to justify earlier computations unless a new certificate explicitly reruns that dependency.
 8. An external finite-range theorem may close a finite source corridor, but it is not relabeled as an internally derived DSD theorem.
 9. Local branch closure is never promoted to global Collatz while C0 or C6 remains open.
-10. Checkpoint-control differences are not source-branch differences until a same-source realization/source-chart theorem is proved.
+10. A checkpoint-control difference becomes an exact source-level distinction only after its exact finite orbit-prefix predicate is defined and transported through source-preserving cylinders.
 11. Historical bare `s` notation is read as checkpoint-local unless a file explicitly proves a different source-level definition.
 12. The lower-case checkpoint surplus `s_cp` and the upper-case Route-B persistent coordinate `S` are never identified.
+13. A generic finite source-transport theorem does not prove that the chosen parent source families globally cover all candidate counterexamples.
