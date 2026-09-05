@@ -166,11 +166,153 @@ Rule: these are search-engine/execution observations only. They neither prove un
 
 ## D18 — Local Route-B closure before global claims
 
-Even complete closure of all 14 `A0, s=1, Route-B` roots would close only that module.
+The current physical `A0,s_cp=1,Route-B` source sector is closed on the declared external-dependency path, while the optional internal reconstruction remains open.
 
-Required later dependencies:
+Required later dependencies are now:
 
-`Route-B local closure` -> `Route-A + s>=2 + remaining branches` -> `global branch completeness` -> `Collatz conclusion`.
+`current Route-B source-sector closure`
+-> `Route-A exact source predicate + s_cp>=2 source transport + any additional branches`
+-> `global branch completeness`
+-> `Collatz conclusion`.
+
+Rule: local Route-B closure is never promoted to A0/global closure.
+
+## D19 — Checkpoint-surplus provenance before source branching
+
+Canonical audit notation is
+
+\[
+s_{\mathrm{cp}}:=\text{tenth-checkpoint surplus}.
+\]
+
+The directly inspected checkpoint/certificate chain supports
+
+\[
+\tau_{j_0}\le t_0<\tau_{j_0+1}
+\]
+
+for the local `s_cp=1` case and
+
+\[
+\boxed{r=s_{\mathrm{cp}}-1}
+\]
+
+inside the low-surplus certificate family.
+
+Required order:
+
+`ordinary orbit + checkpoint prerequisites`
+-> `checkpoint state / s_cp`
+-> `r=s_cp-1`
+-> `certificate-local budget/envelope consequences`.
+
+Rules:
+
+1. `r=s_cp-1` is a deterministic propagation of checkpoint surplus, not an independent filter or branch.
+2. A relation `s_cp=A0-j_*` is **not currently established** and may not be inserted upstream without a separate ordinary-orbit provenance theorem.
+3. A previously recorded relation `q_star=Q0-r` was not recovered in the directly inspected current canonical certificate files and is **not a live dependency**.
+4. File-local `A0`, `Q0` values are not global constants unless a theorem establishes that identification.
+
+## D20 — Checkpoint control before same-source realization before source charts
+
+A checkpoint-control state is not yet an ordinary-source branch.
+
+Let `A_s(sigma)` be checkpoint admissibility and `R(x,sigma)` the same-source/same-orbit realization relation.
+
+Required forward dependency:
+
+\[
+A_s(\sigma)\land R(x,\sigma)
+\Longrightarrow
+x\in\mathcal D_s,
+\]
+
+where `D_s` is an exact or explicitly declared enclosing ordinary-source domain.
+
+If `D_s` is used as an exact branch specification, require reflection as well:
+
+\[
+x\in\mathcal D_s
+\Longrightarrow
+\exists\sigma:\ A_s(\sigma)\land R(x,\sigma).
+\]
+
+Required order:
+
+`checkpoint applicability`
+-> `same-source realization`
+-> `ordinary-source chart/domain`
+-> `branch closure`.
+
+Rejected shortcuts:
+
+- checkpoint label -> source branch;
+- different `s_cp` or `r` -> disjoint source branches;
+- Hensel/packed-suffix budget or envelope -> ordinary-source corridor;
+- equal compressed state -> equal source payload;
+- CRT compatibility -> same orbit.
+
+Canonical references:
+
+- `../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`;
+- `../audits/DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`.
+
+## D21 — Source-domain theorem before external finite-range inheritance
+
+The external recursive-sufficiency range may close a new branch only after that branch has an ordinary-source theorem placing it inside the verified interval.
+
+Required order:
+
+\[
+\text{exact branch/source domain }\mathcal D_\alpha
+\to
+\mathcal D_\alpha\subseteq[1,L_{RS}]
+\to
+\text{external finite-range branch closure},
+\]
+
+where
+
+\[
+L_{RS}=4\cdot3^{44}+2
+=3{,}939{,}083{,}608{,}734{,}444{,}931{,}526.
+\]
+
+Rule: the current Route-B refined source bound is branch-specific and is not inherited by Route-A or `s_cp>=2` merely because their checkpoint-control coordinates are related.
+
+## D22 — Exact branch predicates before global cover
+
+For every final live branch `B_alpha`, require
+
+\[
+x\in B_\alpha\iff P_\alpha(x,\mathcal O_x).
+\]
+
+Only after exact predicates/domains are supplied may the global proof establish
+
+\[
+CE\subseteq\bigcup_\alpha B_\alpha.
+\]
+
+Required order:
+
+`Route-A exact predicate`
++ `transported s_cp>=2 source branches`
++ `any additional required branch predicates`
+-> `overlap/disjointness accounting`
+-> `global cover`
+-> `branchwise CE emptiness`
+-> `global Collatz conclusion`.
+
+Rules:
+
+- branch names are not predicates;
+- a finite list of labels is not an exhaustive cover theorem;
+- if branches overlap, do not treat their counts/densities as independent or disjoint without proof.
+
+Canonical scaffold:
+
+`../theorems/GLOBAL_BRANCH_SPECIFICATION.md`.
 
 ## Change-control rule
 
@@ -179,4 +321,5 @@ Whenever a new theorem shortens the chain:
 1. state exactly which prior obligation is discharged;
 2. preserve old chronological/execution evidence;
 3. update `CANONICAL_PROOF_STACK.md`, `OPEN_GATES.md`, and the active frontier in the same maintenance cycle;
-4. do not silently reinterpret old finite results under new assumptions.
+4. do not silently reinterpret old finite results under new assumptions;
+5. if a provenance claim is withdrawn, remove every downstream dependency that used it until the claim is re-established.
