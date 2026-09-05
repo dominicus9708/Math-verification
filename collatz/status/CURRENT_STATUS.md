@@ -1,82 +1,126 @@
-# Current status — 2026-09-04
+# Current status — 2026-09-05
 
 ## Current branch
 
 Research branch: `collatz-stage4-window-threshold`.
 
-Primary active object: `A0, s=1, Route-B` long-membership closure.
+## One-line global status
 
-Canonical resume file:
+\[
+\boxed{\text{current physical }s_{cp}=1\text{ Route-B sector externally CLOSED; C0/C6 global specification remains OPEN}.}
+\]
 
-- `../frontier/A0_S1_ROUTEB.md`.
+The optional self-contained Route-B reconstruction remains open, but it is no longer the shortest global path.
 
-## Exact retained family
+## Canonical global objects
 
-Current first-defect roots:
+- `../PROOF_MAP.md`;
+- `../theorems/GLOBAL_BRANCH_SPECIFICATION.md`;
+- `../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`;
+- `../audits/C0_C6_BRANCH_SPECIFICATION_COMPLETENESS_GAP_AUDIT.md`;
+- `../audits/DSD_CHECKPOINT_SOURCE_TRANSPORT_AUDIT.md`;
+- `OPEN_GATES.md`.
+
+## Surplus notation/provenance correction
+
+Canonical audit notation is now
+
+\[
+\boxed{s_{\mathrm{cp}}:=\text{tenth-checkpoint surplus}.}
+\]
+
+The directly inspected Xi/checkpoint note records the local `s=1` condition
+
+\[
+\boxed{\tau_{j_0}\le t_0<\tau_{j_0+1}.}
+\]
+
+The low-surplus certificate family uses
+
+\[
+\boxed{r=s_{\mathrm{cp}}-1,}
+\]
+
+with `r` interpreted there as the number of extra odd ordinals crossed to the left of `T0`.
+
+The sampled low-surplus certificate files use the file-local constants
+
+\[
+A0=114{,}208{,}327{,}604,
+\qquad
+Q0=72{,}057{,}431{,}991.
+\]
+
+These are **not promoted to global canonical constants** by this status file.
+
+The previously asserted canonical identity
+
+\[
+s_{\mathrm{cp}}=A_0-j_\star
+\]
+
+is currently **NOT ESTABLISHED**. If required, it must be proved as a separate ordinary-orbit/checkpoint provenance theorem.
+
+The lower-case `s_cp` is also distinct from the upper-case persistent Route-B coordinate `S` in expressions such as
+
+\[
+q=Q(h)+S.
+\]
+
+## Current Route-B physical sector — external-dependency path
+
+**Status: CLOSED for counterexample-source rejection.**
+
+The current Route-B source corridor is below the accepted external recursive-sufficiency coverage limit
+
+\[
+L_{RS}=4\cdot3^{44}+2
+=3{,}939{,}083{,}608{,}734{,}444{,}931{,}526.
+\]
+
+Thus, conditional on the audited external Bařina/Ansari finite-range results being accepted as lemmas, the currently source-preservingly constructed physical Route-B sector contains no Collatz counterexample source.
+
+Canonical closure files:
+
+- `../theorems/EXTERNAL_RECURSIVE_SUFFICIENCY_SOURCE_CORRIDOR_CLOSURE.md`;
+- `../src/A0_s1_external_recursive_sufficiency_source_corridor_closure_certificate.py`;
+- `../audits/S10_EXTERNAL_RECURSIVE_SUFFICIENCY_SOURCE_CLOSURE_AUDIT.md`;
+- `../frontier/A0_S1_ROUTEB_EXTERNAL_CLOSURE.md`.
+
+This does **not** close Route-A, `s_cp>=2`, C0, or global Collatz.
+
+## Exact retained Route-B internal family
+
+The optional internal/self-contained path still retains the first-defect roots
 
 `F14 = {2,5,8,10,13,16,18,21,24,27,29,32,35,37}`.
 
-Each live source family is exact:
+Each live source family has the exact affine form
 
 \[
 X=r+2^h m,
-\qquad T^h(X)=y+3^q m,
+\qquad
+T^h(X)=y+3^q m,
 \]
 
 with a finite integer parameter interval.
 
-The persistent S10 source/control state remains
+The persistent source/control state is
 
 \[
 \boxed{(r,y,m_{lo},m_{hi},h,S)},
 \qquad S=q-Q(h).
 \]
 
-## Canonical jump-8 population
-
-Pure-ballot jump-8 population:
+The canonical jump-8 source-cylinder count is `14,224`, with source-parameter multiplicity
 
 \[
-26{,}859{,}837{,}368{,}845{,}079{,}186.
+26{,}859{,}837{,}368{,}455{,}538{,}464.
 \]
 
-After first-75 tail-defect tightening:
+That multiplicity is not automatically a count of distinct ordinary source integers.
 
-\[
-26{,}859{,}837{,}368{,}588{,}270{,}254.
-\]
-
-The exact `c=5`, horizon-51, 64-shard decision gives
-
-\[
-\boxed{\#\{D_{51}\le5\text{ paths}\}=0}.
-\]
-
-Therefore
-
-\[
-\boxed{H_5\le50},
-\qquad
-\boxed{D_{51}\ge6},
-\qquad
-\boxed{\eta_{future}>\frac12}.
-\]
-
-Using the safe endpoint weakening `>=1/2`, the current canonical population is
-
-\[
-\boxed{26{,}859{,}837{,}368{,}455{,}538{,}464}.
-\]
-
-The source-cylinder count remains `14,224`; no whole interval is closed by this chain.
-
-Downstream source export:
-
-- `../src/A0_s1_8jump_cumulative_pruned_frontier_export.py::pruned_states`.
-
-The `>=1/2` frontier validation workflow passed in GitHub Actions run `33864085911`.
-
-## Exact bounded-displacement status
+## Exact bounded-displacement status on internal Route-B path
 
 \[
 \boxed{H_0=40,\ H_1=44,\ H_2=45,\ H_3=48,\ H_4=50.}
@@ -88,70 +132,42 @@ For budget five only
 \boxed{H_5\le50}
 \]
 
-is claimed. `H_5=50` remains unproved without a horizon-50 witness.
+is proved. Therefore
 
-Reachability evidence:
+\[
+\boxed{D_{51}\ge6},
+\qquad
+\boxed{\eta_{future}>\frac12}.
+\]
 
-- GitHub Actions run `33756884264`;
-- `../src/A0_s1_8jump_c5_h51_shard_probe.py`.
+Do not strengthen `H_5<=50` to `H_5=50` without a horizon-50 witness.
 
-The latest `1/2` floor supersedes the older `1/4`, `1/3`, and `5/12` floors; the floors are not added.
+## Closed local same-orbit kernels on internal Route-B path
 
-## P_min role split
+The source/checkpoint provenance join is closed once a paired activation record and ordinary checkpoint candidate are supplied.
 
-The directed `P_min` mechanism remains valid but cannot close the lower approximately `82.095%` of the first-75-tightened source population even under the maximal remaining target-correction budget.  Higher bounded-displacement budgets are therefore secondary rather than the principal closure route.
-
-## Source/checkpoint same-orbit kernel — CLOSED
-
-At the late activation seam let
+At the activation seam,
 
 \[
 X=r+2^h k,
 \qquad
-T^h(X)=y+3^q k,
-\qquad q=j_0-28,
-\qquad k\in[k_{lo},k_{hi}].
+T^h(X)=y+3^qk,
+\qquad q=j_0-28.
 \]
 
-For a validated exact terminal suffix descriptor
+For a validated terminal suffix descriptor `(n,C_B)` and checkpoint `Z`,
 
 \[
-|B|=n,
-\qquad q(B)=28,
-\qquad C_B=C(B),
+Y_B(Z)=\frac{2^nZ-C_B}{3^{28}},
 \]
 
-and one ordinary checkpoint candidate `Z`, define
+and same-source realization is checked by
 
 \[
-Y_B(Z)=\frac{2^nZ-C_B}{3^{28}}.
+Y_B(Z)-y\equiv0\pmod{3^q}
 \]
 
-The source/checkpoint provenance test is exactly
-
-\[
-Y_B(Z)-y\equiv0\pmod{3^q},
-\]
-
-and
-
-\[
-k_*:=\frac{Y_B(Z)-y}{3^q}\in[k_{lo},k_{hi}].
-\]
-
-When it passes,
-
-\[
-X_*=r+2^hk_*
-\]
-
-satisfies
-
-\[
-\boxed{T^{h+n}(X_*)=Z}.
-\]
-
-Thus the local same-orbit arithmetic is no longer the principal OPEN item.
+plus the exact source-parameter interval test.
 
 Canonical files:
 
@@ -159,166 +175,97 @@ Canonical files:
 - `../src/A0_s1_source_activation_checkpoint_provenance_join_certificate.py`;
 - `../audits/S10_SOURCE_ACTIVATION_CHECKPOINT_PROVENANCE_JOIN_AUDIT.md`.
 
-Regression workflow run `33864578621` passed.
+Derived checkpoint observations such as `z_2` and `z_H` remain derived coordinates after provenanced `Z` exposure, not independent filters.
 
-## Exposed checkpoint state minimization — CLOSED
+## Principal global bottleneck
 
-Once an ordinary checkpoint `Z` is exposed **with provenance**,
-
-\[
-\boxed{z_2=Z\bmod2^{27}}
-\]
-
-and
+The global bottleneck is now
 
 \[
-\boxed{z_H\equiv2^sZ-C(H_s^*)\pmod{3^{28}}}
+\boxed{
+\text{exact branch predicates}
++\text{checkpoint→same-source transport}
++\text{global cover}.}
 \]
 
-are derived coordinates, not independent persistent state.
+More concretely:
 
-For the current 28-gate terminal target-dominance predicate,
+1. recover/prove exact Route-A entrance/source predicate;
+2. prove checkpoint-surplus provenance if a global formula such as `s_cp=A0-j_*` is needed;
+3. for every live `s_cp>=2` checkpoint sector, construct exact ordinary-source charts through a same-source/same-orbit realization relation;
+4. prove whether any additional branch family is needed;
+5. prove
+   \[
+   CE\subseteq\bigcup_\alpha B_\alpha;
+   \]
+6. close every covered source branch.
+
+The canonical transport obligation is
+
+`../theorems/CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md`.
+
+## External closure inheritance test
+
+A newly specified Route-A or `s_cp>=2` branch may use the existing external finite-range lemma only after proving its exact ordinary-source domain \(\mathcal D\) satisfies an inclusion such as
 
 \[
-\boxed{\text{completion exists}\iff3\nmid Z}.
+\mathcal D\subseteq[1,L_{RS}].
 \]
 
-Before provenanced `Z` exposure, `z_2` and `z_H` remain directed observations and may not be Cartesian-paired.
+The current Route-B source bound is downstream and branch-specific; it cannot be copied to another sector.
 
-Canonical files:
+## Optional internal Route-B bottleneck
 
-- `../theorems/EXPOSED_CHECKPOINT_OBSERVATION_STATE_MINIMIZATION.md`;
-- `../src/A0_s1_exposed_checkpoint_observation_state_minimization_certificate.py`.
+The internal path remains open at the source-preserving event/valuation exporter to the `q_rem=28` activation seam and the low-precision terminal carry family with source provenance.
 
-The combined source-checkpoint workflow including this certificate passed in run `33865446235`.
-
-## Terminal locality correction — CLOSED
-
-The condition
-
-\[
-q_{rem}=28
-\]
-
-means 28 future **one-events**.  It does not imply a universal short ordinary-bit shell.
-
-The threshold one-position formula is
-
-\[
-\boxed{t_{r-1}=\lfloor(r-1)\log_2 3\rfloor}.
-\]
-
-At
-
-\[
-q=j_0-28=65{,}868{,}186{,}673,
-\]
-
-the exact threshold `q`-th one position is
-
-\[
-104{,}398{,}605{,}865.
-\]
-
-For the canonical activation seam immediately after the candidate `q`-th one,
-
-\[
-\boxed{44\le t_0-h_{act}\le38{,}530{,}419{,}237}.
-\]
-
-Hence the final 28 one-events should be compressed as valuation/event gaps, not by assuming a ~43-bit raw suffix.
-
-Canonical files:
-
-- `../theorems/TERMINAL_28_EVENT_LOCALITY_NOT_TIME_LOCALITY.md`;
-- `../src/A0_s1_terminal_28_event_locality_not_time_locality_certificate.py`.
-
-## Per-checkpoint source-fiber profile
-
-For one already-exposed ordinary checkpoint `Z`, the independent SAFE debit corridor gives a per-cylinder source-parameter width
-
-\[
-\frac{37\cdot2^{33}}{3\cdot2^h}.
-\]
-
-On the current `>=1/2` jump-8 frontier, the total deterministic source-parameter cap for one `Z` is
-
-\[
-\boxed{3{,}256{,}612{,}398}.
-\]
-
-This is a reduction of at least
-
-\[
-\boxed{8{,}247{,}784{,}533}
-\]
-
-relative to the current population, once `Z` is exposed.
-
-Further:
-
-- `6,190` of `14,224` cylinders have per-`Z` cap `<=1`;
-- `9,537` have cap `<=1000`.
-
-This is localization only, not same-orbit membership.
-
-Certificate:
-
-- `../src/A0_s1_8jump_checkpoint_source_fiber_profile_certificate.py`.
-
-## Principal bottleneck
-
-The principal OPEN object is now more precise:
-
-\[
-\boxed{\text{source-preserving paired late-activation / ordinary-}Z\text{ exporter}}.
-\]
-
-What is already CLOSED:
-
-1. terminal `Z mod 3^28` locality;
-2. right-H affine transfer;
-3. post-checkpoint `Z mod 2^27` locality;
-4. CRT corridor uniqueness;
-5. local exact source/checkpoint same-orbit join once a paired activation record is supplied;
-6. state minimization after provenanced `Z` exposure.
-
-What remains OPEN is construction of the actual paired late-activation relation from the current source families without expanding the raw ~`10^11`-bit middle word.
-
-The terminal exporter must be event/valuation based.  The existing backward exponential carry chart is injective at precision `m>=18`; the important unresolved terminal export range is the low-precision `m<=17` carry family, together with source provenance.
-
-## Immediate next work
-
-1. Construct a source-preserving event/valuation exporter to the `q_rem=28` activation seam.
-2. Keep source provenance while compressing the final 28 valuation gaps; do not enumerate raw bit-time.
-3. Resolve/export the low-precision `m<=17` right-H carry family; high-precision layers are already one-step injective.
-4. Expose ordinary checkpoint candidates `Z` with provenance rather than carrying independent post-exposure `(z_2,z_H)` labels.
-5. Apply the CLOSED activation/checkpoint provenance kernel to each candidate.
-6. Use the per-`Z` debit fiber only as a candidate cap, never as an orbit proof.
-7. Keep higher bounded-displacement budgets secondary unless they supply a structural gain.
+This is now a secondary research/audit path rather than the principal global path.
 
 ## Still OPEN
+
+### Principal global
+
+- Route-A exact entrance/source predicate;
+- checkpoint-surplus global provenance relation, if needed;
+- `s_cp>=2` same-source realization transport;
+- exact ordinary-source charts for all remaining sectors;
+- global branch cover/overlap theorem;
+- global Collatz conclusion.
+
+### Optional internal Route-B
 
 - exact `H_5` equality;
 - compressed source-preserving paired late-activation / ordinary-`Z` exporter;
 - low-precision terminal carry-family export with source provenance;
-- exact 14-root source/checkpoint realization;
-- remaining checkpoint/tail membership predicates beyond terminal target-dominance existence;
-- `A0,s=1,Route-B` closure;
-- Route-A;
-- all `s>=2` sectors;
-- global branch completeness;
-- Collatz.
+- exact self-contained 14-root source/checkpoint realization;
+- remaining tail/renewal membership predicates.
+
+## Closed / do not reopen by accident
+
+- current physical Route-B source sector on external-dependency path;
+- terminal target-dominance-only pruning as an independent gate;
+- local source/checkpoint same-orbit join once a paired activation record is supplied;
+- exposed-checkpoint observation state minimization;
+- `q_rem=28` means 28 future one-events, not a universal short raw-bit suffix.
 
 ## Forbidden shortcuts
 
-- extrapolating finite `H_c` values;
-- `H_5<=50 -> H_5=50` without a witness;
-- adding nested defect floors;
-- equal control state -> equal source payload;
+- `s_cp>=2` checkpoint difference -> exact source branch;
+- historical `s=A0-j_*` notation -> canonical identity without provenance proof;
+- file-local constants -> global constants;
+- Route-B source bound -> Route-A/`s_cp>=2` source bound;
+- branch name -> branch predicate;
+- finite list of branch names -> exhaustive cover;
+- equal control/compressed state -> equal source payload;
 - CRT compatibility -> same orbit;
 - debit-corridor localization -> same orbit;
-- Cartesian pairing of independent `z_2`/`z_H` marginals;
-- `q_rem=28 -> universal short raw bit shell`;
-- exposed `Z` observations -> source realization without the activation-fiber test;
-- finite Route-B progress -> global Collatz.
+- derived terminal observations as independent filters;
+- `H_5<=50 -> H_5=50`;
+- local Route-B closure -> global Collatz.
+
+## Immediate next work
+
+1. Use `GLOBAL_BRANCH_SPECIFICATION.md` as the source-level branch table.
+2. Develop `CHECKPOINT_SURPLUS_SOURCE_REALIZATION_TRANSPORT_OBLIGATION.md` from the first checkpoint stage at which `s_cp>=2` changes an ordinary-source-compatible state.
+3. Search upstream history only for an exact Route-A predicate; do not invent one from downstream signs or labels.
+4. If a transported source domain is proved below `L_RS`, close that branch on the external-dependency path and record the dependency explicitly.
+5. Keep the optional internal Route-B exporter work separate from the principal global proof route.
