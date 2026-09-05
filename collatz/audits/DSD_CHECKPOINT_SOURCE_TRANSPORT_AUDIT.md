@@ -44,15 +44,21 @@ The `s=1` Xi/checkpoint note gives the exact local checkpoint condition
 \tau_{j_0}\le t_0<\tau_{j_0+1}.
 \]
 
-The low-surplus certificate family uses
+The directly inspected low-surplus certificate family supports
 
 \[
-r=s_{\mathrm{cp}}-1,
-\qquad
-q_\star=Q0-r,
+\boxed{r=s_{\mathrm{cp}}-1},
 \]
 
 with `r` interpreted as the number of extra odd ordinals crossed to the left of \(T_0\).
+
+A previously recorded relation
+
+\[
+q_\star=Q0-r
+\]
+
+was not found in the directly inspected current canonical certificate files. It is therefore **provenance-unresolved and excluded from the current canonical audit chain**.
 
 The sampled files use file-local
 
@@ -66,10 +72,11 @@ Q0=72{,}057{,}431{,}991.
 
 - checkpoint meaning of `s`: **PASS (local provenance)**;
 - relation \(r=s_{\mathrm{cp}}-1\): **PASS (certificate-family local)**;
+- relation \(q_\star=Q0-r\): **NOT RECOVERED / DO NOT USE**;
 - promotion of file-local `A0`, `Q0` to global canonical constants: **NOT AUTHORIZED**;
 - identity \(s_{\mathrm{cp}}=A_0-j_\star\): **NOT ESTABLISHED**.
 
-The latter must not be used as an upstream global definition until a source-level provenance derivation is supplied.
+The latter two unresolved identities must not be used as upstream global definitions until source-level provenance derivations are supplied.
 
 ## 3. P1 — applicability and activation
 
@@ -185,8 +192,10 @@ DSD audit layers:
 
 - **L0:** ordinary source/orbit;
 - **L1:** applicability, prerequisites, definition status, same-source realization;
-- **L2:** checkpoint-control representation, including \(s_{\mathrm{cp}}\), \(r\), \(q_\star\), Hensel budgets, packed suffixes;
+- **L2:** checkpoint-control representation, including directly supported \(s_{\mathrm{cp}}\), \(r=s_{\mathrm{cp}}-1\), and independently defined budget/packed-suffix coordinates in their own domains;
 - **L3:** derived completion, including terminal/projective/endpoint data.
+
+Unrecovered coordinate relations such as the previously recorded `q_star=Q0-r` are excluded until their provenance is found.
 
 A branch difference that appears only at L2 or L3 is not automatically an L0 source branch.
 
@@ -270,6 +279,7 @@ External finite verification may enter only at `branch closure`, after exact sou
 | checkpoint-surplus local provenance | PASS |
 | exact local `s=1` checkpoint condition | PASS |
 | \(r=s_{\mathrm{cp}}-1\) in low-surplus certificates | PASS |
+| \(q_\star=Q0-r\) | NOT RECOVERED / DO NOT USE |
 | \(s_{\mathrm{cp}}=A_0-j_\star\) | NOT ESTABLISHED |
 | global checkpoint applicability theorem | OPEN |
 | same-source realization transport for \(s_{\mathrm{cp}}\ge2\) | OPEN |
