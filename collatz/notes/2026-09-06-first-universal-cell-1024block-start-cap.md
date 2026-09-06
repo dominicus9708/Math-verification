@@ -99,10 +99,10 @@ a_j=\{j\theta\},
 \qquad
 u_j=2^{a_j},
 \qquad
-b_j=\nu_j^{-1}.
+b_j=u_j^{-1}.
 \]
 
-Every `nu_j` is an exact rational number because
+Every `u_j` is an exact rational number because
 
 \[
 2^{\{j\theta\}}
