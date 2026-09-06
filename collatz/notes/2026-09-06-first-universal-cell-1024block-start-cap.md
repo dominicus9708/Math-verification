@@ -38,7 +38,7 @@ A paradoxical first crossing requires
 \boxed{S(w)\ge\varepsilon N.}
 \]
 
-The companion correction-barrier note shows that a scalar correction bound cannot remove the entire interval.  It can nevertheless be sharpened enough to remove most of its upper part.
+The companion correction-barrier note shows that a scalar correction bound cannot remove the entire interval. It can nevertheless be sharpened enough to remove most of its upper part.
 
 ---
 
@@ -115,7 +115,7 @@ Between the wrap thresholds
 x=1-a_j,
 \]
 
-`H_m(x)` is a positive rational constant times `2^{-x}`, hence strictly decreases.  Therefore its global maximum occurs at `x=0` or immediately after one of finitely many wrap thresholds.
+`H_m(x)` is a positive rational constant times `2^{-x}`, hence strictly decreases. Therefore its global maximum occurs at `x=0` or immediately after one of finitely many wrap thresholds.
 
 The certificate enumerates these rational candidates exactly for
 
@@ -146,7 +146,7 @@ q_0=1024M+951.
 
 Split the rotation sum into `M` complete blocks of length 1024 and one remainder block of length 951.
 
-Each complete block is below the exact 1024-block cap.  Each remainder summand is at most `1`.  Therefore
+Each complete block is below the exact 1024-block cap. Each remainder summand is at most `1`. Therefore
 
 \[
 \boxed{
@@ -305,8 +305,7 @@ This is a genuine reduction of the source domain, not a density statement.
 2. the phase powers used by the block transfer are exact rationals;
 3. the 1024-block maximum is reduced to finitely many exact wrap-threshold candidates;
 4. the exact block maximum is below `(361/500)*1024`;
-5. the resulting universal correction upper bound implies
-   `N < (1365/1024)B0`;
+5. the resulting universal correction upper bound implies `N < (1365/1024)B0`;
 6. 683/1024 of the old one-bit source interval is eliminated exactly.
 
 ### OPEN
@@ -368,4 +367,4 @@ The required transfer question is whether a nested parity word whose ordinary st
 3. extend to the exact first crossing `(A0,q0)`;
 4. retain enough terminal correction to keep the endpoint at least its own start.
 
-The DSD target is therefore no longer a scalar tail estimate but an **address-indexed family of 341 exact extension problems**.  These can next be grouped only when an audited right-congruence or Christoffel/Farey state proves that two address blocks have identical future obligations.
+The DSD target is therefore no longer a scalar tail estimate but an **address-indexed family of 341 exact extension problems**. These can next be grouped only when an audited right-congruence or Christoffel/Farey state proves that two address blocks have identical future obligations.
