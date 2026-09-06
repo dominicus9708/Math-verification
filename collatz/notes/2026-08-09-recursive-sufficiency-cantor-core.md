@@ -2,11 +2,13 @@
 
 Date: 2026-08-09
 
-Status: derived reduction using Ansari (2025) plus the first-crossing correction bounds. This is not a proof of the Collatz conjecture.
+Status: **SUPERSEDED / CONDITIONAL COVERAGE INPUT.**  The algebra below remains a valid conditional reduction if the displayed ternary Cantor core is recursively sufficient.  However, the 2026-09-06 audit of Ansari (2025), Lemma 3.1 found that the printed induction identity fails already at `F_1 -> F_2`.  Therefore this file must no longer be cited as an unconditional proof that every hypothetical minimal counterexample lies in the infinite ternary `0/1` core.  See `2026-09-06-gate-F-map-coordinate-closure-and-coverage-audit.md` and `collatz/src/ansari_recursive_sufficiency_induction_audit.py`.
 
-## 1. Minimal counterexamples must lie in Ansari's recursively sufficient core
+The finite ternary-selector constructions, residue counts, Fourier identities, and mass-transport calculations built on this coordinate remain exact statements about that selector family.  What is reopened is **global minimal-counterexample coverage**, not the selector algebra itself.
 
-Ansari constructs decreasing recursively sufficient sets F_n and proves that their intersection is
+## 1. Conditional minimal-counterexample reduction
+
+Ansari defines decreasing sets `F_n` and states that they are recursively sufficient, with intersection
 
 \[
 F=\left\{
@@ -15,9 +17,9 @@ F=\left\{
 \right\}.
 \]
 
-Because F is recursively sufficient, a minimal Collatz counterexample N would have to lie in F. If N were outside F, recursive sufficiency would provide m<N merging with N; minimality would make m convergent and therefore N convergent, a contradiction.
+**Conditional on a corrected proof that this `F` is recursively sufficient**, a minimal Collatz counterexample `N` would have to lie in `F`. If `N` were outside such an `F`, recursive sufficiency would provide `m<N` merging with `N`; minimality would make `m` convergent and therefore `N` convergent, a contradiction.
 
-Thus a hypothetical minimal counterexample has a ternary-Cantor representation: after removing the affine wrapper (x-3)/4, its ternary digits are only 0 or 1.
+Thus the statement that a hypothetical minimal counterexample has a ternary-Cantor representation is currently a **CONDITIONAL COVERAGE CLAIM**, not a closed theorem in this repository.
 
 ## 2. Counting the core below X
 
@@ -44,6 +46,8 @@ The exponent is
 \[
 \log_3 2=0.6309297535714574\ldots
 \]
+
+This counting statement is exact for the displayed set `F`; its use as a universal minimal-counterexample count is conditional on coverage.
 
 ## 3. First-crossing magnitude bound
 
@@ -81,13 +85,14 @@ Since q<sigma,
 
 ## 4. Layerwise candidate-count reduction
 
-Intersecting this polynomial magnitude window with F yields
+Conditionally intersecting this polynomial magnitude window with `F` yields
 
 \[
 \#\{\text{minimal FCS candidates at order }\sigma\}
-=O\left((\sigma^{14.3})^{\log_3 2}\right).
+=O\left((\sigma^{14.3})^{\log_3 2}\right),
 \]
-Hence
+
+and hence
 
 \[
 \boxed{
@@ -97,12 +102,7 @@ N_{\rm core}(\sigma)
 }
 \]
 
-This is stronger than the earlier direct binary-prefix count bound. It says that, after recursive sufficiency is imposed, the independent realization coordinates can be taken as only
-
-\[
-O(\log\sigma)
-\]
-ternary 0/1 digits.
+This remains a correct count for the selector core itself.  Its interpretation as a bound for all minimal FCS candidates is conditional on the reopened coverage theorem.
 
 ## 5. Matrix/tensor representation
 
@@ -130,21 +130,34 @@ Independently, the pre-crossing parity language is produced by the narrow transf
 
 Thus both sides separately have low-complexity descriptions:
 
-- ternary minimal-counterexample core: product tensor / subset-sum generating function;
+- ternary selector core: product tensor / subset-sum generating function;
 - binary first-crossing language: narrow ballot transfer matrix.
 
-The hard bridge is the 2-adic parity conjugacy / carry conversion mapping the integer represented by the ternary tensor to its binary Collatz parity word.
+The cross-base conjugacy between these two exact finite descriptions remains meaningful whether or not global coverage is eventually recovered.
 
-Stérin--Woods' base-conversion result is directly relevant here: Collatz embeds a base-3 to base-2 conversion process. Their complexity result also warns that the carry bridge is not expected to collapse to a trivial constant-state map.
+## 6. Revised interpretation
 
-## 6. Interpretation
-
-The nominal q-dimensional parity search has now been reduced, for a hypothetical minimal finite-crossing counterexample, to two logarithmic cores describing the same integer:
+The original program attempted the reduction
 
 \[
-\text{ternary Cantor digits } a_i\in\{0,1\}
-\quad\leftrightarrow\quad
+\text{minimal counterexample}
+\Longrightarrow
+\text{ternary Cantor core}
+\Longleftrightarrow
 \text{binary parity core}.
 \]
 
-The remaining proof problem is not the size of either set separately; it is controlling the cross-base conjugacy between them uniformly in the scale.
+After the 2026-09-06 audit, only the second, coordinate/conjugacy side is presently closed for the specified selector family.  The first implication is reopened:
+
+\[
+\boxed{
+\text{minimal counterexample}
+\Longrightarrow
+\text{ternary Cantor core}
+\quad\textbf{OPEN / CONDITIONAL}.}
+\]
+
+Accordingly, future proof notes must separate:
+
+1. **selector-family algebra and finite certificates — SAFE**;
+2. **universal minimal-counterexample coverage by that family — OPEN**.
