@@ -2,7 +2,35 @@
 
 Date: 2026-08-14
 
-Status: **exact finite Diophantine isolation theorem at the current verified floor**. It upgrades the previous interval-local Worley certificate to every first coefficient crossing with odd count up to the current resonance. It does not eliminate the current resonance and therefore does not prove the Collatz conjecture.
+Status: **EXACT CONDITIONAL DIOPHANTINE ISOLATION.**  The arithmetic certificate below is exact under the explicit start-floor hypothesis
+
+\[
+N\ge N_0:=V_{33}+1.
+\]
+
+However, the 2026-09-06 dependency audit established that `V_33` was promoted from exact finite `m=44` selector certificates to a continuous global floor using Ansari's recursively-sufficient ternary Cantor-core coverage.  That coverage is currently OPEN because the printed induction fails already at `F_1 -> F_2`.  Therefore this note must no longer be cited as an unconditional reduction of **every** hypothetical minimal counterexample to the current resonance.
+
+The correct interpretation is:
+
+\[
+\boxed{
+N\ge V_{33}+1
+\Longrightarrow
+\text{the isolation theorem below is SAFE},
+}
+\]
+
+while
+
+\[
+\boxed{
+\text{every hypothetical minimal counterexample satisfies }N\ge V_{33}+1
+\quad\text{is CONDITIONAL on repaired coverage}.}
+\]
+
+See `collatz/notes/2026-09-06-r1-current-floor-dependency-audit.md`.
+
+This correction changes the scope of the theorem, not the finite Worley/Dujella calculation.  It does not prove the Collatz conjecture.
 
 Let
 
@@ -95,7 +123,7 @@ Therefore the Worley--Dujella theorem gives the same global product budget
 \boxed{rs\le3}
 \]
 
-for every possible first-crossing rational in this full denominator range.
+for every possible first-crossing rational in this full denominator range under the stated start-floor hypothesis.
 
 This is stronger than the previous use of the theorem only on the final interval immediately below the current resonance.
 
@@ -149,20 +177,19 @@ Thus
 
 \[
 \boxed{
+N\ge N_0,
+\quad
 1\le q\le137,528,045,312
 \Longrightarrow
-\text{the only possible first-crossing survivor at }N\ge N_0
-\text{ is the current resonance.}
+\text{the only possible first-crossing survivor is the current resonance.}
 }
 \]
 
-## 4. What this improves
+## 4. Revised scope
 
-Previously the same current resonance had been isolated only after choosing a large denominator interval near it. The present result closes the entire lower denominator range in one statement.
+Within the explicit `N>=N_0` branch, every lower-scale first crossing in the stated denominator range is excluded by the start floor plus the mechanical remainder envelope, except for the single current resonance.
 
-Hence R1 no longer needs a list of increasingly large lower convergents/semiconvergents below the current resonance. Every such lower-scale first crossing is already excluded by the verified floor plus the mechanical remainder envelope.
-
-The R1 proof tree is therefore reduced to one finite arithmetic cell:
+Hence the **selector-coverage branch** of the R1 proof tree is reduced to one finite arithmetic cell:
 
 \[
 \boxed{
@@ -172,16 +199,24 @@ The R1 proof tree is therefore reduced to one finite arithmetic cell:
 }
 \]
 
+It is no longer valid to promote this sentence to the universal R1 proof tree without first repairing the ternary coverage theorem.
+
+The current coverage-independent universal fallback is the older R1 result using the published paradoxical frontier as quoted in the repository, which yields a much weaker but independent lower odd-event bound of about
+
+\[
+5.395570552\times10^9.
+\]
+
 ## 5. Remaining obstruction
 
-At this resonance the multiplicative excess is exceptionally small. The current start floor gives only a few billion units of mandatory correction, whereas the universal mechanical correction ceiling is still tens of billions.
+At this resonance the multiplicative excess is exceptionally small. The conditional start floor gives only a few billion units of mandatory correction, whereas the universal mechanical correction ceiling is still tens of billions.
 
-Therefore the Archimedean correction envelope alone cannot eliminate this last cell. Its closure still requires the already-developed mixed-place information:
+Therefore the Archimedean correction envelope alone cannot eliminate this last **selector-conditional** cell. Its closure still requires mixed-place information such as:
 
 - Christoffel defect/displacement;
 - strengthened dyadic renewal address;
-- ternary recursively-sufficient core;
+- repaired ternary recursively-sufficient coverage;
 - 3-adic correction/predecessor structure;
 - or an equivalent cross-base incompatibility theorem.
 
-This note isolates the target; it does not solve that final cell.
+This note isolates the target under its stated floor hypothesis; it does not solve that final cell.
