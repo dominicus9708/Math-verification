@@ -2,7 +2,7 @@
 
 Date: 2026-09-06
 
-Status: **singleton conjecture REJECTED; class-max property FINITE ONLY through length 26.**
+Status: **singleton conjecture REJECTED; class-max property FINITE ONLY through length 28.**
 
 This note audits the symbolic hard core suggested by the finite observation that parity words beginning with `11` and containing no `00` appeared to be maximum-correction representatives of their full-Hensel classes.
 
@@ -145,19 +145,23 @@ C(u)<C(w).
 
 Thus `w` remains the maximum correction representative of its class.
 
-A complete exact class-max audit was then run for all root-`11`, no-`00` targets through
+A memory-light target-key streaming audit was then used.  It stores only the Hensel keys of root-`11`, no-`00` targets, and streams **all** `2^L` parity words against those target classes.
+
+The exact runs completed at
 
 \[
-\boxed{L=26.}
+L=27
+\quad\text{and}\quad
+L=28
 \]
 
-No target with a larger same-class competitor was found.
+with no larger same-class competitor for any target.
 
 Hence the current finite status is
 
 \[
 \boxed{
-L\le26:
+L\le28:
 \quad
 w\in\mathcal N_L
 \Longrightarrow
@@ -165,7 +169,9 @@ w\text{ is full-Hensel class-maximal}
 }
 \]
 
-**FINITE ONLY.**  There is currently no general proof, and the length-24 singleton failure is a warning against promoting the finite pattern.
+**FINITE ONLY.**  There is currently no general proof.
+
+An attempted `L=29` streaming run did not finish within the interactive execution limit, so **no statement at all** is made for `L=29`.
 
 ---
 
@@ -179,7 +185,7 @@ The audit separates three logically different properties:
 
 The first property is now false.
 
-The third property is the one relevant to full root-Hensel predecessor elimination.  It remains an open theorem candidate despite the finite verification through length 26.
+The third property is the one relevant to full root-Hensel predecessor elimination.  It remains an open theorem candidate despite the finite verification through length 28.
 
 Therefore future work must not use
 
@@ -190,7 +196,7 @@ Therefore future work must not use
 but may retain the finite diagnostic
 
 \[
-\text{no-`00`}\Rightarrow\text{class-max through }L=26.
+\text{no-`00`}\Rightarrow\text{class-max through }L=28.
 \]
 
 ---
@@ -223,7 +229,7 @@ The terminal problem must still use ordinary-integer stabilization or an equival
 
 ---
 
-## 7. Regression certificate
+## 7. Regression certificates
 
 `collatz/src/no00_root_hensel_max_audit.cpp`
 
@@ -234,13 +240,21 @@ checks:
 - class-max status through `L=25` by default;
 - class-max status through `L=26` with `--full26`.
 
-The `L=26` run is intentionally optional because the full class table uses substantial memory.
+`collatz/src/no00_root_hensel_target_stream_certificate.cpp`
+
+implements the lower-memory target-key streaming algorithm used to certify
+
+\[
+L=27,28.
+\]
+
+The second program is the preferred route for future extensions.
 
 ---
 
 ## 8. Current target
 
-The correct next question is now narrower:
+The correct next question remains
 
 \[
 \boxed{
