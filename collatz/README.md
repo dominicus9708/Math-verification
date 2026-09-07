@@ -189,7 +189,7 @@ The DSD transition gate permits the address lift exactly once:
 
 A second lift is rejected by a negative control.
 
-This caught a concrete semantic problem in the proposed post-MATH-008 refinement: **MATH-006 already computes**
+This caught a concrete semantic problem in the proposed post-MATH-008 refinement: MATH-006 already computes
 
 \[
 r=(y+a3^q)\bmod2048.
@@ -197,49 +197,101 @@ r=(y+a3^q)\bmod2048.
 
 Therefore feeding `y+a3^q` back into the existing MATH-006 predicate as though it were a new base endpoint would double-count the same address contribution. That proposed extra affine-coupling filter is not independent pruning.
 
-The DSD-native implementation regression-reproduces all MATH-006 min/max label counts exactly.
+Each lifted tail residue also carries `first_fail_depth`, `minimum_coefficient_margin`, representation stage, resolution, and audited outcome.
 
-### First-failure / margin diagnostics
-
-Each lifted tail residue now carries:
-
-- `first_fail_depth`;
-- `minimum_coefficient_margin` over depths 62..72;
-- `SURVIVE/EXCLUDED` outcome;
-- explicit representation stage and resolution.
-
-For `q61=39`, the 2048 lifted residues decompose exactly as:
-
-| first outcome | residue count |
-|---|---:|
-| fail at 62 | 1024 |
-| fail at 64 | 256 |
-| fail at 65 | 256 |
-| fail at 67 | 96 |
-| fail at 69 | 56 |
-| fail at 70 | 76 |
-| fail at 72 | 37 |
-| survive through 72 | 247 |
-
-All 247 surviving `q61=39` residues attain minimum coefficient margin `0` somewhere in depths 62..72.
-
-These are finite exact residue counts, not probability or density claims.
+For `q61=39`, 247 of the 2048 lifted residues survive through depth72, and all 247 attain minimum coefficient margin `0` somewhere in depths62..72.
 
 MATH-010 status:
 
 `CONFIRMED WITHIN FINITE 61+11 SCOPE / REPRESENTATION ERROR BLOCKED / NO NEW GLOBAL PRUNING`.
 
+## MATH-011: DSD complete-descriptor calculation acceleration
+
+MATH-010 showed that DSD can prevent invalid transitions. MATH-011 uses the same discipline to reduce actual repeated computation.
+
+For a lifted residue `r mod 2048`, let `s_j(r)` be the odd-count in its first `j` tail bits. Define
+
+\[
+\boxed{
+H(r)=\max_{1\le j\le11}
+\bigl(q_{\min}(61+j)-s_j(r)\bigr).
+}
+\]
+
+Then the whole depth-72 coefficient-survival predicate is exactly
+
+\[
+\boxed{
+r\text{ survives}\iff q_{61}\ge H(r).}
+\]
+
+Thus `H(r)` is a complete descriptor **within this finite predicate**. Its exact 2048-residue distribution is:
+
+| `H(r)` | count |
+|---:|---:|
+| 39 | 247 |
+| 40 | 554 |
+| 41 | 570 |
+| 42 | 406 |
+| 43 | 195 |
+| 44 | 63 |
+| 45 | 12 |
+| 46 | 1 |
+
+For fixed `q`, put
+
+\[
+m=3^q\pmod{2048}.
+\]
+
+Since `m` is odd it is invertible. With `z=m^{-1}y` and
+
+\[
+g_q(t)=\mathbf1[H(mt\bmod2048)\le q],
+\]
+
+MATH-006's address count becomes
+
+\[
+\boxed{
+C_q(y)=\sum_{a=1024}^{1363}g_q(z+a),
+}
+\]
+
+a cyclic contiguous window of length 340.
+
+The accelerated certificate reproduces the **entire** legacy count vector for every `y mod2048` and every `q61=39..61`, not merely the min/max table.
+
+The deterministic address-predicate work changes from
+
+\[
+23\cdot2048\cdot340=16{,}015{,}360
+\]
+
+legacy lookups to
+
+\[
+23\cdot2048=47{,}104
+\]
+
+threshold evaluations at that layer, an exact factor-340 reduction in expensive predicate evaluations, plus cheap sliding-window integer updates and a one-time `2048*11` descriptor construction.
+
+Session-local wall-clock tests also showed a large speedup, but runtime ratios are environment dependent and are diagnostic only.
+
+MATH-011 status:
+
+`CONFIRMED WITHIN SCOPE / COMPUTATIONAL ACCELERATION / NO NEW BLOCK EXCLUSION`.
+
 ## Current next frontier
 
-The `(q61,y mod2048)` + 11-bit coefficient-transducer information is now audited both arithmetically and at the representation stage. Further manipulation of the same phase/address lift is not a new observable.
+DSD has now demonstrated two distinct useful roles in the current Collatz line:
 
-The next refinement must add genuinely new same-integer information. Priority targets are:
+1. representation/stage gates prevent invalid or duplicate transitions;
+2. a complete finite descriptor can remove repeated exact work.
 
-1. couple DSD-native `first_fail_depth` / `minimum_coefficient_margin` to a depth-72+ same-integer Hensel eligibility condition;
-2. seek an exact address-local invariant inside the `<2^35` adjacent-block halos;
-3. test whether correction information beyond the already-audited endpoint ordering yields a non-redundant observable.
+The next priority is therefore **not** to add descriptors indiscriminately. It is to test whether the depth-72+ same-integer continuation/Hensel eligibility predicate admits an analogue of `H(r)` that produces safe pruning, safe merging, or fewer exact state expansions.
 
-The next calculation should reject any proposed feature that is only a relabeling of information already present in MATH-004/006/009.
+A new descriptor stays in the computation engine only if it demonstrably reduces exact work or establishes a non-redundant theorem-facing invariant.
 
 ## Canonical current documents
 
@@ -249,8 +301,10 @@ The next calculation should reject any proposed feature that is only a relabelin
 - [`notes/2026-09-08-lower61-endpoint-phase-reachability-and-route-saturation.md`](notes/2026-09-08-lower61-endpoint-phase-reachability-and-route-saturation.md) — MATH-008 phase reachability / route saturation
 - [`notes/2026-09-08-root-hensel-endpoint-ordering-redundancy.md`](notes/2026-09-08-root-hensel-endpoint-ordering-redundancy.md) — MATH-009 redundancy result
 - [`notes/2026-09-08-dsd-native-61plus11-computation-pilot.md`](notes/2026-09-08-dsd-native-61plus11-computation-pilot.md) — MATH-010 DSD-native pilot
+- [`notes/2026-09-08-dsd-complete-descriptor-and-cyclic-window-acceleration.md`](notes/2026-09-08-dsd-complete-descriptor-and-cyclic-window-acceleration.md) — MATH-011 calculation acceleration
 - [`src/2026_09_08_lower61_endpoint_phase_reachability_certificate.py`](src/2026_09_08_lower61_endpoint_phase_reachability_certificate.py) — MATH-008 certificate
 - [`src/2026_09_08_dsd_native_61plus11_computation_certificate.py`](src/2026_09_08_dsd_native_61plus11_computation_certificate.py) — MATH-010 certificate
+- [`src/2026_09_08_dsd_complete_descriptor_cyclic_window_acceleration.py`](src/2026_09_08_dsd_complete_descriptor_cyclic_window_acceleration.py) — MATH-011 certificate
 
 DSD formal audits are indexed separately at:
 
@@ -287,5 +341,6 @@ Any new external paper needed as a calculation input is audited **before** it is
 - per-phase surviving-label cap `⇒` fixed globally excluded labels
 - full phase reachability at depth61 `⇒` arbitrary deeper-state reachability
 - `ADDRESS_LIFTED` phase `⇒` valid input for another address lift
-- DSD-native representation safety `⇒` new mathematical pruning
+- finite complete descriptor at depth72 `⇒` arbitrary-depth complete descriptor
+- computational acceleration `⇒` stronger Collatz theorem
 - route saturation `⇒` first-cell or Collatz closure
