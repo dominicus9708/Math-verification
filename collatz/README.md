@@ -144,33 +144,45 @@ Number of distinct exact 340-label survival masks as `y mod 2048` varies:
 
 Thus in the strongest low-surplus range `q61=39..43`, the endpoint phase `y mod 2048` cannot be discarded by a nontrivial exact coarse quotient.
 
-Also,
+### Lower-61 endpoint-phase reachability saturation
 
-`for each y, at most 47 labels survive`
+The actual universal-spine candidate language has exact reachable-phase cardinalities
 
-must **not** be upgraded to
+\[
+\#\operatorname{Reach}_{61}(q)=
+\begin{cases}
+2048,&39\le q\le58,\\
+1166,&q=59,\\
+58,&q=60,\\
+1,&q=61.
+\end{cases}
+\]
 
-`there exist 293 fixed globally bad labels`.
+For `q61=39,...,58`, every phase has an explicit ordinary-integer witness. For `q61=59,60,61`, the valid parity-word languages were exhaustively enumerated.
+
+This closes the proposed reachable-phase refinement of MATH-006/007 as **SATURATED**. In every range where the coefficient-only 11-bit sieve actually rejects labels (`q61=39,...,45`), all 2048 phases occur in the real candidate language. Therefore reachability sparsity cannot turn the pointwise masks into a fixed global block exclusion.
+
+The restricted high-`q` phase sets do not help this sieve because `q61>=46` already has the trivial all-340-survive coefficient mask through depth72.
 
 ## Current next frontier
 
-The active target is
+The 61+11 coefficient-only phase route is now audited to saturation. The next refinement must add a **new same-integer observable**, rather than further coarsening or restricting `(q61,y mod2048)`.
 
-\[
-\operatorname{Reach}_{61}\subset\{(q_{61},y\bmod2048)\}.
-\]
+Priority targets:
 
-We need the actual endpoint phases reachable by lower-61 universal-spine starts while preserving same-integer/root-minimality information.
+1. correction/address order information within one endpoint phase;
+2. endpoint/Hensel eligibility beyond depth72 while preserving the audited non-independence rule;
+3. an exact address-local invariant inside the `<2^35` adjacent-block halos.
 
-- If the reachable phase set is substantially smaller than all 2048 residues, the current transducer caps can become real block eliminations.
-- If all phases are reachable, that exposes the limit of the 61+11 route and prevents wasting effort on a false compression.
+The next calculation should test the cheapest of these refinements for exact deterministic pruning before a deeper state space is adopted.
 
 ## Canonical current documents
 
-- [`notes/2026-09-07-full-proof-architecture-analysis-and-status.md`](notes/2026-09-07-full-proof-architecture-analysis-and-status.md) — current proof architecture/status
+- [`notes/2026-09-07-full-proof-architecture-analysis-and-status.md`](notes/2026-09-07-full-proof-architecture-analysis-and-status.md) — proof architecture/status baseline
 - [`notes/2026-09-07-external-literature-complete-audit-and-citation-ledger.md`](notes/2026-09-07-external-literature-complete-audit-and-citation-ledger.md) — external literature citation ledger
 - [`notes/2026-09-07-first-cell-endpoint-q-lock-and-hensel-equivalence.md`](notes/2026-09-07-first-cell-endpoint-q-lock-and-hensel-equivalence.md) — endpoint/Hensel address theorem
-- [`src/first_cell_endpoint_q_lock_certificate.py`](src/first_cell_endpoint_q_lock_certificate.py) — exact q-lock certificate
+- [`notes/2026-09-08-lower61-endpoint-phase-reachability-and-route-saturation.md`](notes/2026-09-08-lower61-endpoint-phase-reachability-and-route-saturation.md) — current phase-reachability result and route saturation
+- [`src/2026_09_08_lower61_endpoint_phase_reachability_certificate.py`](src/2026_09_08_lower61_endpoint_phase_reachability_certificate.py) — exact constructive/exhaustive MATH-008 certificate
 
 DSD formal audits are indexed separately at:
 
@@ -216,4 +228,5 @@ claim
 - endpoint quotient and root-Hensel maximality as independent filters
 - local/candidate-language endpoint q-lock `⇒` arbitrary later-block Hensel maximality
 - per-phase surviving-label cap `⇒` fixed globally excluded labels
-- first-cell reduction `⇒` Collatz proof
+- full phase reachability at depth61 `⇒` arbitrary deeper-state reachability
+- route saturation `⇒` first-cell or Collatz closure
