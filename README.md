@@ -4,7 +4,7 @@
 
 ## 현재 작업
 
-- `collatz/`: Collatz 추측의 accelerated map에 대한 구조적 검증
+- [`collatz/`](collatz/README.md): Collatz 추측의 accelerated map에 대한 구조적 검증. 현재 상태·정본 문서·계산 최전선은 `collatz/README.md`에서 관리합니다.
 - `navier_stokes/`: 3차원 비압축성 Navier–Stokes 존재성·정칙성 도전을 위한 구형 영역 보조 테스트베드와 검증 파이프라인
 - 목표는 계산 결과를 증명으로 오인하지 않고, 기존 정리와 새로 도출한 보조정리 후보를 분리하는 것입니다.
 
