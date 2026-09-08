@@ -36,29 +36,24 @@ assert all(s[6] == 0 for s in shells)  # fixed-width endpoint overflow
 assert max(s[7] for s in shells) == 633
 assert max(s[8] for s in shells) == 54
 
-# Independent depth-61 facts from the first shell / cumulative q audit.
 MIN_DEPTH61_RIGHT = 703
 MAX_FAILING_BASE = 633
-# A failure in the 22-step gate based at 633 occurs by depth 655 at latest.
 LATEST_FAILURE_DEPTH = MAX_FAILING_BASE + 22
 assert LATEST_FAILURE_DEPTH == 655
 
-# Any right offset r>=703 cannot even enter the linear same-endpoint collision
-# halo before k=3r+1 >= 2110, while all audited coefficient-surviving states
-# fail by depth 655.
+# Any right offset r>=703 cannot enter the necessary collision halo before
+# k=3r+1 >= 2110, while all audited coefficient-surviving states fail by 655.
 MIN_HALO_ENTRY = 3 * MIN_DEPTH61_RIGHT + 1
 assert MIN_HALO_ENTRY == 2110
 assert LATEST_FAILURE_DEPTH < MIN_HALO_ENTRY
 
 # The small-depth companion certificate independently checks k<=60 and finds
 # zero jointly coefficient-surviving internal-boundary pairs.  For k>=61,
-# r<=702 is already absent from the depth-61 survivor language; r>=703 cannot
-# enter its necessary collision halo before all audited states have failed.
+# r<=702 is absent from the depth-61 survivor language; r>=703 cannot enter its
+# necessary collision halo before all audited states have failed.
 
-# Therefore the internal adjacent-block same-endpoint coupling mechanism is
-# excluded for every depth through the first universal crossing A0, within the
-# current universal-spine/coefficient-survival candidate scope.
-assert 3 * RSTAR + 1 > A0
+# Exact first-crossing halo arithmetic.
+assert 3 * RSTAR + 1 == A0 - 1
 assert (A0 - 1) // 3 == RSTAR
 
 print("PASS MATH-036")
