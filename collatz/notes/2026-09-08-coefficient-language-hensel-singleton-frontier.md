@@ -1,24 +1,27 @@
-# MATH-037 — coefficient-language Hensel collision frontier
+# MATH-037 — two-sided coefficient-language Hensel collision frontier
 
 ## Status
 
 - Collatz conjecture: `OPEN`
 - First universal Farey cell: `OPEN`
-- Result: `CONFIRMED / FIRST NON-VACUOUS HENSEL PRUNING IN COEFFICIENT LANGUAGE / FINITE EXACT`
-- Scope: coefficient-surviving parity prefixes under the frozen published-floor spine.
+- Result: `CONFIRMED / FIRST TWO-SIDED COEFFICIENT-LANGUAGE HENSEL COLLISION / FINITE EXACT`
+- Scope correction: **MATH-040 supersedes the former interpretation that this was the first non-vacuous root-Hensel pruning.**
 
-## 1. Why this calculation was needed
+## 1. Corrected scope
 
-MATH-013 showed that unrestricted symbolic Hensel classes collide already at depth 24, but the coefficient-surviving candidate language is much thinner.
+This calculation requires **both** colliding Hensel-class representatives to satisfy the frozen published-floor coefficient-survival condition.
 
-An exact external-partition scan of that language found:
+Within that two-sided language, the exact result is:
 
 - no Hensel class collision through depth 33;
-- exactly five collision classes at depth 34.
+- exactly five collision classes at depth 34;
+- all five lie at `q=22`.
 
-The new certificate independently re-extracts all five depth-34 collisions from the minimal `q=22` layer.
+This remains a valid finite structural result.
 
-Thus root-Hensel maximality is vacuous on the coefficient-surviving language through depth 33 and becomes non-vacuous for the first time at depth 34.
+However, actual root-Hensel maximality is asymmetric: the candidate must be coefficient-surviving, while its competitor may be an arbitrary parity word in the same class. MATH-040 shows that this one-sided pruning already begins at depth 6.
+
+Therefore this file must not be cited as the first global Hensel-pruning frontier.
 
 ## 2. Exact depth-34 structure
 
@@ -34,13 +37,13 @@ The Hensel class key is
 \kappa(w)=(q,r(w)).
 \]
 
-At depth 34 all five collisions lie at
+At depth 34 all five two-sided collisions lie at
 
 \[
 \boxed{q=22}.
 \]
 
-The five exact class residues are
+Their exact class residues are
 
 \[
 \boxed{
@@ -55,13 +58,13 @@ The five exact class residues are
 Every collision has
 
 \[
-\boxed{\Delta h=4}.
+\boxed{\Delta h=4},
 \]
 
-Equivalently, the two corrections in each class differ by
+so
 
 \[
-\boxed{4\cdot3^{22}}.
+C_{\rm high}-C_{\rm low}=4\cdot3^{22}.
 \]
 
 ## 3. Same-integer interpretation
@@ -72,11 +75,9 @@ For a length-34 prefix,
 T^{34}(N)=\frac{3^{22}N+C}{2^{34}}.
 \]
 
-If the larger correction exceeds the smaller one by `4*3^22`, then the larger-correction competitor starting from `N-4` reaches the same depth-34 endpoint as the smaller-correction word starting from `N`.
+Thus the larger-correction representative at start `N-4` reaches the same endpoint as the lower-correction representative at start `N`.
 
-Because the first-cell starts are all far above 4, root minimality makes the smaller-correction representative inadmissible.
-
-The five excluded ordinary-start residue classes modulo `2^34` are
+The five lower-correction ordinary-start residue classes modulo `2^34` are
 
 \[
 \boxed{
@@ -88,41 +89,41 @@ The five excluded ordinary-start residue classes modulo `2^34` are
 }.
 \]
 
-For each one the competing residue is exactly four smaller.
-
-Therefore the first non-vacuous Hensel pruning in the actual coefficient language is not merely symbolic: it excludes five concrete low-34-bit ordinary-start residue classes throughout the current first-cell window.
+Those five classes are genuinely excluded; the scope correction changes only the claim that they were the **first** Hensel exclusions.
 
 ## 4. DSD interpretation
 
-- `D`: the Hensel class and ordinary-start residue are both retained.
-- `R`: exact depth-34, exact `q=22`, exact modulo `3^22` and `2^34` data.
-- `S`: only coefficient-surviving words are admitted.
-- `E`: the lower-correction member of each of the five classes is excluded by a legal positive credit of 4.
-- `T`: class collision is translated back to the same ordinary-integer endpoint identity.
-- `C`: the targeted q=22 scan reproduces all five classes reported by the prior full external-partition audit.
-- `N`: `ESTABLISHED_WITHIN_SCOPE / FINITE EXACT`.
-- `O`: five low-34-bit residue classes are removed; the first cell remains open.
+- `D`: two coefficient-surviving representatives in one Hensel class.
+- `R`: exact depth 34, `q=22`, modulo `3^22` and modulo `2^34`.
+- `S`: symmetric coefficient-language selection on both sides.
+- `E`: lower-correction member excluded by credit 4.
+- `T`: exact same-endpoint transfer to start `N-4`.
+- `C`: five classes independently reproduced by the targeted q=22 certificate.
+- `N`: `ESTABLISHED_WITHIN_SCOPE / FINITE EXACT / SCOPE REVISED BY MATH-040`.
+- `O`: first two-sided coefficient-language collision frontier; **not** the first one-sided root-Hensel pruning frontier.
 
-## 5. What this changes about the calculation direction
+## 5. Calculation-direction revision
 
-A full class-max DP grows too quickly: coefficient-surviving state counts already reach
+The sparse two-sided collision route remains useful for studying internal collision geometry, but it is no longer the primary root-Hensel pruning engine.
+
+The primary route after MATH-040 is
 
 \[
-41{,}347{,}483
+\boxed{
+\text{coefficient-surviving candidate}
+\longrightarrow
+\text{unrestricted Hensel class maximum}.
+}
 \]
 
-at depth 32.
-
-But actual Hensel collisions are absent through 33 and only five appear at 34. Hence the efficient direction is no longer to materialize every Hensel class. Instead, calculation should track **collision events and their descendants**, while separately detecting genuinely new even/odd class intersections.
-
-This is the sparse Hensel-event route.
+MATH-040 and later targeted reverse-Hensel work should control candidate-exclusion claims.
 
 ## 6. Prohibited upgrades
 
-- Five excluded residues modulo `2^34` do not imply the first cell is empty.
-- Sparse collisions at depth 34 do not imply collisions stay sparse at arbitrary depth.
-- A Hensel class collision is candidate-excluding only when its positive ordinary-start credit is legal; here the credit is exactly 4 and is legal in the first-cell range.
-- The absence of collisions through depth 33 is a finite exact result, not an asymptotic theorem.
+- depth 34 = first actual Hensel pruning — **SUPERSEDED / PROHIBITED**;
+- absence of two-sided collisions through 33 ⇒ Hensel maximality vacuous — **PROHIBITED**;
+- five excluded residues ⇒ first cell empty — **PROHIBITED**;
+- sparse two-sided events ⇒ sparse one-sided domination — **PROHIBITED**.
 
 ## Reproducibility
 
@@ -130,8 +131,16 @@ Certificate:
 
 `collatz/src/2026_09_08_coefficient_hensel_depth34_collision_certificate.cpp`
 
-Certificate commit:
+Original certificate commit:
 
 `1da66a0245af8b8baa3d2c20ab5ceecf47785593`
+
+Selection-scope correction:
+
+`collatz/notes/2026-09-08-one-sided-root-hensel-selection-correction.md`
+
+MATH-040 note commit:
+
+`a2a5c1dd2e9f712fd81b30b327fd17a814c5e792`
 
 The global Collatz status remains `OPEN`.
