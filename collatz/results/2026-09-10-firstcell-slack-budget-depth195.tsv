@@ -1,0 +1,24 @@
+slack_event_budget_leq	depth72_window_prefixes	coefficient_survivors_through_depth195	nested_hensel_survivors_through_depth72_among_coeff195	status
+0	1	0	0	EXACT
+1	5	0	0	EXACT
+2	47	0	0	EXACT
+3	585	0	0	EXACT
+4	4484	0	0	EXACT
+5	27959	7	6	EXACT_FINITE
+
+# first-cell ordinary-start window used:
+# 2^71 < N < 1364*2^61
+# positive-slack event means an odd event with u=m(q)-d > 0 before the odd step.
+# Therefore every same-integer path in this window that remains coefficient-valid through depth195 has >=5 positive-slack odd events in its first 72 steps.
+# Since Omega_q>1/2 and u>=1 implies (1-2^-u)>=1/2, each such event contributes >1/12 to S_*-S.
+# Hence the exact finite implication gives S_*-S > 5/12 for the audited first-72 prefix / depth-195 continuation scope.
+
+# budget-5 coefficient survivors; all have exactly 5 positive-slack events in first72
+address_top11	N	penalty_first72	nested_hensel_through72	first_hensel_failure_if_any
+1060	2444527107741509901307	0.5992406265840207	YES	
+1027	2370124790779996953595	0.7121400771172242	YES	
+1284	2961350309188690926587	0.6265441575134291	YES	
+1133	2614662758027828756219	0.6294469184005093	NO	56
+1275	2940293571120906010363	0.6552988757966443	YES	
+1112	2564127977755122686715	0.6435434441434796	YES	
+1289	2972242381612692366171	0.7207117658264791	YES	
