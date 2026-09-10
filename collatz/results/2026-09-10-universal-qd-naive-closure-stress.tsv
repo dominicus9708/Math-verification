@@ -1,0 +1,9 @@
+q	d	initial_boundary_slack	D_universal_recurrence	peak_subset_states	viability_memo_states	status
+26	15	0	355002462	44095	1352979	MATH051_REFERENCE
+28	16	0	2374236159	159979	3149780	EXPLORATORY_EXACT_RECURRENCE_NO_INDEPENDENT_ORACLE
+30	17	0				STOPPED_BY_RESOURCE_LIMIT_NO_RESULT
+
+# m(q)=floor(q*log_2(3/2)); both d15/q26 and d16/q28 start at boundary slack m(q)-d=0.
+# The d16 run shows that the naive merged count-state representation has not stabilized to a d-independent finite state space.
+# The d17 stopped run contributes no mathematical value and no inferred count.
+# This diagnostic motivates switching from arbitrary-d counting closure to normalized/path-existence analysis.
