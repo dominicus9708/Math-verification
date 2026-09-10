@@ -1,0 +1,11 @@
+q	d	D_universal_chi	D_MATH051_reference	peak_subset_states	viability_memo_states	status
+30	10	54028926	54028926	337	87775	MATCH
+29	11	124678824	124678824	1049	172237	MATCH
+29	12	361499293	361499293	3227	339746	MATCH
+28	13	586723760	586723760	9835	594017	MATCH
+27	14	703863494	703863494	28455	1000342	MATCH
+26	15	355002462	355002462	44095	1352979	MATCH
+
+# The universal recurrence uses q as the gap horizon and d only as the initial state (a,b,chi)=(d,d,0).
+# No fixed-d deadline array L[j] or blocksum carry update is needed.
+# This is a regression/certificate of the algebraic reparameterization, not an arbitrary-d closure theorem.
