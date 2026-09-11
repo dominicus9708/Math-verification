@@ -1,0 +1,17 @@
+L	phase_intervals	compatible_phase_address_intervals	minimum_factor_start_residue	q0_phase_start_residue	status
+73	74	15	186133398610940947105	4697939311072332635131	EXACT
+74	75	7	285203735579433346939	4697939311072332635131	EXACT
+75	76	5	285203735579433346939	23587405242550913489915	EXACT
+76	77	4	285203735579433346939	23587405242550913489915	EXACT
+77	78	2	338019242168217300075	99145268968465236909051	EXACT
+78	79	2	338019242168217300075	250260996420293883747323	EXACT
+79	80	0	338019242168217300075	552492451323951177423867	EXACT_BARRIER
+
+# Scope: u=0 boundary anchors before the first universal crossing, current first-cell ordinary-start window 2^71 < N < 1364*2^61.
+# At u=0, endpoint y=(N+S)/Omega with 1/2<Omega<=1 and 0<=S<q/3<=72057431991/3, so y<2^73.
+# For L>=73, y is therefore equal to the unique length-L canonical factor start residue, not merely congruent to it mod 2^L.
+# L=79 has no phase interval whose factor residue and same phase can satisfy the first-cell N-window necessary interval.
+# Therefore every zero-penalty mechanical segment beginning at a u=0 anchor has length <=78 in this scope.
+# Paid-cluster consequence: if P is the number of positive-slack odd events in a coefficient-valid prefix of length K, K <= 81 P + 78.
+# Thus P >= ceil((K-78)/81), and cumulative slack penalty > P/12.
+# At K=A0-1=114208327603: P >= 1409979353 and penalty > 1409979353/12 = 117498279.41666...
