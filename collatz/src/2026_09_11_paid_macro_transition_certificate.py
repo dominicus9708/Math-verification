@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
 """
-MATH-058 exact paid-macro transition certificate.
+MATH-058R exact paid-macro transition certificate.
 
-This refines MATH-057.  At a u=0 boundary anchor, a zero-penalty mechanical
-segment can end in a paid odd event only if the actual same-integer endpoint
-parity disagrees with the mechanically required even step while coefficient
-admissibility still holds.
+Reproducibility correction (2026-09-11): the original MATH-058 certificate
+emitted one paid-exit record for every parity-compatible dyadic lift t, then
+one_paid_outcomes() ignored that stored t and re-enumerated the full lift
+interval.  This duplicated source cylinders.
 
-The certificate uses exact rational phase intervals and every dyadic endpoint
-lift allowed by the current first-cell ordinary-start window.
+This corrected version stores each paid-exit phase/address source exactly once
+and resolves the lift congruence only in one_paid_outcomes().  The canonical
+MATH-058 table is restored exactly: L=69:(20,1), 70:(4,0), 71:(4,0),
+72:(0,0).  The mathematical conclusions of MATH-058 are unchanged; this is a
+certificate-state bookkeeping repair.
 
-Canonical finite results used by the note:
-  * paid exit after a zero-cost segment is possible at L=72 but not for L>=73;
-  * a cluster containing exactly one paid odd event is possible through L=71
-    but not at L=72;
-  * among one-paid macros, an outcome capable of reaching another paid macro
-    exists at L=69, but none exists at L=70 or L=71.
-
-These are over-approximating necessary-state calculations: ruling out a state
-in this superset is safe.  Finite exact arithmetic only.  Collatz remains OPEN.
+Finite exact arithmetic only. Collatz remains OPEN.
 """
 from fractions import Fraction
 
@@ -81,14 +76,10 @@ def start_residue(bits):
 
 
 def lift_bounds(L: int, R: int, lo: Fraction, hi: Fraction):
-    """All t with y=R+t*2^L satisfying the phase/window necessary bounds."""
     step = 1 << L
-
-    # Need hi*y > LO.
     x = (Fraction(LO, 1) / hi - R) / step
     tmin = max(0, x.numerator // x.denominator + 1)
 
-    # Need lo*y < HI+Q0/3.
     x2 = (U / lo - R) / step
     if x2.numerator >= 0:
         ceilx = (x2.numerator + x2.denominator - 1) // x2.denominator
@@ -104,8 +95,19 @@ def phase_multiplier(qinc: int, omega: Fraction):
     return Fraction(2 ** (qinc + dm), 3**qinc)
 
 
-def paid_exit_outcomes(L: int):
-    """All over-approximate states where the next actual bit is a paid odd."""
+def first_with_parity(tmin: int, tmax: int, parity: int):
+    t = tmin if (tmin & 1) == parity else tmin + 1
+    return t if t <= tmax else None
+
+
+def paid_exit_sources(L: int):
+    """Unique phase/address sources for which a paid exit exists.
+
+    The older certificate emitted one record for every parity-compatible lift t,
+    while the downstream one-paid routine ignored that t and re-enumerated the
+    full lift interval.  That duplicated source cylinders.  Here one source
+    cylinder is retained exactly once; t is resolved only in one_paid_outcomes.
+    """
     out = []
     for lo, hi in phase_intervals(L):
         omega = (lo + hi) / 2
@@ -123,24 +125,18 @@ def paid_exit_outcomes(L: int):
         if tmin > tmax:
             continue
 
-        # Next endpoint parity must be odd.  Since 3^q is odd, parity of
-        # E0+t*3^q is parity(E0+t).
         wanted = (1 - E0) & 1
-        t = tmin if (tmin & 1) == wanted else tmin + 1
-        while t <= tmax:
-            out.append((lo, hi, R, t, E0, qinc))
-            t += 2
+        if first_with_parity(tmin, tmax, wanted) is not None:
+            out.append((lo, hi, R, E0, qinc))
     return out
 
 
 def one_paid_outcomes(L: int):
-    """All exact lift classes that return to u=0 after exactly one paid odd."""
     out = []
-    for lo, hi, R, _t0, E0, qinc in paid_exit_outcomes(L):
+    for lo, hi, R, E0, qinc in paid_exit_sources(L):
         omega = (lo + hi) / 2
         mult = phase_multiplier(qinc, omega)
 
-        # Split by the Beatty increment of the paid odd event.
         cut = Fraction(3, 4) / mult
         cuts = [lo]
         if lo < cut < hi:
@@ -154,9 +150,6 @@ def one_paid_outcomes(L: int):
             if tmin > tmax:
                 continue
 
-            # For exactly one paid odd, if eps=0 we need E==1 mod4;
-            # if eps=1 we need E==5 mod8, so that the following 1 or 2
-            # actual steps are the required even steps returning u to zero.
             mod = 4 if eps == 0 else 8
             target = 1 if eps == 0 else 5
             coeff = pow(3, qinc, mod)
@@ -209,24 +202,19 @@ def can_reach_next_paid(state, Lmax: int = 12):
         j = 0
         while j < Lmax and abits[j] == mbits[j]:
             j += 1
-        if j < Lmax:
-            # actual odd while mechanical requires even => next paid odd.
-            if abits[j] == 1 and mbits[j] == 0:
-                return True
+        if j < Lmax and abits[j] == 1 and mbits[j] == 0:
+            return True
     return False
 
 
 def main():
-    # Generic paid exit: 72 is possible, >=73 is not.
-    assert len(paid_exit_outcomes(72)) > 0
+    assert len(paid_exit_sources(72)) > 0
     for L in range(73, 80):
-        assert len(paid_exit_outcomes(L)) == 0, L
+        assert len(paid_exit_sources(L)) == 0, L
 
-    # Exactly one paid odd can return to u=0 through L=71, but not L=72.
     assert len(one_paid_outcomes(71)) == 4
     assert len(one_paid_outcomes(72)) == 0
 
-    # Full lift audit for the repeatable one-paid macro boundary.
     expected = {
         69: (20, 1),
         70: (4, 0),
@@ -241,7 +229,14 @@ def main():
         )
         print(L, len(states), next_paid)
 
-    print("PASS MATH-058 exact paid-macro transition certificate")
+    danger = [s for s in one_paid_outcomes(69) if can_reach_next_paid(s)]
+    assert danger == [(
+        5_344_714_831_606_523_422_699,
+        Fraction(8_388_608, 14_348_907),
+        Fraction(16, 27),
+    )]
+    print("unique_L69_next_paid", danger[0])
+    print("PASS MATH-058R unique-source paid-macro certificate")
 
 
 if __name__ == "__main__":
