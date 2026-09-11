@@ -1,0 +1,19 @@
+zero_cost_length	one_paid_macro_outcomes	next_paid_reachable_outcomes	status
+69	20	1	EXACT
+70	4	0	EXACT
+71	4	0	EXACT
+72	0	0	EXACT
+
+# Generic paid exit after a zero-cost segment is possible at L=72 but impossible for L>=73 in the audited first-cell phase/address superset.
+# Exactly-one-paid clusters can return to u=0 through L=71, but not at L=72.
+# Among one-paid outcomes, a state that can reach another paid macro before coefficient failure exists at L=69, but not at L=70 or 71.
+# Therefore a repeatable internal one-paid macro has zero-cost segment length <=69.
+# Conservative global accounting:
+# - internal one-paid block <=69 + 3 =72 steps for 1 paid odd;
+# - internal r>=2 paid block <=72 + (2r+1) <=72r steps;
+# - first-cluster special-phase overhead <=9;
+# - last-cluster nonrepeatable overhead <=2;
+# - final zero-cost tail <=78.
+# Hence K <=72 P +89, where P is the number of positive-slack odd events.
+# Therefore cumulative penalty > ceil((K-89)/72)/12.
+# At K=A0-1=114208327603: P>=1586226772 and penalty>132185564.333333...
