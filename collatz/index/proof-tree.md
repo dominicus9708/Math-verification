@@ -191,18 +191,39 @@ Exact compact-carry/address closure.
 
 `z>=30`; 300 actual initial danger roots; 882,659,777 attempts; 0 compatible; minimum rejected gap 548.
 
+Before extending the frontier, the same exact recreated stage-A/stage-B implementation reproduced all five published MATH-103 audit totals exactly: attempts, compatible count, terminal-parent count, peak compact-state count, and minimum rejected gap.
+
+### MATH-104 — t=9 — `CLOSED`
+
+`z>=27`; 373 actual initial danger roots; 628,901,495 terminal danger-edge attempts; 0 address-compatible danger edges; 20,807,725 terminal-parent occurrences; peak 3,272,272; minimum rejected gap 7.
+
+### MATH-105 — t=8 — `CLOSED`
+
+`z>=24`; 428 actual initial danger roots; 358,489,331 attempts; 0 compatible; 11,364,281 terminal-parent occurrences; peak 1,526,834; minimum rejected gap 30.
+
+### MATH-106 — t=7 — `CLOSED WITH EXACT BOUNDARY AUDIT`
+
+`z>=21`; 486 actual initial danger roots; 161,189,096 attempts; 0 compatible; 4,943,726 terminal-parent occurrences; peak 555,399.
+
+The minimum rejected residue gap is exactly 0 at one root. This is not a compatible edge: terminal compatibility is `r<M`, while the boundary witness has exactly `r=M`. Therefore the source-family index remains out of range and the edge is rejected.
+
 ## Current endpoint
 
+The formerly unresolved detailed one-paid band
+
 ```text
-unresolved detailed one-paid band = 7 <= t <= 9
+7 <= t <= 9
 ```
 
-Natural next sequence:
+is now closed on the audited Bellman/address criterion.
 
-1. build the exact phase-danger corridor for `t=9`;
-2. replay it with the finite compact carry/address state;
-3. test whether any Bellman-danger terminal edge is same-integer compatible;
-4. if closed, repeat for `t=8` and `t=7`;
-5. after the one-paid band is closed, audit the remaining paid-count layers and the complete first-cell implication chain separately.
+The next proof-facing work is **not** to declare first-cell closure. It is to audit and connect the remaining paid-count layers and then audit the complete implication chain from those layers back to the first universal cell.
 
-Closing this finite band alone is not a Collatz proof.
+Closing the one-paid band alone is not first-cell emptiness and is not a Collatz proof.
+
+## Current continuation order
+
+1. inventory every remaining paid-count layer not discharged by the one-paid analysis;
+2. state the exact dependency/coverage relation between MATH-096--106 and those layers;
+3. identify any uncovered ordinary-integer address state rather than filling it with a coarse quotient;
+4. only after those layers close, audit the complete first-cell implication chain separately.
