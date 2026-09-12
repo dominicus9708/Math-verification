@@ -10,8 +10,8 @@ It does **not** move, delete, or rewrite historical `notes/`, `src/`, `results/`
 - First universal Farey cell: `OPEN`
 - Proof architecture: `PARTIALLY_CONFIRMED`
 - Published finite-verification baseline: `B_pub = 2^71`
-- Current detailed one-paid frontier: `7 <= t <= 9`
-- Natural next order: `t=9 -> t=8 -> t=7`
+- Formerly unresolved detailed one-paid band `7 <= t <= 9`: `CLOSED` by MATH-104--106 on the exact Bellman/address criterion
+- Current next task: audit the remaining paid-count layers and then the complete first-cell implication chain
 
 Current first universal-cell window:
 
@@ -46,4 +46,6 @@ GitHub remains authoritative for exact calculations, certificates, outputs, and 
 
 ## Claim boundary
 
-No finite certificate in this directory is promoted to a universal Collatz proof. In particular, closing all currently open one-paid macro depths would still require separate treatment of the remaining paid-count layers and the full first-cell implication chain.
+MATH-104--106 close the previously unresolved detailed one-paid depths `t=9,8,7` under the audited compact-carry/Bellman address criterion. This does **not** by itself close all paid-count layers, the first universal Farey cell, or the Collatz conjecture.
+
+The next proof obligation is to determine exactly which paid-count layers remain outside the coverage of the one-paid chain and to connect any future closures through a separately audited first-cell implication chain.
