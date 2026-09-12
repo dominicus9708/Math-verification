@@ -2,141 +2,103 @@
 
 Date: 2026-09-12
 
-Status: `EXACT STRUCTURAL REDUCTION / DANGER-KERNEL GENERATOR ADDED / NUMERICAL KERNEL SUMMARY NOT YET FROZEN`
+Status: `EXACT NEGATIVE RESULT / PHASE-ONLY RESOLUTION KERNEL SATURATES`
 
-## 1. Why macro depth can be removed
+## 1. Construction
 
-MATH-093 replaces each exact family by the safe dyadic envelope
-
-\[
-0\le s<2^R.
-\]
-
-Every multi-edge of resolution `h<=R` then updates
+MATH-093 replaces the exact source family by the safe dyadic envelope
 
 \[
-\boxed{R'=R-h}
+0\le s<2^R,
 \]
 
-exactly and contributes reduced cost exactly equal to its positive penalty.
-Therefore all possible negative reduced cost is localized to the final edge.
-
-The first one-paid macro has resolution at least 3, and the first-cell source window has width below `2^72`.  Hence the first unresolved envelope after one macro satisfies
+so every multi-edge of resolution `h<=R` updates
 
 \[
-\boxed{R\le69.}
+R'=R-h
 \]
 
-Thus the remaining search lives on a finite resolution DAG `R=0,...,69`.
+exactly and contributes only positive penalty.
+The initial unresolved envelope satisfies `R<=69`.
 
-## 2. Danger kernel
-
-Let
-
-\[
-D_R\subset(1/2,1)
-\]
-
-be the set of current phases from which the address-forgotten dyadic envelope can reach a locally negative terminal edge.
-
-For one exact phase edge `e` with
+Define `D_R` as the current phases from which the address-forgotten envelope can reach a locally negative terminal edge.  With a merged phase edge
 
 \[
 (h,I_e,\rho_e,c_e),
 \]
 
-where
+the exact over-approximation is
 
 \[
-\Omega_{out}=\rho_e\Omega,
-\qquad
-p_e=c_e\Omega_{out},
-\]
-
-the safe over-approximation obeys
-
-\[
-\boxed{
 D_R=
 \bigcup_{h\le R}
 \left(I_e\cap\rho_e^{-1}D_{R-h}\right)
 \cup
 \bigcup_{h>R}
-\left\{
-\Omega\in I_e:
- c_e\rho_e\Omega<\lambda(h-R)
-\right\}.
-}
+\left\{\Omega\in I_e:c_e\rho_e\Omega<\lambda(h-R)\right\}.
 \]
 
-The first term propagates danger through a multi-edge.  The second term is the local terminal phase-address wedge with address temporarily forgotten.
+The recursion is acyclic because every one-paid edge has `h>=3`.
 
-## 3. Acyclicity
+## 2. Exact numerical result
 
-Every canonical one-paid edge satisfies
-
-\[
-h\ge3.
-\]
-
-Therefore every recursive reference uses
-
-\[
-R-h<R.
-\]
-
-The kernel is computed bottom-up with no cycle and no macro-depth state.
-
-## 4. Safety direction
-
-The kernel deliberately forgets exact dyadic address compatibility and all positive penalties accumulated before the terminal edge.
-Both omissions enlarge the danger language.
-
-Hence
+Using the canonical 126 merged phase-edge components from MATH-086 and exact `Fraction` arithmetic gives
 
 \[
 \boxed{
-\text{actual dangerous phase at resolution }R
-\subseteq D_R.
+D_R=(1/2,1)
+\qquad
+\text{for every }R=0,1,\ldots,69.
 }
 \]
 
-A phase outside `D_R` is therefore Bellman-safe for every actual same-integer address state with that resolution.
-A phase inside `D_R` is only a candidate and must still pass the MATH-090 carry/address test.
+Thus the phase-only resolution kernel is completely saturated.
 
-## 5. Consequence for the old frontier
+## 3. Interpretation
 
-The previous unresolved macro-depth band
-
-\[
-7\le t\le16
-\]
-
-is now better represented as
+This is a useful negative result.
+It shows that the abstraction
 
 \[
-\boxed{
-R\in\{0,1,\ldots,69\}
-\quad+\quad
-\Omega\in D_R
-\quad+\quad
-\text{exact carry/address state}.
-}
+(R,\Omega)
 \]
 
-This is a stronger structural reduction because the same `D_R` kernel covers every macro depth simultaneously.
+alone is too coarse once both of the following are discarded:
 
-## 6. Next calculation
+1. accumulated positive penalty from earlier multi-edges;
+2. exact dyadic carry/address compatibility.
 
-The next high-value step is:
+Every phase remains connected, in the enlarged language, to some locally dangerous terminal.
+Therefore a successful depth-free quotient must preserve at least one additional proof-facing channel.
 
-1. execute and freeze the exact interval unions for all `D_R`;
-2. intersect each actual first-macro envelope with `D_R`;
-3. propagate only those surviving danger cells through the MATH-092 normalized 2-adic transducer;
-4. apply MATH-090 low-residue/carry valuation at terminal edges.
+## 4. What is *not* implied
 
-If this closes, the whole one-paid Bellman language is closed without separately certifying depths 7 through 16.
+The saturation
 
-Generator:
+\[
+D_R=(1/2,1)
+\]
+
+does not mean every actual source state is dangerous.
+The kernel deliberately forgets same-integer address information and earlier paid penalty, so it contains many fictitious paths.  MATH-088 already gives a concrete example where every phase-danger path at depth 17 is killed by exact dyadic address incompatibility.
+
+## 5. Revised next target
+
+Do **not** continue with the bare `(R,Omega)` kernel.
+The next quotient must retain one of:
+
+- accumulated penalty coefficient/current-phase Bellman credit;
+- MATH-090 carry valuation / MATH-092 normalized 2-adic address;
+- or a controlled combination of both.
+
+The strongest current candidate is a product state of
+
+\[
+\boxed{(R,\Omega,\text{carry/address credit})}
+\]
+
+with the terminal MATH-089 phase-address wedge.
+
+Reproducibility:
 
 `collatz/src/2026_09_12_math094_resolution_indexed_danger_kernel.py`
