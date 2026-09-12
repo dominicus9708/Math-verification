@@ -24,8 +24,29 @@ GitHub raw notes, source files, result tables, and commit history are the author
 | 2026-09-13 | MATH-104 | `t=9` compact-carry closure | `collatz/src/2026_09_13_math104_106_t7_t9_phase_automaton_export.py --target 9`; generic verifier `PREFIX=t9 TARGET=9 ZMIN=27` | CLOSED |
 | 2026-09-13 | MATH-105 | `t=8` compact-carry closure | same exporter `--target 8`; generic verifier `PREFIX=t8 TARGET=8 ZMIN=24` | CLOSED |
 | 2026-09-13 | MATH-106 | `t=7` compact-carry closure and exact boundary audit | same exporter `--target 7`; generic verifier `PREFIX=t7 TARGET=7 ZMIN=21` | CLOSED; one rejected `r=M` boundary witness |
+| 2026-09-13 | MATH-107 | exact `r=13` multi-paid workload and representation audit | `collatz/src/2026_09_13_math107_r13_workload_audit.py`; `collatz/results/2026-09-13-math107-r13-workload-audit.tsv`; `collatz/notes/2026-09-13-math107-r13-workload-and-representation-pivot.md` | MAINLINE PIVOT; `r=13` OPEN |
 
 Where a precise source filename is not repeated in this index, the corresponding dated MATH note is the authoritative pointer. Do not invent a filename from an ID when the exact repository path has not been verified.
+
+## MATH-107 exact r=13 workload gate
+
+The unchanged MATH-065 classifier gives
+
+```text
+1035 = 157 cost-safe + 483 singleton-resolution + 395 critical cells.
+```
+
+Exact enumeration of every non-safe cell gives:
+
+```text
+branch nodes                 15,364,524
+negative AP cylinders         1,959,535
+represented occurrences      76,391,629,325
+max AP multiplicity             687,142,557
+occupied multiplicity intervals          276
+```
+
+The heavy tail is material to the representation choice: only `8,414` cylinders have multiplicity at least `10^6`, but they encode `62,567,007,204` ordinary occurrences. MATH-107 is therefore a workload/representation pivot, not an `r=13` closure certificate.
 
 ## MATH-103 regression gate before frontier extension
 
@@ -127,6 +148,6 @@ Every new proof-facing result should record:
 
 ## Current next slot
 
-The previously reserved MATH-104 slot is now occupied by the exact `t=9` closure, followed by MATH-105 (`t=8`) and MATH-106 (`t=7`).
+MATH-107 is assigned to the exact `r=13` workload/representation audit. It does not close `r=13`.
 
-No MATH-107 claim is assigned yet. The next step is first to isolate and audit the remaining paid-count layers and the complete first-cell implication chain. An ID should be assigned only after the exact next claim is stated.
+The next proof-facing task is to construct and regression-test an exact fragmentation-aware r=13 propagation representation, preserving ordinary-integer address information. Only after that representation is audited should an `r=13` closure attempt be promoted to the next MATH claim.
