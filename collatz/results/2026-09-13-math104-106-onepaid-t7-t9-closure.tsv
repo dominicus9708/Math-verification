@@ -1,0 +1,4 @@
+math_id	target	zmin	actual_danger_roots	phase_transitions	phase_terminal_rows	phase_ids	danger_edge_attempts	address_compatible	terminal_parent_occurrences	max_within_root_peak	min_rejected_gap	audit_note
+MATH-104	9	27	373	39902	32732	155	628901495	0	20807725	3272272	7	strict_positive_rejected_gap
+MATH-105	8	24	428	41916	35844	155	358489331	0	11364281	1526834	30	strict_positive_rejected_gap
+MATH-106	7	21	486	42151	39121	155	161189096	0	4943726	555399	0	one_exact_boundary_r_equals_M_still_rejected_because_compatibility_requires_r_less_than_M
