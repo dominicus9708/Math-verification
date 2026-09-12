@@ -21,20 +21,46 @@ GitHub raw notes, source files, result tables, and commit history are the author
 | 2026-09-13 | MATH-101 | `t=12` compact-carry closure | `collatz/src/2026_09_13_math101_t12_phase_automaton_export.py`; `collatz/src/2026_09_13_math101_t12_compact_carry_shard.cpp` | CLOSED |
 | 2026-09-13 | MATH-102 | `t=11` compact-carry closure | `collatz/src/2026_09_13_math102_t11_phase_automaton_export.py`; `collatz/src/2026_09_13_math102_generic_compact_carry_shard.cpp` | CLOSED |
 | 2026-09-13 | MATH-103 | `t=10` compact-carry closure | `collatz/src/2026_09_13_math103_t10_phase_automaton_export.py`; MATH-102 generic verifier with `PREFIX=t10`, `TARGET=10`, `ZMIN=30` | CLOSED |
+| 2026-09-13 | MATH-104 | `t=9` compact-carry closure | `collatz/src/2026_09_13_math104_106_t7_t9_phase_automaton_export.py --target 9`; generic verifier `PREFIX=t9 TARGET=9 ZMIN=27` | CLOSED |
+| 2026-09-13 | MATH-105 | `t=8` compact-carry closure | same exporter `--target 8`; generic verifier `PREFIX=t8 TARGET=8 ZMIN=24` | CLOSED |
+| 2026-09-13 | MATH-106 | `t=7` compact-carry closure and exact boundary audit | same exporter `--target 7`; generic verifier `PREFIX=t7 TARGET=7 ZMIN=21` | CLOSED; one rejected `r=M` boundary witness |
 
 Where a precise source filename is not repeated in this index, the corresponding dated MATH note is the authoritative pointer. Do not invent a filename from an ID when the exact repository path has not been verified.
 
+## MATH-103 regression gate before frontier extension
+
+Before accepting MATH-104--106, the recreated exact stage-A/stage-B implementation was run again at `t=10`. It reproduced the existing MATH-103 totals exactly:
+
+- danger-edge attempts: `882,659,777`;
+- address-compatible: `0`;
+- terminal-parent occurrences: `30,581,400`;
+- peak compact-state count within one root: `5,537,363`;
+- minimum rejected residue gap: `548`.
+
+This regression is an implementation-continuity check; it does not enlarge the theorem scope.
+
 ## Finite closure audit figures
 
-| ID | Macro depth | Necessary danger threshold | Danger-edge attempts | Address-compatible danger edges | Minimum rejected residue gap |
-|---|---:|---:|---:|---:|---:|
-| MATH-097 | 16 | `z>=48` | 45,094,414 | 0 | 197,239,627 |
-| MATH-100 | 13 | `z>=39` | 622,022,028 | 0 | 83,441 |
-| MATH-101 | 12 | `z>=36` | 886,709,993 | 0 | 1,794 |
-| MATH-102 | 11 | `z>=33` | 991,302,455 | 0 | 514 |
-| MATH-103 | 10 | `z>=30` | 882,659,777 | 0 | 548 |
+| ID | Macro depth | Necessary danger threshold | Actual danger roots | Danger-edge attempts | Address-compatible danger edges | Terminal-parent occurrences | Peak | Minimum rejected residue gap |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| MATH-097 | 16 | `z>=48` | — | 45,094,414 | 0 | — | — | 197,239,627 |
+| MATH-100 | 13 | `z>=39` | — | 622,022,028 | 0 | — | — | 83,441 |
+| MATH-101 | 12 | `z>=36` | — | 886,709,993 | 0 | — | — | 1,794 |
+| MATH-102 | 11 | `z>=33` | — | 991,302,455 | 0 | — | — | 514 |
+| MATH-103 | 10 | `z>=30` | 300 | 882,659,777 | 0 | 30,581,400 | 5,537,363 | 548 |
+| MATH-104 | 9 | `z>=27` | 373 | 628,901,495 | 0 | 20,807,725 | 3,272,272 | 7 |
+| MATH-105 | 8 | `z>=24` | 428 | 358,489,331 | 0 | 11,364,281 | 1,526,834 | 30 |
+| MATH-106 | 7 | `z>=21` | 486 | 161,189,096 | 0 | 4,943,726 | 555,399 | 0 (`r=M`, rejected) |
 
 The detailed totals for MATH-098 and MATH-099 remain in their original certificates. This index intentionally does not reconstruct unverified numbers from memory.
+
+The compact result table for the newly closed band is:
+
+`collatz/results/2026-09-13-math104-106-onepaid-t7-t9-closure.tsv`.
+
+## MATH-106 zero-gap boundary audit
+
+The stage-B compatibility predicate is exactly `r < M`. For the single zero-gap boundary witness, `r-M=0`, hence `r=M`. This is the first excluded index immediately above the valid source-family range `0 <= r < M`; it is therefore rejected, not compatible. No terminal danger edge at `t=7` satisfies `r<M`.
 
 ## Structural identities currently reused
 
@@ -101,6 +127,6 @@ Every new proof-facing result should record:
 
 ## Current next slot
 
-Candidate next record: `MATH-104`, intended for one-paid macro depth `t=9` compact-carry closure **if and only if** that result is actually produced and committed.
+The previously reserved MATH-104 slot is now occupied by the exact `t=9` closure, followed by MATH-105 (`t=8`) and MATH-106 (`t=7`).
 
-Until then, `MATH-104` is a candidate label, not an established result.
+No MATH-107 claim is assigned yet. The next step is first to isolate and audit the remaining paid-count layers and the complete first-cell implication chain. An ID should be assigned only after the exact next claim is stated.
