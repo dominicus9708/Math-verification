@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """MATH-094: resolution-indexed phase danger kernel for one-paid chains.
 
-This generator imports the exact merged phase-edge catalogue from MATH-086.
-It uses the MATH-093 dyadic envelope, so a multi-edge of resolution h<=R
-updates R exactly to R-h and contributes only a positive penalty.  Therefore a
-path can be globally dangerous only if its final terminal edge is locally
-phase-dangerous.
+This imports the exact 126 merged phase-edge components from MATH-086 and
+computes the MATH-093 dyadic-envelope danger kernel
 
-Define D_R as the phase values from which the address-forgotten envelope can
-reach such a locally dangerous terminal.  The exact over-approximation obeys
-
- D_R = union_{h<=R} [ I_e intersect rho_e^{-1} D_{R-h} ]
+ D_R = union_{h<=R} [I_e intersect rho_e^{-1} D_{R-h}]
        union
-       union_{h>R}  [ I_e intersect {Omega: c_e*rho_e*Omega < lambda(h-R)} ].
+       union_{h>R}  [I_e intersect {Omega: c_e*rho_e*Omega < lambda(h-R)}].
 
-Because every one-paid edge has h>=3, the recursion is acyclic in R.
+Exact arithmetic shows that the phase-only kernel saturates completely:
+
+    D_R = (1/2,1) for every R=0,...,69.
+
+Thus forgetting BOTH accumulated multi-edge penalty and exact dyadic address
+loses too much information to prune any phase at all.  This is a negative but
+proof-relevant result: a successful depth-free quotient must retain at least
+one of those channels.
 """
 from fractions import Fraction
 from importlib.util import module_from_spec, spec_from_file_location
@@ -26,6 +27,7 @@ m86=module_from_spec(SPEC); assert SPEC.loader is not None; SPEC.loader.exec_mod
 
 LAM=Fraction(19,503)
 RMAX=69
+FULL=(Fraction(1,2),Fraction(1,1))
 
 
 def union_intervals(ints):
@@ -66,14 +68,10 @@ def main():
     D=kernel(edges)
     assert set(D)==set(range(RMAX+1))
     for R in range(RMAX+1):
-        for lo,hi in D[R]:
-            assert Fraction(1,2)<=lo<hi<=1
-    print('PASS MATH-094 danger-kernel construction')
-    for R in range(RMAX+1):
-        if D[R]:
-            print(R,len(D[R]),D[R][0],D[R][-1])
-        else:
-            print(R,0)
+        assert D[R]==[FULL], (R,D[R])
+    print('PASS MATH-094: D_R=(1/2,1) for every R=0..69')
+    print('phase-only resolution kernel is fully saturated')
+    print('retain accumulated penalty and/or exact address in the next quotient')
 
 
 if __name__=='__main__':
