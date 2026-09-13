@@ -131,7 +131,9 @@ static State advance(const State& s) {
 
     for (cpp_int n : s.singletons) {
         if (n <= LO) continue;
-        cpp_int z = ((n & 1) == 0) ? n / 2 : (3 * n + 1) / 2;
+        cpp_int z;
+        if ((n & 1) == 0) z = n / 2;
+        else z = (3 * n + 1) / 2;
         if (z > LO) next_singletons.push_back(std::move(z));
         if (next_singletons.size() + next_ap.size() > STATE_CAP) throw TooBig{};
     }
