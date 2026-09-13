@@ -1,4 +1,4 @@
-# Current Collatz frontier through MATH-116 candidate gates
+# Current Collatz frontier through MATH-117 preflight
 
 Date: 2026-09-14
 
@@ -11,7 +11,8 @@ One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=13                     CLOSED
 Multi-paid r=12                      OPEN — MATH-111 final shard completion pending
 Multi-paid r=11                      OPEN — MATH-116 exact gate launched
-Multi-paid 2<=r<=10                  OPEN
+Multi-paid r=10                      OPEN — MATH-117 execution-ready, not launched
+Multi-paid 2<=r<=9                   OPEN
 ```
 
 No finite layer closure is promoted to first-cell emptiness or to the Collatz conjecture without the separate coverage and universal-reduction audits below.
@@ -95,6 +96,39 @@ r=11 OPEN
 ```
 
 until the exact preparation certificate and all 128 shard closures pass.
+
+### MATH-117 — r=10 execution-readiness audit
+
+MATH-113/MATH-115 freeze the `r=10` source as:
+
+```text
+classification                994 = 91 safe + 396 singleton + 507 critical
+branch-and-bound nodes        1,994,258
+AP source cylinders           278,725
+represented occurrence mass  27,557,263,803,397
+max unsplit multiplicity      830,483,089,363
+```
+
+MATH-114's exact 128-way representation is:
+
+```text
+exact split pieces 278,739
+cap                215,291,123,465
+min shard mass     215,291,123,463
+max shard mass     215,291,123,465
+max pieces/shard   2,448
+u64 per shard      safe
+```
+
+The MATH-108 engine audits AP/state records, not one loop per represented ordinary occurrence: each AP advances into at most two parity subsequences, and oversized states are handled by exact source/parameter bisection. Thus the larger occurrence mass of `r=10` does not imply proportional runtime.
+
+A manual-only workflow has been prepared at `.github/workflows/collatz-math117-r10-mass-balanced-sharded-closure.yml`. It deliberately has no push trigger while MATH-111 and MATH-116 are runner-queued.
+
+Therefore:
+
+```text
+r=10 OPEN — exact execution representation ready; closure execution not launched
+```
 
 The mass-balanced scheduler is an exact resource representation, not a theorem-strengthening step.
 
