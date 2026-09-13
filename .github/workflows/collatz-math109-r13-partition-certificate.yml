@@ -1,0 +1,24 @@
+name: Collatz r13 shard partition certificate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math109-r13-partition-certificate.yml'
+      - 'collatz/src/2026_09_13_math109_r13_shard_partition_certificate.py'
+  workflow_dispatch:
+
+jobs:
+  partition-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact disjoint and exhaustive r13 partition
+        run: |
+          python3 collatz/src/2026_09_13_math109_r13_shard_partition_certificate.py | tee /tmp/r13-partition.tsv
+          grep -q 'PASS exact disjoint/exhaustive r13 16-shard source partition' /tmp/r13-partition.tsv
+      - name: Preserve certificate output
+        uses: actions/upload-artifact@v4
+        with:
+          name: r13-shard-partition-certificate
+          path: /tmp/r13-partition.tsv
