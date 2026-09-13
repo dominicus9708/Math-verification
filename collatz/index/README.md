@@ -10,10 +10,11 @@ It does **not** move, delete, or rewrite historical `notes/`, `src/`, `results/`
 - First universal Farey cell: `OPEN`
 - Proof architecture: `PARTIALLY_CONFIRMED`
 - Published finite-verification baseline: `B_pub = 2^71`
-- Formerly unresolved detailed one-paid band `7 <= t <= 9`: `CLOSED` by MATH-104--106 on the exact Bellman/address criterion
-- Multi-paid frontier: `r >= 13` is now `CLOSED`; `2 <= r <= 12` remains `OPEN`
-- MATH-109: exact `r=13` closure from a disjoint/exhaustive 16-shard partition plus 16 successful exact AP-union closure jobs
-- Current next task: audit `r=12`, then descend the remaining multi-paid layers without assuming the `r=13` workload shape persists
+- One-paid detailed band `7 <= t <= 16`: `CLOSED` on the audited exact Bellman/address criterion
+- Multi-paid frontier: `r >= 12 CLOSED`; `r=11 OPEN`; `2 <= r <= 10 OPEN`
+- MATH-111: exact `r=12` closure from 128 successful exact AP-union shards
+- MATH-116: current full exact `r=11` closure workflow; preparation passed, several shards succeeded, later shards remain queued
+- MATH-129: current strongest finite theorem-facing `r=11` q-gate pruning bound
 
 Current first universal-cell window:
 
@@ -23,13 +24,39 @@ Current first universal-cell window:
 address labels a = 1024,...,1363 (340 blocks)
 ```
 
+## Current r=11 structural result
+
+MATH-121..125 separate the current lower-layer mechanism into exact components:
+
+```text
+normalized floor-margin barrier
+-> non-singleton AP resolution rank
+-> direct parity-word/AP address
+-> sharp correction envelope
+-> exact q-safe prefix gates
+```
+
+MATH-129 takes the logical union of all safe MATH-125 prefix gates through depth 22 on the exact MATH-116 prepared source:
+
+```text
+prepared pieces                     605,977
+total source occurrence mass        3,419,719,061,560
+exact safe mass                     3,209,065,424,947
+exact uncertified tail              210,653,636,613
+safe fraction                       93.840030925905822%
+```
+
+This is an exact finite subset certificate. It is not an `almost all => all` argument and does not close `r=11` while the tail is nonzero.
+
+See [`2026-09-14-math121-129-r11-closeout.md`](2026-09-14-math121-129-r11-closeout.md) for the current structural closeout.
+
 ## Classification files
 
 - [`proof-tree.md`](proof-tree.md) — dated mainline and exact barrier/pivot nodes.
 - [`side-branches.md`](side-branches.md) — supporting, historical, alternate, and acceleration branches.
 - [`retired-and-superseded.md`](retired-and-superseded.md) — strategies/quotients/independent filters that are no longer used, with reasons.
 - [`reproducibility-index.md`](reproducibility-index.md) — proof-facing claims mapped to notes, certificates, and result files.
-- [`current-frontier.md`](current-frontier.md) — latest frontier and remaining proof obligations after MATH-109.
+- [`current-frontier.md`](current-frontier.md) — authoritative compact frontier and remaining proof obligations.
 
 ## Status vocabulary
 
@@ -49,14 +76,15 @@ GitHub remains authoritative for exact calculations, certificates, outputs, and 
 
 ## Claim boundary
 
-MATH-109 closes `r=13` only within the audited multi-paid framework. Together with prior work, the current finite frontier is
+The current finite frontier is
 
 ```text
-one-paid detailed band t=7..16: closed on the audited Bellman/address criterion
-multi-paid r>=13: closed
-multi-paid 2<=r<=12: open
+one-paid detailed band t=7..16: closed on audited Bellman/address criterion
+multi-paid r>=12: closed
+multi-paid r=11: open
+multi-paid 2<=r<=10: open
 first universal Farey cell: open
 Collatz conjecture: open
 ```
 
-The next obligations are to close or otherwise discharge `r=12` down through `r=2`, audit that the one-paid and multi-paid closures exhaust every relevant ordinary-integer address state, and only then audit the complete implication chain back to first-cell emptiness and the separate universal reduction from the first cell to the full Collatz statement.
+The next obligations are to discharge the exact r=11 tail or complete MATH-116, descend through `r=10..2`, audit paid-layer coverage, and only then audit the complete first-cell implication chain and the separate universal reduction from first-cell closure to the full Collatz statement.
