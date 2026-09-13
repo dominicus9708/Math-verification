@@ -11,6 +11,10 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
       - name: Compile generalized exact AP-union engine
         run: |
           g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108_engine
