@@ -1,0 +1,76 @@
+name: Collatz r13 exact sharded closure gate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math109-r13-sharded-closure.yml'
+      - 'collatz/src/2026_09_13_math108_general_ap_union_engine.cpp'
+      - 'collatz/src/2026_09_13_math108_r13_leaf_export.py'
+      - 'collatz/src/2026_09_11_math065_paid_count_18plus_closure_certificate.py'
+      - 'collatz/src/2026_09_11_paid_macro_transition_certificate.py'
+  workflow_dispatch:
+
+jobs:
+  r13-shard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      - name: Compile generalized exact AP-union engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Export exact r13 source stream
+        run: |
+          python3 collatz/src/2026_09_13_math108_r13_leaf_export.py > /tmp/r13.tsv 2> /tmp/r13-export.log
+          cat /tmp/r13-export.log
+      - name: Select exact disjoint source-record shard
+        env:
+          SHARD: ${{ matrix.shard }}
+          NSHARDS: 16
+        run: |
+          python3 - <<'PY'
+          import os
+          shard = int(os.environ['SHARD'])
+          nshards = int(os.environ['NSHARDS'])
+          c = 0
+          occ = 0
+          with open('/tmp/r13.tsv', 'r', encoding='utf-8') as src, open('/tmp/r13-shard.tsv', 'w', encoding='utf-8') as out:
+              for i, line in enumerate(src):
+                  if i % nshards != shard:
+                      continue
+                  p = line.split()
+                  assert len(p) == 3
+                  m = int(p[2])
+                  out.write(line)
+                  c += 1
+                  occ += m
+          assert c > 0
+          with open('/tmp/r13-meta.txt', 'w', encoding='utf-8') as f:
+              f.write(f'{c} {occ}\n')
+          print('SHARD', shard, 'cylinders', c, 'occurrences', occ)
+          PY
+      - name: Run exact shard closure
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          read C O < /tmp/r13-meta.txt
+          /tmp/math108 "$C" "$O" 5000 < /tmp/r13-shard.tsv 2>&1 | tee /tmp/r13-shard.log
+          grep -q 'PASS generalized exact AP-union audit' /tmp/r13-shard.log
+      - name: Preserve shard logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r13-shard-${{ matrix.shard }}-logs
+          path: |
+            /tmp/r13-export.log
+            /tmp/r13-meta.txt
+            /tmp/r13-shard.log
