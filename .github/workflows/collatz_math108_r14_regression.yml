@@ -1,0 +1,25 @@
+name: Collatz MATH-108 r14 regression
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz_math108_r14_regression.yml'
+
+jobs:
+  r14-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile generalized exact AP-union engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108_engine
+      - name: Export exact r14 source stream
+        run: |
+          python3 collatz/src/2026_09_12_math071_r14_leaf_export.py > /tmp/r14.tsv 2> /tmp/r14_export.log
+          cat /tmp/r14_export.log
+          wc -l /tmp/r14.tsv
+      - name: Run generalized r14 regression
+        run: |
+          /tmp/math108_engine 2599692 10691937078 20000 < /tmp/r14.tsv 2>&1 | tee /tmp/r14_regression.log
+          grep -q 'PASS generalized exact AP-union audit' /tmp/r14_regression.log
