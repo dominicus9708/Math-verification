@@ -1,0 +1,12 @@
+metric	value
+prepared_split_pieces	605977
+total_occurrence_mass	3419719061560
+max_exact_depth	22
+threshold_levels	275
+multidepth_d1_22_exact_safe_mass	3209065424947
+multidepth_d1_22_tail_mass	210653636613
+multidepth_safe_fraction_percent	93.840030925905822
+adaptive_d1_34_wins_pieces	0
+multidepth_wins_pieces	601534
+ties_pieces	4443
+status	EXACT_FINITE_MULTIDEPTH_SOURCE_RESIDUE_AUDIT_NO_R11_CLOSURE_CLAIM
