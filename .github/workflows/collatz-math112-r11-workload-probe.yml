@@ -1,0 +1,26 @@
+name: Collatz MATH-112 exact r11 workload probe
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math112-r11-workload-probe.yml'
+      - 'collatz/src/2026_09_13_math112_r11_workload_probe.py'
+      - 'collatz/src/2026_09_11_math065_paid_count_18plus_closure_certificate.py'
+  workflow_dispatch:
+
+jobs:
+  workload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact r11 workload probe
+        run: |
+          python3 collatz/src/2026_09_13_math112_r11_workload_probe.py | tee /tmp/math112-r11-workload.txt
+          grep -q 'MATH-112 preliminary exact r=11 workload probe PASS' /tmp/math112-r11-workload.txt
+      - name: Preserve workload output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: math112-r11-workload-probe
+          path: /tmp/math112-r11-workload.txt
