@@ -1,0 +1,12 @@
+metric	value
+prepared_split_pieces	605977
+total_occurrence_mass	3419719061560
+adaptive_complete_block_safe_mass	2971304357696
+exact_d22_safe_mass	2904383883175
+combined_piecewise_max_safe_mass	2987225373882
+combined_tail_mass	432493687678
+combined_safe_fraction_percent	87.352946838834583
+adaptive_wins_pieces	7512
+d22_wins_pieces	585683
+ties_pieces	12782
+status	EXACT_FINITE_PIECEWISE_CERTIFICATE_SELECTION_NO_R11_CLOSURE_CLAIM
