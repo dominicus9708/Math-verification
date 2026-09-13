@@ -1,0 +1,12 @@
+metric	value
+depth	27
+distinct_odd_step_classes	32
+batch_schedule	8+8+8+2+2+2+2
+remainder_increment_top_24_classes	3583578466
+remainder_increment_last_8_classes	67
+exact_d27_remainder_increment	3583578533
+prior_certified_safe_mass_through_d26	3290266127590
+certified_safe_mass_through_d27	3293849706123
+uncertified_tail_through_d27	125869355437
+safe_fraction_percent	96.31930713689735
+status	EXACT_FINITE_D27_REMAINDER_AUDIT_NO_R11_CLOSURE_CLAIM
