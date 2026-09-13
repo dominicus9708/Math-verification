@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/collatz_math108_r14_regression.yml'
+      - 'collatz/src/2026_09_13_math108_general_ap_union_engine.cpp'
 
 jobs:
   r14-regression:
