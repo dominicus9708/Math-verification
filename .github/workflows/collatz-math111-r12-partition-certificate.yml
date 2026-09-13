@@ -1,0 +1,27 @@
+name: Collatz MATH-111 r12 shard partition certificate
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math111-r12-partition-certificate.yml'
+      - 'collatz/src/2026_09_13_math111_r12_leaf_export.py'
+      - 'collatz/src/2026_09_13_math111_r12_shard_partition_certificate.py'
+      - 'collatz/src/2026_09_11_math065_paid_count_18plus_closure_certificate.py'
+  workflow_dispatch:
+
+jobs:
+  partition-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact disjoint and exhaustive r12 partition
+        run: |
+          python3 collatz/src/2026_09_13_math111_r12_shard_partition_certificate.py | tee /tmp/r12-partition.tsv
+          grep -q 'PASS exact disjoint/exhaustive r12 128-shard source partition' /tmp/r12-partition.tsv
+      - name: Preserve certificate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r12-shard-partition-certificate
+          path: /tmp/r12-partition.tsv
