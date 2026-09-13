@@ -1,0 +1,37 @@
+name: Collatz MATH-108 r14 regression
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math108-r14-regression.yml'
+      - 'collatz/src/2026_09_13_math108_general_ap_union_engine.cpp'
+      - 'collatz/src/2026_09_12_math071_r14_leaf_export.py'
+      - 'collatz/src/2026_09_11_math065_paid_count_18plus_closure_certificate.py'
+      - 'collatz/src/2026_09_11_paid_macro_transition_certificate.py'
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile generalized exact AP-union engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Export exact r14 negative-candidate AP stream
+        run: |
+          python3 collatz/src/2026_09_12_math071_r14_leaf_export.py > /tmp/r14.tsv 2> /tmp/r14-export.log
+          cat /tmp/r14-export.log
+      - name: Run generalized r14 regression
+        run: |
+          /tmp/math108 2599692 10691937078 20000 < /tmp/r14.tsv 2> /tmp/r14-regression.log
+          cat /tmp/r14-regression.log
+      - name: Preserve regression logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: math108-r14-regression-logs
+          path: |
+            /tmp/r14-export.log
+            /tmp/r14-regression.log
