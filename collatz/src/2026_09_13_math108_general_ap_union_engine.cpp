@@ -14,6 +14,13 @@
 // both halves are audited.  If one source AP alone is too large, its parameter
 // interval is bisected exactly.  These are set identities, not pruning.
 //
+// Coverage invariant: parameter bisection can turn one original source record
+// into several exact child APs, so raw record count is not invariant under
+// resource splitting.  The additive quantity that is invariant is input
+// multiplicity mass sum(m).  Every successful closure leaf contributes the
+// multiplicity mass of its current exact source partition, and the final audit
+// requires the closed mass to equal the full input occurrence mass exactly.
+//
 // This executable is a representation/regression gate.  A successful r=14
 // regression is required before any r=13 run may be promoted to a closure
 // claim.
@@ -41,7 +48,7 @@ struct State { std::vector<AP> ap; std::vector<cpp_int> singletons; };
 struct TooBig {};
 
 struct Stats {
-    u64 source_parts = 0;
+    u64 closed_occurrence_mass = 0;
     u64 closure_leaves = 0;
     u64 resource_splits = 0;
     int max_depth = 0;
@@ -178,7 +185,18 @@ static State advance(const State& s) {
     return out;
 }
 
+static u64 occurrence_mass(const std::vector<AP>& raw) {
+    u64 s = 0;
+    for (const auto& x : raw) {
+        if (std::numeric_limits<u64>::max() - s < x.m)
+            throw std::runtime_error("occurrence mass overflow");
+        s += x.m;
+    }
+    return s;
+}
+
 static void audit(std::vector<AP> raw, Stats& stats) {
+    const u64 raw_mass = occurrence_mass(raw);
     try {
         State s = normalize(raw);
         stats.max_state = std::max(stats.max_state, s.ap.size() + s.singletons.size());
@@ -187,7 +205,9 @@ static void audit(std::vector<AP> raw, Stats& stats) {
             stats.max_state = std::max(stats.max_state, s.ap.size() + s.singletons.size());
             if (s.ap.empty() && s.singletons.empty()) {
                 ++stats.closure_leaves;
-                stats.source_parts += raw.size();
+                if (std::numeric_limits<u64>::max() - stats.closed_occurrence_mass < raw_mass)
+                    throw std::runtime_error("closed occurrence mass overflow");
+                stats.closed_occurrence_mass += raw_mass;
                 stats.max_depth = std::max(stats.max_depth, depth);
                 return;
             }
@@ -210,6 +230,7 @@ static void audit(std::vector<AP> raw, Stats& stats) {
         u64 m2 = x.m - m1;
         AP y{x.a + x.b * m1, x.b, m2};
         x.m = m1;
+        assert(x.m + y.m == raw_mass);
         audit(std::vector<AP>{x}, stats);
         audit(std::vector<AP>{y}, stats);
     }
@@ -252,11 +273,12 @@ int main(int argc, char** argv) {
 
     assert(total_cylinders == expected_cylinders);
     assert(total_occurrences == expected_occurrences);
-    assert(stats.source_parts == total_cylinders);
+    assert(stats.closed_occurrence_mass == total_occurrences);
 
     std::cerr << "PASS generalized exact AP-union audit"
               << " cylinders=" << total_cylinders
               << " occurrences=" << total_occurrences
+              << " closed_occurrence_mass=" << stats.closed_occurrence_mass
               << " closure_leaves=" << stats.closure_leaves
               << " resource_splits=" << stats.resource_splits
               << " max_depth=" << stats.max_depth
