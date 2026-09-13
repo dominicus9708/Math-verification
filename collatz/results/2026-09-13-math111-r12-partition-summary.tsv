@@ -1,0 +1,11 @@
+metric	value
+r	12
+shards	128
+partition_rule	record_index_mod_128
+total_cylinders	1053555
+total_occurrences	580472268528
+min_shard_cylinders	8230
+max_shard_cylinders	8231
+max_observed_shard_occurrences	16378652033
+partition_status	PASS_DISJOINT_EXHAUSTIVE
+closure_status	RUNNING_NO_CLAIM
