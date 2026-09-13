@@ -1,6 +1,6 @@
-# MATH-119 — layer-independent exact affine descent gate
+# MATH-119 — layer-independent exact affine self-descent and frozen-floor gates
 
-Status: `MAINLINE EXACT LEMMA / UNIFORM DESCENT TEST / NO NEW PAID-LAYER CLOSURE CLAIM`
+Status: `MAINLINE EXACT LEMMA / UNIFORM AFFINE GATES / NO NEW PAID-LAYER CLOSURE CLAIM`
 
 Date: 2026-09-14
 
@@ -48,7 +48,7 @@ This follows directly from
 = (3^(q+1)n + 3c + 2^d)/2^(d+1).
 ```
 
-## Exact descent criterion
+## Gate A — exact self-descent criterion
 
 For a fixed feasible word `w` and source integer `n>0`,
 
@@ -64,82 +64,110 @@ is equivalent to
 
 Therefore:
 
-1. if `2^d <= 3^q`, descent cannot be certified by this word-level gate;
-2. if `2^d > 3^q`, then descent is exact whenever
+1. if `2^d <= 3^q`, self-descent cannot be certified by this gate;
+2. if `2^d > 3^q`, then self-descent is exact whenever
 
 ```text
 n > c_w / (2^d - 3^q).
 ```
 
-For an exact AP cylinder all of whose members share the same length-`d` parity word, it is enough to test the smallest source member `n_min`:
+For an exact AP cylinder all of whose members share the same length-`d` parity word, testing the smallest member `n_min` is sufficient to prove **self-descent for every member**:
 
 ```text
-(2^d - 3^q) n_min > c_w
+(2^d - 3^q) n_min > c_w.
 ```
 
-because the left side is increasing in `n`.
+### Scope correction
 
-Thus an entire AP cylinder can be discharged without enumerating its represented integers.
+Self-descent below the AP source member is **not by itself a MATH-108 closure certificate**.
 
-## Why this is stronger than an average-drift argument
-
-The gate keeps all three exact quantities:
+The MATH-108 finite closure target is the frozen floor
 
 ```text
-d  = shortcut depth,
-q  = actual odd-step count,
+LO = 2^71,
+```
+
+and a source AP member may be an intermediate target rather than the original minimality reference. Therefore the earlier wording "discharge entire cylinder" from Gate A was too strong and is retired.
+
+Gate A is an exact structural diagnostic unless an independent theorem supplies the relevant minimality reference.
+
+## Gate B — exact frozen-floor closure criterion
+
+The actual MATH-108 terminal condition is
+
+```text
+T^d(n) <= LO.
+```
+
+Using the affine form, this is exactly equivalent to
+
+```text
+3^q n + c_w <= 2^d LO.
+```
+
+For an exact AP cylinder whose members all share the same word `w`, the left side is increasing in `n`. Hence the **largest** source member `n_max` is sufficient and necessary for whole-cylinder floor closure at that prefix:
+
+```text
+3^q n_max + c_w <= 2^d LO.
+```
+
+Equivalently,
+
+```text
+n_max <= (2^d LO - c_w) / 3^q.
+```
+
+This is a genuine layer-independent exact closure gate aligned with the current engine semantics.
+
+If it holds, every ordinary integer represented by that exact same-word AP cylinder is at or below the frozen verified floor after `d` shortcut steps.
+
+## Why the correction term cannot be discarded
+
+Both gates retain
+
+```text
+d   = shortcut depth,
+q   = actual odd-step count,
 c_w = exact affine correction.
 ```
 
-It does not replace `c_w` by zero and does not infer descent from `q/d` alone.
+The coefficient comparison `3^q < 2^d` alone is not a complete floor-closure criterion, and it is not even sufficient for Gate A unless the correction term is paid.
 
-The familiar coefficient condition
-
-```text
-3^q < 2^d
-```
-
-is necessary for this positive-source affine gate but is not, by itself, the complete condition. The correction term must still be paid.
-
-This avoids the forbidden upgrade
-
-```text
-negative average drift => every exact lineage descends.
-```
+Thus MATH-119 does not use average drift, density, or a zero-correction approximation.
 
 ## Relation to MATH-108
 
-MATH-108 already propagates exact AP cylinders rather than ordinary integers. MATH-119 identifies a theorem-facing terminal test that can be inserted into the same exact lineage representation:
+MATH-108 already propagates exact AP cylinders. MATH-119 exposes theorem-facing affine terminal tests on the same exact lineage:
 
 ```text
-exact AP state
--> common parity word / affine descriptor (d,q,c_w)
--> minimum-member descent inequality
--> discharge entire cylinder.
+exact same-word AP cylinder
+-> affine descriptor (d,q,c_w)
+-> Gate A: self-descent diagnostic using n_min
+-> Gate B: frozen-floor closure using n_max
 ```
 
-A future engine may use this as an early exact closure certificate. The current MATH-108 engine need not be modified for already-running MATH-111/MATH-116 certificates.
+Gate B could be used as an exact early terminal certificate in a future engine without altering the correctness of already-running MATH-111/MATH-116 computations.
 
 ## Layer independence
 
-The paid-count parameter `r` is used upstream to construct the exact source family. Once an AP cylinder and its feasible shortcut lineage are fixed, the MATH-119 gate contains no `r`.
+The paid-count parameter `r` is used upstream to construct the exact source family. Once an AP cylinder and feasible shortcut word are fixed, neither Gate A nor Gate B contains `r`.
 
-Hence this is a genuine common formula candidate for all remaining `r=11..2` layers.
+Therefore Gate B is a genuine common closure formula candidate for all remaining `r=11..2` layers.
 
-## Important limitation
+## Remaining uniform-closure problem
 
-MATH-119 does not prove that every surviving AP lineage will reach a depth `d` satisfying the inequality.
+MATH-119 does not prove that every surviving AP lineage reaches a finite prefix satisfying Gate B.
 
-The remaining uniform-closure problem is now sharpened to:
+The sharpened common problem is:
 
 ```text
 For every exact surviving source lineage in the remaining paid layers,
-prove or certify that some finite prefix w satisfies
-(2^d - 3^q)n_min > c_w.
+prove or certify that some finite same-word prefix w satisfies
+3^q n_max + c_w <= 2^d * 2^71.
 ```
 
-This may still require finite exact computation, or a new well-founded bound on feasible `(d,q,c_w)` states.
+A future uniform theorem would need a well-founded bound on feasible exact `(d,q,c_w,n_max)` states, or an equivalent rank preserved under exact AP splitting.
 
 ## Claim boundary
 
-No new paid-count layer is closed by MATH-119 alone. In particular, `r=11..2`, the first universal Farey cell, and the Collatz conjecture remain subject to their existing gates.
+MATH-119 supplies an exact common floor-closure test, not a proof that every source reaches the test. No new paid-count layer is closed by MATH-119 alone. The first universal Farey cell and Collatz conjecture remain subject to their separate coverage and reduction gates.
