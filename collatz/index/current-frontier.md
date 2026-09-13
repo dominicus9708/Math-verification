@@ -1,4 +1,4 @@
-# Current Collatz frontier through MATH-130
+# Current Collatz frontier through MATH-133
 
 Date: 2026-09-14
 
@@ -14,148 +14,146 @@ Multi-paid r=10                      OPEN — MATH-117 execution-ready, not laun
 Multi-paid 2<=r<=9                   OPEN
 ```
 
-No finite layer closure is promoted to first-cell emptiness or to the Collatz conjecture without the separate coverage and universal-reduction audits.
+No finite safe subset is promoted to a layer closure, first-cell emptiness, or the Collatz conjecture.
 
 ## Latest certified layer closure — MATH-111 / r=12
 
-MATH-111 closed `r=12` using an exact disjoint/exhaustive 128-way partition and 128 successful generalized exact AP-union shard jobs.
+MATH-111 closed `r=12` using an exact disjoint/exhaustive 128-way partition and 128 successful generalized exact AP-union shard jobs. Therefore
 
 ```text
-AP cylinders                  1,053,555
-represented occurrence mass  580,472,268,528
-successful shard jobs         128
-failed jobs                   0
+r>=12 CLOSED
 ```
 
-Therefore `r>=12 CLOSED` within the audited multi-paid framework.
+within the audited multi-paid framework.
 
 ## Current complete gate — MATH-116 / r=11
 
-Frozen exact r=11 source:
+Frozen source:
 
 ```text
 classification                1013 = 119 safe + 414 singleton + 480 critical
-branch-and-bound nodes        3,994,436
 AP source cylinders           605,972
+prepared split pieces         605,977
 represented occurrence mass  3,419,719,061,560
-max unsplit multiplicity      51,905,193,085
 ```
 
-MATH-114/MATH-115 prepare an exact 128-way mass-balanced representation:
+MATH-116 has a successful preparation certificate and multiple successful exact AP-union shards. Later shards have remained runner-queued; no mathematical failure has been observed. `r=11` therefore remains `OPEN` until all exact shards pass or an equivalent complete exact certificate is obtained.
+
+## MATH-121 through MATH-125 — common structural chain
+
+- MATH-121: normalized floor margin alone cannot supply the required unconstrained monotone rank.
+- MATH-122: `V=(N+1)m^2` strictly decreases on every non-singleton exact AP branch.
+- MATH-123: stronger lexicographic resolution rank `((N+1)m,m)`.
+- MATH-124: exact parity-word/source-parameter address formula.
+- MATH-125: sharp correction envelope and sufficient frozen-floor gate.
+
+These results separate finite AP resolution from actual floor descent and retain exact address information where required.
+
+## MATH-129 — exact prefix union through depth 22
+
+Over the complete prepared r=11 source:
 
 ```text
-exact split pieces 605,977
-cap                26,716,555,169
-min shard mass     26,716,555,168
-max shard mass     26,716,555,169
+exact d<=22 safe mass        3,209,065,424,947
+uncertified tail              210,653,636,613
+safe fraction                  93.840030925905822%
 ```
 
-Workflow run `34768752143` has a successful preparation certificate and many successful exact AP-union shards. At the latest audit, later shards remained runner-queued and no mathematical failure was observed. Therefore `r=11` remains `OPEN` until all exact shards pass or an equivalent complete exact certificate is obtained.
+This is an exact finite subset certificate, not a density argument.
 
-## MATH-121 through MATH-125 — layer-independent structural chain
+## MATH-131 — complete-cycle parity-word DP through depth 34
 
-- **MATH-121:** normalized floor margin alone is not a sufficient monotone well-founded rank; exact parity/address information remains necessary.
-- **MATH-122:** `V=(N+1)m^2` strictly decreases on every non-singleton exact AP branch.
-- **MATH-123:** stronger lexicographic exact resolution rank `((N+1)m,m)`; proves finite AP resolution but not singleton floor descent.
-- **MATH-124:** direct parity-word source address
-  ```text
-  r_w = -c_w(3^q)^(-1) mod 2^d,
-  k = (r_w-a)b^(-1) mod 2^d.
-  ```
-- **MATH-125:** sharp correction envelope
-  ```text
-  3^q-2^q <= c_w <= 2^(d-q)(3^q-2^q)
-  ```
-  and exact sufficient frozen-floor gate
-  ```text
-  (3^q/2^d)N + (3/2)^q - 1 <= 2^71.
-  ```
+MATH-124 implies a bijection between length-`D` parity words and source residues modulo `2^D`. Since every prepared AP has odd step, every complete `2^D` parameter block also contains every length-`D` parity word exactly once.
 
-## MATH-126 through MATH-129 — exact r=11 q-gate pruning
-
-MATH-126/127/128 are valid intermediate finite certificates but are superseded as the active bound by MATH-129.
-
-MATH-129 constructs the exact logical union of all MATH-125 safe prefix gates through depth 22 over the prepared r=11 source:
+MATH-131 therefore replaces explicit residue enumeration on complete blocks by an exact DP on
 
 ```text
-prepared split pieces              605,977
-total source occurrence mass       3,419,719,061,560
-exact d<=22 safe mass              3,209,065,424,947
-exact d<=22 uncertified tail       210,653,636,613
-safe fraction                      93.840030925905822%
+(q, best_threshold).
 ```
 
-This is an exact finite subset certificate, not a density argument and not an `r=11 CLOSED` claim.
-
-## MATH-130 — disjoint depth-23 conservative increment
-
-MATH-130 asks only for source residues that are **not** MATH-129-safe but become safe at depth 23.
-
-For each source residue `r mod 2^23`, define
+The depth-23 value exactly reproduces MATH-130. Pairwise-disjoint new complete-cycle safe mass at depths 23 through 34 totals
 
 ```text
-L_old(r)=max_{1<=d<=22} L(d,q_d(r)),
-L_23(r)=L(23,q_23(r)).
+77,081,911,098.
 ```
 
-The new set is exactly the residue/source-maximum region
+Thus before restoring incomplete remainders:
 
 ```text
-L_old(r) < N <= L_23(r),
+certified safe mass >= 3,286,147,336,045
+uncertified tail   <=   133,571,725,515
+safe fraction      >= 96.094073135526301%
 ```
 
-so it is disjoint from the MATH-129 safe union by construction.
+The prepared maximum piece multiplicity is `26,716,555,169`, so no full `2^35` parameter block exists. MATH-131 therefore exhausts the complete-cycle-only extension.
 
-Only complete `2^23` source-parameter cycles are counted; incomplete remainders are assigned zero extra safe mass. Therefore the result is a conservative exact lower bound.
+## MATH-132 — exact cyclic remainders at D=23..25
+
+Exact address counting on the incomplete cyclic remainders adds:
 
 ```text
-depth-23 modulus                         8,388,608
-residues with stronger d=23 threshold    2,489,262
-rows with complete d=23 cycles              13,702
-complete-cycle mass examined       3,249,377,640,448
-rows with positive new increment              2,135
-new disjoint d=23 safe mass           3,151,665,357
+D=23 remainder      147,454,842
+D=24 remainder    1,221,965,686
+D=25 remainder    1,841,592,242
 ```
 
-Combining MATH-129 and the disjoint MATH-130 increment:
+After these exact remainders:
 
 ```text
-certified safe mass >= 3,212,217,090,304
-uncertified tail mass <=   207,501,971,256
-certified safe fraction >= 93.93219245439003%
+certified safe mass >= 3,289,358,348,815
+uncertified tail   <=   130,360,712,745
+safe fraction      >= 96.18797011104378%
 ```
 
-The remaining tail is not a counterexample set. It is only source mass not discharged by the current q-gate certificates.
+The first direct D=26 scan hit an implementation/resource limit, not a mathematical counterexample or gate failure.
 
-Authoritative artifacts:
+## MATH-133 — optimized exact remainder scan at D=26
+
+MATH-133 replaces repeated `D`-step simulation by the exact dyadic recursion
 
 ```text
-collatz/src/2026_09_14_math129_r11_multidepth_qgate_audit.cpp
-collatz/results/2026-09-14-math129-r11-multidepth-qgate.tsv
-collatz/notes/2026-09-14-math129-r11-exact-multidepth-qgate.md
-collatz/src/2026_09_14_math130_r11_d23_disjoint_increment.cpp
-collatz/results/2026-09-14-math130-r11-d23-disjoint-increment.tsv
-collatz/notes/2026-09-14-math130-r11-d23-disjoint-increment.md
-collatz/index/2026-09-14-math121-129-r11-closeout.md
+q_D(2s)   = q_{D-1}(s)
+q_D(2s+1) = 1 + q_{D-1}(3s+2 mod 2^(D-1)).
+```
+
+The optimized implementation first reproduces the MATH-132 D=23 exact result, then obtains at D=26:
+
+```text
+complete-cycle increment   5,512,456,558
+exact remainder increment    907,778,775
+exact D=26 increment        6,420,235,333
+```
+
+Combining MATH-131 with all exact remainder increments through D=26 gives the current strongest finite lower bound:
+
+```text
+cumulative remainder increment D=23..26  4,118,791,545
+certified safe mass >=                 3,290,266,127,590
+uncertified tail   <=                     129,452,933,970
+safe fraction      >=                     96.21451553067209%
 ```
 
 Important boundary:
 
 ```text
-93.932192% exact safe lower bound != r=11 CLOSED
+96.2145155% exact safe lower bound != r=11 CLOSED
 ```
+
+The remaining tail is not a counterexample set. It is the source mass not discharged by the current envelope/address certificates.
+
+The optimized D=27 direct residue-order scan still exceeds the current execution window. The next mathematical/computational target is therefore to compress the address-sensitive remainder counting beyond D=26, or hand the remaining exact tail to MATH-124 direct-address propagation / the unchanged MATH-108 AP-union engine.
 
 ## Next layer — MATH-117 / r=10
 
-MATH-117 remains execution-ready but unlaunched while the r=11 complete gate consumes runner capacity. Its exact source has `278,725` AP cylinders and total occurrence mass `27,557,263,803,397`.
+MATH-117 remains execution-ready but unlaunched while the r=11 complete gate consumes runner capacity.
 
 ## Remaining obligations
 
 1. Discharge the remaining exact r=11 tail or complete MATH-116.
-2. Descend `r=10,9,...,2` using the frozen workloads and exact mass-balanced representation.
+2. Descend `r=10,9,...,2` using the frozen exact workloads and mass-balanced representation.
 3. Audit that one-paid and multi-paid families exhaust every required paid-count/address case, including `r=0/1` semantics.
 4. Audit the full first-cell implication chain.
-5. Separately prove or re-audit the universal reduction from frozen baseline plus first-cell closure to every positive integer.
+5. Separately prove or re-audit the universal reduction from the frozen baseline plus first-cell closure to every positive integer.
 
 ## Claim boundary
 
