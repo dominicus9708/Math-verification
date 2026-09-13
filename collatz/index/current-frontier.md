@@ -1,4 +1,4 @@
-# Current Collatz frontier after MATH-111 closure
+# Current Collatz frontier through MATH-129
 
 Date: 2026-09-14
 
@@ -9,51 +9,37 @@ Collatz conjecture                    OPEN
 First universal Farey cell           OPEN
 One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=12                     CLOSED
-Multi-paid r=11                      OPEN — MATH-116 exact closure running
+Multi-paid r=11                      OPEN — MATH-116 exact closure still incomplete
 Multi-paid r=10                      OPEN — MATH-117 execution-ready, not launched
 Multi-paid 2<=r<=9                   OPEN
 ```
 
 No finite layer closure is promoted to first-cell emptiness or to the Collatz conjecture without the separate coverage and universal-reduction audits below.
 
-## Latest certified closure — MATH-111 / r=12
+## Latest certified layer closure — MATH-111 / r=12
 
-MATH-110 froze the exact `r=12` source:
+MATH-111 executed the unchanged generalized exact AP-union engine on an exact disjoint/exhaustive 128-way partition of the MATH-110 source.
 
 ```text
-classification                1013 = 126 safe + 457 singleton + 430 critical
-branch-and-bound nodes        8,278,602
 AP cylinders                  1,053,555
 represented occurrence mass  580,472,268,528
-max multiplicity              12,976,298,271
+successful shard jobs         128
+queued jobs at final audit    0
+failed jobs at final audit    0
 ```
 
-MATH-111 certified an exact disjoint/exhaustive 128-way source-record partition and executed the unchanged generalized exact AP-union engine in workflow run `34764316089`.
-
-The full jobs API was audited as `100 + 28 = 128` jobs. At final audit:
-
-```text
-workflow status      completed
-workflow conclusion  success
-queued jobs           0
-failed jobs           0
-successful jobs       128
-```
-
-Every shard's `Run exact shard closure` step concluded `success` and is gated on the engine output `PASS generalized exact AP-union audit`.
-
-Therefore:
+Therefore
 
 ```text
 r=12 CLOSED
 r>=12 CLOSED
 ```
 
-The first universal Farey cell and Collatz conjecture remain `OPEN`.
+within the audited multi-paid framework.
 
-## Current execution gate — MATH-116 / r=11
+## Current executable gate — MATH-116 / r=11
 
-MATH-112 froze the exact `r=11` workload:
+Frozen r=11 source:
 
 ```text
 classification                1013 = 119 safe + 414 singleton + 480 critical
@@ -63,114 +49,173 @@ represented occurrence mass  3,419,719,061,560
 max unsplit multiplicity      51,905,193,085
 ```
 
-MATH-114 supplies the exact consecutive-parameter AP split identity
+MATH-114/MATH-115 prepare an exact 128-way mass-balanced representation:
 
 ```text
-AP(a,b,m) = disjoint union_j AP(a+b*s_j,b,m_j)
-```
-
-and a deterministic 128-way mass-balanced schedule. For `r=11`:
-
-```text
-source records     605,972
 exact split pieces 605,977
-total mass         3,419,719,061,560
 cap                26,716,555,169
 min shard mass     26,716,555,168
 max shard mass     26,716,555,169
 ```
 
-MATH-116 workflow run `34768752143` has now passed its preparation certificate. The first shard wave is executing the exact closure step; later shards are queued behind the configured parallelism limit.
+Workflow run `34768752143` has a successful preparation certificate and multiple successful exact AP-union shard closures. At the latest audit, page 1 of the jobs API had no queued or failed jobs, while page 2 still contained runner-queued later shards and no observed failures.
 
 Therefore:
 
 ```text
-r=11 OPEN — exact closure execution in progress
+r=11 OPEN — exact closure execution incomplete
 ```
 
-No queued/resource state is interpreted as a mathematical counterexample.
+Queued/resource state is not interpreted as a mathematical counterexample.
+
+## MATH-121 through MATH-129 — uniform r=11 structural pruning chain
+
+### MATH-121 — scalar rank barrier
+
+For the normalized MATH-120 state
+
+```text
+z=2^d/3^q,
+u=c/3^q,
+F=z*2^71-N-u,
+```
+
+`F>=0` is exact frozen-floor closure, but `F` alone is not monotone and `-F/z` is merely the branch value excess above the frozen floor. A useful universal rank therefore needs parity/address information in addition to the normalized scalar state.
+
+### MATH-122 / MATH-123 — exact AP resolution ranks
+
+For a non-singleton AP branch with current maximum `N` and multiplicity `m>=2`, parity refinement satisfies
+
+```text
+m' <= ceil(m/2) < m.
+```
+
+MATH-122 proves strict decrease of
+
+```text
+V=(N+1)m^2.
+```
+
+MATH-123 strengthens this to the lexicographic well-founded rank
+
+```text
+W=(N+1)m,
+rank=(W,m).
+```
+
+This proves finite AP resolution, but not by itself eventual frozen-floor descent after singleton resolution.
+
+### MATH-124 — exact direct parity-word address
+
+For feasible parity word `w` of length `d`, odd count `q`, and correction `c_w`,
+
+```text
+r_w = -c_w*(3^q)^(-1) mod 2^d.
+```
+
+For odd-step AP `n=a+bk`,
+
+```text
+k = (r_w-a)b^(-1) mod 2^d.
+```
+
+Thus parity-word address can be mapped directly to exact AP source-parameter residue.
+
+### MATH-125 — sharp correction envelope and q-gate
+
+For every length-`d` parity word with `q` odd steps,
+
+```text
+3^q-2^q <= c_w <= 2^(d-q)(3^q-2^q).
+```
+
+Hence all such words are frozen-floor safe for source maximum `N` whenever
+
+```text
+(3^q/2^d)N + (3/2)^q - 1 <= 2^71.
+```
+
+This is an exact sufficient gate, not an average-drift argument.
+
+### MATH-126 / 127 / 128 — intermediate exact safe-subset audits
+
+These remain valid but are superseded as the active r=11 pruning bound by MATH-129.
+
+```text
+MATH-126  ~82.2133% exact safe source mass
+MATH-127  ~84.930482% exact safe source mass
+MATH-128  ~87.3529468% exact safe source mass
+```
+
+### MATH-129 — current strongest exact r=11 q-gate union
+
+For each source residue `r mod 2^22`, define
+
+```text
+N_*(r)=max_{1<=d<=22} L(d,q_d(r)),
+L(d,q)=floor((2^d*2^71-c_max(d,q))/3^q).
+```
+
+The logical union of every safe prefix gate through depth 22 is counted exactly over the prepared AP source.
+
+```text
+prepared split pieces              605,977
+total source occurrence mass       3,419,719,061,560
+threshold levels                   275
+exact multi-depth safe mass        3,209,065,424,947
+exact uncertified tail mass        210,653,636,613
+safe source-mass fraction          93.840030925905822%
+```
+
+The earlier adaptive complete-block method through depth 34 beats MATH-129 on zero AP pieces. MATH-129 wins on 601,534 pieces and ties on 4,443.
+
+Authoritative artifacts:
+
+```text
+collatz/src/2026_09_14_math129_r11_multidepth_qgate_audit.cpp
+collatz/results/2026-09-14-math129-r11-multidepth-qgate.tsv
+collatz/notes/2026-09-14-math129-r11-exact-multidepth-qgate.md
+collatz/index/2026-09-14-math121-129-r11-closeout.md
+```
+
+Important claim boundary:
+
+```text
+93.8400% exact safe subset != r=11 CLOSED
+```
+
+The remaining `210,653,636,613` source occurrences are an uncertified high-odd-count/address-sensitive tail, not counterexamples.
 
 ## Next execution-ready layer — MATH-117 / r=10
 
-MATH-113/MATH-115 freeze the `r=10` source as:
+MATH-113/MATH-115 freeze:
 
 ```text
 classification                994 = 91 safe + 396 singleton + 507 critical
-branch-and-bound nodes        1,994,258
 AP source cylinders           278,725
 represented occurrence mass  27,557,263,803,397
 max unsplit multiplicity      830,483,089,363
 ```
 
-MATH-114's exact 128-way representation is:
-
-```text
-exact split pieces 278,739
-cap                215,291,123,465
-min shard mass     215,291,123,463
-max shard mass     215,291,123,465
-max pieces/shard   2,448
-u64 per shard      safe
-```
-
-A manual-only workflow is prepared at `.github/workflows/collatz-math117-r10-mass-balanced-sharded-closure.yml`. It is not launched while the `r=11` gate is actively consuming runner capacity.
-
-## Structural point for lower-layer generalization
-
-The MATH-065 generator does not define the `r` layers as nested source families. Its exact state machine accepts a completed `r`-paid cluster only at
-
-```text
-j = r and u = 0,
-```
-
-and explicitly discards `u=0` at `j<r` as an **earlier return, not an r-paid cluster**.
-
-Hence `r` is a first-return paid-count label. Distinct `r` layers represent distinct first-return cases rather than a monotone inclusion chain. Consequently:
-
-```text
-r=12 CLOSED  !=>  r=11 CLOSED
-```
-
-by set inclusion alone.
-
-A useful common theorem, if one exists, must therefore be uniform in the paid-count parameter `r` or in an invariant preserved by all such first-return families; it cannot rely merely on `S_{r-1} subset S_r`.
-
-This observation is being separated into the next coverage/structure audit because it directly constrains how the remaining `r=11..2` layers may be unified.
+MATH-114's exact 128-way representation has `278,739` split pieces and remains `uint64` safe per shard. The manual-only MATH-117 workflow remains unlaunched while r=11 consumes runner capacity.
 
 ## Remaining mainline obligations
 
-### Stage A — descend the multi-paid frontier
+### Stage A — discharge r=11 down through r=2
 
-Uncertified layers are now:
-
-```text
-r = 11,10,9,8,7,6,5,4,3,2
-```
-
-MATH-113 has already frozen exact workloads for `r=10..2`, and MATH-114 provides an exact mass-balanced representation that keeps downstream engine invocations inside the audited count domain, including the low-`r` uint64 cases.
-
-Per-layer acceptance sequence:
+For r=11 the clean next mathematical target is only the MATH-129 tail. Valid routes are:
 
 ```text
-exact classifier / workload
--> exact source coverage
--> exact disjoint/exhaustive representation
--> exact AP-union or equivalent same-integer propagation closure
--> independent occurrence-mass accounting invariant
--> claim-boundary audit
+deeper exact multi-depth gates
+or MATH-124 exact source-address/correction evaluation
+or completion of MATH-116 unchanged exact AP-union closure
 ```
+
+After r=11, descend `r=10,9,...,2` using the already-frozen workloads and exact mass-balanced representation.
 
 ### Stage B — paid-layer coverage audit
 
-After the remaining layers are discharged, prove that the one-paid and multi-paid families cover every paid-count case required by the first-cell reduction.
-
-The audit must explicitly check:
-
-- whether `r=0` or `r=1` are absent by exact semantics rather than notation;
-- the exact relation between the one-paid `t` chain and multi-paid first-return `r` chain;
-- uniqueness or harmless overlap of ordinary-integer address lineage;
-- that no phase/address state was lost by a coarse quotient;
-- that every use of MATH-091 and MATH-096 remains within proved scope.
+After all layers are discharged, prove that the one-paid and multi-paid families exhaust every paid-count case required by the first-cell reduction. Explicitly audit `r=0/1`, one-paid/multi-paid complementarity, ordinary-integer address lineage, quotient losses, and MATH-091/MATH-096 scope.
 
 ### Stage C — first universal-cell implication-chain audit
 
@@ -184,27 +229,18 @@ first-cell candidate geometry
 -> contradiction / descent below B_pub
 ```
 
-Only exhaustive coverage permits promotion of the first universal Farey cell from `OPEN` to `CLOSED`.
-
 ### Stage D — universal Collatz reduction audit
 
-The final theorem layer must verify the exact reduction from
+First-cell closure is not automatically the full Collatz conjecture. A separate theorem must connect
 
 ```text
-published finite baseline B_pub = 2^71
-+ first universal-cell closure
-+ recursive / inductive / cell-propagation theorem
+B_pub = 2^71
++ first-cell closure
++ recursive/inductive/cell propagation
 ```
 
 to every positive integer.
 
 ## Claim boundary
 
-The project continues to distinguish:
-
-- exact finite workload and representation;
-- exact finite layer closure;
-- coverage of a proof partition;
-- first-cell emptiness;
-- universal reduction;
-- full Collatz proof.
+The project continues to distinguish exact finite workload, exact finite layer closure, coverage of a proof partition, first-cell emptiness, universal reduction, and a full Collatz proof.
