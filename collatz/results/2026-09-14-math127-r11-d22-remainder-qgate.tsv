@@ -1,0 +1,12 @@
+metric	value
+prepared_split_pieces	605977
+total_occurrence_mass	3419719061560
+depth	22
+distinct_b_mod_2pow22	32
+q_safe_12_pieces	27420
+q_safe_13_pieces	578557
+exact_d22_safe_mass	2904383883175
+exact_d22_tail_mass	515335178385
+exact_d22_safe_fraction_percent	84.930482033517819
+observed_max_source_value	6290339729165775182359
+status	EXACT_FINITE_SOURCE_MASS_AUDIT_NO_R11_CLOSURE_CLAIM
