@@ -1,0 +1,10 @@
+metric	value
+state_cap	1000000
+single_ap_shards	14
+single_ap_shard_range	0..13
+single_ap_mass	215291123465
+ceil_log2_mass_over_state_cap	18
+max_leaf_mass_after_18_exact_bisections	821271
+state_cap_resource_split_eliminated_after_depth	18
+remaining_nonresource_gate	MAX_DEPTH_1000_closure
+classification	EXACT_RESOURCE_BOUND_NO_R10_CLOSURE_CLAIM
