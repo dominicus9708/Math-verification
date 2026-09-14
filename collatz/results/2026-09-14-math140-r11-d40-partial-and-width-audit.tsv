@@ -1,0 +1,12 @@
+metric	value
+frozen_r11_occurrence_mass	3419719061560
+safe_through_d39	3350963514708
+d40_certified_partial_increment	2897326399
+safe_with_d40_partial	3353860841107
+remaining_tail_upper_bound	65858220453
+safe_fraction_percent_lower_bound	98.07416284006216
+d40_completed_step_classes	22,23,24,25,26,33-53
+d40_pending_step_classes	27-32
+u128_exact_threshold_max_safe_depth	56
+first_u128_overflow_depth	57
+status	PARTIAL_EXACT_NO_R11_CLOSURE
