@@ -1,4 +1,4 @@
-# Current Collatz frontier after MATH-116 final r11 closure
+# Current Collatz frontier through MATH-148 lower-layer preflights
 
 Date: 2026-09-15
 
@@ -11,7 +11,10 @@ One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=11                     CLOSED
 Multi-paid r=10                      OPEN — MATH-117 exact gate running
 Multi-paid r=9                       OPEN — MATH-142 execution-ready, not launched
-Multi-paid 2<=r<=8                   OPEN
+Multi-paid r=8                       OPEN — MATH-145 execution-ready, not launched
+Multi-paid r=7                       OPEN — MATH-146 execution-ready, not launched
+Multi-paid r=6                       OPEN — MATH-147 execution-ready, not launched
+Multi-paid 2<=r<=5                   OPEN
 ```
 
 No layer closure is promoted to first-cell emptiness or the Collatz conjecture without the separate coverage and implication-chain audits.
@@ -27,7 +30,7 @@ prepared split pieces         605,977
 represented occurrence mass  3,419,719,061,560
 ```
 
-The exact mass-balanced partition certificate uses 128 shards and fixes:
+The exact mass-balanced partition certificate uses 128 shards:
 
 ```text
 TOTAL_SOURCE_RECORDS  605,972
@@ -39,7 +42,7 @@ MAX_SHARD_MASS         26,716,555,169
 PASS                    exact_mass_balanced_partition
 ```
 
-Workflow run `34768752143` at head SHA `ac2cd3d59ce5878632d88c1bf4f724223a285a80` completed with conclusion `success`. Its matrix requires shards `0..127` exactly, and every shard requires `PASS generalized exact AP-union audit` from the unchanged MATH-108 engine. Therefore, within the audited multi-paid framework,
+Workflow run `34768752143` at head SHA `ac2cd3d59ce5878632d88c1bf4f724223a285a80` completed with conclusion `success`. Its 128 matrix shards all completed successfully and each required `PASS generalized exact AP-union audit` from the unchanged MATH-108 engine. Therefore, within the audited multi-paid framework,
 
 ```text
 r >= 11  CLOSED
@@ -79,50 +82,85 @@ mass-balanced split pieces    278,739
 shard mass range              215,291,123,463 .. 215,291,123,465
 ```
 
-Launch commit:
+Launch commit `e4a5cd1704122d2901437d4cc98fbbc8c8c97040`, workflow run `34881179736`.
 
-`e4a5cd1704122d2901437d4cc98fbbc8c8c97040`
+Latest audited job state:
 
-Workflow run:
+- prepare/source/partition certificate: `success`
+- exactly 16 first-wave shard jobs are in `Run exact shard closure`
+- later shards are queued by `max-parallel: 16`
+- observed shard failures: `0`
+- no shard closure artifact has completed yet at the latest inspection
 
-`34881179736`
+Therefore `r=10` remains `OPEN`.
 
-Current audited state:
+MATH-143/144 explain the resource geometry of the giant first-wave APs. For the largest split AP mass `215,291,123,465`, at most 18 exact parameter halvings reduce descendant mass below `STATE_CAP = 1,000,000`; this is a resource bound, not a closure theorem.
 
-- exact source export: `success`
-- exact mass-balanced shard preparation: `success`
-- partition certificate audit: `success`
-- prepared shard artifact preservation: `success`
-- first shard wave: unchanged MATH-108 exact closure running
-- observed shard failures: `0` at the latest inspection
+## Prepared lower-layer gates
 
-Therefore `r=10` remains `OPEN`. It may be promoted only after the complete 128-shard gate succeeds.
-
-## MATH-142 — `r=9` execution-readiness audit
-
-Prepared but deliberately not launched while MATH-117 uses the Actions queue:
+### MATH-142 — `r=9`
 
 ```text
 classification                977 = 72 safe + 349 singleton + 556 critical
 AP source cylinders           141,002
-represented occurrence mass  172,107,496,438,700
-max multiplicity              3,381,256,733,001
-mass-balanced split pieces    141,021
+occurrence mass               172,107,496,438,700
+split pieces                  141,021
 128-shard cap                 1,344,589,815,928
-shard mass range              1,344,589,815,927 .. 1,344,589,815,928
 max pieces per shard          1,300
 ```
 
-The unchanged MATH-114 representation is `u64`-safe shard-locally and compatible with the unchanged MATH-108 exact AP-union engine.
+### MATH-145 — `r=8`
+
+```text
+classification                977 = 60 safe + 330 singleton + 587 critical
+AP source cylinders           65,811
+occurrence mass               1,281,026,785,265,013
+split pieces                  65,844
+128-shard cap                 10,008,021,759,883
+max pieces per shard          696
+```
+
+### MATH-146 — `r=7`
+
+```text
+classification                963 = 42 safe + 291 singleton + 630 critical
+AP source cylinders           29,342
+occurrence mass               8,499,072,326,407,060
+split pieces                  29,397
+128-shard cap                 66,399,002,550,056
+max pieces per shard          407
+```
+
+### MATH-147 — `r=6`
+
+```text
+classification                963 = 34 safe + 250 singleton + 679 critical
+AP source cylinders           15,133
+occurrence mass               53,251,059,016,858,758
+split pieces                  15,183
+128-shard cap                 416,023,898,569,210
+max pieces per shard          197
+```
+
+All four gates are representation-safe shard-locally and use manual-only workflows. None has been launched while MATH-117 occupies the Actions queue.
+
+## MATH-148 — finite `STATE_CAP` recursion bound
+
+For every MATH-114 split piece in `r=2..12`, pure state-count overflow is finitely removable by exact AP parameter bisection after the AP is isolated. The least worst-case half-bisection depths are:
+
+```text
+r12 13   r11 15   r10 18   r9 21   r8 24   r7 26
+r6  29   r5  32   r4  34   r3 37   r2 40
+```
+
+Each listed depth makes the worst descendant source mass at most `1,000,000`. This controls only `STATE_CAP`; exact closure before `MAX_DEPTH = 1000` remains an execution obligation.
 
 Records:
 
 ```text
-collatz/notes/2026-09-15-math142-r9-execution-readiness-audit.md
-.github/workflows/collatz-math142-r9-mass-balanced-sharded-closure.yml
+collatz/results/2026-09-15-math148-state-cap-bisection-depth.tsv
+collatz/notes/2026-09-15-math148-finite-state-cap-recursion-bound.md
 ```
-
-This is an execution preflight only; `r=9` remains `OPEN`.
 
 ## Remaining proof obligations after layer closures
 
