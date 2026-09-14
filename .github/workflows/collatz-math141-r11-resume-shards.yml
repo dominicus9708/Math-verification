@@ -80,7 +80,7 @@ jobs:
           import os
           from pathlib import Path
           s=int(os.environ['SHARD'])
-          base=Path('/tmp/math141/r11-shards')
+          base=Path('/tmp/math141')
           rows=[line.rstrip('\n').split('\t') for line in (base/'certificate.tsv').open(encoding='utf-8')]
           hit=[r for r in rows if r and r[0]==str(s)]
           assert len(hit)==1
@@ -96,7 +96,7 @@ jobs:
           SHARD: ${{ matrix.shard }}
         run: |
           read C O < /tmp/r11-meta.txt
-          FILE=$(printf '/tmp/math141/r11-shards/shard-%03d.tsv' "$SHARD")
+          FILE=$(printf '/tmp/math141/shard-%03d.tsv' "$SHARD")
           /tmp/math108 "$C" "$O" 2000 < "$FILE" 2>&1 | tee /tmp/r11-shard.log
           grep -q 'PASS generalized exact AP-union audit' /tmp/r11-shard.log
       - name: Preserve shard log
