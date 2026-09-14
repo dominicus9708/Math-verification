@@ -1,0 +1,110 @@
+name: Collatz MATH-141 resume r11 exact closure shards 98-127
+
+on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math141-r11-resume-shards.yml'
+  workflow_dispatch:
+
+jobs:
+  prepare-r11-source-and-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export exact r11 source once
+        run: |
+          python3 collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py --r 11 > /tmp/r11.tsv 2> /tmp/r11-export.log
+          cat /tmp/r11-export.log
+          grep -q 'MATH-115 export PASS r=11 cylinders=605972 occurrences=3419719061560 max_multiplicity=51905193085' /tmp/r11-export.log
+      - name: Prepare exact mass-balanced shards once
+        run: |
+          python3 collatz/src/2026_09_13_math115_prepare_mass_balanced_shards.py \
+            --input /tmp/r11.tsv --shards 128 --out-dir /tmp/r11-shards \
+            2>&1 | tee /tmp/r11-prepare.log
+      - name: Audit frozen partition certificate
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/r11-shards/certificate.tsv')
+          rows=[line.rstrip('\n').split('\t') for line in p.open(encoding='utf-8')]
+          data={r[0]:r[1:] for r in rows if r and not r[0].isdigit()}
+          shard_rows=[r for r in rows if r and r[0].isdigit()]
+          assert len(shard_rows)==128
+          assert all(len(r)==4 and r[3]=='1' for r in shard_rows)
+          assert data['TOTAL_SOURCE_RECORDS']==['605972']
+          assert data['TOTAL_PIECES']==['605977']
+          assert data['TOTAL_MASS']==['3419719061560']
+          assert data['CAP']==['26716555169']
+          assert data['MIN_SHARD_MASS']==['26716555168']
+          assert data['MAX_SHARD_MASS']==['26716555169']
+          assert data['PASS']==['exact_mass_balanced_partition']
+          assert sum(int(r[2]) for r in shard_rows)==3419719061560
+          print('PASS MATH-141 frozen r11 partition replay')
+          PY
+      - name: Preserve exact prepared shards
+        uses: actions/upload-artifact@v4
+        with:
+          name: math141-r11-exact-shards
+          path: /tmp/r11-shards
+          retention-days: 14
+
+  r11-resume-shard:
+    needs: prepare-r11-source-and-shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      - name: Compile unchanged MATH-108 exact AP-union engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Download exact prepared shards
+        uses: actions/download-artifact@v4
+        with:
+          name: math141-r11-exact-shards
+          path: /tmp/math141
+      - name: Select and audit shard metadata
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          s=int(os.environ['SHARD'])
+          base=Path('/tmp/math141/r11-shards')
+          rows=[line.rstrip('\n').split('\t') for line in (base/'certificate.tsv').open(encoding='utf-8')]
+          hit=[r for r in rows if r and r[0]==str(s)]
+          assert len(hit)==1
+          _,pieces,mass,safe=hit[0]
+          assert safe=='1'
+          src=base/f'shard-{s:03d}.tsv'
+          assert sum(1 for line in src.open(encoding='utf-8') if line.strip())==int(pieces)>0
+          Path('/tmp/r11-meta.txt').write_text(f'{pieces} {mass}\n',encoding='utf-8')
+          print('SHARD',s,'pieces',pieces,'mass',mass,'u64_safe',safe)
+          PY
+      - name: Run exact shard closure
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          read C O < /tmp/r11-meta.txt
+          FILE=$(printf '/tmp/math141/r11-shards/shard-%03d.tsv' "$SHARD")
+          /tmp/math108 "$C" "$O" 2000 < "$FILE" 2>&1 | tee /tmp/r11-shard.log
+          grep -q 'PASS generalized exact AP-union audit' /tmp/r11-shard.log
+      - name: Preserve shard log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: math141-r11-shard-${{ matrix.shard }}-log
+          path: |
+            /tmp/r11-meta.txt
+            /tmp/r11-shard.log
+          retention-days: 14
