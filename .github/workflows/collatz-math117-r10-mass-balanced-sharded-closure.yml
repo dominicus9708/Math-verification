@@ -1,6 +1,15 @@
 name: Collatz MATH-117 candidate r10 exact mass-balanced sharded closure gate
 
 on:
+  push:
+    paths:
+      - '.github/workflows/collatz-math117-r10-mass-balanced-sharded-closure.yml'
+      - 'collatz/src/2026_09_13_math108_general_ap_union_engine.cpp'
+      - 'collatz/src/2026_09_13_math114_mass_balanced_ap_sharder.py'
+      - 'collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py'
+      - 'collatz/src/2026_09_13_math115_prepare_mass_balanced_shards.py'
+      - 'collatz/src/2026_09_11_math065_paid_count_18plus_closure_certificate.py'
+      - 'collatz/src/2026_09_11_paid_macro_transition_certificate.py'
   workflow_dispatch:
 
 jobs:
