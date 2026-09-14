@@ -1,0 +1,18 @@
+metric	value
+r	11
+workflow_run	34768752143
+workflow_head_sha	ac2cd3d59ce5878632d88c1bf4f724223a285a80
+run_status	completed
+run_conclusion	success
+expected_matrix_shards	128
+shard_range	0..127
+source_records	605972
+prepared_split_pieces	605977
+represented_occurrence_mass	3419719061560
+mass_balance_cap	26716555169
+min_shard_mass	26716555168
+max_shard_mass	26716555169
+partition_certificate	exact_mass_balanced_partition
+per_shard_gate	PASS generalized exact AP-union audit
+status	r11_CLOSED_WITHIN_AUDITED_MULTIPAID_FRAMEWORK
+claim_boundary	NOT_FIRST_CELL_CLOSURE_NOT_COLLATZ_PROOF
