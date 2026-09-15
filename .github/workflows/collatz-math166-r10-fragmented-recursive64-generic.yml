@@ -102,7 +102,7 @@ jobs:
           S: ${{ matrix.subshard }}
         run: |
           python3 - <<'PY'
-          import os
+          import hashlib, os
           from pathlib import Path
           s=int(os.environ['S'])
           base=Path('/tmp/math166/r10-fragmented-sub64')
@@ -115,24 +115,59 @@ jobs:
           body=[ln for ln in src.read_text().splitlines() if ln.strip()]
           assert len(body)==int(pieces)
           assert sum(int(ln.split('\t')[2]) for ln in body)==int(mass)
+          parsed=[ln.split('\t') for ln in body]
+          starts=[int(r[0]) for r in parsed]
+          steps=[int(r[1]) for r in parsed]
+          mults=[int(r[2]) for r in parsed]
+          digest=hashlib.sha256(src.read_bytes()).hexdigest()
           Path(f'/tmp/sub-{s:03d}-meta.txt').write_text(f'{pieces} {mass}\n')
+          Path(f'/tmp/sub-{s:03d}-geometry.tsv').write_text(
+              'subshard\tpieces\tmass\tfirst_start\tfirst_step\tdistinct_steps\tmax_piece_mass\tsource_sha256\n'
+              f'{s}\t{pieces}\t{mass}\t{starts[0]}\t{steps[0]}\t{len(set(steps))}\t{max(mults)}\t{digest}\n')
           PY
-      - name: Run unchanged exact AP-union closure
+      - name: Run unchanged exact AP-union closure with proof-neutral timing
         env:
           S: ${{ matrix.subshard }}
         run: |
           read C O < $(printf '/tmp/sub-%03d-meta.txt' "$S")
           FILE=$(printf '/tmp/math166/r10-fragmented-sub64/shard-%03d.tsv' "$S")
           LOG=$(printf '/tmp/sub-%03d-log.txt' "$S")
+          RUNTIME=$(printf '/tmp/sub-%03d-runtime.tsv' "$S")
+          START_NS=$(date +%s%N)
+          set +e
           /tmp/math108 "$C" "$O" 1 < "$FILE" 2>&1 | tee "$LOG"
+          ENGINE_STATUS=${PIPESTATUS[0]}
+          set -e
+          END_NS=$(date +%s%N)
+          python3 - "$S" "$C" "$O" "$START_NS" "$END_NS" "$ENGINE_STATUS" "$LOG" "$RUNTIME" <<'PY'
+          import re, sys
+          from pathlib import Path
+          s,c,o,start_ns,end_ns,status,log_path,out_path=sys.argv[1:]
+          wall=(int(end_ns)-int(start_ns))/1_000_000_000
+          txt=Path(log_path).read_text()
+          pat=(r'PASS generalized exact AP-union audit cylinders=(\d+) occurrences=(\d+) '
+               r'closed_occurrence_mass=(\d+) closure_leaves=(\d+) resource_splits=(\d+) '
+               r'max_depth=(\d+) max_state=(\d+) source_chunk=(\d+)')
+          m=re.search(pat,txt)
+          fields=['NA']*8 if m is None else list(m.groups())
+          Path(out_path).write_text(
+              'subshard\texpected_cylinders\texpected_occurrences\twall_seconds\tengine_status\t'
+              'reported_cylinders\treported_occurrences\tclosed_occurrence_mass\tclosure_leaves\t'
+              'resource_splits\tmax_depth\tmax_state\tsource_chunk\n'
+              + '\t'.join([s,c,o,f'{wall:.6f}',status,*fields])+'\n')
+          if int(status)!=0 or m is None:
+              raise SystemExit(1)
+          PY
           grep -q 'PASS generalized exact AP-union audit' "$LOG"
-      - name: Preserve subshard logs
+      - name: Preserve subshard logs and runtime geometry
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: r10-fragmented-${{ inputs.original_shard }}-sub64-${{ matrix.subshard }}-logs
           path: |
             /tmp/sub-*-meta.txt
+            /tmp/sub-*-geometry.tsv
+            /tmp/sub-*-runtime.tsv
             /tmp/sub-*-log.txt
           retention-days: 14
 
@@ -186,3 +221,37 @@ jobs:
                 requested,'mass',meta['source_mass'])
           print('NO r10 LAYER CLOSURE CLAIM')
           PY
+      - name: Aggregate proof-neutral runtime geometry
+        if: success()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          runtimes=sorted(Path('/tmp/logs').glob('sub-*-runtime.tsv'))
+          geoms=sorted(Path('/tmp/logs').glob('sub-*-geometry.tsv'))
+          assert len(runtimes)==64, len(runtimes)
+          assert len(geoms)==64, len(geoms)
+          runtime_rows=[]
+          for p in runtimes:
+              lines=p.read_text().splitlines()
+              assert len(lines)==2
+              runtime_rows.append(lines[1])
+          geom_rows=[]
+          for p in geoms:
+              lines=p.read_text().splitlines()
+              assert len(lines)==2
+              geom_rows.append(lines[1])
+          Path('/tmp/runtime-telemetry.tsv').write_text(
+              runtimes[0].read_text().splitlines()[0]+'\n'+'\n'.join(runtime_rows)+'\n')
+          Path('/tmp/source-geometry.tsv').write_text(
+              geoms[0].read_text().splitlines()[0]+'\n'+'\n'.join(geom_rows)+'\n')
+          print('PASS proof-neutral telemetry rows',len(runtime_rows))
+          PY
+      - name: Preserve aggregated runtime geometry
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: math166-r10-fragmented-${{ inputs.original_shard }}-runtime-geometry
+          path: |
+            /tmp/runtime-telemetry.tsv
+            /tmp/source-geometry.tsv
+          retention-days: 14
