@@ -76,6 +76,32 @@ Historical pilot run: `34947502210` (temporary workflow label MATH-148; authorit
 
 If all 64 pass, original shard 0 is CLOSED under the unchanged theorem-facing AP dynamics, but `r=10` remains OPEN until every original source shard is covered.
 
+## First successful microclosure
+
+Microshard 7 completed successfully in the historical pilot run. Its exact source mass is
+
+```text
+3,363,923,805.
+```
+
+The unchanged MATH-108 engine reported:
+
+```text
+PASS generalized exact AP-union audit
+cylinders=1
+occurrences=3363923805
+closed_occurrence_mass=3363923805
+closure_leaves=64
+resource_splits=63
+max_depth=435
+max_state=812792
+source_chunk=1
+```
+
+The exact closure step ran from approximately `08:32:48` to `08:36:02` UTC on the hosted runner, about 3 minutes 14 seconds. This is the first empirical evidence that external exact microsharding converts the original 180-minute shard timeout into parallelizable exact subproblems.
+
+This does **not** imply a 64-fold reduction in total serial work. It demonstrates wall-clock parallelizability and removes the immediate single-job timeout for at least one exact subinterval.
+
 ## Claim boundary
 
 This retry changes resource scheduling only. A timeout is not evidence of a survivor, and a successful shard-0 pilot is not `r=10 CLOSED`.
