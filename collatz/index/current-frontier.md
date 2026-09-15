@@ -1,4 +1,4 @@
-# Current Collatz frontier through MATH-161 r10 recursive scheduling retry
+# Current Collatz frontier through MATH-162 and MATH-161 final original-shard closures
 
 Date: 2026-09-16
 
@@ -9,7 +9,7 @@ Collatz conjecture                    OPEN
 First universal Farey cell           OPEN
 One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=11                     CLOSED
-Multi-paid r=10                      OPEN — original shards 0 and 1 exactly CLOSED; 126 original shards unresolved
+Multi-paid r=10                      OPEN — original shards 0,1,2,18 exactly CLOSED; 124 original shards unresolved
 Multi-paid r=9                       OPEN — MATH-142 execution-ready, not launched
 Multi-paid r=8                       OPEN — MATH-145 execution-ready, not launched
 Multi-paid r=7                       OPEN — MATH-146 execution-ready, not launched
@@ -66,12 +66,13 @@ classification                994 = 91 safe + 396 singleton + 507 critical
 AP source cylinders           278,725
 represented occurrence mass  27,557,263,803,397
 mass-balanced split pieces    278,739
+original shards               128
 128-shard cap                 215,291,123,465
 ```
 
 Workflow run `34881179736` completed source export, exact MATH-114 preparation, partition-certificate audit, and prepared-shard preservation. The original 128 closure jobs then hit the 180-minute resource limit. No `FAIL`, surviving-state certificate, depth-limit exception, or contradictory arithmetic output was observed. This remains a resource/scheduling result, not `r=10` non-closure.
 
-MATH-143 shows original shards `0..13` are each one giant AP of mass `215,291,123,465`; original shards `14..127` are fragmented many-record workloads. The active scheduler therefore treats these two geometries separately while preserving the same frozen exact source.
+MATH-143 shows original shards `0..13` are each one giant AP; original shards `14..127` are fragmented many-record workloads. Further audit separates the giant group into `3^19` step shards `0..2` and `3^20` step shards `3..13`.
 
 ## MATH-153 — original `r=10` shard 0 exactly CLOSED
 
@@ -81,7 +82,7 @@ Original shard 0 was split into 64 disjoint consecutive parameter intervals:
 215291123465 = 9 * 3363923805 + 55 * 3363923804.
 ```
 
-Historical workflow run `34947502210` completed with overall `success`. All 64 unchanged MATH-108 micro closures succeeded, and `certify-original-shard0` verified every PASS log, every micro occurrence mass, every `closed_occurrence_mass`, complete 64-way coverage, and exact total mass `215291123465`.
+Workflow run `34947502210` completed with overall `success`. All 64 unchanged MATH-108 micro closures succeeded, and `certify-original-shard0` verified every PASS log, every micro occurrence mass, every `closed_occurrence_mass`, complete 64-way coverage, and exact total mass `215291123465`.
 
 ```text
 ORIGINAL r=10 SHARD 0  CLOSED
@@ -96,19 +97,10 @@ collatz/notes/2026-09-15-math153-r10-shard0-final-closure.md
 
 ## MATH-159 — original `r=10` shard 1 exactly CLOSED
 
-MATH-159 independently applies the generic MATH-156 exact single-AP microsharder to original shard 1. The source mass is again
-
-```text
-215291123465.
-```
-
-Workflow run `34962500310` completed source preparation, all 64 `micro-closure (0..63)` jobs, and the dependent `certify-original-shard1` job with `success`. The final certificate requires exact 64-way mass coverage and, for every micro source, both `occurrences=mass` and `closed_occurrence_mass=mass`.
-
-Therefore:
+MATH-159 independently applies the generic MATH-156 exact single-AP microsharder to original shard 1. Workflow run `34962500310` completed source preparation, all 64 micro closures, and the dependent `certify-original-shard1` job with `success`.
 
 ```text
 ORIGINAL r=10 SHARD 1  CLOSED
-r=10 LAYER              OPEN
 ```
 
 Authoritative records:
@@ -118,7 +110,41 @@ collatz/results/2026-09-15-math159-r10-shard1-final-closure.tsv
 collatz/notes/2026-09-15-math159-r10-shard1-final-closure.md
 ```
 
-This validates the generic giant-AP scheduler on a second original shard. It does not close unexecuted giant shards `2..13` by analogy.
+## MATH-162 — original `r=10` shard 2 exactly CLOSED
+
+Original shard 2 is the final giant boundary shard with step
+
+```text
+3^19 = 1,162,261,467.
+```
+
+Workflow run `34990484411` completed with `success`. All 64 exact micro closures passed unchanged MATH-108 with explicit `source_chunk=1`. Dependent certificate job `104533295513` verified all micro metadata and logs, `occurrences=mass`, `closed_occurrence_mass=mass`, and exact total source mass:
+
+```text
+215,291,123,465.
+```
+
+Final output:
+
+```text
+PASS MATH-162 original r10 shard2 exact 64-micro closure mass=215291123465
+NO r10 LAYER CLOSURE CLAIM
+```
+
+Therefore:
+
+```text
+ORIGINAL r=10 SHARD 2  CLOSED
+```
+
+Authoritative records:
+
+```text
+collatz/results/2026-09-16-math162-r10-shard2-final-closure.tsv
+collatz/notes/2026-09-16-math162-r10-shard2-final-closure.md
+```
+
+The independently certified `3^19` giant boundary family `0..2` is now complete at original-shard level. This does not close the distinct `3^20` giant family `3..13` by analogy.
 
 ## MATH-154 — fragmented shard 18 record-chunk pilot: resource timeout
 
@@ -131,17 +157,15 @@ maximum AP multiplicity    116,786,684,442
 source_chunk               128
 ```
 
-Workflow run `34962372512` passed exact source regeneration and the shard-18 geometry audit. The unchanged MATH-108 closure step then ran until the 180-minute job limit and was cancelled. No mathematical FAIL certificate was observed. MATH-154 is therefore classified as a resource timeout, not a shard-18 non-closure result.
-
-Direct geometry inspection also shows why record-count chunking is weak here: one 128-record chunk can retain occurrence mass `213,429,935,730`, almost the entire original shard mass.
+Workflow run `34962372512` passed exact source regeneration and the shard-18 geometry audit. The unchanged MATH-108 closure step then ran until the 180-minute job limit and was cancelled. No mathematical FAIL certificate was observed. MATH-154 is classified as a resource timeout, not a shard-18 non-closure result.
 
 ## MATH-160 — exact timeout retry rule
 
 Resource retries may refine only exact representation or scheduling. They may not delete candidates, relax conditions, change the frozen source, or reinterpret timeout as mathematical evidence. Every promoted closure still requires a complete exact coverage certificate.
 
-## MATH-161 — recursive exact mass balancing for fragmented shards
+## MATH-161 — original `r=10` shard 18 exactly CLOSED by recursive64
 
-MATH-161 exhaustively audited all 114 fragmented original shards `14..127` under a second exact MATH-114 partition with 64 subshards per original shard.
+MATH-161 first audited all 114 fragmented original shards `14..127` under a second exact MATH-114 partition with 64 subshards per original shard.
 
 Across all fragmented originals:
 
@@ -154,29 +178,56 @@ subshard mass spread              3 .. 6
 maximum pieces/subshard           244
 ```
 
-For shard 18 specifically:
+For shard 18:
 
 ```text
 source records                    2444
 source mass                       215291123464
 recursive exact pieces            2491
+recursive subshards               64
 subshard mass range               3363923801 .. 3363923805
-mass spread                       4
-pieces/subshard                   1 .. 146
+workflow run                      34990207168
+final certificate job             104526872083
 ```
 
-The MATH-114 partition is an exact disjoint AP-parameter partition; it changes only resource layout.
+All 64 recursive exact subshards passed unchanged MATH-108 with `source_chunk=1`. The dependent certificate rechecked exact metadata, `PASS generalized exact AP-union audit`, `occurrences=mass`, `closed_occurrence_mass=mass`, and exact total mass `215291123464`.
 
-MATH-161 workflow run `34990207168` is now active. Its preparation stage has already passed frozen-source regeneration, original shard-18 identity audit, recursive 64-way mass balancing, and source preservation. Each subshard is then audited by unchanged MATH-108 with explicit `source_chunk=1`; the final `certify-original-shard18` job may promote shard 18 only if all 64 exact subshards PASS and their certified masses sum to `215291123464`.
-
-Current status:
+Final output:
 
 ```text
-ORIGINAL r=10 SHARDS 0,1  CLOSED
-ORIGINAL r=10 SHARD 18    OPEN — MATH-161 recursive64 exact closure running
-OTHER r=10 SHARDS         OPEN
-r=10 LAYER                OPEN
+PASS MATH-161 original r10 shard18 recursive64 exact closure mass=215291123464
+NO r10 LAYER CLOSURE CLAIM
 ```
+
+Therefore:
+
+```text
+ORIGINAL r=10 SHARD 18  CLOSED
+```
+
+Authoritative records:
+
+```text
+collatz/results/2026-09-16-math161-r10-shard18-final-closure.tsv
+collatz/notes/2026-09-16-math161-r10-shard18-final-closure.md
+```
+
+This validates the recursive64 fragmented-shard scheduler on one complete original fragmented shard. Other fragmented originals remain independently OPEN.
+
+## Current `r=10` original-shard ledger
+
+```text
+CLOSED original shards       {0,1,2,18}
+closed count                 4 / 128
+unresolved count             124 / 128
+shards 3..13                 OPEN — distinct 3^20 giant family; MATH-168 gate prepared
+shards 14..127 except 18     OPEN — fragmented family; MATH-166 gate prepared
+r=10 layer                   OPEN
+```
+
+MATH-176 fixes the permanent ledger rule: an original shard is CLOSED only after its own dependent complete coverage certificate succeeds. The `r=10` layer may be promoted only after all original IDs `0..127` are present exactly once and their certified masses sum exactly to `27,557,263,803,397`.
+
+The next structurally independent giant target is original shard 3, the first `3^20` giant-AP shard.
 
 ## Prepared lower-layer gates
 
