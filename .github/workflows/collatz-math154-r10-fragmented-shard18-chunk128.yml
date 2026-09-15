@@ -2,6 +2,9 @@ name: Collatz MATH-154 r10 shard18 source-chunk128 pilot
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/collatz-math154-r10-fragmented-shard18-chunk128.yml'
 
 jobs:
   shard18-chunk128:
