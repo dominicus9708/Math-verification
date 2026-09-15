@@ -1,0 +1,50 @@
+name: Collatz MATH-154 r10 shard18 source-chunk128 pilot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  shard18-chunk128:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      - name: Compile unchanged MATH-108 engine
+        run: g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Regenerate exact r10 prepared shards
+        run: |
+          python3 collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py --r 10 > /tmp/r10.tsv 2> /tmp/r10-export.log
+          grep -q 'MATH-115 export PASS r=10 cylinders=278725 occurrences=27557263803397 max_multiplicity=830483089363' /tmp/r10-export.log
+          python3 collatz/src/2026_09_13_math115_prepare_mass_balanced_shards.py \
+            --input /tmp/r10.tsv --shards 128 --out-dir /tmp/r10-shards \
+            > /tmp/r10-prepare.log 2>&1
+      - name: Audit exact shard18 geometry
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/r10-shards/shard-018.tsv')
+          rows=[line.rstrip('\n').split('\t') for line in p.open() if line.strip()]
+          assert len(rows)==2444, len(rows)
+          mass=sum(int(r[2]) for r in rows)
+          assert mass==215291123464, mass
+          assert max(int(r[2]) for r in rows)==116786684442
+          print('PASS shard18 geometry rows=2444 mass=215291123464 max_m=116786684442')
+          PY
+      - name: Run exact shard18 closure with source_chunk 128
+        run: |
+          /tmp/math108 2444 215291123464 128 < /tmp/r10-shards/shard-018.tsv 2>&1 | tee /tmp/r10-shard18-chunk128.log
+          grep -q 'PASS generalized exact AP-union audit' /tmp/r10-shard18-chunk128.log
+      - name: Preserve log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: math154-r10-shard18-chunk128-log
+          path: |
+            /tmp/r10-shard18-chunk128.log
+            /tmp/r10-export.log
+            /tmp/r10-prepare.log
+          retention-days: 14
