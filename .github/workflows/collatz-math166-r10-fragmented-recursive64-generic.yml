@@ -1,0 +1,188 @@
+name: Collatz MATH-166 r10 generic fragmented recursive64 exact gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      original_shard:
+        description: 'Original prepared r10 shard index (14..127)'
+        required: true
+        type: string
+
+jobs:
+  prepare-recursive64-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate frozen exact r10 prepared source
+        run: |
+          python3 collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py --r 10 > /tmp/r10.tsv 2> /tmp/r10-export.log
+          grep -q 'MATH-115 export PASS r=10 cylinders=278725 occurrences=27557263803397 max_multiplicity=830483089363' /tmp/r10-export.log
+          python3 collatz/src/2026_09_13_math115_prepare_mass_balanced_shards.py \
+            --input /tmp/r10.tsv --shards 128 --out-dir /tmp/r10-shards \
+            > /tmp/r10-prepare.log 2>&1
+      - name: Audit selected fragmented original and recursively mass-balance
+        env:
+          ORIGINAL_SHARD: ${{ inputs.original_shard }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          s=int(os.environ['ORIGINAL_SHARD'])
+          assert 14 <= s <= 127, s
+          p=Path(f'/tmp/r10-shards/shard-{s:03d}.tsv')
+          rows=[ln.rstrip('\n').split('\t') for ln in p.open() if ln.strip()]
+          assert len(rows) > 1, (s,len(rows))
+          mass=sum(int(r[2]) for r in rows)
+          assert mass in (215291123463,215291123464), (s,mass)
+          Path('/tmp/original-meta.tsv').write_text(
+              f'original_shard\t{s}\nsource_records\t{len(rows)}\nsource_mass\t{mass}\n',
+              encoding='utf-8')
+          print('PASS selected fragmented original',s,'records',len(rows),'mass',mass)
+          PY
+          S=$(printf '%03d' "$ORIGINAL_SHARD")
+          python3 collatz/src/2026_09_13_math115_prepare_mass_balanced_shards.py \
+            --input "/tmp/r10-shards/shard-${S}.tsv" \
+            --shards 64 \
+            --out-dir /tmp/r10-fragmented-sub64 \
+            > /tmp/r10-fragmented-sub64.log 2>&1
+          grep -q $'PASS\texact_mass_balanced_partition' /tmp/r10-fragmented-sub64/certificate.tsv
+          python3 - <<'PY'
+          from pathlib import Path
+          meta={}
+          for ln in Path('/tmp/original-meta.tsv').read_text().splitlines():
+              k,v=ln.split('\t'); meta[k]=int(v)
+          rows=[ln.rstrip('\n').split('\t') for ln in Path('/tmp/r10-fragmented-sub64/certificate.tsv').open() if ln.strip()]
+          body=[r for r in rows[1:] if r[0].isdigit()]
+          assert len(body)==64
+          assert sum(int(r[2]) for r in body)==meta['source_mass']
+          masses=[int(r[2]) for r in body]
+          assert max(masses) <= 3363923805
+          assert max(masses)-min(masses) <= 6
+          assert all(r[3]=='1' for r in body)
+          print('PASS generic recursive64 certificate original',meta['original_shard'],
+                'mass',meta['source_mass'],'range',min(masses),max(masses))
+          PY
+      - name: Preserve exact recursive source
+        uses: actions/upload-artifact@v4
+        with:
+          name: math166-r10-fragmented-${{ inputs.original_shard }}-sub64-source
+          path: |
+            /tmp/r10-fragmented-sub64
+            /tmp/original-meta.tsv
+            /tmp/r10-export.log
+            /tmp/r10-prepare.log
+            /tmp/r10-fragmented-sub64.log
+          retention-days: 14
+
+  subshard-closure:
+    needs: prepare-recursive64-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        subshard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      - name: Compile unchanged MATH-108 engine
+        run: g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Download exact recursive source
+        uses: actions/download-artifact@v4
+        with:
+          name: math166-r10-fragmented-${{ inputs.original_shard }}-sub64-source
+          path: /tmp/math166
+      - name: Select certified subshard metadata
+        env:
+          S: ${{ matrix.subshard }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          s=int(os.environ['S'])
+          base=Path('/tmp/math166/r10-fragmented-sub64')
+          rows=[ln.rstrip('\n').split('\t') for ln in (base/'certificate.tsv').open() if ln.strip()]
+          hit=[r for r in rows[1:] if r[0]==str(s)]
+          assert len(hit)==1
+          _,pieces,mass,safe=hit[0]
+          assert safe=='1'
+          src=base/f'shard-{s:03d}.tsv'
+          body=[ln for ln in src.read_text().splitlines() if ln.strip()]
+          assert len(body)==int(pieces)
+          assert sum(int(ln.split('\t')[2]) for ln in body)==int(mass)
+          Path(f'/tmp/sub-{s:03d}-meta.txt').write_text(f'{pieces} {mass}\n')
+          PY
+      - name: Run unchanged exact AP-union closure
+        env:
+          S: ${{ matrix.subshard }}
+        run: |
+          read C O < $(printf '/tmp/sub-%03d-meta.txt' "$S")
+          FILE=$(printf '/tmp/math166/r10-fragmented-sub64/shard-%03d.tsv' "$S")
+          LOG=$(printf '/tmp/sub-%03d-log.txt' "$S")
+          /tmp/math108 "$C" "$O" 1 < "$FILE" 2>&1 | tee "$LOG"
+          grep -q 'PASS generalized exact AP-union audit' "$LOG"
+      - name: Preserve subshard logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r10-fragmented-${{ inputs.original_shard }}-sub64-${{ matrix.subshard }}-logs
+          path: |
+            /tmp/sub-*-meta.txt
+            /tmp/sub-*-log.txt
+          retention-days: 14
+
+  certify-original-shard:
+    needs: [prepare-recursive64-source, subshard-closure]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download exact recursive source certificate
+        uses: actions/download-artifact@v4
+        with:
+          name: math166-r10-fragmented-${{ inputs.original_shard }}-sub64-source
+          path: /tmp/source
+      - name: Download all subshard closure logs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: r10-fragmented-${{ inputs.original_shard }}-sub64-*-logs
+          path: /tmp/logs
+          merge-multiple: true
+      - name: Audit complete exact coverage and PASS logs
+        env:
+          ORIGINAL_SHARD: ${{ inputs.original_shard }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          requested=int(os.environ['ORIGINAL_SHARD'])
+          meta={}
+          for ln in Path('/tmp/source/original-meta.tsv').read_text().splitlines():
+              k,v=ln.split('\t'); meta[k]=int(v)
+          assert meta['original_shard']==requested
+          cert=Path('/tmp/source/r10-fragmented-sub64/certificate.tsv')
+          rows=[ln.rstrip('\n').split('\t') for ln in cert.open() if ln.strip()]
+          body=[r for r in rows[1:] if r[0].isdigit()]
+          assert len(body)==64
+          assert sum(int(r[2]) for r in body)==meta['source_mass']
+          for sid,pieces,mass,safe in body:
+              s=int(sid); pieces=int(pieces); mass=int(mass)
+              assert safe=='1'
+              m=Path(f'/tmp/logs/sub-{s:03d}-meta.txt')
+              log=Path(f'/tmp/logs/sub-{s:03d}-log.txt')
+              assert m.exists() and log.exists(), s
+              assert m.read_text().strip()==f'{pieces} {mass}'
+              txt=log.read_text()
+              assert 'PASS generalized exact AP-union audit' in txt
+              assert f'cylinders={pieces}' in txt
+              assert f'occurrences={mass}' in txt
+              assert f'closed_occurrence_mass={mass}' in txt
+              assert 'source_chunk=1' in txt
+          print('PASS MATH-166 original r10 fragmented shard exact closure',
+                requested,'mass',meta['source_mass'])
+          print('NO r10 LAYER CLOSURE CLAIM')
+          PY
