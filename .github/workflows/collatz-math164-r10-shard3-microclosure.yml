@@ -2,6 +2,9 @@ name: Collatz MATH-164 r10 shard3 exact microclosure gate
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'collatz/index/2026-09-16-math164-shard3-launch.md'
 
 jobs:
   prepare-shard3-micro-source:
