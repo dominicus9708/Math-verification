@@ -36,6 +36,23 @@ The micro mass certificate is
 
 Every micro retains exact step `3486784401`. Each is audited by unchanged MATH-108 with explicit `source_chunk=1`.
 
+## First observed exact PASS
+
+Micro 4, job `104536576822`, completed with exact PASS:
+
+```text
+occurrences             3363923805
+closed_occurrence_mass  3363923805
+closure_leaves          128
+resource_splits         127
+max_depth               421
+max_state               827676
+source_chunk             1
+MATH-108 wall time       about 298.106 s
+```
+
+This is the first observed exact MATH-108 PASS in the `3^20` giant family. It is only partial progress (`1/64` observed PASS at this snapshot), not an original-shard closure certificate.
+
 Original shard 3 may be promoted to CLOSED only if all 64 micro jobs PASS and the dependent `certify-original-shard3` job verifies complete exact coverage and total mass `215291123465`.
 
 Current claim:
