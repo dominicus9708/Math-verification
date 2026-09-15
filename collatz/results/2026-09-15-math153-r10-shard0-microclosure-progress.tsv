@@ -1,0 +1,16 @@
+metric	value
+original_shard	0
+original_shard_mass	215291123465
+micro_count_total	64
+micro_partition_large_count	9
+micro_partition_large_mass	3363923805
+micro_partition_small_count	55
+micro_partition_small_mass	3363923804
+successful_micro_indices	1,4,7,9,10,12,13,14
+successful_micro_count	8
+successful_exact_mass	26911390435
+successful_mass_fraction_percent	12.500000000870914
+observed_failures	0
+pilot_run	34947502210
+pilot_head_sha	32c85842c7c92d3e3a3b5fbd4a356c4f0cddc4f4
+status	PARTIAL_EXACT_COVERAGE_ONLY_NO_ORIGINAL_SHARD0_CLOSURE_CLAIM
