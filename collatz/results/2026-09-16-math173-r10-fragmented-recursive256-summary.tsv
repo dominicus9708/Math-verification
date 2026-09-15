@@ -1,0 +1,18 @@
+metric	minimum	maximum	total_or_note
+fragmented_original_shards	14	127	114 shards
+source_records_per_shard	2427	2448	278725
+source_mass_per_shard	215291123463	215291123464	24543188074887
+recursive256_cap	840980952	840980952	all 114 shards
+split_pieces_per_shard	2657	2669	303954
+full_cap_prefixes_per_shard	219	230	25229
+terminal_remainders_per_shard	2427	2448	278725
+split_source_records_per_shard	12	29	3125 shard-local source rows
+max_pieces_from_one_source	42	220	global maximum at original shard 14
+subshard_mass_spread	7	10	all 256-way LPT partitions
+min_pieces_per_subshard	1	1	all 114 shards
+max_pieces_per_subshard	68	95	global maximum at original shard 14
+max_source_multiplicity	35221424302	184609718968	global maximum at original shard 14
+cap_divisible_source_rows	0	0	none
+math161_recursive64_global_max_pieces_per_subshard	244	244	cross-check baseline
+math173_recursive256_global_max_pieces_per_subshard	95	95	61.0655737704918 percent reduction vs 244
+status	SIDE_SUPPORT_ONLY	SIDE_SUPPORT_ONLY	NO CLOSURE CLAIM
