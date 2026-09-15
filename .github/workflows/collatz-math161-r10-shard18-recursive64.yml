@@ -2,6 +2,9 @@ name: Collatz MATH-161 r10 shard18 recursive64 exact pilot
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/collatz-math161-r10-shard18-recursive64.yml'
 
 jobs:
   prepare-recursive64-source:
@@ -104,7 +107,7 @@ jobs:
           read C O < $(printf '/tmp/sub-%03d-meta.txt' "$S")
           FILE=$(printf '/tmp/math161/r10-shard18-sub64/shard-%03d.tsv' "$S")
           LOG=$(printf '/tmp/sub-%03d-log.txt' "$S")
-          /tmp/math108 "$C" "$O" < "$FILE" 2>&1 | tee "$LOG"
+          /tmp/math108 "$C" "$O" 1 < "$FILE" 2>&1 | tee "$LOG"
           grep -q 'PASS generalized exact AP-union audit' "$LOG"
       - name: Preserve subshard logs
         if: always()
@@ -153,6 +156,7 @@ jobs:
               assert f'cylinders={pieces}' in txt
               assert f'occurrences={mass}' in txt
               assert f'closed_occurrence_mass={mass}' in txt
+              assert 'source_chunk=1' in txt
           print('PASS MATH-161 original r10 shard18 recursive64 exact closure mass=215291123464')
           print('NO r10 LAYER CLOSURE CLAIM')
           PY
