@@ -1,4 +1,4 @@
-# Current Collatz frontier through MATH-153 r10 microshard retry
+# Current Collatz frontier through MATH-158 r10 scheduling audit
 
 Date: 2026-09-15
 
@@ -9,7 +9,7 @@ Collatz conjecture                    OPEN
 First universal Farey cell           OPEN
 One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=11                     CLOSED
-Multi-paid r=10                      OPEN — MATH-117 attempt 1 timed out; MATH-153 shard0 microclosure pilot running
+Multi-paid r=10                      OPEN — original shard 0 exactly CLOSED by MATH-153; remaining 127 original shards unresolved
 Multi-paid r=9                       OPEN — MATH-142 execution-ready, not launched
 Multi-paid r=8                       OPEN — MATH-145 execution-ready, not launched
 Multi-paid r=7                       OPEN — MATH-146 execution-ready, not launched
@@ -71,42 +71,64 @@ mass-balanced split pieces    278,739
 
 Workflow run `34881179736` successfully completed source export, exact MATH-114 preparation, partition-certificate audit, and prepared-shard preservation.
 
-The first shard wave then ran the unchanged MATH-108 exact closure. The running shard jobs were cancelled at approximately 180 minutes, matching `timeout-minutes: 180`. For shard 0 the log reaches:
+The first shard wave then ran the unchanged MATH-108 exact closure. The running shard jobs were cancelled at approximately 180 minutes, matching `timeout-minutes: 180`. No `FAIL`, surviving-state certificate, depth-limit exception, or contradictory arithmetic output was observed. Attempt 1 is classified as a job-timeout/resource-scheduling result, not `r=10` non-closure.
 
-```text
-SHARD 0 pieces 1 mass 215291123465 u64_safe 1
-...
-The operation was canceled.
-```
+MATH-143 shows original shards `0..13` are each one giant AP of mass `215,291,123,465`; the other shards are fragmented many-record workloads. Thus occurrence-mass balance and runtime geometry are distinct.
 
-No `FAIL`, surviving-state certificate, depth-limit exception, or contradictory arithmetic output was observed. Attempt 1 is classified as a job-timeout/resource-scheduling result, not `r=10` non-closure.
+## MATH-153 — original `r=10` shard 0 exactly CLOSED
 
-MATH-143 shows original shards `0..13` are each one giant AP of mass `215,291,123,465`. Authoritative MATH-148 bounds a pure `STATE_CAP` obstruction for such an isolated AP by at most 18 exact half-interval splits.
-
-## MATH-153 — exact microshard retry for original `r=10` shard 0
-
-To avoid repeated depth-0 recomputation after internal `TooBig`, original shard 0 is split externally into 64 exact consecutive parameter intervals:
+Original shard 0 was split externally into 64 disjoint consecutive parameter intervals:
 
 ```text
 215291123465 = 9 * 3363923805 + 55 * 3363923804.
 ```
 
-Every micro-AP therefore has mass at most `3,363,923,805`, reducing the pure state-cap half-split bound from 18 to 12.
+Historical workflow run `34947502210` completed with overall conclusion `success`. All 64 unchanged MATH-108 micro-closure jobs succeeded.
 
-Exact set identity:
-
-```text
-P(a,b,m) = disjoint union_j P(a+b*s_j,b,m_j),
-sum_j m_j = m.
-```
-
-Historical pilot run `34947502210` was launched before an ID collision was noticed and therefore retains the temporary workflow label `MATH-148`; the authoritative project ID is **MATH-153**. The authoritative manual workflow is:
+The dependent final certificate job `certify-original-shard0` (`104336460767`) then verified every micro log, each micro occurrence mass, each `closed_occurrence_mass`, complete 64-way coverage, and the exact total mass
 
 ```text
-.github/workflows/collatz-math153-r10-shard0-microclosure.yml
+215291123465.
 ```
 
-The pilot requires all 64 unchanged MATH-108 micro-closures to PASS and their certified masses to sum exactly to `215,291,123,465`. A successful pilot closes only original shard 0, not the `r=10` layer.
+Therefore:
+
+```text
+ORIGINAL r=10 SHARD 0  CLOSED
+r=10 LAYER              OPEN
+```
+
+Authoritative records:
+
+```text
+collatz/results/2026-09-15-math153-r10-shard0-microclosure-progress.tsv
+collatz/notes/2026-09-15-math153-r10-shard0-final-closure.md
+```
+
+The historical run retains the temporary workflow label `MATH-148` because it was launched before the project-ID collision was corrected; MATH-153 is the authoritative project ID for this computation.
+
+## MATH-154 / MATH-157 / MATH-158 — next exact `r=10` scheduling regime
+
+MATH-157 fixes a bimodal exact scheduler for the prepared `r=10` geometry:
+
+```text
+single giant AP shards  -> exact external AP-parameter microsharding
+fragmented shards       -> smaller exact source-record chunks
+```
+
+MATH-158 audits the unchanged MATH-108 engine and confirms that `source_chunk` changes scheduling only. Every source record is assigned to exactly one initial chunk; any `TooBig` branch is split by exact source-list or AP-parameter set identities; final PASS requires `closed_occurrence_mass == total_occurrences`.
+
+The immediate fragmented-shard pilot is MATH-154 on original shard 18:
+
+```text
+AP records                 2,444
+occurrence mass            215,291,123,464
+maximum AP multiplicity    116,786,684,442
+source_chunk               128
+initial exact chunks       20 = 19*128 + 12
+```
+
+A successful MATH-154 run closes original shard 18 only and validates the fragmented-shard schedule. It does not close `r=10`.
 
 ## Prepared lower-layer gates
 
@@ -126,7 +148,7 @@ MATH-152  r2         1,116         1,235 580,341,421,448,851,123          128
 
 For `r=2`, the global total occurrence mass and largest unsplit multiplicity exceed `uint64_t`. MATH-152 therefore keeps global accounting in Python arbitrary precision and performs exact splitting before C++ ingestion. Every resulting split-piece multiplicity and shard-local mass is `uint64_t` safe.
 
-None of these lower-layer workflows has been launched while the `r=10` resource architecture is being resolved.
+None of these lower-layer workflows is promoted while the `r=10` exact resource architecture remains the active frontier.
 
 ## MATH-148 — finite `STATE_CAP` recursion bound
 
@@ -139,20 +161,14 @@ r6  29   r5  32   r4  34   r3 37   r2 40
 
 Each listed depth makes the worst descendant source mass at most `1,000,000`. This controls only `STATE_CAP`; exact closure before `MAX_DEPTH = 1000` remains an execution obligation.
 
-Records:
-
-```text
-collatz/results/2026-09-15-math148-state-cap-bisection-depth.tsv
-collatz/notes/2026-09-15-math148-finite-state-cap-recursion-bound.md
-```
-
 ## Remaining proof obligations after layer closures
 
-1. Resolve `r=10` with the exact microshard/resource retry, then execute `r=9,...,2` in frontier order.
-2. Audit one-paid/multi-paid coverage, including `r=0/1` semantics.
-3. Audit the entire first universal cell implication chain.
-4. Separately prove or re-audit the universal reduction from the frozen baseline plus first-cell closure to every positive integer.
+1. Resolve all remaining original `r=10` shards under exact schedules; immediate next gate: MATH-154 shard-18 fragmented pilot.
+2. Then execute `r=9,...,2` in frontier order, adapting exact scheduling to each observed geometry rather than assuming `r=10` runtime behavior.
+3. Audit one-paid/multi-paid coverage, including `r=0/1` semantics.
+4. Audit the entire first universal cell implication chain.
+5. Separately prove or re-audit the universal reduction from the frozen baseline plus first-cell closure to every positive integer.
 
 ## Claim boundary
 
-The project distinguishes exact finite workload, exact finite safe subsets, exact finite layer closure, coverage of a proof partition, first-cell emptiness, universal reduction, and a full Collatz proof.
+The project distinguishes exact finite workload, exact finite safe subsets, exact original-shard closure, exact finite layer closure, coverage of a proof partition, first-cell emptiness, universal reduction, and a full Collatz proof.
