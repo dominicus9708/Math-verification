@@ -7,13 +7,36 @@ on:
         description: 'Original giant r10 shard index (3..13)'
         required: true
         type: string
+  push:
+    paths:
+      - 'collatz/index/math168-launch-target.txt'
 
 jobs:
   prepare-micro-source:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      original_shard: ${{ steps.resolve-target.outputs.original_shard }}
     steps:
       - uses: actions/checkout@v4
+      - name: Resolve and audit launch target
+        id: resolve-target
+        env:
+          DISPATCH_SHARD: ${{ inputs.original_shard }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            S="$DISPATCH_SHARD"
+          else
+            S=$(tr -d '[:space:]' < collatz/index/math168-launch-target.txt)
+          fi
+          python3 - "$S" <<'PY'
+          import sys
+          s=int(sys.argv[1])
+          assert 3 <= s <= 13, s
+          print('PASS MATH-168 launch target',s)
+          PY
+          echo "original_shard=$S" >> "$GITHUB_OUTPUT"
       - name: Export and prepare exact r10 source
         run: |
           python3 collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py --r 10 > /tmp/r10.tsv 2> /tmp/r10-export.log
@@ -23,7 +46,7 @@ jobs:
             > /tmp/r10-prepare.log 2>&1
       - name: Audit selected 3^20 giant source and split with MATH-156
         env:
-          ORIGINAL_SHARD: ${{ inputs.original_shard }}
+          ORIGINAL_SHARD: ${{ steps.resolve-target.outputs.original_shard }}
         run: |
           python3 - <<'PY'
           import os
@@ -60,7 +83,7 @@ jobs:
       - name: Preserve exact micro source
         uses: actions/upload-artifact@v4
         with:
-          name: math168-r10-giant-${{ inputs.original_shard }}-micro-source
+          name: math168-r10-giant-${{ steps.resolve-target.outputs.original_shard }}-micro-source
           path: |
             /tmp/r10-giant-micro
             /tmp/original-meta.tsv
@@ -88,7 +111,7 @@ jobs:
       - name: Download exact micro source
         uses: actions/download-artifact@v4
         with:
-          name: math168-r10-giant-${{ inputs.original_shard }}-micro-source
+          name: math168-r10-giant-${{ needs.prepare-micro-source.outputs.original_shard }}-micro-source
           path: /tmp/math168
       - name: Select and audit micro metadata
         env:
@@ -151,7 +174,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: r10-giant-${{ inputs.original_shard }}-micro-${{ matrix.micro }}-logs
+          name: r10-giant-${{ needs.prepare-micro-source.outputs.original_shard }}-micro-${{ matrix.micro }}-logs
           path: |
             /tmp/micro-*-meta.txt
             /tmp/micro-*-geometry.tsv
@@ -167,17 +190,17 @@ jobs:
       - name: Download exact source certificate
         uses: actions/download-artifact@v4
         with:
-          name: math168-r10-giant-${{ inputs.original_shard }}-micro-source
+          name: math168-r10-giant-${{ needs.prepare-micro-source.outputs.original_shard }}-micro-source
           path: /tmp/source
       - name: Download all micro closure logs
         uses: actions/download-artifact@v4
         with:
-          pattern: r10-giant-${{ inputs.original_shard }}-micro-*-logs
+          pattern: r10-giant-${{ needs.prepare-micro-source.outputs.original_shard }}-micro-*-logs
           path: /tmp/logs
           merge-multiple: true
       - name: Audit complete micro coverage and PASS logs
         env:
-          ORIGINAL_SHARD: ${{ inputs.original_shard }}
+          ORIGINAL_SHARD: ${{ needs.prepare-micro-source.outputs.original_shard }}
         run: |
           python3 - <<'PY'
           import os
@@ -235,7 +258,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: math168-r10-giant-${{ inputs.original_shard }}-runtime-geometry
+          name: math168-r10-giant-${{ needs.prepare-micro-source.outputs.original_shard }}-runtime-geometry
           path: |
             /tmp/runtime-telemetry.tsv
             /tmp/source-geometry.tsv
