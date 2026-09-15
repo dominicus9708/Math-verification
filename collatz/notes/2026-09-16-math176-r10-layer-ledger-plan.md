@@ -6,7 +6,7 @@ Status: SUPPORT / REPRODUCIBILITY INFRASTRUCTURE / NO r=10 LAYER CLOSURE CLAIM
 
 ## Purpose
 
-The MATH-117 r=10 source is already frozen and exactly partitioned by MATH-114 into 128 original shards. Long-running retry workflows now use different exact scheduling geometries for giant and fragmented original shards. MATH-176 fixes the bookkeeping rule needed to prevent omission, duplication, or loss of final certificates while these retries proceed.
+The MATH-117 r=10 source is frozen and exactly partitioned by MATH-114 into 128 original shards. Long-running retry workflows use different exact scheduling geometries for giant and fragmented original shards. MATH-176 fixes the bookkeeping rule needed to prevent omission, duplication, or loss of final certificates while these retries proceed.
 
 This is not a new mathematical filter and does not strengthen any closure theorem. It records exact execution state and specifies the final layer-level aggregation audit.
 
@@ -18,22 +18,30 @@ represented occurrence mass  27,557,263,803,397
 original shards               128
 ```
 
-## Live original-shard state at this snapshot
+## Current original-shard ledger
 
 ```text
 shard 0       CLOSED — MATH-153 final original-shard certificate
 shard 1       CLOSED — MATH-159 final original-shard certificate
-shard 2       OPEN — MATH-162 giant boundary-family pilot; micro 0..39 observed exact PASS
-shards 3..13  OPEN — MATH-168 generic giant family prepared
+shard 2       CLOSED — MATH-162 final original-shard certificate
+shards 3..13  OPEN — MATH-168 generic 3^20 giant family prepared
 shards 14..127
-              OPEN — MATH-166 fragmented generic family prepared
-shard 18      OPEN — MATH-161 fragmented pilot; subshard 0..50 observed exact PASS
+              OPEN — MATH-166 fragmented generic family prepared, except shard 18
+shard 18      CLOSED — MATH-161 final original-shard certificate
 r=10 layer    OPEN
 ```
 
-The shard-2 source is a distinct giant family with step `3^19`. Generic giant shards `3..13` use step `3^20`, so shard 2 is not redundant with MATH-168.
+Closed original-shard set at this snapshot:
 
-For shard 18, the first 47 single-AP subshards `0..46` and composite subshards `47..50` have been observed exact PASS under the unchanged MATH-108 closure criterion. This is partial subshard progress only. Original shard 18 remains OPEN until all 64 exact subshards PASS and the dependent original-shard mass certificate succeeds.
+```text
+{0, 1, 2, 18}
+```
+
+The independently certified giant boundary shards `0..2` all belong to the `3^19` step family. Generic giant shards `3..13` use step `3^20`; they therefore remain OPEN until they receive their own exact original-shard certificates.
+
+MATH-161 run `34990207168` closed original shard 18 only after all 64 recursive exact subshards passed unchanged MATH-108 and dependent certificate job `104526872083` verified exact total mass `215291123464`.
+
+MATH-162 run `34990484411` closed original shard 2 only after all 64 exact giant-AP micros passed unchanged MATH-108 and dependent certificate job `104533295513` verified exact total mass `215291123465`.
 
 ## Permanent ledger rule
 
@@ -71,9 +79,9 @@ within the audited multi-paid framework. It still does not by itself establish f
 At this snapshot:
 
 ```text
-original shards closed  2 / 128
-original shards open    126 / 128
+original shards closed  4 / 128
+original shards open    124 / 128
 r=10 layer              OPEN
 ```
 
-MATH-161 and MATH-162 are active representative pilots. Their partial PASS frontiers are preserved as execution progress, not theorem-level closure.
+The next structurally independent giant target is original shard 3, the first `3^20` giant-AP shard. Fragmented originals other than shard 18 remain independently OPEN.
