@@ -1,0 +1,16 @@
+quantity	value
+original_source_records	2444
+recursive_pieces	2491
+extra_piece_count	47
+cap	3363923805
+observed_cap_sized_pieces	47
+composite_tail_pieces	2444
+single_ap_front_subshards	47
+composite_tail_subshards	17
+max_original_multiplicity	116786684442
+max_original_step	10460353203
+max_original_step_power_of_3	21
+max_original_cap_chunks	34
+max_original_residual_mass	2413275072
+max_original_residual_subshard	52
+max_original_front_last_subshard	33
