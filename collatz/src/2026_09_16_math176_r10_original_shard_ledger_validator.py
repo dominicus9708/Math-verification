@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """MATH-176: validate permanent r=10 original-shard closure ledger.
 
-This is bookkeeping/reproducibility infrastructure only.  It regenerates the
+This is bookkeeping/reproducibility infrastructure only. It regenerates the
 frozen r=10 MATH-115 source and the exact MATH-114 128-way partition, then
 checks that every CLOSED ledger row refers to one original shard with exactly
-the expected occurrence mass and an existing certificate record.
+the expected occurrence mass and a matching permanent certificate record.
 
 Without --require-complete, a valid partial ledger prints PASS PARTIAL and
-makes no r=10 layer-closure claim.  With --require-complete, all shard IDs
+makes no r=10 layer-closure claim. With --require-complete, all shard IDs
 0..127 must occur exactly once and their mass must equal the frozen layer mass.
 """
 
@@ -94,6 +94,34 @@ def regenerate_expected(repo: Path, tmp: Path) -> dict[int, int]:
     return masses
 
 
+def audit_certificate_text(
+    cert: Path,
+    *,
+    shard: int,
+    math_id: str,
+    workflow_run: str,
+    mass: int,
+) -> None:
+    """Cross-check that the referenced permanent note identifies this ledger row."""
+    text = cert.read_text()
+    normalized = text.replace("`", "")
+    assert math_id in text, (shard, "certificate math_id mismatch", cert)
+    assert workflow_run in text, (shard, "certificate workflow_run mismatch", cert)
+    assert f"shard {shard}" in normalized.lower(), (
+        shard,
+        "certificate shard mismatch",
+        cert,
+    )
+    mass_tokens = (str(mass), f"{mass:,}")
+    assert any(token in text for token in mass_tokens), (
+        shard,
+        "certificate mass mismatch",
+        mass,
+        cert,
+    )
+    assert "CLOSED" in text.upper(), (shard, "certificate lacks CLOSED marker", cert)
+
+
 def read_ledger(repo: Path, ledger: Path, expected: dict[int, int]) -> tuple[set[int], int]:
     rows = list(csv.DictReader(ledger.open(), delimiter="\t"))
     required = {
@@ -115,12 +143,21 @@ def read_ledger(repo: Path, ledger: Path, expected: dict[int, int]) -> tuple[set
         assert s not in seen, f"duplicate original shard {s}"
         seen.add(s)
         assert row["status"] == "CLOSED", (s, row["status"])
-        assert row["math_id"].startswith("MATH-"), (s, row["math_id"])
-        assert row["workflow_run"].isdigit(), (s, row["workflow_run"])
+        math_id = row["math_id"]
+        workflow_run = row["workflow_run"]
+        assert math_id.startswith("MATH-"), (s, math_id)
+        assert workflow_run.isdigit(), (s, workflow_run)
         mass = int(row["certified_mass"])
         assert mass == expected[s], (s, mass, expected[s])
         cert = repo / row["certificate_ref"]
         assert cert.is_file(), (s, cert)
+        audit_certificate_text(
+            cert,
+            shard=s,
+            math_id=math_id,
+            workflow_run=workflow_run,
+            mass=mass,
+        )
         mass_sum += mass
     return seen, mass_sum
 
