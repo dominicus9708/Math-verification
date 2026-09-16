@@ -1,8 +1,8 @@
-# Current Collatz frontier through MATH-176 ledger audit and MATH-168 shard 5 launch
+# Current Collatz frontier through MATH-176 ledger audit and MATH-168 shard 6 launch
 
 Date: 2026-09-16
 
-This file is the compact restart point. Detailed historical calculations remain in `collatz/notes/`, `collatz/results/`, and `collatz/src/`.
+This file is the compact restart point. Detailed calculations remain in `collatz/notes/`, `collatz/results/`, and `collatz/src/`.
 
 ## Exact status
 
@@ -11,7 +11,7 @@ Collatz conjecture                    OPEN
 First universal Farey cell           OPEN
 One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=11                     CLOSED
-Multi-paid r=10                      OPEN — original shards {0,1,2,3,4,18} CLOSED; 122 unresolved
+Multi-paid r=10                      OPEN — original shards {0,1,2,3,4,5,18} CLOSED; 121 unresolved
 Multi-paid r=9                       OPEN — MATH-142 execution-ready, not launched
 Multi-paid r=8                       OPEN — MATH-145 execution-ready, not launched
 Multi-paid r=7                       OPEN — MATH-146 execution-ready, not launched
@@ -22,7 +22,7 @@ Multi-paid r=3                       OPEN — MATH-151 execution-ready, not laun
 Multi-paid r=2                       OPEN — MATH-152 execution-ready, not launched
 ```
 
-No finite layer or original-shard result is promoted to first-cell emptiness or the Collatz conjecture without the separate coverage and implication-chain audits.
+No finite layer or original-shard result is promoted to first-cell emptiness or the Collatz conjecture without separate coverage and implication-chain audits.
 
 ## Frozen r=10 source
 
@@ -42,8 +42,6 @@ shards 0..2              giant step 3^19 = 1,162,261,467
 shards 3..13             giant step 3^20 = 3,486,784,401
 ```
 
-MATH-117 attempt 1 hit a 180-minute resource limit after exact source export and MATH-114 preparation. It produced no mathematical FAIL, survivor certificate, or depth-limit contradiction. Timeout is a resource result only.
-
 ## Permanently CLOSED original r=10 shards
 
 ```text
@@ -52,63 +50,45 @@ shard 1   MATH-159   run 34962500310   mass 215,291,123,465
 shard 2   MATH-162   run 34990484411   mass 215,291,123,465
 shard 3   MATH-164   run 35015125184   mass 215,291,123,465
 shard 4   MATH-168   run 35041888071   mass 215,291,123,465
+shard 5   MATH-168   run 35047509321   mass 215,291,123,465
 shard 18  MATH-161   run 34990207168   mass 215,291,123,464
 ```
 
-Each row has an independent final original-shard certificate after complete exact retry coverage and unchanged MATH-108 PASS results.
-
 ```text
-permanent CLOSED set     {0,1,2,3,4,18}
-closed count             6 / 128
-unresolved count         122 / 128
-certified closed mass    1,291,746,740,789
+permanent CLOSED set     {0,1,2,3,4,5,18}
+closed count             7 / 128
+unresolved count         121 / 128
+certified closed mass    1,507,037,864,254
 ```
 
 The `r=10` layer remains OPEN.
 
-### MATH-168 shard 4 final closure
+### MATH-168 shard 5 final closure
 
-Workflow run `35041888071` regenerated the frozen source, selected original shard 4, and exactly split its giant AP into 64 consecutive parameter intervals:
-
-```text
-source step  = 3^20 = 3,486,784,401
-source mass  = 215,291,123,465
-215,291,123,465 = 9 * 3,363,923,805 + 55 * 3,363,923,804
-```
-
-All 64 micro jobs `0..63` completed `success` with the unchanged MATH-108 engine. Final certificate job `104639707596` also completed `success`, auditing complete micro coverage and preserved PASS logs. Therefore original shard 4 is exactly CLOSED.
+Workflow run `35047509321` regenerated the frozen source and selected original shard 5 with step `3^20` and mass `215,291,123,465`. MATH-156 split it into 64 exact consecutive parameter intervals. All 64 unchanged MATH-108 micro jobs completed `success`, and final certificate job `104655154075` completed `success` after auditing complete coverage and PASS logs.
 
 Permanent records:
 
 ```text
-collatz/notes/2026-09-16-math168-r10-shard4-final-closure.md
-collatz/results/2026-09-16-math168-r10-shard4-final-closure.tsv
+collatz/notes/2026-09-16-math168-r10-shard5-final-closure.md
+collatz/results/2026-09-16-math168-r10-shard5-final-closure.tsv
 ```
 
-## Active giant-family gate — original shard 5
+## Active giant-family gate — original shard 6
 
-MATH-168 workflow run `35047509321` is active for original shard 5.
+MATH-168 workflow run `35090872254` is active for original shard 6 after launch-target commit `fbce6659918082f0aa93509482ad581816be29a7`.
 
-Its preparation gate has already completed `success`, including frozen `r=10` regeneration, selected `3^20` giant-source identity, MATH-156 exact 64-way split, exact partition certificate, and preserved micro source.
-
-```text
-original shard       5
-source step           3^20 = 3,486,784,401
-source mass           215,291,123,465
-exact micro parts     64
-```
-
-The 64 exact MATH-108 micro jobs have started. Shard 5 remains OPEN until all 64 micro jobs PASS and the dependent final original-shard certificate succeeds.
-
-Shards `6..13` remain independently OPEN and require their own complete certificates; success for shards 3, 4, or 5 is not transferred by analogy.
+Shard 6 remains OPEN until its 64 exact micro jobs and dependent final original-shard certificate all succeed. Shards `7..13` remain independently OPEN and require their own certificates.
 
 ## Fragmented-family scheduling
 
-Original shards `14..127` are fragmented exact AP unions. MATH-161 established recursive 64-way exact repartitioning and independently CLOSED shard 18 after all 64 subshards plus its final certificate passed.
+Original shards `14..127` are fragmented exact AP unions. MATH-161 independently CLOSED shard 18 after recursive 64-way exact repartitioning and complete final certification.
 
-MATH-166 remains the generic fragmented 64-way executor. MATH-171 is a selective exact 256-way fallback for a fragmented original shard that suffers a resource timeout under 64-way scheduling. MATH-173/174 audit the fallback geometry and `source_chunk=1` independence. No fragmented shard other than 18 is closed by those support results.
+MATH-166 remains the generic fragmented 64-way executor. MATH-171 is the selective exact 256-way fallback for resource timeout. MATH-173/174 audit fallback geometry and `source_chunk=1` independence. No fragmented shard other than 18 is closed by those support results.
 
 Exact retry rule from MATH-160: retries may refine only exact representation or scheduling. They may not delete candidates, relax conditions, change the frozen source, or reinterpret timeout as mathematical evidence.
+
+MATH-178 is a `SUPPORT / RESOURCE-SCHEDULING BARRIER`: current exact finite telemetry rejects occurrence-mass-only workload prediction and direct reuse of a previous giant shard's micro-index runtime ranking. It does not alter any proof condition.
 
 ## MATH-176 — permanent original-shard ledger
 
@@ -121,43 +101,18 @@ collatz/src/2026_09_16_math176_r10_original_shard_ledger_validator.py
 collatz/notes/2026-09-16-math176-r10-layer-ledger-plan.md
 ```
 
-The validator regenerates the canonical MATH-115 `r=10` source and exact MATH-114 128-way partition. Every CLOSED ledger row is checked against:
+The validator regenerates the canonical MATH-115 `r=10` source and exact MATH-114 128-way partition. Every CLOSED ledger row is checked for ID uniqueness/range, `CLOSED` status, frozen shard mass, permanent certificate path, certificate MATH ID, workflow run, shard number, certified mass, and CLOSED marker.
+
+After adding shard 5, ledger audit run `35090861508`, job `104776561220`, completed `success`.
 
 ```text
-original-shard ID uniqueness and range
-status = CLOSED
-frozen MATH-114 shard mass
-permanent certificate path existence
-certificate MATH ID
-certificate workflow run
-certificate original-shard number
-certificate certified mass
-certificate CLOSED marker
-```
-
-Strengthened certificate-content audit passed on the pre-shard-4 ledger in run `35047193971`.
-
-After adding shard 4, live ledger audit run `35047462469`, job `104640326527`, completed `success`.
-
-Current audited partial ledger:
-
-```text
-closed IDs               {0,1,2,3,4,18}
-closed original shards   6 / 128
-certified closed mass    1,291,746,740,789
+closed IDs               {0,1,2,3,4,5,18}
+closed original shards   7 / 128
+certified closed mass    1,507,037,864,254
 r10 layer closure claim  NO
 ```
 
-Final `--require-complete` aggregation requires all of:
-
-```text
-closed original-shard count = 128
-closed IDs exactly           = {0,1,...,127}
-no duplicate/missing ID
-sum certified mass           = 27,557,263,803,397
-```
-
-Only after that aggregation may `r=10` be promoted to CLOSED within the audited multi-paid framework.
+Final `--require-complete` aggregation requires all 128 IDs exactly once and total certified mass `27,557,263,803,397`. Only then may `r=10` be promoted to CLOSED within the audited multi-paid framework.
 
 ## Prepared lower-layer gates
 
@@ -172,8 +127,6 @@ MATH-150  r4         3,675         3,761  14,416,641,320,007,807           93
 MATH-151  r3         1,873         1,972 102,294,036,332,826,744           72
 MATH-152  r2         1,116         1,235 580,341,421,448,851,123          128
 ```
-
-For `r=2`, global accounting remains in Python arbitrary precision and exact splitting occurs before C++ ingestion so every emitted piece and shard-local mass is uint64-safe.
 
 MATH-148 finite STATE_CAP half-bisection depths remain:
 
@@ -194,8 +147,6 @@ This controls only `STATE_CAP <= 1,000,000`; closure before `MAX_DEPTH=1000` rem
 
 ## Claim boundary
 
-The project distinguishes:
-
 ```text
 exact finite workload
 exact finite safe subset
@@ -208,4 +159,4 @@ universal reduction
 full Collatz proof
 ```
 
-No lower item in this list is promoted to a higher one without its separate audit.
+No lower item is promoted to a higher one without its separate audit.
