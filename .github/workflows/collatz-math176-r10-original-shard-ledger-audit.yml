@@ -1,0 +1,33 @@
+name: Collatz MATH-176 r10 original-shard ledger audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      require_complete:
+        description: 'Require all 128 original shards and exact layer mass'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+  push:
+    paths:
+      - 'collatz/results/2026-09-16-math176-r10-original-shard-ledger.tsv'
+      - 'collatz/src/2026_09_16_math176_r10_original_shard_ledger_validator.py'
+      - 'collatz/notes/2026-09-16-math*-r10-shard*-final-closure.md'
+
+jobs:
+  audit-ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit permanent original-shard ledger against frozen MATH-114 partition
+        env:
+          REQUIRE_COMPLETE: ${{ inputs.require_complete }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$REQUIRE_COMPLETE" = "true" ]; then
+            python3 collatz/src/2026_09_16_math176_r10_original_shard_ledger_validator.py --require-complete
+          else
+            python3 collatz/src/2026_09_16_math176_r10_original_shard_ledger_validator.py
+          fi
