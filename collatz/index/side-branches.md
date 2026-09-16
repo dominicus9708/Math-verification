@@ -96,6 +96,23 @@ Rules:
 4. a finite zero-survivor result is never generalized outside its certified finite scope;
 5. performance acceleration is not a stronger theorem.
 
+## 2026-09-16 — MATH-177 giant-family boundary representation audit
+
+Current classification: `SUPPORT / EXACT REPRESENTATION AUDIT / NO CLOSURE CLAIM`.
+
+- `collatz/notes/2026-09-16-math177-r10-giant-family-boundary-representation-audit.md`
+
+MATH-162 shard 2 (`3^19`) and MATH-164 shard 3 (`3^20`) have the same source multiplicity and therefore the same MATH-156 64-way mass/offset vector, but their actual AP start/step geometry differs. Scheduler reuse is valid; closure transfer by analogy is not.
+
+## 2026-09-16 — MATH-178 cross-shard runtime non-portability
+
+Current classification: `SUPPORT / RESOURCE-SCHEDULING BARRIER / NO PROOF CLAIM`.
+
+- `collatz/notes/2026-09-16-math178-cross-shard-runtime-nonportability.md`
+- `collatz/results/2026-09-16-math178-cross-shard-runtime-nonportability.tsv`
+
+Exact finite telemetry rejects two naive scheduling predictors: occurrence mass alone, and direct reuse of the previous giant shard's micro-index runtime ranking. This changes only resource-scheduling guidance, never the exact source or closure criterion.
+
 ## Unclassified historical files
 
 Any pre-existing `collatz/notes/` file not explicitly named above or in the proof/retired indexes remains `HISTORICAL / PRESERVED FOR INDEXING` by default.
