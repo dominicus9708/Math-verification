@@ -1,0 +1,6 @@
+original_shard	status	math_id	workflow_run	certified_mass	certificate_ref
+0	CLOSED	MATH-153	34947502210	215291123465	collatz/notes/2026-09-15-math153-r10-shard0-final-closure.md
+1	CLOSED	MATH-159	34962500310	215291123465	collatz/notes/2026-09-15-math159-r10-shard1-final-closure.md
+2	CLOSED	MATH-162	34990484411	215291123465	collatz/notes/2026-09-16-math162-r10-shard2-final-closure.md
+3	CLOSED	MATH-164	35015125184	215291123465	collatz/notes/2026-09-16-math164-r10-shard3-final-closure.md
+18	CLOSED	MATH-161	34990207168	215291123464	collatz/notes/2026-09-16-math161-r10-shard18-final-closure.md
