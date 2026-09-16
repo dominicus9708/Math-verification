@@ -24,7 +24,8 @@ original shards               128
 shard 0       CLOSED — MATH-153 final original-shard certificate
 shard 1       CLOSED — MATH-159 final original-shard certificate
 shard 2       CLOSED — MATH-162 final original-shard certificate
-shards 3..13  OPEN — MATH-168 generic 3^20 giant family prepared
+shard 3       CLOSED — MATH-164 final original-shard certificate
+shards 4..13  OPEN — MATH-168 generic 3^20 giant family; shard 4 active
 shards 14..127
               OPEN — MATH-166 fragmented generic family prepared, except shard 18
 shard 18      CLOSED — MATH-161 final original-shard certificate
@@ -34,14 +35,18 @@ r=10 layer    OPEN
 Closed original-shard set at this snapshot:
 
 ```text
-{0, 1, 2, 18}
+{0, 1, 2, 3, 18}
 ```
 
-The independently certified giant boundary shards `0..2` all belong to the `3^19` step family. Generic giant shards `3..13` use step `3^20`; they therefore remain OPEN until they receive their own exact original-shard certificates.
+The independently certified giant boundary shards `0..2` all belong to the `3^19` step family. Shard 3 is the first independently certified `3^20` giant shard. Generic giant shards `4..13` use the same `3^20` step family but remain OPEN until they receive their own exact original-shard certificates.
 
 MATH-161 run `34990207168` closed original shard 18 only after all 64 recursive exact subshards passed unchanged MATH-108 and dependent certificate job `104526872083` verified exact total mass `215291123464`.
 
 MATH-162 run `34990484411` closed original shard 2 only after all 64 exact giant-AP micros passed unchanged MATH-108 and dependent certificate job `104533295513` verified exact total mass `215291123465`.
+
+MATH-164 run `35015125184` closed original shard 3 only after all 64 exact `3^20` giant-AP micros passed unchanged MATH-108 and dependent certificate job `104567289139` verified the complete 64-way source certificate and exact total mass `215291123465`.
+
+MATH-168 is now executing original shard 4. Its preparation stage has already regenerated the frozen r=10 source, verified the requested shard-4 `3^20` giant identity and exact mass `215291123465`, and certified its 64-way exact micro partition. Shard 4 remains OPEN until all 64 micro closures and its dependent final original-shard certificate succeed.
 
 ## Permanent ledger rule
 
@@ -79,9 +84,9 @@ within the audited multi-paid framework. It still does not by itself establish f
 At this snapshot:
 
 ```text
-original shards closed  4 / 128
-original shards open    124 / 128
+original shards closed  5 / 128
+original shards open    123 / 128
 r=10 layer              OPEN
 ```
 
-The next structurally independent giant target is original shard 3, the first `3^20` giant-AP shard. Fragmented originals other than shard 18 remain independently OPEN.
+The active structurally independent giant target is original shard 4 under MATH-168. Fragmented originals other than shard 18 remain independently OPEN.
