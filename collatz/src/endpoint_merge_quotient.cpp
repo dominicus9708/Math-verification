@@ -8,19 +8,37 @@
 
 using boost::multiprecision::cpp_int;
 
-// Enumerate coefficient-surviving parity-prefix states and measure the exact
-// same-depth endpoint-merge quotient.
+// DIAGNOSTIC ONLY: enumerate coefficient-surviving parity-prefix states and
+// measure same-depth endpoint collisions.
 //
-// At a fixed depth k, if two states have the same endpoint y and
-//   r1 <= r2, q1 >= q2,
-// then state 1 dominates state 2 for every common future continuation:
-// their future orbit from y is identical and state 1 has no smaller total
-// odd-count at any future depth.  State 2 may therefore be deleted when the
-// objective is the minimal survivor mu(K).
+// IMPORTANT CORRECTION (2026-08-09):
 //
-// Output columns:
-//   k,total_survivors,distinct_endpoints,collision_groups,
-//   pareto_kept,max_collision_size
+// The earlier interpretation of the (r,q) Pareto frontier inside a common
+// endpoint y as an exact all-future dominance quotient is false.  Canonical
+// descendants may require a lift r -> r + 2^k, which changes the endpoint by
+// 3^q.  Hence two states with the same current endpoint but different q can
+// acquire different future carry sequences.
+//
+// Exact counterexample (see endpoint-merge-dominance.md):
+//   k=10
+//   S1=(r,q,y)=(127,8,820)
+//   S2=(383,7,820)
+// yet over five more coefficient-surviving steps
+//   min descendant(S1)=2175
+//   min descendant(S2)=1407.
+//
+// Therefore the column named candidate_pareto_kept below is only a diagnostic
+// statistic for the current collision group.  It MUST NOT be used as a safe
+// pruning count for arbitrary future horizons.
+//
+// Safe finite-horizon quotient:
+// for a fixed target K=k+m, two states with the same q and
+//   y1 == y2 (mod 2^m)
+// have identical lift/carry bits for every common suffix of length m.  Then a
+// smaller r safely dominates a larger r for that fixed horizon.  A stronger
+// cross-q version additionally requires
+//   3^q1 == 3^q2 (mod 2^m), q1>=q2.
+// See endpoint-merge-dominance.md and finite_horizon_quotient.py.
 
 struct State {
     cpp_int r = 0;
@@ -44,7 +62,8 @@ int main(int argc, char** argv) {
     }
 
     std::vector<State> current{{0,0,0}};
-    std::cout << "k,total,endpoint_classes,collision_groups,pareto_kept,max_group\n";
+    std::cout << "k,total,endpoint_classes,collision_groups,"
+                 "candidate_pareto_kept,max_group\n";
 
     for (int k = 0; k < K; ++k) {
         std::vector<State> next;
@@ -76,7 +95,7 @@ int main(int argc, char** argv) {
         for (const State& s : current) groups[key(s.y)].push_back({s.q,s.r});
 
         std::size_t collision_groups = 0;
-        std::size_t pareto_kept = 0;
+        std::size_t candidate_pareto_kept = 0;
         std::size_t max_group = 0;
 
         for (auto& kv : groups) {
@@ -91,7 +110,7 @@ int main(int argc, char** argv) {
             int best_q = -1;
             for (const auto& qr : v) {
                 if (qr.first > best_q) {
-                    ++pareto_kept;
+                    ++candidate_pareto_kept;
                     best_q = qr.first;
                 }
             }
@@ -101,7 +120,7 @@ int main(int argc, char** argv) {
                   << current.size() << ','
                   << groups.size() << ','
                   << collision_groups << ','
-                  << pareto_kept << ','
+                  << candidate_pareto_kept << ','
                   << max_group << '\n';
     }
 }
