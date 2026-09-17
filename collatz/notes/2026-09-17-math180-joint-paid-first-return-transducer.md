@@ -302,6 +302,8 @@ A joint executor can instead:
 3. tag terminal leaves by `r`;
 4. use `Psi_j` for all-layer-safe pruning;
 5. aggregate all layers in one run;
-6. regress the resulting `r=2..12` tagged workloads against MATH-115 and the already closed high-r layers before any new closure claim.
+6. regress each tagged layer against the canonical target-`r` calculations by exact represented-set / occurrence-mass coverage and final closure behavior.
+
+Because the common 21-cut partition is generally finer than the target-specific MATH-115 partition, raw AP record counts are not a required regression invariant. Exact phase refinement may split one canonical AP source into several child records and can also strengthen a rigorous phase lower bound. The invariants are set coverage, multiplicity mass, exact same-integer address semantics, and the downstream closure result; identical record counts are required only when the compared partitions are aligned.
 
 This note derives the recurrence only. No new paid layer, first universal cell, or Collatz claim is made.
