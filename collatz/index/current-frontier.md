@@ -1,4 +1,4 @@
-# Current Collatz frontier through MATH-168 shard 6 closure and shard 7 launch
+# Current Collatz frontier through MATH-168 shard 7 closure and shard 8 launch
 
 Date: 2026-09-17
 
@@ -11,7 +11,7 @@ Collatz conjecture                    OPEN
 First universal Farey cell           OPEN
 One-paid detailed band t=7..16       CLOSED on audited Bellman/address criterion
 Multi-paid r>=11                     CLOSED
-Multi-paid r=10                      OPEN — original shards {0,1,2,3,4,5,6,18} CLOSED; 120 unresolved
+Multi-paid r=10                      OPEN — original shards {0,1,2,3,4,5,6,7,18} CLOSED; 119 unresolved
 Multi-paid r=9                       OPEN — MATH-142 execution-ready, not launched
 Multi-paid r=8                       OPEN — MATH-145 execution-ready, not launched
 Multi-paid r=7                       OPEN — MATH-146 execution-ready, not launched
@@ -52,41 +52,35 @@ shard 3   MATH-164   run 35015125184   mass 215,291,123,465
 shard 4   MATH-168   run 35041888071   mass 215,291,123,465
 shard 5   MATH-168   run 35047509321   mass 215,291,123,465
 shard 6   MATH-168   run 35090872254   mass 215,291,123,465
+shard 7   MATH-168   run 35173955070   mass 215,291,123,465
 shard 18  MATH-161   run 34990207168   mass 215,291,123,464
 ```
 
 ```text
-permanent CLOSED set     {0,1,2,3,4,5,6,18}
-closed count             8 / 128
-unresolved count         120 / 128
-certified closed mass    1,722,328,987,719
+permanent CLOSED set     {0,1,2,3,4,5,6,7,18}
+closed count             9 / 128
+unresolved count         119 / 128
+certified closed mass    1,937,620,111,184
 ```
 
 The `r=10` layer remains OPEN.
 
-### MATH-168 shard 6 final closure
+### MATH-168 shard 7 final closure
 
-Workflow run `35090872254` regenerated the frozen source and selected original shard 6 with step `3^20` and mass `215,291,123,465`. MATH-156 split it into 64 exact consecutive parameter intervals. All 64 unchanged MATH-108 micro jobs completed successfully, and final certificate job `104798021718` audited complete coverage and PASS logs.
-
-The final certificate printed:
-
-```text
-PASS MATH-168 original r10 giant shard exact closure 6 mass 215291123465 step=3^20
-NO r10 LAYER CLOSURE CLAIM
-```
+Workflow run `35173955070` regenerated the frozen source and selected original shard 7 with step `3^20` and mass `215,291,123,465`. MATH-156 split it into 64 exact consecutive parameter intervals. All 64 unchanged MATH-108 micro jobs completed successfully, and final certificate job `105064796807` audited complete coverage and PASS logs.
 
 Permanent records:
 
 ```text
-collatz/notes/2026-09-16-math168-r10-shard6-final-closure.md
-collatz/results/2026-09-16-math168-r10-shard6-final-closure.tsv
+collatz/notes/2026-09-17-math168-r10-shard7-final-closure.md
+collatz/results/2026-09-17-math168-r10-shard7-final-closure.tsv
 ```
 
-## Active giant-family gate — original shard 7
+## Active giant-family gate — original shard 8
 
-MATH-168 workflow run `35173955070` was launched by target commit `2b036b54afd335e987100ed86884c099b701deab` for original shard 7.
+MATH-168 workflow run `35179517489` was launched by target commit `617e71cf0fdffc1ff38223d7ad10582874311969` for original shard 8.
 
-At this checkpoint the run is queued. Shard 7 remains OPEN until its exact source preparation, all 64 exact micro jobs, and the dependent final original-shard certificate succeed. Shards `8..13` remain independently OPEN and require their own certificates.
+Shard 8 remains OPEN until its exact source preparation, all 64 exact micro jobs, and the dependent final original-shard certificate succeed. Shards `9..13` remain independently OPEN and require their own certificates.
 
 ## Fragmented-family scheduling
 
@@ -111,12 +105,12 @@ collatz/notes/2026-09-16-math176-r10-layer-ledger-plan.md
 
 The validator regenerates the canonical MATH-115 `r=10` source and exact MATH-114 128-way partition. Every CLOSED ledger row is checked for ID uniqueness/range, `CLOSED` status, frozen shard mass, permanent certificate path, certificate MATH ID, workflow run, shard number, certified mass, and CLOSED marker.
 
-After adding shard 6, ledger audit run `35174069153` completed `success`.
+After adding shard 7, ledger audit run `35179444027` completed `success`.
 
 ```text
-closed IDs               {0,1,2,3,4,5,6,18}
-closed original shards   8 / 128
-certified closed mass    1,722,328,987,719
+closed IDs               {0,1,2,3,4,5,6,7,18}
+closed original shards   9 / 128
+certified closed mass    1,937,620,111,184
 r10 layer closure claim  NO
 ```
 
