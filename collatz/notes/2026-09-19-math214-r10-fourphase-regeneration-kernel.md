@@ -38,7 +38,7 @@ and
 
 This note converts that four-step inequality into a one-step Bellman potential and combines it with MATH-213's carry-valuation potential.
 
-The result removes the explicit overshoot depth from the r=10 hard kernel.
+The result removes the explicit overshoot depth only inside a block of consecutive r=10 paid-cluster transitions. It is not a whole-layer potential when intervening r!=10 clusters are allowed.
 
 ## 2. r=10 phase cost
 
@@ -191,7 +191,7 @@ Adding the phase potential gives
 
 Thus \(z\le14\) is already Bellman-safe in the augmented state.
 
-This upgrades the structural r=10 danger condition from
+Within a consecutive-r=10 block, this upgrades the local danger condition from
 
 \[
 z\ge13
@@ -268,7 +268,7 @@ Hence every nonzero-carry r=10 transition with
 
 is Bellman-safe.
 
-A potentially negative transition must satisfy
+Within this consecutive-r=10 subsector, a potentially negative transition must satisfy
 
 \[
 \boxed{\gamma\ge15.}
@@ -399,9 +399,9 @@ remains separate.
 
 For the frozen initial r=10 full-factor catalogue, MATH-206 already proves that no zero-carry compatible next factor exists at all, hence no exact reset exists there.
 
-## 8. New r=10 hard kernel
+## 8. Consecutive-r10 hard kernel
 
-After MATH-210 and the two potentials above, the frozen/mainline r=10 hard transition has been reduced from
+Inside a consecutive-r=10 block, after MATH-210 and the two potentials above, the hard transition has been reduced from
 
 \[
 \text{arbitrary }z
@@ -450,7 +450,7 @@ No overshoot-depth loop remains in the theorem-facing kernel.
 
 ## 9. Consequence for the intended architecture
 
-The required exact quotient now needs only:
+For the consecutive-r=10 subsector, the required exact quotient now needs only:
 
 1. the four-state r=10 phase clock;
 2. Hensel/Pareto extremality;
@@ -470,15 +470,16 @@ program.
 
 Established:
 
-- exact four-state phase Bellman potential;
+- exact four-state phase Bellman potential for consecutive r=10 transitions;
 - fourteen Bellman step-equivalents paid per r=10 cluster;
 - exact cancellation of overshoot depth against carry-valuation potential;
-- nonzero-carry danger reduced to one 15-bit odd-part congruence;
+- within that subsector, nonzero-carry danger reduced to one 15-bit odd-part congruence;
 - zero-to-nonzero danger reduced to \(c=0\bmod32768\);
 - frozen initial zero-carry branch remains absent by MATH-206.
 
 Not established:
 
+- validity of the 15-bit upgrade across an intervening r!=10 cluster;
 - emptiness of the reachable 15-bit regeneration quotient;
 - arbitrary regenerated exact-reset exclusion;
 - r=10 layer closure;
