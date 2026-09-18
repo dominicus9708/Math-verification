@@ -1,163 +1,206 @@
-# MATH-206 — initial first-cell overshoot suffix catalogue and zero-carry reset elimination
+# MATH-206 — exact r=10 boundary-factor zero-carry audit
 
 Date: 2026-09-19
 
-Status: `EXACT FINITE CATALOGUE / INITIAL ZERO-CARRY RESET ELIMINATED / GLOBAL r=10 OPEN`
+Status: `EXACT FINITE BOUNDARY AUDIT / ZERO-CARRY CONTINUATION ABSENT IN FROZEN r=10 CATALOGUE / GLOBAL r=10 OPEN`
 
-## 1. Purpose
+## 1. Scope correction
 
-MATH-205 reduces consecutive dangerous singleton handoffs to the ordinary carry recurrence
+An earlier draft of MATH-206 composed zero-cost **suffix factors** directly with other zero-cost suffix factors.
+
+That composition omitted the intervening paid cluster and therefore was not the correct MATH-205 boundary-to-boundary recurrence.
+
+The suffix catalogue remains a valid finite address-language diagnostic, but its suffix-to-suffix carry chain must not be promoted to a proof-facing boundary chain.
+
+This corrected note replaces that interpretation.
+
+The correct factor is the entire exact transfer
+
+[
+oxed{
+	ext{zero-cost prefix}
++
+	ext{first-return }r=10	ext{ paid cluster},
+}
+]
+
+from one ordinary-source boundary cylinder to the next.
+
+## 2. Canonical full boundary factor
+
+Use the unchanged MATH-065 exact (r=10) generator.
+
+For one phase/address cell, let
+
+- (L) be the initial zero-cost prefix length;
+- (R_0) be its exact initial source residue;
+- (q_0) be the odd count of that prefix;
+- (h_{10}) be the exact local first-return cluster depth.
+
+A terminal negative-candidate leaf has parameter
+
+[
+t=t_0+2^{h_{10}}s
+]
+
+and exact target
+
+[
+Y=B_0+3^{q_0+10}s.
+]
+
+Since the original source is
+
+[
+N=R_0+2^Lt,
+]
+
+substitution gives
+
+[
+N
+=
+left(R_0+2^Lt_0ight)
++
+2^{L+h_{10}}s.
+]
+
+Therefore define
+
+[
+oxed{
+H:=L+h_{10},
+qquad
+Q:=q_0+10,
+}
+]
+
+[
+oxed{
+A:=R_0+2^Lt_0,
+qquad
+B:=B_0.
+}
+]
+
+Each exact (r=10) leaf is therefore one canonical full boundary factor
+
+[
+oxed{
+A+2^Hs
+longmapsto
+B+3^Qs.
+}
+]
+
+This is the proper MATH-091/MATH-205 factor for boundary composition.
+
+## 3. Regression against the frozen r=10 workload
+
+Reconstructing the full factor catalogue with the unchanged MATH-065 arithmetic reproduces the frozen MATH-113 (r=10) invariants exactly:
+
+[
+oxed{994=91+396+507}
+]
+
+phase/address cells,
+
+[
+oxed{1,994,258}
+]
+
+branch nodes,
+
+[
+oxed{278,725}
+]
+
+negative-candidate AP leaf records,
+
+[
+oxed{27,557,263,803,397}
+]
+
+represented occurrence mass, and maximum leaf multiplicity
+
+[
+oxed{830,483,089,363}.
+]
+
+Thus the factor extraction changes no (r=10) source semantics.
+
+## 4. Exact factor-type deduplication
+
+Deduplicate the 278,725 leaf records by the proof-facing affine factor key
+
+[
+oxed{(H,Q,A,B).}
+]
+
+This leaves
+
+[
+oxed{258,242}
+]
+
+distinct exact full boundary factor types.
+
+A duplicated type represents the same affine boundary transfer and does not need to be counted twice in the zero-carry compatibility relation.
+
+## 5. MATH-205 zero-carry compatibility
+
+Let (e) be the current full factor and (f) the next full factor.
+
+MATH-205 gives
 
 [
 d'
 =
-rac{3^{q_e}d+B_e-A_f}{2^{z_f}},
+rac{3^{Q_e}d+B_e-A_f}{2^{H_f}}.
 ]
 
-with compatibility
+For zero incoming carry,
 
 [
-3^{q_e}d+B_e-A_f
-equiv0
-pmod{2^{z_f}}.
+d=0,
 ]
 
-For a zero-carry state (d=0), a zero-to-zero reset requires the exact equality
+the exact compatibility condition is
+
+[
+oxed{
+B_eequiv A_f
+pmod{2^{H_f}}.
+}
+]
+
+If this congruence holds, then
+
+[
+d'
+=
+rac{B_e-A_f}{2^{H_f}}.
+]
+
+A zero-to-zero exact reset would require the stronger equality
 
 [
 B_e=A_f.
 ]
 
-Before attempting an arbitrary-depth theorem, this note audits the exact finite catalogue of overshoot suffix factors that already occur inside the frozen initial first-cell zero-cost prefixes of MATH-058R.
+## 6. Exact zero-reset audit
 
-The scope is deliberately finite and explicit. It does not claim that every later regenerated zero-cost factor is contained in this catalogue.
-
-## 2. Frozen source of legal initial zero-cost prefixes
-
-Use the corrected MATH-058R generator
+Across all 258,242 distinct frozen (r=10) full factor types,
 
 [
-	exttt{2026_09_11_paid_macro_transition_certificate.py}.
-]
-
-For each
-
-[
-1le Lle72
-]
-
-and every exact record returned by `paid_exit_sources(L)`, reconstruct its exact mechanical zero-cost parity word
-
-[
-w=(b_0,ldots,b_{L-1}).
-]
-
-Across all (L), the frozen generator contains exactly
-
-[
-oxed{937}
-]
-
-reachable phase/address prefix records.
-
-## 3. Canonical factor attached to a suffix word
-
-Let (v) be a suffix of one such legal zero-cost word, of length
-
-[
-z:=|v|ge13.
-]
-
-Let (q(v)) be its odd count and let (C(v)) be the usual affine correction:
-
-[
-T_v^z(x)
+oxed{
+{A_f}cap{B_e}
 =
-rac{3^{q(v)}x+C(v)}{2^z}.
-]
-
-Define the unique canonical source residue
-
-[
-oxed{
-A_v
-equiv
--C(v)3^{-q(v)}
-pmod{2^z},
-qquad
-0le A_v<2^z,
+arnothing.
 }
 ]
 
-and
-
-[
-oxed{
-B_v
-=
-rac{3^{q(v)}A_v+C(v)}{2^z}.
-}
-]
-
-Then every integer in that exact parity cylinder has the canonical affine form
-
-[
-oxed{
-A_v+2^z t
-longmapsto
-B_v+3^{q(v)}t.
-}
-]
-
-This is exactly the MATH-091/MATH-205 factor notation.
-
-## 4. Exact catalogue size
-
-Enumerating every suffix length (zge13) of every one of the 937 frozen legal initial prefixes gives
-
-[
-oxed{32,508}
-]
-
-suffix-factor occurrences.
-
-After exact deduplication by
-
-[
-(z,q,A,B),
-]
-
-there remain only
-
-[
-oxed{924}
-]
-
-distinct canonical overshoot factor types.
-
-No Hensel or terminal-defect pruning is used here. Therefore this 924-factor set is an address-side over-approximation of the actually dangerous subset, which is safe for exclusion results.
-
-## 5. Zero-to-zero reset audit
-
-For zero carry, MATH-205 says that transition from factor (e) to factor (f) is compatible only if
-
-[
-B_eequiv A_fpmod{2^{z_f}}.
-]
-
-The next carry is
-
-[
-d'=rac{B_e-A_f}{2^{z_f}}.
-]
-
-A repeated zero carry requires the stronger equality
-
-[
-B_e=A_f.
-]
-
-Across all ordered pairs of the 924 exact factor types, the audit finds
+Therefore
 
 [
 oxed{
@@ -165,263 +208,136 @@ Across all ordered pairs of the 924 exact factor types, the audit finds
 }
 ]
 
-Thus the frozen initial first-cell overshoot catalogue contains **no exact zero-to-zero reset edge at all**.
+There is no zero-to-zero exact reset pair in the frozen (r=10) factor catalogue.
 
-In particular, within this catalogue there is no zero-carry reset cycle.
+## 7. Full-modulus compatibility audit
 
-## 6. 13-bit necessary resonance audit
+The stronger and more relevant question is whether zero carry can transition to a **nonzero** carry.
 
-The current (r=10) danger threshold from MATH-202 is
-
-[
-z_fge13.
-]
-
-The weak necessary low-bit test is therefore
+For each possible next-factor modulus exponent (H_f), form the exact set
 
 [
-B_eequiv A_fpmod{8192}.
-]
-
-Among all ordered factor pairs, exactly
-
-[
-oxed{388}
-]
-
-pairs satisfy this 13-bit necessary resonance.
-
-All 388 have
-
-[
-B_e
-e A_f.
-]
-
-Thus every low-13-bit candidate is already a zero-to-nonzero possibility rather than an exact reset.
-
-## 7. Full factor-depth compatibility
-
-The actual factor (f) requires divisibility by its full source modulus (2^{z_f}), not merely (2^{13}).
-
-After imposing
-
-[
-B_e-A_fequiv0pmod{2^{z_f}},
-]
-
-only
-
-[
-oxed{8}
-]
-
-ordered zero-carry transitions remain.
-
-They come from four current factors, all with the same target intercept
-
-[
-B_e=4,681,055,033,
-]
-
-and two possible next factor types.
-
-### Target factor F14
-
-[
-(z_f,q_f,A_f,B_f)
+mathcal A_{H_f}
 =
-(14,9,15,161,18,218).
+{A_fmod2^{H_f}}.
 ]
 
-Then
+Then audit every current target (B_e) against
 
 [
-4,681,055,033-15,161
-=
-285,708cdot2^{14},
+B_emod2^{H_f}.
 ]
 
-so
-
-[
-oxed{d'=285,708},
-]
-
-and
-
-[
-
-u_2(B_e-A_f)=16.
-]
-
-### Target factor F17
-
-[
-(z_f,q_f,A_f,B_f)
-=
-(17,11,80,697,109,070).
-]
-
-Then
-
-[
-4,681,055,033-80,697
-=
-35,713cdot2^{17},
-]
-
-so
-
-[
-oxed{d'=35,713},
-]
-
-and
-
-[
-
-u_2(B_e-A_f)=17.
-]
-
-The four current factors are
-
-[
-(32,21,1,922,017,147,4,681,055,033),
-]
-
-[
-(33,21,3,844,034,294,4,681,055,033),
-]
-
-[
-(34,22,2,562,689,529,4,681,055,033),
-]
-
-[
-(35,22,5,125,379,058,4,681,055,033).
-]
-
-Each connects to both F14 and F17, giving (4	imes2=8) transitions.
-
-## 8. One more carry step
-
-MATH-205 must then be applied again with the nonzero carry.
-
-For F14,
-
-[
-3^9(285,708)+18,218
-=
-5,623,608,782.
-]
-
-Its low 13 bits are
-
-[
-5,623,608,782mod8192
-=
-5,582.
-]
-
-No factor in the 924-factor catalogue has
-
-[
-A_gequiv5,582pmod{8192}.
-]
-
-For F17,
-
-[
-3^{11}(35,713)+109,070
-=
-6,326,559,881,
-]
-
-and
-
-[
-6,326,559,881mod8192
-=
-1,161.
-]
-
-Again, no factor in the catalogue has
-
-[
-A_gequiv1,161pmod{8192}.
-]
-
-Therefore none of the eight first compatible transitions can make even the minimum 13-bit resonance needed for another (r=10)-danger handoff inside this frozen catalogue.
-
-Hence
+The full catalogue gives
 
 [
 oxed{
-	ext{within the MATH-058R initial overshoot catalogue,}
-quad
-	ext{zero carry}
-	o
-	ext{at most one nonzero-carry handoff}
-	o
-	ext{13-bit exit}.
+#left{
+(e,f):
+B_eequiv A_fpmod{2^{H_f}}
+ight}
+=
+0.
 }
 ]
 
-## 9. DSD interpretation
-
-The original initial-prefix address space compresses as
+So the result is stronger than absence of an exact reset:
 
 [
-937	ext{ reachable prefixes}
-	o
-32,508	ext{ suffix occurrences}
-	o
-924	ext{ exact factor types}
-	o
-388	ext{ low-13 resonant pairs}
-	o
-8	ext{ full-depth compatible pairs}
-	o
-0	ext{ second danger continuations}.
+oxed{
+	ext{zero incoming carry has no compatible next frozen }r=10
+	ext{ full factor at all.}
+}
 ]
 
-Each arrow is an exact representation/refinement step.
+No zero-to-nonzero carry case survives the complete source modulus.
 
-The dramatic reduction is not itself a universal proof because the finite catalogue is tied to the frozen initial first-cell zero-cost prefixes.
+## 8. Relation to the earlier suffix diagnostic
 
-## 10. Consequence for the next theorem target
+The earlier suffix-language calculation found 924 initial overshoot suffix types and several low-bit congruences.
 
-The initial zero-carry reset question is now closed inside the frozen first-cell catalogue:
+Those calculations were algebraically valid for suffix address factors, but direct suffix-to-suffix composition is not the proof-facing boundary chain because it skips the (r=10) paid cluster.
 
-- zero-to-zero exact reset: absent;
-- zero-to-nonzero full compatibility: only eight cases;
-- all eight fail the next 13-bit necessary resonance within the same catalogue.
+The present full-factor audit supersedes that use.
 
-Therefore the next structural obligation is not to revisit the 278,725 AP leaves.
+The suffix catalogue may remain as a SIDE / SUPPORT diagnostic for local address language, but the theorem-facing finite result is now the full-factor statement:
 
-It is to generalize the suffix-factor construction **under the synchronized MATH-187 recurrence after a regenerated boundary**, and prove that the same reset/resonance exclusion persists for every later legal factor.
+[
+oxed{
+278,725	ext{ frozen leaves}
+	o
+258,242	ext{ exact full factor types}
+	o
+0	ext{ zero-carry compatible boundary edges}.
+}
+]
 
-That is the correct route toward an arbitrary-depth (r=10) carry theorem.
+## 9. What this closes
 
-## 11. Claim boundary
+Within the frozen initial MATH-113 (r=10) negative-candidate factor catalogue:
+
+1. zero-to-zero reset is impossible;
+2. zero-to-nonzero continuation is also impossible;
+3. therefore any boundary state entering this catalogue with zero carry cannot concatenate another factor from the same frozen catalogue.
+
+This is an exact finite exclusion, not a density statement.
+
+## 10. What remains open
+
+The factor catalogue above is the frozen initial first-cell (r=10) workload.
+
+After an arbitrary composed boundary, the synchronized MATH-187 state may regenerate a factor with a different source origin / phase-address lineage.
+
+Therefore the next theorem target is:
+
+[
+oxed{
+	ext{prove that every regenerated legal }r=10	ext{ factor}
+	ext{ lies in an equivalent zero-carry-incompatible class,}
+}
+]
+
+or derive a stronger invariant that makes explicit catalogue regeneration unnecessary.
+
+This is the actual arbitrary-depth step.
+
+## 11. DSD audit lesson
+
+The scope correction is itself important.
+
+The hierarchy is
+
+[
+	ext{parity suffix factor}
+
+eq
+	ext{full paid boundary factor}.
+]
+
+A local address factor may be used to prove a local congruence lemma, but it cannot be composed as though the intervening paid dynamics were absent.
+
+The corrected MATH-206 therefore restores the exact formation boundary before applying MATH-205.
+
+## 12. Claim boundary
 
 Established:
 
-- exact canonical factor construction for every (zge13) suffix of every frozen MATH-058R legal initial zero-cost prefix;
-- 937 frozen prefix records;
-- 32,508 suffix occurrences;
-- 924 distinct exact factors;
-- zero exact zero-to-zero reset edges;
-- 388 weak 13-bit pair resonances;
-- eight full factor-depth zero-to-nonzero compatible transitions;
-- only two resulting carry values, 285,708 and 35,713;
-- zero second (r=10) 13-bit continuation inside this finite catalogue.
+- exact extraction of a full boundary factor from each frozen (r=10) negative-candidate leaf;
+- exact reproduction of all frozen MATH-113 (r=10) workload invariants;
+- 278,725 leaf records;
+- 258,242 distinct ((H,Q,A,B)) factor types;
+- zero exact reset pairs;
+- zero full-modulus zero-carry compatible ordered factor pairs.
+
+Superseded as proof-facing interpretation:
+
+- direct suffix-to-suffix carry chaining from the earlier MATH-206 draft.
 
 Not established:
 
-- completeness of this catalogue for later regenerated zero-cost factors;
-- arbitrary-depth elimination of zero-carry or nonzero-carry paths;
+- completeness of the frozen factor catalogue for every later regenerated boundary;
+- arbitrary-depth zero-carry exclusion;
+- nonzero-carry closure;
 - closure of (r=10);
 - first universal Farey-cell emptiness;
 - the Collatz conjecture.
