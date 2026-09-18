@@ -206,9 +206,9 @@ Thus the whole \(r=10\) layer, even with arbitrary intervening paid counts, redu
 
 ## 9. Relation to MATH-214
 
-MATH-214 gives an optional stronger result only inside a consecutive-\(r=10\) subsector: its four-phase potential raises the local regeneration requirement from 13 to 15 bits.
+MATH-214 was later scope-corrected: its four-phase calculation is a synthetic direct-paid-cluster experiment and is not used on the proof-facing full-boundary chain.
 
-The universal threshold for an arbitrary mixed-\(r\) path remains 13 bits for \(r=10\).
+The universal proof-facing threshold remains 13 bits for \(r=10\).
 
 ## 10. DSD consequence
 
