@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MATH-214 exact four-phase potential / regeneration-kernel regression."""
+"""MATH-214 consecutive-r10 four-phase potential / regeneration-kernel regression."""
 
 from fractions import Fraction
 import random
@@ -62,7 +62,7 @@ def main():
     print("PASS MATH-214 four-phase / 15-bit regeneration regression")
     print("four_block_margin", MARGIN)
     print("checked_carry_cases", checked)
-    print("NO r10 CLOSURE CLAIM")
+    print("CONSECUTIVE r10 SUBSECTOR ONLY; NO r10 LAYER CLOSURE CLAIM")
 
 if __name__ == "__main__":
     main()
