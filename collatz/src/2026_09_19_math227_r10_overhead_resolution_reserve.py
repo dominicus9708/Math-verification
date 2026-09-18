@@ -30,8 +30,8 @@ def main():
     print("PASS MATH-227 r10 H+R ceiling")
     print("multi_records",checked_multi)
     print("singleton_records",checked_single)
-    print("global_reserve_lower_bound_steps",16)
-    print("NO r10 LAYER CLOSURE CLAIM")
+    print("geometry_only_H_plus_R_le_73", True)
+    print("NO LOCAL 89-STEP RESERVE CLAIM")\n    print("NO r10 LAYER CLOSURE CLAIM")
 
 if __name__=="__main__":
     main()
