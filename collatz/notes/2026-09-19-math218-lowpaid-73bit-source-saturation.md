@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: EXACT SYMBOLIC-SOURCE SATURATION / NO AP ENUMERATION / r=10 OPEN
+Status: EXACT AUXILIARY PARITY FACT / REDUNDANT AFTER MATH-186 SINGLETONIZATION / NOT MAINLINE
 
 ## 1. Purpose
 
@@ -296,3 +296,8 @@ Not established:
 - closure of lower paid tags;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+
+## Mainline disposition
+
+MATH-186 plus MATH-091 already gives an exact ordinary child boundary anchor when the dangerous handoff reaches R'=0: with M'=1 the child family has parameter u=0 and boundary value Y_child=B'. Therefore the 73-bit source-saturation mechanism is mathematically correct but not needed to identify the singleton boundary source in the proof-facing r=10 branch. Do not delay exact-source reasoning until 73 bits; use the exact MATH-091 singleton anchor immediately.
