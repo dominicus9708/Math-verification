@@ -75,22 +75,32 @@ beta' = beta + g beta_e.
 
 These are exactly the MATH-061 composition laws, now stated for every remaining low-paid factor rather than only one-paid factors.
 
-## 3. Adjusted Bellman reserve
+## 3. Inherited synchronized Bellman reduced cost
 
-Let lambda=19/503 and define the exact phase-dependent reserve
+Let lambda=19/503.
 
-boxed: V(Omega0) = beta Omega0 - lambda(H-89) - lambda R.
+The proof-facing Bellman scalar must be inherited from the synchronized MATH-188 origin. Do not restart the global 89-step allowance at this local macro boundary.
 
-The constant 89 is the MATH-060 first-cell overhead.
+Write the inherited reduced cost schematically as
 
-After one factor,
+B_sync = P_global - lambda k_global - lambda R,
 
-V'(Omega0)-V(Omega0)
+where k_global and P_global are measured from the common ordinary-source origin.
+
+Appending the local factor changes this scalar by exactly
+
+Delta B_sync
 = g beta_e Omega0 - lambda h + lambda(R-R').
 
-This is the exact macro form of the MATH-197 resolution-adjusted Bellman increment.
+This is the exact macro form of the MATH-074/197 resolution-adjusted Bellman increment.
 
-Call an edge SAFE on its exact phase cell when the infimum of this expression over I' is nonnegative.
+The global MATH-060 allowance 89 appears only once in the terminal comparison
+
+B_sync >= -89 lambda,
+
+not in the local edge update.
+
+Call an edge SAFE on its exact phase cell when the infimum of Delta B_sync over I' is nonnegative.
 
 Because all penalty coefficients are nonnegative and I' has rational endpoints, this infimum is an exact rational endpoint calculation.
 
@@ -98,9 +108,9 @@ Because all penalty coefficients are nonnegative and I' has rational endpoints, 
 
 Consider any finite path whose first n factors are SAFE.
 
-Repeated exact composition gives one cylinder state of the same form, and the reserve satisfies
+Repeated exact composition gives one cylinder state of the same form, and the inherited synchronized reduced cost satisfies
 
-inf V_n >= inf V_0.
+inf B_sync,n >= inf B_sync,0.
 
 Therefore the internal SAFE history is irrelevant to the proof-facing Bellman debt once the composed state
 
@@ -202,3 +212,11 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## Global-origin audit correction
+
+All Bellman comparisons in this note are relative increments on top of an inherited synchronized MATH-188 state.
+
+The state may be stored either as the inherited scalar (B_{m sync}) itself or by the globally synchronized coordinates ((k,q,C,mathcal P,A,B,M)) from which it is derived.
+
+A local imported macro may never initialize a new (+89lambda) allowance. The 89-step constant belongs only to the one global MATH-060 terminal target.
