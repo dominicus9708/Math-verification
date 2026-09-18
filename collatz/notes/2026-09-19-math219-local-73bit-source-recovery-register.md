@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: EXACT AUXILIARY CHANNEL / SYNCHRONIZED ORIGIN PRESERVED / r=10 OPEN
+Status: EXACT AUXILIARY REGRESSION / REDUNDANT AFTER MATH-091 SINGLETON CHILD / NOT MAINLINE
 
 ## 1. Purpose
 
@@ -239,3 +239,8 @@ Not established:
 - closure of r=10;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+
+## Mainline disposition
+
+This register remains a valid parity-vector reconstruction identity, but it is redundant in the current r=10 mainline. After MATH-186 singletonization, MATH-091 already stores the exact child intercept B' and M'=1, so the ordinary boundary integer is known immediately as Y=B'. The global synchronized state should therefore use that exact singleton anchor rather than wait for a 73-bit local reconstruction.
