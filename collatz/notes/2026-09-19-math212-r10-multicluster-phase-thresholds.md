@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: \`EXACT COMMON-CLOCK SHARPENING / MULTI-CLUSTER BIT-COST GROWTH / r=10 OPEN\`
+Status: \`EXACT LOCAL PAID-CLUSTER CALCULATION / NOT A FULL-BOUNDARY CHAIN / SUPERSEDED FOR MAINLINE\`
 
 ## 1. Purpose
 
@@ -16,7 +16,7 @@ That bound treats every cluster as if it could independently start at the unique
 
 MATH-207 proves that successive r=10 clusters are not independent. In log-phase coordinate they advance by the same irrational rotation.
 
-This note takes the infimum over an entire n-cluster phase orbit at once.
+This note takes the infimum over a synthetic sequence in which one paid-cluster exit is fed directly into the next paid-cluster entry. In an actual boundary-to-boundary Collatz lineage a zero-cost mechanical prefix generally intervenes, so this synthetic orbit is not the proof-facing full-boundary dynamics.
 
 No AP/source/depth enumeration is used.
 
@@ -245,11 +245,9 @@ and five consecutive dangerous transfers require
 }
 \]
 
-## 6. Interpretation in the carry/address channel
+## 6. Scope correction — not a full-boundary carry theorem
 
-MATH-204/205 show that every compatible singleton overshoot divides out exactly the forced power \(2^{z_i}\) from the address discrepancy and transports only the quotient carry.
-
-Thus MATH-212 converts the common phase dynamics into a cumulative exact address-information obligation:
+MATH-204/205 do transport the exact quotient carry, but the phase input of the next paid cluster is not generally the direct exit phase of the previous paid cluster. A zero-cost prefix changes the phase before the next paid entry. Therefore the following cumulative bit statement is valid only for the synthetic direct-paid chaining defined in this note, not for an arbitrary legal full-boundary chain:
 
 \[
 \boxed{
@@ -298,3 +296,8 @@ Not established:
 - r=10 closure;
 - first universal Farey-cell emptiness;
 - the Collatz conjecture.
+
+
+## Mainline disposition
+
+Do not use the multi-cluster thresholds of this note to strengthen MATH-202 on an actual boundary chain. The proof-facing results remain the one-cluster MATH-202 threshold and the variable-r carry reduction of MATH-215.
