@@ -1,167 +1,129 @@
 #!/usr/bin/env python3
-"""MATH-206 initial first-cell overshoot suffix catalogue certificate.
+"""MATH-206 corrected r=10 full-boundary zero-carry audit.
 
-Exact finite audit only.  The catalogue consists of every suffix of length
-z>=13 of every frozen MATH-058R legal initial zero-cost prefix.
+The earlier draft audited zero-cost suffix factors.  Those suffixes are useful
+address-language objects but are not the correct boundary-to-boundary factors
+because an r=10 paid cluster lies between consecutive zero-cost prefixes.
 
-This is not an arbitrary-depth factor catalogue and makes no r=10 closure claim.
+This certificate extracts the entire zero-cost-prefix + first-return r=10
+cluster as one exact affine factor from the unchanged MATH-065 generator and
+audits zero-carry compatibility between the resulting frozen factors.
+
+Finite exact audit only.  Global r=10 remains OPEN.
 """
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SPEC = spec_from_file_location(
-    "m58", HERE / "2026_09_11_paid_macro_transition_certificate.py"
+    "m65", HERE / "2026_09_11_math065_paid_count_18plus_closure_certificate.py"
 )
-m58 = module_from_spec(SPEC)
+m65 = module_from_spec(SPEC)
 assert SPEC.loader is not None
-SPEC.loader.exec_module(m58)
+SPEC.loader.exec_module(m65)
 
-MIN_Z = 13
-MOD13 = 1 << MIN_Z
+R = 10
 
-
-def factor_from_bits(bits):
-    z = len(bits)
-    C, q = m58.correction_and_q(bits)
-    mod = 1 << z
-    A = (-C * pow(pow(3, q, mod), -1, mod)) % mod
-    num = pow(3, q) * A + C
-    assert num % mod == 0
-    B = num // mod
-    return (z, q, A, B)
+EXPECTED_CELLS = (994, 91, 396, 507)
+EXPECTED_NODES = 1_994_258
+EXPECTED_LEAVES = 278_725
+EXPECTED_MASS = 27_557_263_803_397
+EXPECTED_MAX_M = 830_483_089_363
+EXPECTED_TYPES = 258_242
 
 
-def v2(n):
-    if n == 0:
-        return None
-    n = abs(n)
-    return (n & -n).bit_length() - 1
+def full_factor(cell, leaf):
+    (
+        L, start_R, E0, q0, lo, hi, tmin, tmax,
+        eps, gs, hcl, H, margin,
+    ) = cell
+    first, count, tres, mod, yres, coeff = leaf
+
+    assert mod == 1 << hcl
+    assert H == L + hcl
+    assert coeff == 3 ** (q0 + R)
+
+    base_s = (first - tres) // mod
+    B = yres + coeff * base_s
+    A = start_R + (1 << L) * first
+    Q = q0 + R
+
+    # Exact family:
+    # source = A + 2^H k
+    # target = B + 3^Q k
+    return (H, Q, A, B, count)
 
 
-def build_catalogue():
-    prefix_records = 0
-    suffix_occurrences = 0
-    factors = set()
+def build_frozen_factors():
+    total, safe, singleton, critical = m65.classify_cells(R)
+    assert (total, len(safe), len(singleton), len(critical)) == EXPECTED_CELLS
 
-    for L in range(1, 73):
-        for lo, hi, R, E0, q0 in m58.paid_exit_sources(L):
-            prefix_records += 1
-            omega = (lo + hi) / 2
-            bits = m58.mechanical_factor(L, omega)
+    records = []
+    nodes = 0
 
-            C, q = m58.correction_and_q(bits)
-            assert q == q0
-            assert m58.start_residue(bits) == R
-            assert (pow(3, q) * R + C) >> L == E0
+    for group in (singleton, critical):
+        for cell in group:
+            leaves, n = m65.negative_candidate_cylinders(cell, R)
+            nodes += n
+            for leaf in leaves:
+                records.append(full_factor(cell, leaf))
 
-            for z in range(MIN_Z, L + 1):
-                suffix_occurrences += 1
-                factors.add(factor_from_bits(bits[L - z :]))
+    assert nodes == EXPECTED_NODES
+    assert len(records) == EXPECTED_LEAVES
+    assert sum(x[4] for x in records) == EXPECTED_MASS
+    assert max(x[4] for x in records) == EXPECTED_MAX_M
 
-    return prefix_records, suffix_occurrences, sorted(factors)
+    return records
 
 
 def main():
-    prefix_records, suffix_occurrences, factors = build_catalogue()
+    records = build_frozen_factors()
 
-    assert prefix_records == 937
-    assert suffix_occurrences == 32_508
-    assert len(factors) == 924
+    type_counts = Counter((H, Q, A, B) for H, Q, A, B, count in records)
+    factors = list(type_counts)
 
-    source_exact = defaultdict(list)
-    source_mod13 = defaultdict(list)
+    assert len(factors) == EXPECTED_TYPES
 
-    for f in factors:
-        z, q, A, B = f
-        source_exact[A].append(f)
-        source_mod13[A % MOD13].append(f)
+    # Exact zero-to-zero reset requires B_e == A_f.
+    source_anchors = {A for H, Q, A, B in factors}
+    target_anchors = {B for H, Q, A, B in factors}
+    exact_reset_anchor_intersection = source_anchors & target_anchors
 
-    exact_reset_edges = []
-    low13_pairs = []
-    compatible = []
+    assert exact_reset_anchor_intersection == set()
 
-    for e in factors:
-        ze, qe, Ae, Be = e
+    # Full zero-carry compatibility requires
+    # B_e == A_f (mod 2^H_f).
+    source_residue_by_H = defaultdict(set)
+    H_values = set()
 
-        for f in source_exact.get(Be, ()):
-            exact_reset_edges.append((e, f))
+    for H, Q, A, B in factors:
+        H_values.add(H)
+        source_residue_by_H[H].add(A % (1 << H))
 
-        for f in source_mod13[Be % MOD13]:
-            low13_pairs.append((e, f))
-            zf, qf, Af, Bf = f
-            diff = Be - Af
-            if diff % (1 << zf) == 0:
-                d = diff // (1 << zf)
-                compatible.append((e, f, d, v2(diff)))
+    # It is enough to show that for every next-factor H, no current target
+    # residue occurs in the source-residue set at that H.
+    compatible_residue_intersections = {}
 
-    assert len(exact_reset_edges) == 0
-    assert len(low13_pairs) == 388
-    assert len(compatible) == 8
+    for H in sorted(H_values):
+        mod = 1 << H
+        target_residues = {B % mod for _, _, _, B in factors}
+        hit = target_residues & source_residue_by_H[H]
+        if hit:
+            compatible_residue_intersections[H] = hit
 
-    expected_sources = {
-        (32, 21, 1_922_017_147, 4_681_055_033),
-        (33, 21, 3_844_034_294, 4_681_055_033),
-        (34, 22, 2_562_689_529, 4_681_055_033),
-        (35, 22, 5_125_379_058, 4_681_055_033),
-    }
-    f14 = (14, 9, 15_161, 18_218)
-    f17 = (17, 11, 80_697, 109_070)
+    assert compatible_residue_intersections == {}
 
-    got_sources = {e for e, f, d, vv in compatible}
-    got_targets = {f for e, f, d, vv in compatible}
-
-    assert got_sources == expected_sources
-    assert got_targets == {f14, f17}
-
-    for e, f, d, vv in compatible:
-        if f == f14:
-            assert d == 285_708
-            assert vv == 16
-        elif f == f17:
-            assert d == 35_713
-            assert vv == 17
-        else:
-            raise AssertionError(f)
-
-    # Apply the MATH-205 carry recurrence one more time.
-    second = []
-
-    for e, f, d, vv in compatible:
-        zf, qf, Af, Bf = f
-        value = pow(3, qf) * d + Bf
-
-        # Any r=10 danger continuation must first match at least 13 bits.
-        for g in source_mod13.get(value % MOD13, ()):
-            zg, qg, Ag, Bg = g
-            diff = value - Ag
-            if diff % (1 << zg) == 0:
-                d2 = diff // (1 << zg)
-                second.append((e, f, g, d, d2))
-
-    assert second == []
-
-    value14 = pow(3, 9) * 285_708 + 18_218
-    value17 = pow(3, 11) * 35_713 + 109_070
-
-    assert value14 == 5_623_608_782
-    assert value14 % MOD13 == 5_582
-    assert source_mod13.get(5_582, []) == []
-
-    assert value17 == 6_326_559_881
-    assert value17 % MOD13 == 1_161
-    assert source_mod13.get(1_161, []) == []
-
-    print("PASS MATH-206 initial overshoot suffix catalogue")
-    print("prefix_records", prefix_records)
-    print("suffix_occurrences", suffix_occurrences)
-    print("unique_factors", len(factors))
-    print("exact_zero_reset_edges", len(exact_reset_edges))
-    print("low13_pairs", len(low13_pairs))
-    print("full_compatible_zero_to_nonzero", len(compatible))
-    print("second_r10_continuations", len(second))
+    print("PASS MATH-206 corrected full-boundary zero-carry audit")
+    print("cells", EXPECTED_CELLS)
+    print("branch_nodes", EXPECTED_NODES)
+    print("leaf_records", len(records))
+    print("occurrence_mass", sum(x[4] for x in records))
+    print("max_multiplicity", max(x[4] for x in records))
+    print("distinct_full_factor_types", len(factors))
+    print("exact_zero_reset_anchor_intersection", 0)
+    print("full_modulus_zero_carry_compatible_edges", 0)
     print("GLOBAL r=10 OPEN")
 
 
