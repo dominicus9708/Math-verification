@@ -211,7 +211,7 @@ Established:
 - every dangerous transfer ends at \(R'=0\);
 - singleton resolution is permanent along the deterministic lineage;
 - all subsequent r=10 danger has \(13\le L\le72\);
-- singleton carry magnitude is bounded by \(2^{60}+1\).
+- singleton carry magnitude is strictly bounded by \(2^{60}\).
 
 Not established:
 - exclusion of every singleton r=10 boundary state;
