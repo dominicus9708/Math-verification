@@ -38,7 +38,7 @@ and
 
 This note converts that four-step inequality into a one-step Bellman potential and combines it with MATH-213's carry-valuation potential.
 
-The result removes the explicit overshoot depth only inside a block of consecutive r=10 paid-cluster transitions. It is not a whole-layer potential when intervening r!=10 clusters are allowed.
+The result applies only to the synthetic direct-paid chaining inherited from MATH-212. Even two legal consecutive r=10 boundary macros generally contain an intervening zero-cost prefix, so the four-phase potential is not a proof-facing boundary-chain potential.
 
 ## 2. r=10 phase cost
 
@@ -485,3 +485,8 @@ Not established:
 - r=10 layer closure;
 - first universal Farey-cell emptiness;
 - the Collatz conjecture.
+
+
+## Mainline disposition
+
+This note is retained as an algebraic/local experiment only. Do not use its 15-bit threshold in the r=10 closure proof. The current universal proof-facing threshold is the 13-bit one-cluster regeneration condition from MATH-202/MATH-215.
