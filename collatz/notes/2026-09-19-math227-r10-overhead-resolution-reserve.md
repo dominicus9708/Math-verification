@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: EXACT GLOBAL-BUDGET REDUCTION / SINGLETON ENTRY HAS >=16 LAMBDA CREDIT / r=10 OPEN
+Status: PARTIAL EXACT GEOMETRY / H+R<=73 VALID / LOCAL 89-RESET WITHDRAWN
 
 ## 1. Purpose
 
@@ -131,3 +131,41 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## Scope correction — 2026-09-19
+
+The geometric statement
+
+[
+H+Rle73
+]
+
+for the local frozen r=10 factor family is exact and retained.
+
+However the subsequent use of
+
+[
+89-H-R
+]
+
+as a fresh Bellman reserve at an interior r=10 boundary is not a valid global MATH-060 inference.
+
+The constant 89 is a one-time additive allowance for the complete synchronized first-cell path. It cannot be reset at each imported local macro origin.
+
+Therefore the following claims from the original version are withdrawn from the proof mainline:
+
+- every r=10 continuation receives at least (16lambda) fresh reserve;
+- the local factor plus its resolution collapse may be paid from a newly restarted 89-step allowance;
+- any later danger may be compared against that locally restarted reserve.
+
+Correct use:
+
+- retain (H+Rle73) as local source-geometry information;
+- carry Bellman reduced cost from the synchronized MATH-188 origin;
+- use only edge increments
+  [
+  p-lambdaell+lambda(R-R')
+  ]
+  locally, as in MATH-074/197.
+
+The companion certificate remains a regression of the valid (H+Rle73) geometry only.
