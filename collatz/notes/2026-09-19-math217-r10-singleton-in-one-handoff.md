@@ -177,14 +177,14 @@ every dangerous singleton carry obeys the finite magnitude bound
 
 \[
 \boxed{
-|d|<2^{73-L}+1.
+|d|<2^{73-L}.
 }
 \]
 
 In particular, for r=10 danger \(L\ge13\),
 
 \[
-\boxed{|d|<2^{60}+1.}
+\boxed{|d|<2^{60}.}
 \]
 
 So the post-singleton carry is an ordinary bounded integer, not an unbounded proof-state coordinate.
