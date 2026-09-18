@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: EXACT GLOBAL LOCALIZATION / ANY RESERVE-THREATENING LOW-PAID EDGE IS ALREADY SINGLETON / r=10 OPEN
+Status: WITHDRAWN FROM MAINLINE / INVALID LOCAL RESTART OF GLOBAL 89-STEP ALLOWANCE
 
 ## 1. Global adjusted reserve
 
@@ -133,3 +133,33 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## Scope correction — 2026-09-19
+
+This note must not be used as a first-cell theorem.
+
+Its displayed reserve
+
+[
+V=P-lambda(H-89)-lambda R
+]
+
+was evaluated with (H) measured from an interior/local boundary origin. That silently reuses the global MATH-060 additive constant 89 at the local boundary.
+
+MATH-060 permits that additive allowance only once, from the synchronized original first-cell source. MATH-188 explicitly forbids resetting global depth/correction bookkeeping at an imported local macro origin.
+
+Therefore the deductions
+
+[
+H+Lge89+z_{min}(r)
+]
+
+and the claimed 90/102-bit global reserve-threat localization are not established for the actual synchronized first-cell path.
+
+The algebra would be valid only if (H,P) were the inherited global synchronized depth and penalty from the original source. Historical frozen r=10 macro coordinates do not by themselves supply that inherited global reserve.
+
+Mainline replacement:
+
+- MATH-228: finite future address precision;
+- corrected MATH-229: exact safe-prefix composition with inherited synchronized reduced cost;
+- MATH-074/197: local edge reduced-cost increments, without resetting the 89-step constant.
