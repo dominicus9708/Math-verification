@@ -1,0 +1,23 @@
+name: collatz-math235-r10-terminal-defect
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math235_r10_terminal_defect_contraction.py'
+      - '.github/workflows/collatz-math235-r10-terminal-defect.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact MATH-235
+        run: |
+          python3 collatz/src/2026_09_19_math235_r10_terminal_defect_contraction.py 2>&1 | tee math235.log
+          grep -q 'PASS MATH-235 frozen r10 terminal-defect contraction audit' math235.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math235-r10-terminal-defect-log
+          path: math235.log
