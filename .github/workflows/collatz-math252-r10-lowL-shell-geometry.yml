@@ -1,0 +1,22 @@
+name: collatz-math252-r10-lowL-shell-geometry
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math252_lowL_shell_geometry.py'
+      - '.github/workflows/collatz-math252-r10-lowL-shell-geometry.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run static low-L shell geometry
+        run: |
+          python3 collatz/src/2026_09_19_math252_lowL_shell_geometry.py | tee math252.log
+          grep -q 'PASS MATH-252 low-L shell geometry' math252.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math252-r10-lowL-shell-geometry
+          path: math252.log
