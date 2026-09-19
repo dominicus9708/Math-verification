@@ -1,0 +1,32 @@
+name: collatz-math240-r10-coefficient-sign-closure
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math240_r10_coefficient_sign_closure.cpp'
+      - 'collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py'
+      - '.github/workflows/collatz-math240-r10-coefficient-sign-closure.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
+      - name: Build MATH-240
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_19_math240_r10_coefficient_sign_closure.cpp -o /tmp/math240
+      - name: Run exact coefficient-sign closure gate
+        run: |
+          set -o pipefail
+          python3 collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py \
+            | /tmp/math240 2>&1 | tee math240.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math240-r10-coefficient-sign-log
+          path: math240.log
