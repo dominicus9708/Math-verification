@@ -93,3 +93,8 @@ is the first global coefficient failure of that source.
 MATH-196 closes every such failure for (H<A_0=114208327604). Thus the executable no longer stops sign pruning at depth 183. It propagates only while (3^Q>2^H); the first contraction is closed by MATH-196. The practical 1000-round cap is many orders of magnitude below (A_0).
 
 MATH-239 remains an independent cross-check but is not the limiting sign theorem for the current gate.
+
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: this executable is DIAGNOSTIC ONLY in its current form. Any pruning based on local coefficient contraction / local-source self-descent is not a valid first-cell closure unless the state is first rebased to the MATH-188 synchronized original source.
