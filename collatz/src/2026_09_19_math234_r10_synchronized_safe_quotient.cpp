@@ -221,18 +221,13 @@ int main(){
         cpp_int C=(cpp_int(1)<<H)*B-pow3(Q)*A;
         S x{H,Q,R,A,B,C,M};
         ++rows; occ+=M;
-        if(R==0){
-            if(trim_floor(x,occ/*temporary impossible path*/)){} // overwritten below
-        } else raw_multi.push_back(std::move(x));
+        if(R>0) raw_multi.push_back(std::move(x));
     }
     // Re-read invariants only; initial singleton factors are handled separately
     // by MATH-201/221/224/226.  This audit targets multi-source SAFE collapse.
     assert(rows==278725);
-    assert(occ>=cpp_int("27557263803397")); // occ was not meant as closure accumulator
+    assert(occ==cpp_int("27557263803397"));
     assert(maxR<=40);
-
-    // The occurrence accumulator above was contaminated only if an initial
-    // singleton was trimmed.  Reconstruct expected row invariant independently.
     auto state=merge_states(raw_multi);
     std::cerr<<"depth=0 multi_states="<<state.size()
              <<" multi_mass="<<state_mass(state)
