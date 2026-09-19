@@ -1,0 +1,23 @@
+name: collatz-math238-lowpaid-orientation
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math238_lowpaid_affine_orientation_audit.py'
+      - '.github/workflows/collatz-math238-lowpaid-orientation.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run MATH-238
+        run: |
+          python3 collatz/src/2026_09_19_math238_lowpaid_affine_orientation_audit.py 2>&1 | tee math238.log
+          grep -q 'PASS MATH-238 low-paid affine-orientation audit' math238.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math238-lowpaid-orientation-log
+          path: math238.log
