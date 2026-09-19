@@ -74,3 +74,8 @@ Established by construction:
 - same MATH-241 gate on every chunk.
 
 A new r=10 closure claim requires successful completion of all matrix jobs and the final coverage certificate.
+
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: the 16-way partition identity is exact as execution bookkeeping, but the underlying MATH-241 closure gate is diagnostic only after the local-origin audit. No r=10 closure may be inferred from these jobs.
