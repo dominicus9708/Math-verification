@@ -29,7 +29,7 @@ def main():
 
     # Permanent supporting theorem/certificate files must remain present.
     required=[
-        ROOT/"notes"/"2026-09-19-math224-r10-highL-singleton-carry-shell.md",
+        ROOT/"notes"/"2026-09-19-math224-r10-highL-carry-shell-closure.md",
         ROOT/"src"/"2026_09_19_math224_highL_singleton_shell.py",
         ROOT/"notes"/"2026-09-19-math249-lowL-paid-exit-oddstep-ap.md",
         ROOT/"src"/"2026_09_19_math249_lowL_paid_exit_ap_export.py",
