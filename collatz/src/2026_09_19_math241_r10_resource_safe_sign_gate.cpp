@@ -105,7 +105,7 @@ static Step advance(const std::vector<AP>&state){
             cpp_int base=x.a+b*rho;
             int bit=(base&1)!=0;
             int H1=x.H+1,Q1=x.Q+bit;
-            cpp_int a1=bit ? (3*base+1)/2 : base/2;
+            cpp_int a1;\n            if(bit) a1=(3*base+1)/2;\n            else a1=base/2;
             cpp_int b1=pow3(Q1);
 
             if(a1<=LO){
