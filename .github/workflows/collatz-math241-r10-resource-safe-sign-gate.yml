@@ -1,0 +1,34 @@
+name: collatz-math241-r10-resource-safe-sign-gate
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math241_r10_resource_safe_sign_gate.cpp'
+      - 'collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py'
+      - '.github/workflows/collatz-math241-r10-resource-safe-sign-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
+      - name: Build MATH-241
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_19_math241_r10_resource_safe_sign_gate.cpp -o /tmp/math241
+      - name: Run exact post-J resource-safe sign gate
+        run: |
+          set -o pipefail
+          python3 collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py \
+            | /tmp/math241 2>&1 | tee math241.log
+          grep -q 'PASS MATH-241 resource-safe coefficient-sign gate' math241.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math241-r10-resource-safe-sign-log
+          path: math241.log
