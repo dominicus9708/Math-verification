@@ -76,3 +76,20 @@ Not yet established until the full run succeeds:
 - exhaustion of every exact resource leaf before the 1000-round cap;
 - frozen r=10 layer closure;
 - full r=10 closure.
+
+
+## MATH-243 upgrade
+
+The executable gate now uses the stronger synchronized first-failure rule.
+
+The MATH-235 input begins coefficient-expanding and is inside the coefficient-surviving language. Because the recurrence preserves the same source origin, the first later state with
+
+[
+3^Q<2^H
+]
+
+is the first global coefficient failure of that source.
+
+MATH-196 closes every such failure for (H<A_0=114208327604). Thus the executable no longer stops sign pruning at depth 183. It propagates only while (3^Q>2^H); the first contraction is closed by MATH-196. The practical 1000-round cap is many orders of magnitude below (A_0).
+
+MATH-239 remains an independent cross-check but is not the limiting sign theorem for the current gate.
