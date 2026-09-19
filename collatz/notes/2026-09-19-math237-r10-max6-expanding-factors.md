@@ -92,3 +92,7 @@ Not established:
 - every singleton tail closes;
 - full r=10 closure;
 - the Collatz conjecture.
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: the six-expanding-factor optimization is exact for the MATH-236 diagnostic subset. Since the post-J subset is not a justified global mainline cut, this bound is retained as diagnostic structure only and cannot reduce the full r=10 branch by itself.
