@@ -10,7 +10,7 @@ MATH-240 is mathematically exact but its monolithic union state reached 43,645,9
 
 The failure was a resource failure, not a mathematical survivor or depth-184 frontier.
 
-MATH-241 changes only execution geometry.
+MATH-241 changes only execution geometry and, after the audited MATH-239 range ends, falls back to exact AP propagation rather than making any coefficient-sign inference.
 
 ## Exact split identity
 
@@ -53,7 +53,7 @@ Each resource leaf runs the unchanged MATH-240 logic:
 - (3^Q>2^H): propagate exactly;
 - still expanding at (H=184): emit unresolved frontier.
 
-If the exact state exceeds a fixed memory cap, MATH-241 first splits the list of source families. If one source family alone is too large, only its parameter interval is bisected exactly.
+If the exact state exceeds a fixed memory cap, MATH-241 first splits the list of source families. If one source family alone is too large, only its parameter interval is bisected exactly. Beyond depth 183 the procedure is therefore no stronger than the already-audited MATH-108 style exact AP evolution.
 
 Thus resource splitting cannot remove a true depth-184 survivor.
 
@@ -63,16 +63,16 @@ This is not a return to the old r=10 128-shard proof architecture.
 
 The theorem-facing recurrence remains one coefficient-sign transducer. The split is analogous to evaluating an exact union in separate memory pages.
 
-A PASS is meaningful only if every recursively generated resource leaf has zero depth-184 frontier.
+A PASS is meaningful only if every recursively generated resource leaf becomes empty by exact floor closure and/or MATH-239 sign closure, with no 1000-round survivor.
 
 ## Claim boundary
 
 Established by construction:
 - exactness of source-interval bisection;
 - unchanged MATH-239 closure predicate;
-- frontier preservation under resource splitting.
+- exact set preservation under resource splitting;\n- no coefficient-sign inference is made beyond depth 183.
 
 Not yet established until the full run succeeds:
-- emptiness of the depth-184 frontier;
+- exhaustion of every exact resource leaf before the 1000-round cap;
 - frozen r=10 layer closure;
 - full r=10 closure.
