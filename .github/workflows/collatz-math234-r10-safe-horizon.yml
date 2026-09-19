@@ -13,6 +13,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Install Boost headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
       - name: Build MATH-234
         run: |
           g++ -O3 -std=c++17 collatz/src/2026_09_19_math234_r10_multisource_safe_horizon.cpp -o /tmp/math234
