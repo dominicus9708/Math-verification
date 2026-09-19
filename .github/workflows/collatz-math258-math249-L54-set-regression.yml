@@ -1,0 +1,23 @@
+name: collatz-math258-math249-L54-set-regression
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math258_math249_L54_set_regression.py'
+      - '.github/workflows/collatz-math258-math249-L54-set-regression.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact set regression
+        run: |
+          python3 collatz/src/2026_09_19_math258_math249_L54_set_regression.py | tee math258.log
+          grep -q 'PASS MATH-258 MATH-249 exact-set regression at L54' math258.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math258-math249-L54-set-regression
+          path: math258.log
