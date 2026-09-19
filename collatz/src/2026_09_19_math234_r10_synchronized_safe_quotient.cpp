@@ -197,10 +197,17 @@ static Step advance(const std::vector<S>& state){
             cpp_int C1=(cpp_int(1)<<H1)*B1-pow3(Q1)*A1;
 
             S y{H1,Q1,x.budget-1,A1,B1,C1,count};
+
+            // Apply the exact MATH-182/183 master-defect threshold at EVERY
+            // synchronized prefix, not only after singletonization.  Any
+            // J<0 member has already reached an iterate below its own
+            // ordinary source and is permanently closed by minimality.
+            if(!trim_floor(y,ans.floor_closed)) continue;
+            if(!keep_J_nonnegative(y,ans.j_closed)) continue;
+
             if(y.m==1||y.budget==0){
                 y.budget=0;
-                if(trim_floor(y,ans.floor_closed)&&keep_J_nonnegative(y,ans.j_closed))
-                    raw_term.push_back(std::move(y));
+                raw_term.push_back(std::move(y));
             } else raw_multi.push_back(std::move(y));
         }
     }
