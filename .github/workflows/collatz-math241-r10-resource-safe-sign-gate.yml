@@ -8,6 +8,10 @@ on:
       - '.github/workflows/collatz-math241-r10-resource-safe-sign-gate.yml'
   workflow_dispatch:
 
+concurrency:
+  group: collatz-math241-r10-resource-safe-sign-gate
+  cancel-in-progress: true
+
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -26,7 +30,7 @@ jobs:
           set -o pipefail
           python3 collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py \
             | /tmp/math241 2>&1 | tee math241.log
-          grep -q 'PASS MATH-241 resource-safe coefficient-sign gate' math241.log
+          grep -q 'PASS MATH-241 resource-safe exact closure' math241.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
