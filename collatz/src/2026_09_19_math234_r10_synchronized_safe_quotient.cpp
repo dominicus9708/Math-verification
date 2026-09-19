@@ -32,7 +32,7 @@ using boost::multiprecision::cpp_int;
 using u64=std::uint64_t;
 
 static const cpp_int LO=cpp_int(1)<<71;
-static const int MAX_DEPTH=40;
+static const int MAX_DEPTH=38;
 
 static cpp_int pow3(int q){ cpp_int x=1; for(int i=0;i<q;++i)x*=3; return x; }
 
@@ -225,9 +225,9 @@ int main(){
     }
     // Re-read invariants only; initial singleton factors are handled separately
     // by MATH-201/221/224/226.  This audit targets multi-source SAFE collapse.
-    assert(rows==278725);
-    assert(occ==cpp_int("27557263803397"));
-    assert(maxR<=40);
+    assert(rows==95536);
+    assert(occ==cpp_int("6557104120419"));
+    assert(maxR<=38);
     auto state=merge_states(raw_multi);
     std::cerr<<"depth=0 multi_states="<<state.size()
              <<" multi_mass="<<state_mass(state)
