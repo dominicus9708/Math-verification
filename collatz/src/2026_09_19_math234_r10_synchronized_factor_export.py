@@ -22,7 +22,11 @@ SPEC.loader.exec_module(m206)
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--all",action="store_true")
+    ap.add_argument("--chunks",type=int,default=1)
+    ap.add_argument("--chunk",type=int,default=0)
     args=ap.parse_args()
+    assert args.chunks>=1
+    assert 0<=args.chunk<args.chunks
 
     rec=m206.build_frozen_factors()
     assert len(rec)==278_725
@@ -34,12 +38,18 @@ def main():
         assert sum(x[4] for x in rec)==6_557_104_120_419
         assert max(x[4] for x in rec)==166_975_641_136
 
-    for row in rec:
+    full_rows=len(rec)
+    full_mass=sum(x[4] for x in rec)
+    selected=[row for i,row in enumerate(rec) if i % args.chunks == args.chunk]
+    assert selected
+
+    for row in selected:
         print(*row,sep="\t")
 
     print(
-        f"MATH-234 synchronized exporter PASS rows={len(rec)} "
-        f"mass={sum(x[4] for x in rec)} mode={'all' if args.all else 'post-J'}",
+        f"MATH-234 synchronized exporter PASS rows={len(selected)} "
+        f"mass={sum(x[4] for x in selected)} mode={'all' if args.all else 'post-J'} "
+        f"chunk={args.chunk}/{args.chunks} full_rows={full_rows} full_mass={full_mass}",
         file=sys.stderr,
     )
 
