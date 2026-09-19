@@ -131,11 +131,19 @@ static Step advance(const std::vector<AP>&state){
             if(bit)a1=(3*base+1)/2;
             else a1=base/2;
 
-            // Trim a singleton child at the floor immediately.  For cnt>1
-            // the AP step remains odd and floor trimming will occur next round.
-            if(cnt==1 && a1<=LO){ans.floor_closed+=1;continue;}
+            // Trim every child AP at the frozen floor before any sign/frontier
+            // classification.
+            cpp_int b1=pow3(Q1);
+            if(a1<=LO){
+                cpp_int t=(LO-a1)/b1;
+                if(t>=cpp_int(cnt-1)){ans.floor_closed+=cnt;continue;}
+                u64 drop=t.convert_to<u64>()+1;
+                ans.floor_closed+=drop;
+                a1+=b1*drop;
+                cnt-=drop;
+            }
 
-            cpp_int three=pow3(Q1),two=cpp_int(1)<<H1;
+            cpp_int three=b1,two=cpp_int(1)<<H1;
             assert(three!=two);
 
             if(H1<=SIGN_DEPTH_MAX && three<two){
