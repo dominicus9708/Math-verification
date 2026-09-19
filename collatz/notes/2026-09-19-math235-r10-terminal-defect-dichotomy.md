@@ -106,3 +106,7 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: this note's local factor-level J arithmetic is exact, but `Y'<Y` is only descent below the imported local boundary anchor. It does not by itself imply descent below the original first-cell source N. Therefore the factor-level CLOSED claim is withdrawn from the proof mainline. Retain only as a local-orientation diagnostic unless the factor is explicitly rebased to a MATH-188 synchronized original-source cylinder.
