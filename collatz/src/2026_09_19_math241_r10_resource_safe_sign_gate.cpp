@@ -3,7 +3,8 @@
 // Same mathematics as MATH-240:
 //   endpoint <= 2^71 => closed by frozen-floor induction;
 //   H<=183 and 3^Q<2^H => closed by MATH-239;
-//   H=184 while still expanding => unresolved frontier.
+//   H<=183 and coefficient contraction => MATH-239 sign closure;
+//   after H=183, continue exact AP dynamics without sign pruning.
 //
 // Difference: execution is recursively split if the exact union state exceeds
 // STATE_CAP.  Splitting is only along the original affine parameter interval
@@ -25,6 +26,7 @@ using u64=std::uint64_t;
 
 static const cpp_int LO=cpp_int(1)<<71;
 static const int SIGN_DEPTH_MAX=183;
+static const int MAX_ROUNDS=1000;
 static const std::size_t STATE_CAP=750000;
 
 struct Src { int H,Q; cpp_int B; u64 m; };
@@ -79,12 +81,11 @@ static std::vector<AP> merge_state(const std::vector<AP>& input){
 
 struct Step {
     std::vector<AP> next;
-    std::vector<AP> frontier184;
 };
 
 static Step advance(const std::vector<AP>&state){
     if(state.size()>STATE_CAP) throw TooBig{};
-    std::vector<AP> raw,front;
+    std::vector<AP> raw;
     raw.reserve(std::min<std::size_t>(STATE_CAP,state.size()*2));
     Step ans;
 
@@ -118,15 +119,15 @@ static Step advance(const std::vector<AP>&state){
             assert(b1!=two);
             if(H1<=SIGN_DEPTH_MAX && b1<two) continue;
 
-            AP y{H1,Q1,a1,cnt};
-            if(H1>SIGN_DEPTH_MAX) front.push_back(std::move(y));
-            else raw.push_back(std::move(y));
+            // Beyond depth 183 we simply stop using MATH-239 sign pruning.
+            // Exact AP propagation and frozen-floor closure remain valid at
+            // arbitrary depth.
+            raw.push_back({H1,Q1,a1,cnt});
 
-            if(raw.size()+front.size()>2*STATE_CAP) throw TooBig{};
+            if(raw.size()>2*STATE_CAP) throw TooBig{};
         }
     }
     ans.next=merge_state(raw);
-    ans.frontier184=merge_state(front);
     return ans;
 }
 
@@ -136,8 +137,7 @@ struct Stats {
     u64 source_interval_splits=0;
     std::size_t max_state=0;
     int max_rounds=0;
-    cpp_int frontier_mass=0;
-    u64 frontier_states=0;
+    u64 depth_limit_leaves=0;
 };
 
 static cpp_int mass(const std::vector<AP>&v){
@@ -156,12 +156,11 @@ static void audit(std::vector<Src> raw, Stats& stats){
             Step z=advance(state);
             ++rounds;
             stats.max_state=std::max(stats.max_state,z.next.size());
-            if(!z.frontier184.empty()){
-                stats.frontier_states += z.frontier184.size();
-                stats.frontier_mass += mass(z.frontier184);
-            }
             state=std::move(z.next);
-            assert(rounds<=184);
+            if(rounds>=MAX_ROUNDS && !state.empty()){
+                ++stats.depth_limit_leaves;
+                return;
+            }
         }
         stats.max_rounds=std::max(stats.max_rounds,rounds);
         ++stats.audit_leaves;
@@ -215,14 +214,13 @@ int main(){
              <<" source_interval_splits="<<stats.source_interval_splits
              <<" max_state="<<stats.max_state
              <<" max_rounds="<<stats.max_rounds
-             <<" frontier184_states="<<stats.frontier_states
-             <<" frontier184_mass="<<stats.frontier_mass
+             <<" depth_limit_leaves="<<stats.depth_limit_leaves
              <<"\n";
 
-    if(stats.frontier_states==0){
-        std::cerr<<"PASS MATH-241 resource-safe coefficient-sign gate: no depth-184 frontier\n";
+    if(stats.depth_limit_leaves==0){
+        std::cerr<<"PASS MATH-241 resource-safe exact closure: every state reaches floor/sign closure\n";
         return 0;
     }
-    std::cerr<<"MATH-241 OPEN FRONTIER: depth-184 expanding states remain\n";
+    std::cerr<<"MATH-241 OPEN: at least one exact resource leaf survives 1000 additional shortcut rounds\n";
     return 3;
 }
