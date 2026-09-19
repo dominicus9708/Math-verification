@@ -1,0 +1,24 @@
+name: collatz-math248-r10-original-source-headroom
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math248_r10_original_source_headroom.py'
+      - '.github/workflows/collatz-math248-r10-original-source-headroom.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run MATH-248 headroom diagnostic
+        run: |
+          python3 collatz/src/2026_09_19_math248_r10_original_source_headroom.py | tee math248.log
+          grep -q 'PASS MATH-248 headroom diagnostic' math248.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math248-r10-original-source-headroom
+          path: math248.log
