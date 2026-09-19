@@ -1,10 +1,12 @@
 // MATH-241 resource-safe exact coefficient-sign gate for the post-J r=10 set.
 //
-// Same mathematics as MATH-240:
-//   endpoint <= 2^71 => closed by frozen-floor induction;
-//   H<=183 and 3^Q<2^H => closed by MATH-239;
-//   H<=183 and coefficient contraction => MATH-239 sign closure;
-//   after H=183, continue exact AP dynamics without sign pruning.
+// MATH-243 upgrades the synchronized pruning rule:
+//   endpoint <= 2^71 => frozen-floor closure;
+//   input begins coefficient-expanding before any coefficient failure;
+//   while 3^Q>2^H => propagate exactly;
+//   the first later 3^Q<2^H with H<A0 is the synchronized first
+//   coefficient failure and closes by MATH-196.
+// No local source-origin reset is used.
 //
 // Difference: execution is recursively split if the exact union state exceeds
 // STATE_CAP.  Splitting is only along the original affine parameter interval
@@ -25,7 +27,7 @@ using boost::multiprecision::cpp_int;
 using u64=std::uint64_t;
 
 static const cpp_int LO=cpp_int(1)<<71;
-static const int SIGN_DEPTH_MAX=183;
+static const std::uint64_t FIRST_HARD_DEPTH=114208327604ULL;
 static const int MAX_ROUNDS=1000;
 static const std::size_t STATE_CAP=750000;
 
@@ -119,11 +121,13 @@ static Step advance(const std::vector<AP>&state){
 
             cpp_int two=cpp_int(1)<<H1;
             assert(b1!=two);
-            if(H1<=SIGN_DEPTH_MAX && b1<two) continue;
+            if(b1<two){
+                // Every active parent is still globally coefficient-expanding,
+                // so this is the first synchronized coefficient failure.
+                assert((std::uint64_t)H1 < FIRST_HARD_DEPTH);
+                continue; // MATH-196
+            }
 
-            // Beyond depth 183 we simply stop using MATH-239 sign pruning.
-            // Exact AP propagation and frozen-floor closure remain valid at
-            // arbitrary depth.
             raw.push_back({H1,Q1,a1,cnt});
 
             if(raw.size()>2*STATE_CAP) throw TooBig{};
