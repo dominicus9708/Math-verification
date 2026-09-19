@@ -63,3 +63,31 @@ Established analytically:
 The actual L=53 closure is an executable certificate claim only after the MATH-108 gate passes.
 
 r=10 remains OPEN until all remaining singleton shell states are closed or otherwise eliminated.
+
+## Certified L=53 result
+
+GitHub Actions run 35437255689 applied the unchanged MATH-108 engine to the exact L=53 paid-exit superset.
+
+Exact exporter:
+- odd-step AP rows: 31;
+- represented paid-exit anchors: 1,880,113.
+
+Exact MATH-108 result:
+- all 1,880,113 occurrences closed to <=2^71;
+- closure leaves: 31;
+- resource splits: 0;
+- maximum additional shortcut depth: 300;
+- maximum live state: 17,368.
+
+Therefore
+
+[
+oxed{L=53	ext{ singleton paid-exit shell CLOSED}.}
+]
+
+Together with MATH-224, the r=10 singleton remainder is now
+
+[
+oxed{13le Lle52,qquad d
+e0.}
+]
