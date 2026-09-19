@@ -107,3 +107,7 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: the 38-bit resolution handoff is valid only as local-anchor resolution geometry. The claimed closure at a local first coefficient failure relied on withdrawn MATH-243 and must not be used as an original-source closure.
