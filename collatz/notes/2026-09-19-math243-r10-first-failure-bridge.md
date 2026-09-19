@@ -112,3 +112,7 @@ Not established:
 - full r=10 closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: WITHDRAWN FROM MAINLINE. The MATH-206 source is an imported u=0 boundary anchor, not automatically the original first-cell source. A later local coefficient failure is therefore not automatically the original source's first coefficient failure.
