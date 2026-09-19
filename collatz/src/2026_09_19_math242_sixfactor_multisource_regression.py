@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MATH-242 structural bound regression.
+"""MATH-242 six-factor orientation-bound regression.\n\nScope correction: this does NOT certify closure at a later local\ncoefficient-contracting factor; synchronized original-source descent is still required.
 
 Checks only the numerical interfaces between established theorems:
 - low-paid full-factor length <= 89;
@@ -21,11 +21,11 @@ def main():
     assert n6 < 2
     assert n7 > 2
 
-    print("PASS MATH-242 theorem-interface regression")
+    print("PASS MATH-242 retained six-factor orientation regression")
     print("lowpaid_factor_depth_max", 89)
     print("sign_theorem_depth_max", 183)
     print("max_multisource_expanding_factors", 6)
-    print("SINGLETON TAIL OPEN")
+    print("LOCAL CONTRACTION IS NOT AN ORIGINAL-SOURCE CLOSURE")\n    print("SYNCHRONIZED CONTINUATION OPEN")
     print("FULL r10 LAYER OPEN")
 
 if __name__ == "__main__":
