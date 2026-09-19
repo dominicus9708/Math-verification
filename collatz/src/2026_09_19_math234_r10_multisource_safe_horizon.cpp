@@ -10,7 +10,7 @@
 // resolution-Bellman-safe, so this program measures exactly the finite
 // multi-source SAFE prefix before singleton handoff.
 //
-// No singleton-tail closure and no r=10 layer closure are claimed.
+// No singleton-tail closure and no r=10 layer closure are claimed.\n// Workflow trigger revision: exact quotient-state measurement.
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
