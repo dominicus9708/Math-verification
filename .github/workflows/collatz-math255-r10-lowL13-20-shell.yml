@@ -1,0 +1,43 @@
+name: collatz-math255-r10-lowL13-20-shell
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math249_lowL_paid_exit_ap_export.py'
+      - '.github/workflows/collatz-math255-r10-lowL13-20-shell.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        L: [13,14,15,16,17,18,19,20]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
+      - name: Build unchanged MATH-108 engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Audit exact paid-exit shell
+        run: |
+          python3 collatz/src/2026_09_19_math249_lowL_paid_exit_ap_export.py --L ${{ matrix.L }} > source.tsv 2> meta.log
+          cat meta.log
+          rows=$(awk '/^META /{print $2}' meta.log)
+          mass=$(awk '/^META /{print $3}' meta.log)
+          echo "L=${{ matrix.L }} rows=$rows mass=$mass"
+          set -o pipefail
+          /tmp/math108 "$rows" "$mass" 1 < source.tsv 2>&1 | tee math255-L${{ matrix.L }}.log
+          grep -q 'PASS generalized exact AP-union audit' math255-L${{ matrix.L }}.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math255-r10-L${{ matrix.L }}
+          path: |
+            meta.log
+            math255-L${{ matrix.L }}.log
