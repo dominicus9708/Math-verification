@@ -1,0 +1,43 @@
+name: collatz-math249-r10-lowL53-paid-exit-shell
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math249_lowL_paid_exit_ap_export.py'
+      - '.github/workflows/collatz-math249-r10-lowL53-paid-exit-shell.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: collatz-math249-r10-lowL53-paid-exit-shell
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
+      - name: Build unchanged MATH-108 engine
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_13_math108_general_ap_union_engine.cpp -o /tmp/math108
+      - name: Export exact L53 paid-exit AP superset
+        run: |
+          python3 collatz/src/2026_09_19_math249_lowL_paid_exit_ap_export.py --L 53 > source.tsv 2> meta.log
+          cat meta.log
+          rows=$(awk '/^META /{print $2}' meta.log)
+          mass=$(awk '/^META /{print $3}' meta.log)
+          echo "rows=$rows mass=$mass"
+          set -o pipefail
+          /tmp/math108 "$rows" "$mass" 1 < source.tsv 2>&1 | tee math249-L53.log
+          grep -q 'PASS generalized exact AP-union audit' math249-L53.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math249-r10-L53-shell
+          path: |
+            meta.log
+            math249-L53.log
