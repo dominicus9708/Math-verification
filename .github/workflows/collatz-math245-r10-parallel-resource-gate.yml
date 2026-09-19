@@ -1,0 +1,54 @@
+name: collatz-math245-r10-parallel-resource-gate
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math241_r10_resource_safe_sign_gate.cpp'
+      - 'collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py'
+      - 'collatz/src/2026_09_19_math245_r10_outer_partition_certificate.py'
+      - '.github/workflows/collatz-math245-r10-parallel-resource-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Boost
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev
+      - name: Build MATH-241 gate
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_19_math241_r10_resource_safe_sign_gate.cpp -o /tmp/math241
+      - name: Run exact chunk
+        run: |
+          set -o pipefail
+          python3 collatz/src/2026_09_19_math234_r10_synchronized_factor_export.py \
+            --chunks 16 --chunk ${{ matrix.chunk }} \
+            | /tmp/math241 2>&1 | tee math245-chunk-${{ matrix.chunk }}.log
+          grep -q 'PASS MATH-241 resource-safe exact closure' math245-chunk-${{ matrix.chunk }}.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: math245-r10-chunk-${{ matrix.chunk }}
+          path: math245-chunk-${{ matrix.chunk }}.log
+
+  certify:
+    needs: audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact 16-way source coverage
+        run: |
+          python3 collatz/src/2026_09_19_math245_r10_outer_partition_certificate.py | tee math245-coverage.log
+          grep -q 'PASS MATH-245 exact 16-way outer coverage' math245-coverage.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math245-r10-coverage
+          path: math245-coverage.log
