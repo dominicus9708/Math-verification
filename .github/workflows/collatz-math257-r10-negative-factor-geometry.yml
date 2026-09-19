@@ -1,0 +1,22 @@
+name: collatz-math257-r10-negative-factor-geometry
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math257_r10_negative_factor_geometry.py'
+      - '.github/workflows/collatz-math257-r10-negative-factor-geometry.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run r10 negative-factor geometry
+        run: |
+          python3 collatz/src/2026_09_19_math257_r10_negative_factor_geometry.py | tee math257.log
+          grep -q 'PASS MATH-257 r10 negative-factor geometry' math257.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math257-r10-negative-factor-geometry
+          path: math257.log
