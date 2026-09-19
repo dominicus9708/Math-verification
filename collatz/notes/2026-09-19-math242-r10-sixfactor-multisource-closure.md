@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: EXACT STRUCTURAL CLOSURE OF THE MULTI-SOURCE CONTINUATION / SINGLETON TAIL OPEN / r=10 OPEN
+Status: SCOPE-CORRECTED / SIX-FACTOR ORIENTATION BOUND RETAINED / LOCAL-SOURCE CLOSURE WITHDRAWN
 
 ## 1. Inputs
 
@@ -142,3 +142,44 @@ Not established:
 - full (r=10) closure;
 - first-cell emptiness;
 - the Collatz conjecture.
+
+
+## Scope correction — synchronized-source audit
+
+The original version incorrectly promoted a coefficient-contracting **future local factor**
+
+[
+Y\xrightarrow{h}Y'
+]
+
+to closure by applying MATH-239 with (Y) as a fresh source origin.
+
+That is not valid in the current minimal-first-cell proof architecture.
+
+MATH-188 requires the terminal/self-descent comparison to remain synchronized to the original ordinary source (N). A later boundary anchor may satisfy
+
+[
+Y>N,
+qquad
+Y'<Y
+]
+
+while still having
+
+[
+Y'>N.
+]
+
+Therefore (Y'<Y) alone does not close the original candidate (N).
+
+Retained result:
+
+- MATH-237 still proves that a post-r10 multi-source path cannot contain seven consecutive **locally coefficient-expanding complete factors** under the audited (Q_{m fut}le24) horizon.
+- Thus within six factors either singletonization occurs or a local factor orientation changes.
+
+Withdrawn result:
+
+- local factor contraction (Rightarrow) original-source closure;
+- multi-source continuation CLOSED within six factors.
+
+Proof-facing closure must use the globally synchronized cumulative coordinates ((H,Q,C,N)), as in MATH-188/239/240, or another theorem explicitly relating the local factor source back to (N).
