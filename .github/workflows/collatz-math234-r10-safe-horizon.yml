@@ -1,0 +1,28 @@
+name: collatz-math234-r10-safe-horizon
+
+on:
+  push:
+    paths:
+      - 'collatz/src/2026_09_19_math234_r10_multisource_safe_horizon.cpp'
+      - '.github/workflows/collatz-math234-r10-safe-horizon.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build MATH-234
+        run: |
+          g++ -O3 -std=c++17 collatz/src/2026_09_19_math234_r10_multisource_safe_horizon.cpp -o /tmp/math234
+      - name: Run exact frozen r10 exporter into SAFE-horizon audit
+        run: |
+          set -o pipefail
+          python3 collatz/src/2026_09_13_math115_generic_r2_r12_exporter.py --r 10 \
+            | /tmp/math234 2>&1 | tee math234.log
+          grep -q 'PASS MATH-234 post-r10 multi-source SAFE horizon' math234.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math234-r10-safe-horizon-log
+          path: math234.log
