@@ -63,3 +63,7 @@ After MATH-235 the proof-facing symbolic continuation lies inside
 ## Claim boundary
 
 This sharpens the finite state box only. The number of reachable synchronized states and the coefficient-expanding singleton tail remain open.
+
+## MATH-246 SCOPE CORRECTION
+
+MATH-246 SCOPE CORRECTION: this horizon is exact only for the diagnostic subset selected by the local MATH-235 J cut. Because that cut is not a valid original-source closure, this note is not a proof-facing reduction of the full r=10 branch.
